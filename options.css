@@ -1,0 +1,11 @@
+
+body { padding: 10px; }
+
+table {
+    border: 1px solid gray;
+    -webkit-border-radius: 3px;
+}
+
+th, td { padding: 2px; }
+
+input.error { color: red; }

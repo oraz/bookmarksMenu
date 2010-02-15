@@ -1,0 +1,88 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font: 13px "DejaVu Sans", "Bitstream Vera Sans", sans-serif;
+    overflow: hidden;
+/*    overflow: scroll;*/
+/*    overflow: visible;*/
+}
+
+ul.bookmarksTree {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+}
+
+ul {
+    list-style: none;
+    border: 1px solid #ccc;
+}
+
+li { position: relative; }
+
+li.empty {
+    padding: 3px 8px;
+    color: gray;
+}
+
+li a {
+    display: block;
+    text-decoration: none;
+    color: black;
+    background: white;
+
+    padding: 3px;
+    padding-right: 8px;
+
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+li ul {
+    position: absolute;
+    right: 100%;
+    top: -1px;
+    display: none;
+}
+
+li > hr {
+    margin: 1px 3px;
+    border: 0;
+    height: 1px;
+    background-color: #ccc;
+}
+
+li:hover > ul, .selected > ul { display: block; }
+
+li:hover > a, .selected > a {
+    background-color: #2368a4;
+    color: white;
+}
+
+a > img.favicon {
+    width: 16px;
+    height: 16px;
+    vertical-align: bottom;
+}
+
+#popupMenu {
+    display: none;
+    position: absolute;
+    width: 8em;
+    z-index: 2;
+}
+
+#transparentLayer {
+    border: 1px solid black;
+    position: absolute;
+    top: 0px; right: 0px; left: 0px; bottom: 0px;
+    background-color: gray;
+    opacity: 0.15;
+    display: none;
+    z-index: 1;
+}
+
