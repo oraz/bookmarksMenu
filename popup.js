@@ -326,7 +326,3 @@ chrome.bookmarks.getTree(function(nodes)
     bodyStyle.width = ul.clientWidth + 2 + 'px';
     bodyStyle.height = ul.clientHeight + 2 + 'px';
 });
-
-/*window.addEventListener('overflow', function() {
-    alert(window.clientWidth + 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
-}, false);*/
