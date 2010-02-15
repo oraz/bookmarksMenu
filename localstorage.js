@@ -28,3 +28,8 @@ function getMaxWidthMesure()
     }
     return mesure;
 }
+
+function isBookmarkHidden(title)
+{
+    return localStorage['bookmark_' + title] == 'true';
+}

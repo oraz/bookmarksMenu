@@ -2,12 +2,13 @@
     <head>
         <link rel="stylesheet" type="text/css" href="options.css">
         <script type="text/javascript" src="localstorage.js"></script>
+        <script type="text/javascript" src="favicon.js"></script>
         <script type="text/javascript" src="options.js"></script>
     </head>
     <body>
         <table cellspacing="0" cellpadding="0">
             <tr>
-                <th colspan="2" align="left">Mouse configuration:</th>
+                <th colspan="2">Mouse configuration:</th>
             </tr>
             <tr>
                 <td>Left button</td>
@@ -40,23 +41,21 @@
                 </td>
             </tr>
         </table>
-        <br />
-        <table cellspacing="0" cellpadding="0">
-            <tr>
-                <th colspan="2" align="left">Menu configuration:</th>
-            </tr>
-            <tr>
-                <td>Max width of menu item:
-                    <input type="text" style="width: 5em;" id="maxWidth" onkeyup="setMenuMaxWidth(this)"/>
-                    <select size="1" style="width: 10em;" id="maxWidthMesure" onchange="setMenuMaxWidthMesure(this)">
-                        <option value="em">'m' symbols</option>
-                        <option value="px">pixels</option>
-                        <option value="in">inches</option>
-                        <option value="cm">centimeters</option>
-                        <option value="mm">millimeters</option>
-                    </select>
-                </td>
-            </tr>
-        </table>
+        <div class="config" id="bookmarksShowHide">
+            <div class="header">Select bookmarks to display</div>
+        </div>
+        <div class="config">
+            <div class="header">Bookmarks tree configuration:</div>
+            <div>
+                Max width of menu item:&nbsp;<input type="text" style="width: 5em;" id="maxWidth" onkeyup="setMenuMaxWidth(this)"/>
+                <select size="1" style="width: 10em;" id="maxWidthMesure" onchange="setMenuMaxWidthMesure(this)">
+                    <option value="em">'m' symbols</option>
+                    <option value="px">pixels</option>
+                    <option value="in">inches</option>
+                    <option value="cm">centimeters</option>
+                    <option value="mm">millimeters</option>
+                </select>
+            </div>
+        </div>
     </body>
 </html>

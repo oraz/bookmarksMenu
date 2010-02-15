@@ -2,14 +2,6 @@
 var selectedBookmark = undefined;
 var maxWidth = getMaxWidth() + getMaxWidthMesure();
 
-function isJsURL(url)
-{
-    return url.substr(0, 11) == 'javascript:';
-}
-function isFileURL(url)
-{
-    return url.substr(0, 5) == 'file:';
-}
 function isFolderURL(url)
 {
     return url == 'folder:';
@@ -205,7 +197,6 @@ function createAnchor(node)
     if(node.url == undefined)
     {
         anchor.href = "folder://";
-        favicon = 'icons/folder.png';
         anchor.setAttribute('onMouseOver', "changeBodySize(this);");
         if(node.children.length > 0)
         {
@@ -216,20 +207,8 @@ function createAnchor(node)
     {
         var url = node.url;
         anchor.href = url;
-        if(isJsURL(url))
-        {
-            favicon = 'icons/js.png';
-        }
-        else if(isFileURL(url))
-        {
-            favicon = 'icons/html.png';
-        }
-        else
-        {
-            favicon = 'http://getfavicon.appspot.com/' + url;
-        }
     }
-    anchor.innerHTML = '<img class="favicon" src="' + favicon + '"/>&nbsp;' + node.title;
+    anchor.innerHTML = '<img class="favicon" src="' + getFavicon(node.url) + '"/>&nbsp;' + node.title;
     return anchor;
 }
 
@@ -309,12 +288,17 @@ chrome.bookmarks.getTree(function(nodes)
         var children = nodes[i].children;
         for(var j = 0, childrenLength = children.length; j < childrenLength; j++)
         {
+            var allHidden = true;
             var children2 = children[j].children;
             for(var k = 0, children2Length = children2.length; k < children2Length; k++)
             {
-                addChild(children2[k], ul);
+                if(!isBookmarkHidden(children2[k].title))
+                {
+                    addChild(children2[k], ul);
+                    allHidden = false;
+                }
             }
-            if(j + 1 < childrenLength)
+            if(j + 1 < childrenLength && !allHidden)
             {
                 var li = document.createElement('li');
                 li.appendChild(document.createElement('hr'));

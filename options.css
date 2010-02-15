@@ -1,11 +1,42 @@
 
+* { font: 13px "DejaVu Sans", "Bitstream Vera Sans", sans-serif; }
+
 body { padding: 10px; }
 
-table {
+table, div.config {
     border: 1px solid gray;
-    -webkit-border-radius: 3px;
+    border-radius: 3px;
+}
+
+div.config {
+    display: table;
+    padding: 2px;
+    margin-top: 1.5ex;
 }
 
 th, td { padding: 2px; }
 
+th, div.header {
+    font-weight: bold;
+    text-align: left;
+}
+
+div.bookmark {
+    max-width: 40em;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+img.favicon {
+    width: 16px;
+    height: 16px;
+    vertical-align: bottom;
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
 input.error { color: red; }
+
+input[type="checkbox"] { border: 0; }
+
