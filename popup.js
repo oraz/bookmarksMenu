@@ -1,6 +1,5 @@
 
 var selectedBookmark = undefined;
-
 var maxWidth = getMaxWidth() + getMaxWidthMesure();
 
 function isJsURL(url)
@@ -46,14 +45,19 @@ function openLink(ev)
     switch(action)
     {
         case 0: // open in current tab
+        {
             if(!isFolderURL(this.href))
                 ev.ctrlKey ?  openInNewTab(this) : openInCurrentTab(this);
             break;
+        }
         case 1: // open in new tab
+        {
             if(!isFolderURL(this.href))
                 openInNewTab(this);
             break;
+        }
         case 2: // open pop up menu
+        {
             selectedBookmark = this;
             var selected = this.parentNode;
             while(true)
@@ -65,7 +69,12 @@ function openLink(ev)
                     break;
                 }
             }
-            document.getElementById('transparentLayer').style.display = 'block';
+            var transparentLayerStyle = document.getElementById('transparentLayer').style;
+            var body = document.body;
+            transparentLayerStyle.width = document.body.clientWidth - 2 + 'px';
+            transparentLayerStyle.height = document.body.scrollHeight - 2 + 'px';
+
+            transparentLayerStyle.display = 'block';
 
             var popupMenu = document.getElementById('popupMenu');
             var popupMenuStyle = popupMenu.style;
@@ -87,6 +96,7 @@ function openLink(ev)
                 popupMenuStyle.top = ev.clientY + 'px';
             }
             break;
+        }
     }
 }
 function unSelect()
@@ -133,24 +143,40 @@ function deleteSelected(ev)
 function changeBodySize(anchor)
 {
     var ul = anchor.parentNode.getElementsByTagName('ul')[0];
-    var y = getY(anchor);
-    var height = ul.clientHeight + 2;
     var body = document.body;
     var style = body.style;
-    if(body.clientHeight < y + height)
+
+    var height = getY(anchor) + ul.clientHeight + 2;
+    if(body.clientHeight < height)
     {
-        style.height = y + height + 'px';
+        style.height = (height > 600 ? 600 : height) + 'px';
     }
 
-    var width = ul.clientWidth + 2;
-    while(ul.parentNode.tagName != 'BODY')
+    var width = 0;
+    var tmpUL = ul;
+    while(tmpUL.parentNode.tagName != 'BODY')
     {
-        ul = ul.parentNode.parentNode;
-        width += ul.clientWidth + 1;
+        tmpUL = tmpUL.parentNode.parentNode;
+        width += tmpUL.clientWidth + 1;
     }
-    if(body.clientWidth < width)
+    if(width < 800 && anchor.data > 1)
+    {
+        var offset = (800 - width) / anchor.data;
+        if(offset < ul.clientWidth)
+        {
+            ul.style.left = '-' + offset + 'px';
+        }
+    }
+    var scrollBarWidth = (body.scrollHeight > 600 ? 15 : 0);
+    width += ul.clientWidth + 2 + scrollBarWidth;
+    if(width < 800 && body.clientWidth < width)
     {
         style.width = width + 'px';
+    }
+    else if(width > 800)
+    {
+        style.width = '800px';
+        ul.style.left = '-' + (ul.clientWidth - (width - 800)) + 'px';
     }
 }
 
@@ -174,8 +200,8 @@ function createAnchor(node)
     var favicon;
     anchor.id = node.id;
     anchor.setAttribute('onclick', 'return false;');
-    anchor.style.maxWidth = maxWidth;
     anchor.onmouseup = openLink;
+    anchor.style.maxWidth = maxWidth;
     if(node.url == undefined)
     {
         anchor.href = "folder://";
@@ -226,23 +252,49 @@ function addChild(node, htmlNode)
     else
     {
         var li = document.createElement('li');
-        li.appendChild(createAnchor(node));
+        var anchor = createAnchor(node);
+        li.appendChild(anchor);
         var ul = document.createElement('ul');
+        li.appendChild(ul);
+        htmlNode.appendChild(li);
         var children = node.children;
         var len = children.length;
+        var hasSubMenus = false;
         if(len > 0)
         {
             for(var i = 0; i < len; i++)
             {
                 addChild(children[i], ul);
+                if(children[i].children != undefined)
+                {
+                    hasSubMenus = true;
+                }
             }
         }
         else
         {
             addEmptyItem(ul);
         }
-        li.appendChild(ul);
-        htmlNode.appendChild(li);
+
+        if(!hasSubMenus)
+        {
+            var depth = 0;
+            anchor.data = depth++;
+            while(true)
+            {
+                if(anchor.data != undefined && anchor.data > depth)
+                {
+                    break;
+                }
+                anchor.data = depth++;
+                li = li.parentNode.parentNode;
+                if(li.tagName != 'LI')
+                {
+                    break;
+                }
+                anchor = li.childNodes[0];
+            }
+        }
     }
 }
 
@@ -250,6 +302,8 @@ chrome.bookmarks.getTree(function(nodes)
 {
     var ul = document.createElement('ul');
     ul.setAttribute('class', 'bookmarksTree');
+    ul.setAttribute('id', 'bookmarksTree');
+    document.body.appendChild(ul);
     for(var i = 0, nodesLength = nodes.length; i < nodesLength; i++)
     {
         var children = nodes[i].children;
@@ -268,12 +322,11 @@ chrome.bookmarks.getTree(function(nodes)
             }
         }
     }
-    document.body.appendChild(ul);
     var bodyStyle = document.body.style;
     bodyStyle.width = ul.clientWidth + 2 + 'px';
     bodyStyle.height = ul.clientHeight + 2 + 'px';
 });
 
-/*window.addEventListener('mousewheel', function() {
+/*window.addEventListener('overflow', function() {
     alert(window.clientWidth + 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
 }, false);*/

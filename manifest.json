@@ -1,18 +1,19 @@
 {
-   "browser_action": {
-      "default_icon": "icons/icon-24.png",
-      "default_title": "Bookmarks",
-      "popup": "popup.html"
-   },
-   "description": "Show bookmarks tree",
-   "icons": {
-      "128": "icons/icon-128.png",
-      "32": "icons/icon-32.png",
-      "48": "icons/icon-48.png"
-   },
-   "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC9YEJWYvq/xwa5Zu0yvQWPCPv1LPrse/dZ/6ydaDtv+bMVXlqblfWltaRoogZEiDmarejbp7pHjauwZkeQ5gJdSDaiPk5HdUq/OuPILrfP35bavz8Zr9PJhJdFIu9qD0BsnrJBJ+lZGJM3qy9xpxiEwKGEhpdvL9vB6dqmHqLLpwIDAQAB",
-   "name": "QuickBookmarksTree",
-   "options_page": "options.html",
-   "permissions": [ "tabs", "bookmarks", "http://*/*", "https://*/*" ],
-   "version": "1.1.1"
+    "name": "QuickBookmarksTree",
+    "version": "1.2.0",
+    "description": "Show bookmarks tree",
+    "browser_action":
+    {
+        "default_icon": "icons/icon-24.png",
+        "default_title": "Bookmarks",
+        "popup": "popup.html"
+    },
+    "icons":
+    {
+        "32": "icons/icon-32.png",
+        "48": "icons/icon-48.png",
+        "128": "icons/icon-128.png"
+    },
+    "options_page": "options.html",
+    "permissions": [ "tabs", "bookmarks", "http://*/*", "https://*/*" ]
 }

@@ -5,9 +5,8 @@
 
 body {
     font: 13px "DejaVu Sans", "Bitstream Vera Sans", sans-serif;
-    overflow: hidden;
-/*    overflow: scroll;*/
-/*    overflow: visible;*/
+    overflow-x: hidden;
+    overflow-y: visible;
 }
 
 ul.bookmarksTree {
@@ -79,7 +78,7 @@ a > img.favicon {
 #transparentLayer {
     border: 1px solid black;
     position: absolute;
-    top: 0px; right: 0px; left: 0px; bottom: 0px;
+    top: 0px; left: 0px;
     background-color: gray;
     opacity: 0.15;
     display: none;
