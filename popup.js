@@ -63,15 +63,16 @@ function openLink(ev)
             }
             var transparentLayerStyle = document.getElementById('transparentLayer').style;
             var body = document.body;
-            transparentLayerStyle.width = document.body.clientWidth - 2 + 'px';
-            transparentLayerStyle.height = document.body.scrollHeight - 2 + 'px';
+            transparentLayerStyle.width = body.clientWidth - 2 + 'px';
+            transparentLayerStyle.height = body.scrollHeight - 2 + 'px';
 
             transparentLayerStyle.display = 'block';
 
             var popupMenu = document.getElementById('popupMenu');
             var popupMenuStyle = popupMenu.style;
             popupMenuStyle.display = 'block';
-            if(ev.clientX + popupMenu.clientWidth > document.body.clientWidth)
+
+            if(ev.clientX + popupMenu.clientWidth > body.clientWidth)
             {
                 popupMenuStyle.right = '2px';
             }
@@ -79,13 +80,14 @@ function openLink(ev)
             {
                 popupMenuStyle.left = ev.clientX + 'px';
             }
-            if(ev.clientY + popupMenu.clientHeight > document.body.clientHeight)
+
+            if(ev.clientY + popupMenu.clientHeight > body.clientHeight)
             {
-                popupMenuStyle.bottom = '2px';
+                popupMenuStyle.top = body.clientHeight + body.scrollTop - popupMenu.clientHeight * 1.5 + 'px';
             }
             else
             {
-                popupMenuStyle.top = ev.clientY + 'px';
+                popupMenuStyle.top = ev.clientY + body.scrollTop + 'px';
             }
             break;
         }

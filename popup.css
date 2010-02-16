@@ -31,7 +31,7 @@ li a {
     display: block;
     text-decoration: none;
     color: black;
-    background: white;
+    background-color: white;
 
     padding: 3px;
     padding-right: 8px;
@@ -58,8 +58,11 @@ li > hr {
 li:hover > ul, .selected > ul { display: block; }
 
 li:hover > a, .selected > a {
-    background-color: #2368a4;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#86abd9), to(#1f5eab));
     color: white;
+    padding: 2px;
+    padding-right: 7px;
+    border: 1px solid #689bdb;
 }
 
 a > img.favicon {
@@ -73,6 +76,7 @@ a > img.favicon {
     position: absolute;
     width: 8em;
     z-index: 2;
+    border: 1px solid #6f5e5e;
 }
 
 #transparentLayer {
@@ -80,7 +84,7 @@ a > img.favicon {
     position: absolute;
     top: 0px; left: 0px;
     background-color: gray;
-    opacity: 0.15;
+    opacity: 0.35;
     display: none;
     z-index: 1;
 }
