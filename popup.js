@@ -9,7 +9,7 @@ function isFolderURL(url)
 
 function openInNewTab(anchor)
 {
-    chrome.tabs.create({ url: anchor.href, selected: false });
+    chrome.tabs.create({ url: anchor.href, selected: isSwitchToNewTab() });
     window.close();
 }
 

@@ -33,11 +33,28 @@ function setBookmarkHidden(title, hidden)
     }
 }
 
+function setSwitchToNewTab(switchToNewTab)
+{
+    if(switchToNewTab)
+    {
+        localStorage['switchToNewTab'] = true;
+    }
+    else
+    {
+        delete localStorage['switchToNewTab'];
+    }
+}
+
 window.onload = function()
 {
     for(var idx = 0; idx < 3; idx++)
     {
         document.getElementById('btn' + idx).selectedIndex = getButtonAction(idx);
+    }
+
+    if(isSwitchToNewTab())
+    {
+        document.getElementById('switchToNewTab').checked = true;
     }
 
     document.getElementById('maxWidth').value = getMaxWidth();

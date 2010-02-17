@@ -2,34 +2,27 @@
 function getButtonAction(btn)
 {
     var action = localStorage[btn];
-    if(action == undefined)
-    {
-        action = localStorage[btn] = btn;
-    }
-    return action;
+    return action != undefined ? action : btn;
 }
 
 function getMaxWidth()
 {
     var maxWidth = localStorage['maxWidth'];
-    if(maxWidth == undefined)
-    {
-        maxWidth = localStorage['maxWidth'] = 30;
-    }
-    return maxWidth;
+    return maxWidth != undefined ? maxWidth : 30;
 }
 
 function getMaxWidthMesure()
 {
     var mesure = localStorage['maxWidthMesure'];
-    if(mesure == undefined)
-    {
-        mesure = localStorage['maxWidthMesure'] = 'em';
-    }
-    return mesure;
+    return mesure != undefined ? mesure : 'em';
 }
 
 function isBookmarkHidden(title)
 {
     return localStorage['bookmark_' + title] == 'true';
+}
+
+function isSwitchToNewTab()
+{
+    return localStorage['switchToNewTab'] == 'true';
 }
