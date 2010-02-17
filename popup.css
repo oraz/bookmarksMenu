@@ -48,8 +48,12 @@ li ul {
     display: none;
 }
 
-li > hr {
-    margin: 1px 3px;
+li.separator {
+    background-color: white;
+    padding: 1px 3px;
+}
+
+li.separator > hr {
     border: 0;
     height: 1px;
     background-color: #ccc;
@@ -74,7 +78,6 @@ a > img.favicon {
 #popupMenu {
     display: none;
     position: absolute;
-    width: 8em;
     z-index: 2;
     border: 1px solid #6f5e5e;
 }

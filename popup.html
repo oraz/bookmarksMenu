@@ -8,6 +8,12 @@
   <body>
     <div id="transparentLayer" onmouseup="unSelect()"></div>
     <ul id="popupMenu">
+      <li><a href="#" onmouseup="openSelected(event, false);" onclick="return false;"><img class="favicon" src="icons/tab-new.png">&nbsp;Open in new tab</a></li>
+
+      <li><a href="#" onmouseup="openSelected(event, true);" onclick="return false;"><img class="favicon" src="icons/window-new.png">&nbsp;Open in new window</a></li>
+
+      <li class="separator"><hr /></li>
+
       <li><a href="#" onmouseup="deleteSelected(event);" onclick="return false;"><img class="favicon" src="icons/icon_delete.png">&nbsp;Delete</a></li>
     </ul>
   </body>
