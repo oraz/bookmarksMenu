@@ -198,7 +198,7 @@ function changeBodySize(anchor)
             ul.style.left = '-' + offset + 'px';
         }
     }
-    var scrollBarWidth = (body.scrollHeight > 600 ? 15 : 0);
+    var scrollBarWidth = body.scrollHeight > body.clientHeight ? 15 : 0;
     width += ul.clientWidth + 2 + scrollBarWidth;
     if(width < 800 && body.clientWidth < width)
     {
