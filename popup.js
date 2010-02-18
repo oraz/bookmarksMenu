@@ -341,7 +341,6 @@ chrome.bookmarks.getTree(function(nodes)
             {
                 var li = document.createElement('li');
                 li.setAttribute('class', 'separator');
-                li.appendChild(document.createElement('hr'));
                 ul.appendChild(li);
             }
         }

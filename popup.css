@@ -49,14 +49,11 @@ li ul {
 }
 
 li.separator {
-    background-color: white;
-    padding: 1px 3px;
-}
-
-li.separator > hr {
-    border: 0;
     height: 1px;
     background-color: #ccc;
+    border-width: 1px 3px;
+    border-color: white;
+    border-style: solid;
 }
 
 li:hover > ul, .selected > ul { display: block; }
