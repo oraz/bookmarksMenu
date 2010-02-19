@@ -75,10 +75,10 @@ function openLink(ev)
 			{
 				if(popupMenu.clientWidth > body.clientWidth)
 				{
-					bodyWidth = popupMenu.clientWidth + 6;
+					bodyWidth = popupMenu.clientWidth + 7;
 					body.style.width = bodyWidth + 'px';
 				}
-				popupMenuStyle.left = bodyWidth - popupMenu.clientWidth - 4 + 'px';
+				popupMenuStyle.left = bodyWidth - popupMenu.clientWidth - 5 + 'px';
 			}
 			else
 			{
@@ -90,7 +90,7 @@ function openLink(ev)
 			{
 				if(popupMenu.clientHeight > body.clientHeight)
 				{
-					bodyHeight = ev.clientY + popupMenu.clientHeight + 4;
+					bodyHeight = ev.clientY + popupMenu.clientHeight + 5;
 					body.style.height = bodyHeight + 'px';
 					popupMenuStyle.top = ev.clientY + 'px';
 				}

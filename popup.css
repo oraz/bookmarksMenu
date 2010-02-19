@@ -76,7 +76,9 @@ a > img.favicon {
     display: none;
     position: absolute;
     z-index: 2;
-    border: 1px solid #6f5e5e;
+    border-width: 1px 2px 2px 1px;
+    border-style: outset;
+    border-color: #6f5e5e;
 }
 
 #transparentLayer {
