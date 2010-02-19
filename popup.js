@@ -356,10 +356,13 @@ chrome.bookmarks.getTree(function(nodes)
 	}
 
 	var bodyStyle = document.body.style;
-	bodyStyle.width = ul.clientWidth + 2 + 'px';
-	bodyStyle.height = ul.clientHeight + 2 + 'px';
+	var ulHeight = ul.clientHeight + 2;
+	var scrollBarWidth = ulHeight < 600 ? 0 : 15;
 
-	// run fill in background to increase rendering top items
+	bodyStyle.width = ul.clientWidth + 2 + scrollBarWidth + 'px';
+	bodyStyle.height = ulHeight < 600 ? ulHeight + 'px' : '600px';
+
+	// run filling in background to increase rendering top items
 	setTimeout("fillTree()", 0);
 });
 
@@ -374,11 +377,15 @@ function fillTree()
 			var children = li.data;
 			var li_ul = document.createElement('ul');
 			li.appendChild(li_ul);
-			for(var j = 0, len2 = children.length ; j < len2; j++)
+			var len2 = children.length;
+			if(len2 > 0)
 			{
-				addChild(children[j], li_ul, true);
+				for(var j = 0; j < len2; j++)
+				{
+					addChild(children[j], li_ul, true);
+				}
 			}
-			if(len2 == 0)
+			else
 			{
 				addEmptyItem(li_ul);
 			}
