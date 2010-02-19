@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -e
+folder=$(basename $PWD)
+cd ..
+rm -f "$folder.zip"
+zip -r "$folder.zip" "$folder" -x \*/.git/\* -x $folder/$(basename $0)
