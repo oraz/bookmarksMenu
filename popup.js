@@ -261,7 +261,7 @@ function addEmptyItem(ul)
 	ul.appendChild(li);
 }
 
-function addChild(node, htmlNode)
+function addChild(node, htmlNode, appendChildsToFolder)
 {
 	if(node.children == undefined)
 	{
@@ -274,29 +274,36 @@ function addChild(node, htmlNode)
 		var li = document.createElement('li');
 		var anchor = createAnchor(node);
 		li.appendChild(anchor);
-		var ul = document.createElement('ul');
-		li.appendChild(ul);
 		htmlNode.appendChild(li);
 		var children = node.children;
 		var len = children.length;
 		var hasSubMenus = false;
-		if(len > 0)
+		if(appendChildsToFolder)
 		{
-			for(var i = 0; i < len; i++)
+			var ul = document.createElement('ul');
+			li.appendChild(ul);
+			if(len > 0)
 			{
-				addChild(children[i], ul);
-				if(children[i].children != undefined)
+				for(var i = 0; i < len; i++)
 				{
-					hasSubMenus = true;
+					addChild(children[i], ul, appendChildsToFolder);
+					if(children[i].children != undefined)
+					{
+						hasSubMenus = true;
+					}
 				}
+			}
+			else
+			{
+				addEmptyItem(ul);
 			}
 		}
 		else
 		{
-			addEmptyItem(ul);
+			li.data = children;
 		}
 
-		if(!hasSubMenus)
+		if(appendChildsToFolder && !hasSubMenus)
 		{
 			var depth = 0;
 			anchor.data = depth++;
@@ -347,7 +354,35 @@ chrome.bookmarks.getTree(function(nodes)
 			}
 		}
 	}
+
 	var bodyStyle = document.body.style;
 	bodyStyle.width = ul.clientWidth + 2 + 'px';
 	bodyStyle.height = ul.clientHeight + 2 + 'px';
+
+	// run fill in background to increase rendering top items
+	setTimeout("fillTree()", 0);
 });
+
+function fillTree()
+{
+	var ul = document.getElementById('bookmarksTree');
+	for(var i = 0, len = ul.childNodes.length; i < len; i++)
+	{
+		var li = ul.childNodes[i];
+		if(li.data != undefined)
+		{
+			var children = li.data;
+			var li_ul = document.createElement('ul');
+			li.appendChild(li_ul);
+			for(var j = 0, len2 = children.length ; j < len2; j++)
+			{
+				addChild(children[j], li_ul, true);
+			}
+			if(len2 == 0)
+			{
+				addEmptyItem(li_ul);
+			}
+			li.removeAttribute('data');
+		}
+	}
+}
