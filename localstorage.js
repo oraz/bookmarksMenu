@@ -28,3 +28,21 @@ function isSwitchToNewTab()
 {
 	return localStorage['switchToNewTab'] == 'true';
 }
+
+function getWindowMaxWidth()
+{
+	var maxWidth = localStorage['winMaxWidth'];
+	return maxWidth == undefined ? 800 : maxWidth;
+}
+
+function getWindowMaxHeight()
+{
+	var maxHeight = localStorage['winMaxHeight'];
+	return maxHeight == undefined ? 600 : maxHeight;
+}
+
+function getFontSize()
+{
+	var fontSize = localStorage['fontSize'];
+	return fontSize == undefined ? 13 : fontSize;
+}

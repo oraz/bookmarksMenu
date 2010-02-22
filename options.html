@@ -7,60 +7,92 @@
     </head>
     <body>
         <a href="changelog.txt" style="position:absolute; right: 10px;">View changelog</a>
-        <table cellspacing="0" cellpadding="0">
-            <tr>
-                <th colspan="2">Mouse configuration:</th>
-            </tr>
-            <tr>
-                <td>Left button</td>
-                <td>
-                    <select size="1" style="width: 200px;" id="btn0" onchange="setMouseButtonAction(this, 0)">
-                        <option>Open in current tab</option>
-                        <option>Open in new tab</option>
-                        <option>Open popup menu</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td>Middle button</td>
-                <td>
-                    <select size="1" style="width: 200px;" id="btn1" onchange="setMouseButtonAction(this, 1)">
-                        <option>Open in current tab</option>
-                        <option>Open in new tab</option>
-                        <option>Open popup menu</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td>Right button</td>
-                <td>
-                    <select size="1" style="width: 200px;" id="btn2" onchange="setMouseButtonAction(this, 2)">
-                        <option>Open in current tab</option>
-                        <option>Open in new tab</option>
-                        <option>Open popup menu</option>
-                    </select>
-                </td>
-            </tr>
-        </table>
-        <div class="config">
-            <div class="header">Tabs configuration</div>
-            <label><input type="checkbox" id="switchToNewTab"
-                onchange="setSwitchToNewTab(this.checked);">When I open a bookmark in new tab, switch to it immediately</label>
-        </div>
-        <div class="config" id="bookmarksShowHide">
-            <div class="header">Select bookmarks to display</div>
-        </div>
-        <div class="config">
-            <div class="header">Bookmarks tree configuration:</div>
-            <div>
-                Max width of menu item:&nbsp;<input type="text" style="width: 5em;" id="maxWidth" onkeyup="setMenuMaxWidth(this)"/>
-                <select size="1" style="width: 10em;" id="maxWidthMesure" onchange="setMenuMaxWidthMesure(this)">
-                    <option value="em">'m' symbols</option>
-                    <option value="px">pixels</option>
-                    <option value="in">inches</option>
-                    <option value="cm">centimeters</option>
-                    <option value="mm">millimeters</option>
-                </select>
+        <div class="tabs">
+            <ul class="tabs" id="tabs">
+                <li class="fgTab"><a href="#" onclick="return showTab(this,'mouseConfig');">Mouse</a></li>
+                <li class="bgTab"><a href="#" onclick="return showTab(this,'tabsConfig');">Tabs</a></li>
+                <li class="bgTab"><a href="#" onclick="return showTab(this,'bookmarksShowHide');">Bookmarks</a></li>
+                <li class="bgTab"><a href="#" onclick="return showTab(this,'treeConfig');">Window &amp; Tree</a></li>
+            </ul>
+            <table class="config" id="mouseConfig" cellspacing="0" cellpadding="0">
+                <tr>
+                    <th colspan="2">Mouse configuration:</th>
+                </tr>
+                <tr>
+                    <td>Left button</td>
+                    <td>
+                        <select size="1" style="width: 200px;" id="btn0" onchange="setMouseButtonAction(this, 0)">
+                            <option>Open in current tab</option>
+                            <option>Open in new tab</option>
+                            <option>Open popup menu</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Middle button</td>
+                    <td>
+                        <select size="1" style="width: 200px;" id="btn1" onchange="setMouseButtonAction(this, 1)">
+                            <option>Open in current tab</option>
+                            <option>Open in new tab</option>
+                            <option>Open popup menu</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Right button</td>
+                    <td>
+                        <select size="1" style="width: 200px;" id="btn2" onchange="setMouseButtonAction(this, 2)">
+                            <option>Open in current tab</option>
+                            <option>Open in new tab</option>
+                            <option>Open popup menu</option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+            <div class="config" id="tabsConfig">
+                <div class="header">Tabs configuration</div>
+                <label><input type="checkbox" id="switchToNewTab"
+                    onchange="setSwitchToNewTab(this.checked);">When I open a bookmark in new tab, switch to it immediately</label>
+            </div>
+            <div class="config" id="bookmarksShowHide">
+                <div class="header">Select bookmarks to display</div>
+            </div>
+            <div class="config" id="treeConfig">
+                <table cellpadding="0" cellspacing="0">
+                    <tr>
+                        <th colspan="2">Popup window configuration</th>
+                    </tr>
+                    <tr>
+                        <td>Window width (max 800px):</td>
+                        <td><input type="text" style="width: 5em;" maxlength="3" id="winMaxWidth" onkeyup="setIntProperty(this, 800)"/>&nbsp;pixels</td>
+                    </tr>
+                    <tr>
+                        <td>Window height (max 600px):</td>
+                        <td><input type="text" style="width: 5em;" maxlength="3" id="winMaxHeight" onkeyup="setIntProperty(this, 600)"/>&nbsp;pixels</td>
+                    </tr>
+                </table>
+                <table cellspacing="0" cellpadding="0">
+                    <tr>
+                        <th colspan="2">Bookmarks tree configuration:</th>
+                    </tr>
+                    <tr>
+                        <td>Font size:</td>
+                        <td><input type="text" style="width: 5em;" maxlength="2" id="fontSize" onkeyup="setIntProperty(this)"/>&nbsp;pixels</td>
+                    </tr>
+                    <tr>
+                        <td>Max width of menu item:</td>
+                        <td>
+                            <input type="text" style="width: 5em;" id="maxWidth" onkeyup="setIntProperty(this)"/>
+                            <select size="1" style="width: 10em;" id="maxWidthMesure" onchange="setMenuMaxWidthMesure(this)">
+                                <option value="em">'m' symbols</option>
+                                <option value="px">pixels</option>
+                                <option value="in">inches</option>
+                                <option value="cm">centimeters</option>
+                                <option value="mm">millimeters</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
     </body>

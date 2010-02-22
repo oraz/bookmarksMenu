@@ -4,6 +4,9 @@
 var selectedBookmark = undefined;
 var maxWidth = getMaxWidth() + getMaxWidthMesure();
 
+var winMaxWidth = getWindowMaxWidth();
+var winMaxHeight = getWindowMaxHeight();
+
 function isFolderURL(url)
 {
 	return url == 'folder:';
@@ -182,7 +185,7 @@ function changeBodySize(anchor)
 	var height = getY(anchor) + ul.clientHeight + 2;
 	if(body.clientHeight < height)
 	{
-		style.height = (height > 600 ? 600 : height) + 'px';
+		style.height = (height > winMaxHeight ? winMaxHeight : height) + 'px';
 	}
 
 	var width = 0;
@@ -192,9 +195,9 @@ function changeBodySize(anchor)
 		tmpUL = tmpUL.parentNode.parentNode;
 		width += tmpUL.clientWidth + 1;
 	}
-	if(width < 800 && anchor.data > 1)
+	if(width < winMaxWidth && anchor.data > 1)
 	{
-		var offset = (800 - width) / anchor.data;
+		var offset = (winMaxWidth - width) / anchor.data;
 		if(offset < ul.clientWidth)
 		{
 			ul.style.left = '-' + offset + 'px';
@@ -202,14 +205,14 @@ function changeBodySize(anchor)
 	}
 	var scrollBarWidth = body.scrollHeight > body.clientHeight ? 15 : 0;
 	width += ul.clientWidth + 2 + scrollBarWidth;
-	if(width < 800 && body.clientWidth < width)
+	if(width < winMaxWidth && body.clientWidth < width)
 	{
 		style.width = width + 'px';
 	}
-	else if(width > 800)
+	else if(width > winMaxWidth)
 	{
-		style.width = '800px';
-		ul.style.left = '-' + (ul.clientWidth - (width - 800)) + 'px';
+		style.width = winMaxWidth + 'px';
+		ul.style.left = '-' + (ul.clientWidth - (width - winMaxWidth)) + 'px';
 	}
 }
 
@@ -327,9 +330,12 @@ function addChild(node, htmlNode, appendChildsToFolder)
 
 chrome.bookmarks.getTree(function(nodes)
 {
+	document.body.style.fontSize = getFontSize() + 'px';
+
 	var ul = document.createElement('ul');
 	ul.setAttribute('class', 'bookmarksTree');
 	ul.setAttribute('id', 'bookmarksTree');
+
 	document.body.appendChild(ul);
 	for(var i = 0, nodesLength = nodes.length; i < nodesLength; i++)
 	{
@@ -357,10 +363,10 @@ chrome.bookmarks.getTree(function(nodes)
 
 	var bodyStyle = document.body.style;
 	var ulHeight = ul.clientHeight + 2;
-	var scrollBarWidth = ulHeight < 600 ? 0 : 15;
+	var scrollBarWidth = ulHeight < winMaxHeight ? 0 : 15;
 
 	bodyStyle.width = ul.clientWidth + 2 + scrollBarWidth + 'px';
-	bodyStyle.height = ulHeight < 600 ? ulHeight + 'px' : '600px';
+	bodyStyle.height = ulHeight < winMaxHeight ? ulHeight + 'px' : winMaxHeight + 'px';
 
 	// run filling in background to increase rendering top items
 	setTimeout("fillTree()", 0);

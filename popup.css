@@ -4,7 +4,7 @@
 }
 
 body {
-    font: 13px "DejaVu Sans", "Bitstream Vera Sans", sans-serif;
+    font-family: "DejaVu Sans", "Bitstream Vera Sans", sans-serif;
     overflow-x: hidden;
     overflow-y: visible;
 }
@@ -35,7 +35,7 @@ li a {
     cursor: default;
 
     padding: 3px;
-    padding-right: 8px;
+    padding-right: 1em;
 
     text-overflow: ellipsis;
     overflow: hidden;
@@ -62,9 +62,9 @@ li:hover > ul, .selected > ul { display: block; }
 li:hover > a, .selected > a {
     background-image: -webkit-gradient(linear, left top, left bottom, from(#86abd9), to(#1f5eab));
     color: white;
-    padding: 2px;
-    padding-right: 7px;
-    border: 1px solid #689bdb;
+    padding: 2px 1em 2px 3px;
+    border-top: 1px solid #689bdb;
+    border-bottom: 1px solid #689bdb;
 }
 
 a > img.favicon {

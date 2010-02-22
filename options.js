@@ -6,17 +6,17 @@ function setMouseButtonAction(select, button)
 	localStorage[button] = select.selectedIndex;
 }
 
-function setMenuMaxWidth(maxWidth)
+function setIntProperty(input, maxLimit)
 {
-	var maxWidthValue = maxWidth.value;
+	var value = input.value;
 	var re = /^\d+$/;
-	if(!re.test(maxWidthValue))
+	if(!re.test(value) || (maxLimit != undefined && value > maxLimit))
 	{
-		maxWidth.setAttribute('class', 'error');
+		input.setAttribute('class', 'error');
 		return;
 	}
-	maxWidth.removeAttribute('class');
-	localStorage['maxWidth'] = maxWidthValue;
+	input.removeAttribute('class');
+	localStorage[input.id] = value;
 }
 
 function setMenuMaxWidthMesure(maxWidthMesure)
@@ -48,6 +48,30 @@ function setSwitchToNewTab(switchToNewTab)
 	}
 }
 
+function showHideElem(id)
+{
+	var elemStyle = document.getElementById(id).style;
+	elemStyle.display = elemStyle.display == 'none' ? 'inline' : 'none';
+}
+
+function showTab(anchor, tabId)
+{
+	var divs = ['mouseConfig', 'tabsConfig', 'bookmarksShowHide', 'treeConfig'];
+	for(var idx = divs.length - 1; idx >= 0; idx--)
+	{
+		document.getElementById(divs[idx]).style.display = 'none';
+	}
+	document.getElementById(tabId).style.display = 'block';
+
+	var tabs = document.getElementById('tabs').getElementsByTagName('li');
+	for(var idx = tabs.length - 1; idx >= 0; idx--)
+	{
+		tabs[idx].setAttribute('class', 'bgTab');
+	}
+	anchor.parentNode.setAttribute('class', 'fgTab');
+	return false;
+}
+
 window.onload = function()
 {
 	for(var idx = 0; idx < 3; idx++)
@@ -60,8 +84,12 @@ window.onload = function()
 		document.getElementById('switchToNewTab').checked = true;
 	}
 
-	document.getElementById('maxWidth').value = getMaxWidth();
+	document.getElementById('winMaxWidth').value = getWindowMaxWidth();
+	document.getElementById('winMaxHeight').value = getWindowMaxHeight();
 
+	document.getElementById('fontSize').value = getFontSize();
+
+	document.getElementById('maxWidth').value = getMaxWidth();
 	var mesure = getMaxWidthMesure();
 	var maxWidthMesure = document.getElementById('maxWidthMesure');
 	for(var idx = 0, len = maxWidthMesure.options.length; idx < len; idx++)

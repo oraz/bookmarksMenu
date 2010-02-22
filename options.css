@@ -1,24 +1,28 @@
-
-* { font: 13px "DejaVu Sans", "Bitstream Vera Sans", sans-serif; }
+* {
+    font: 13px "DejaVu Sans", "Bitstream Vera Sans", sans-serif;
+    padding: 0;
+    margin: 0;
+}
 
 body { padding: 10px; }
 
-table, div.config {
-    border: 1px solid gray;
-    border-radius: 3px;
-}
+table.config, div.config { border: 1px solid #ccc; }
 
 div.config {
     display: table;
     padding: 2px;
-    margin-top: 1.5ex;
+    border: 1px solid #ccc;
 }
+
+div.tabs > table { width: 100%; }
 
 th, td { padding: 2px; }
 
 th, div.header {
     font-weight: bold;
     text-align: left;
+    padding-top: 1ex;
+    padding-bottom: 1ex;
 }
 
 div.bookmark {
@@ -35,6 +39,31 @@ img.favicon {
     padding-left: 3px;
     padding-right: 3px;
 }
+
+div.tabs { display: table; }
+
+ul.tabs { list-style: none; }
+
+ul.tabs > li { display: inline; }
+
+ul.tabs > li > a {
+    border-left: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    padding: 4px 6px 0px 6px;
+    font: 16px "DejaVu Sans", "Bitstream Vera Sans", sans-serif;
+    text-decoration: none;
+    color: black;
+    background: white;
+}
+
+ul.tabs > li.fgTab > a { border-bottom: 1px solid white; }
+
+ul.tabs > li.bgTab > a { background: #ccc; }
+
+ul.tabs > li.bgTab > a:hover { background: #b5b5b5; }
+
+#tabsConfig, #treeConfig, #bookmarksShowHide { display: none; }
 
 input.error { color: red; }
 
