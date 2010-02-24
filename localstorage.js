@@ -46,3 +46,9 @@ function getFontSize()
 	var fontSize = localStorage['fontSize'];
 	return fontSize == undefined ? 13 : fontSize;
 }
+
+function getFavIconWidth()
+{
+	var favIconWidth = localStorage['favIconWidth'];
+	return favIconWidth == undefined ? 16 : favIconWidth;
+}

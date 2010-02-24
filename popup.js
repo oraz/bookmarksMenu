@@ -7,6 +7,8 @@ var maxWidth = getMaxWidth() + getMaxWidthMesure();
 var winMaxWidth = getWindowMaxWidth();
 var winMaxHeight = getWindowMaxHeight();
 
+var favIconWidth = getFavIconWidth();
+
 function isFolderURL(url)
 {
 	return url == 'folder:';
@@ -252,7 +254,7 @@ function createAnchor(node)
 		var url = node.url;
 		anchor.href = url;
 	}
-	anchor.innerHTML = '<img class="favicon" src="' + getFavicon(node.url) + '"/>&nbsp;' + node.title;
+	anchor.innerHTML = '<img class="favicon" width="' + favIconWidth + '" height="' + favIconWidth + '" src="' + getFavicon(node.url) + '"/>&nbsp;' + node.title;
 	return anchor;
 }
 
@@ -370,6 +372,13 @@ chrome.bookmarks.getTree(function(nodes)
 
 	// run filling in background to increase rendering top items
 	setTimeout("fillTree()", 0);
+
+	var favIcons = document.getElementById('popupMenu').getElementsByTagName('img');
+	for(var idx = favIcons.length - 1; idx >= 0; idx--)
+	{
+		favIcons[idx].width = favIconWidth;
+		favIcons[idx].height = favIconWidth;
+	}
 });
 
 function fillTree()

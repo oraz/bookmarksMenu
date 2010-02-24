@@ -54,22 +54,52 @@ function showHideElem(id)
 	elemStyle.display = elemStyle.display == 'none' ? 'inline' : 'none';
 }
 
-function showTab(anchor, tabId)
+function showTab(span)
 {
-	var divs = ['mouseConfig', 'tabsConfig', 'bookmarksShowHide', 'treeConfig'];
-	for(var idx = divs.length - 1; idx >= 0; idx--)
-	{
-		document.getElementById(divs[idx]).style.display = 'none';
-	}
-	document.getElementById(tabId).style.display = 'block';
-
-	var tabs = document.getElementById('tabs').getElementsByTagName('li');
+	var currentTab = span.parentNode;
+	var tabs = currentTab.parentNode.getElementsByTagName('li');
 	for(var idx = tabs.length - 1; idx >= 0; idx--)
 	{
-		tabs[idx].setAttribute('class', 'bgTab');
+		if(tabs[idx].getAttribute('class') == 'fgTab')
+		{
+			tabs[idx].setAttribute('class', 'bgTab');
+			document.getElementById(tabs[idx].getAttribute('for')).style.display = 'none';
+			break;
+		}
 	}
-	anchor.parentNode.setAttribute('class', 'fgTab');
-	return false;
+	currentTab.setAttribute('class', 'fgTab');
+	document.getElementById(currentTab.getAttribute('for')).style.display = 'block';
+}
+
+function resetWindowSettings()
+{
+	delete localStorage['maxWidth'];
+	delete localStorage['maxWidthMesure'];
+	delete localStorage['fontSize'];
+	delete localStorage['winMaxWidth'];
+	delete localStorage['winMaxHeight'];
+	delete localStorage['favIconWidth'];
+	initWindowSettingsTab();
+}
+
+function initWindowSettingsTab()
+{
+	document.getElementById('winMaxWidth').value = getWindowMaxWidth();
+	document.getElementById('winMaxHeight').value = getWindowMaxHeight();
+	document.getElementById('fontSize').value = getFontSize();
+	document.getElementById('favIconWidth').value = getFavIconWidth();
+	document.getElementById('maxWidth').value = getMaxWidth();
+
+	var mesure = getMaxWidthMesure();
+	var maxWidthMesure = document.getElementById('maxWidthMesure');
+	for(var idx = 0, len = maxWidthMesure.options.length; idx < len; idx++)
+	{
+		if(maxWidthMesure.options[idx].value == mesure)
+		{
+			maxWidthMesure.selectedIndex = idx;
+			break;
+		}
+	}
 }
 
 window.onload = function()
@@ -82,23 +112,6 @@ window.onload = function()
 	if(isSwitchToNewTab())
 	{
 		document.getElementById('switchToNewTab').checked = true;
-	}
-
-	document.getElementById('winMaxWidth').value = getWindowMaxWidth();
-	document.getElementById('winMaxHeight').value = getWindowMaxHeight();
-
-	document.getElementById('fontSize').value = getFontSize();
-
-	document.getElementById('maxWidth').value = getMaxWidth();
-	var mesure = getMaxWidthMesure();
-	var maxWidthMesure = document.getElementById('maxWidthMesure');
-	for(var idx = 0, len = maxWidthMesure.options.length; idx < len; idx++)
-	{
-		if(maxWidthMesure.options[idx].value == mesure)
-		{
-			maxWidthMesure.selectedIndex = idx;
-			break;
-		}
 	}
 
 	chrome.bookmarks.getTree(function(nodes)
@@ -140,4 +153,5 @@ window.onload = function()
 			}
 		}
 	});
-}
+	initWindowSettingsTab();
+};

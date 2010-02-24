@@ -7,12 +7,14 @@
     </head>
     <body>
         <a href="changelog.txt" style="position:absolute; right: 10px;">View changelog</a>
+        <h1><img src="icons/icon-24.png" />QuickBookrmarksTree settings</h1>
+        <br />
         <div class="tabs">
             <ul class="tabs" id="tabs">
-                <li class="fgTab"><a href="#" onclick="return showTab(this,'mouseConfig');">Mouse</a></li>
-                <li class="bgTab"><a href="#" onclick="return showTab(this,'tabsConfig');">Tabs</a></li>
-                <li class="bgTab"><a href="#" onclick="return showTab(this,'bookmarksShowHide');">Bookmarks</a></li>
-                <li class="bgTab"><a href="#" onclick="return showTab(this,'treeConfig');">Window &amp; Tree</a></li>
+                <li class="fgTab" for="mouseConfig"><span onclick="showTab(this)">Mouse</span></li>
+                <li class="bgTab" for="tabsConfig"><span onclick="showTab(this)">Tabs</span></li>
+                <li class="bgTab" for="bookmarksShowHide"><span onclick="showTab(this)">Bookmarks</span></li>
+                <li class="bgTab" for="treeConfig"><span onclick="showTab(this)">Window &amp; Tree</span></li>
             </ul>
             <table class="config" id="mouseConfig" cellspacing="0" cellpadding="0">
                 <tr>
@@ -64,11 +66,11 @@
                     </tr>
                     <tr>
                         <td>Window width (max 800px):</td>
-                        <td><input type="text" style="width: 5em;" maxlength="3" id="winMaxWidth" onkeyup="setIntProperty(this, 800)"/>&nbsp;pixels</td>
+                        <td><input type="number" style="width: 5em;" maxlength="3" id="winMaxWidth" onkeyup="setIntProperty(this, 800)"/>&nbsp;px</td>
                     </tr>
                     <tr>
                         <td>Window height (max 600px):</td>
-                        <td><input type="text" style="width: 5em;" maxlength="3" id="winMaxHeight" onkeyup="setIntProperty(this, 600)"/>&nbsp;pixels</td>
+                        <td><input type="number" style="width: 5em;" maxlength="3" id="winMaxHeight" onkeyup="setIntProperty(this, 600)"/>&nbsp;px</td>
                     </tr>
                 </table>
                 <table cellspacing="0" cellpadding="0">
@@ -77,12 +79,16 @@
                     </tr>
                     <tr>
                         <td>Font size:</td>
-                        <td><input type="text" style="width: 5em;" maxlength="2" id="fontSize" onkeyup="setIntProperty(this)"/>&nbsp;pixels</td>
+                        <td><input type="number" style="width: 5em;" maxlength="2" id="fontSize" onkeyup="setIntProperty(this)"/>&nbsp;px</td>
                     </tr>
                     <tr>
-                        <td>Max width of menu item:</td>
+                        <td>Favicon width and height:</td>
+                        <td><input type="number" style="width: 5em;" maxlength="2" id="favIconWidth" onkeyup="setIntProperty(this)"/>&nbsp;px</td>
+                    </tr>
+                    <tr>
+                        <td>Max width for bookmark:</td>
                         <td>
-                            <input type="text" style="width: 5em;" id="maxWidth" onkeyup="setIntProperty(this)"/>
+                            <input type="number" style="width: 5em;" id="maxWidth" onkeyup="setIntProperty(this)"/>
                             <select size="1" style="width: 10em;" id="maxWidthMesure" onchange="setMenuMaxWidthMesure(this)">
                                 <option value="em">'m' symbols</option>
                                 <option value="px">pixels</option>
@@ -93,6 +99,8 @@
                         </td>
                     </tr>
                 </table>
+                <hr />
+                <input type="button" style="margin-top: 3px;" onclick="resetWindowSettings()" value="Reset settings to default"/>
             </div>
         </div>
     </body>

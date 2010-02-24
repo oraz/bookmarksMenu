@@ -67,11 +67,7 @@ li:hover > a, .selected > a {
     border-bottom: 1px solid #689bdb;
 }
 
-a > img.favicon {
-    width: 16px;
-    height: 16px;
-    vertical-align: bottom;
-}
+a > img.favicon { vertical-align: bottom; }
 
 #popupMenu {
     display: none;

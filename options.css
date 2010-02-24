@@ -30,6 +30,8 @@ div.bookmark {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+    padding-top: 1px;
+    padding-bottom: 1px;
 }
 
 img.favicon {
@@ -46,26 +48,49 @@ ul.tabs { list-style: none; }
 
 ul.tabs > li { display: inline; }
 
-ul.tabs > li > a {
+ul.tabs > li > span {
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
     border-left: 1px solid #ccc;
     border-top: 1px solid #ccc;
     border-right: 1px solid #ccc;
     padding: 4px 6px 0px 6px;
     font: 16px "DejaVu Sans", "Bitstream Vera Sans", sans-serif;
-    text-decoration: none;
     color: black;
     background: white;
 }
 
-ul.tabs > li.fgTab > a { border-bottom: 1px solid white; }
+ul.tabs > li.fgTab > span {
+    border-bottom: 1px solid white;
+    cursor: default;
+}
 
-ul.tabs > li.bgTab > a { background: #ccc; }
+ul.tabs > li.bgTab > span {
+    background: #ccc;
+    cursor: pointer;
+}
 
-ul.tabs > li.bgTab > a:hover { background: #b5b5b5; }
+ul.tabs > li.bgTab > span:hover { background-color: #b5b5b5; }
 
-#tabsConfig, #treeConfig, #bookmarksShowHide { display: none; }
+#mouseConfig { display: block; }
+#tabsConfig, #bookmarksShowHide, #treeConfig { display: none; }
 
 input.error { color: red; }
 
 input[type="checkbox"] { border: 0; }
 
+hr {
+    height: 1px;
+    border: 0;
+    background-color: #ccc;
+    margin-top: 3px;
+}
+h1 {
+    font: 18px "DejaVu Sans", "Bitstream Vera Sans", sans-serif;
+    font-weight: bold;
+}
+
+h1 > img {
+    vertical-align:middle;
+    margin-right: 5px
+}
