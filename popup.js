@@ -237,6 +237,7 @@ function createAnchor(node)
 	var anchor = document.createElement('a');
 	anchor.id = node.id;
 	anchor.setAttribute('onclick', 'return false;');
+	anchor.setAttribute('onmousedown', 'return false;');
 	anchor.onmouseup = openLink;
 	anchor.style.maxWidth = maxWidth;
 	if(node.url == undefined)
