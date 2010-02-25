@@ -6,7 +6,12 @@
 
 body { padding: 10px; }
 
-table.config, div.config { border: 1px solid #6f5e5e; }
+table.config, div.config {
+    border: 1px solid #6f5e5e;
+    position: relative;
+    top: -1px;
+    z-index: 0;
+}
 
 div.config {
     display: table;
@@ -43,31 +48,39 @@ img.favicon {
 
 div.tabs { display: table; }
 
-ul.tabs { list-style: none; }
+ul.tabs {
+    list-style: none;
+    position: relative;
+    z-index: 1;
+}
 
-ul.tabs > li { display: inline; }
+ul.tabs > li { display: inline-block; }
 
 ul.tabs > li > span {
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
-    border: 1px solid #6f5e5e;
-    padding: 4px 6px 0px 6px;
-    font-size: 16px;
-    color: black;
-    background: white;
+    border-width: 1px;
+    border-style: solid;
+    padding: 3px 6px;
+    font-size: 14px;
+    display: block;
 }
 
 ul.tabs > li.fgTab > span {
-    border-bottom: 1px solid white;
+    border-color: #6f5e5e;
+    border-bottom-color: white;
+    background-color: white;
     cursor: default;
 }
 
 ul.tabs > li.bgTab > span {
-    background-color: #b5b5b5;
+    border-color: #a39e9e;
+    border-bottom-color: #6f5e5e;
+    background-color: #dadada;
     cursor: pointer;
 }
 
-ul.tabs > li.bgTab > span:hover { background-color: #ccc; }
+ul.tabs > li.bgTab > span:hover { background-color: #ece9e9; }
 
 #mouseConfig { display: block; }
 #bookmarksShowHide, #treeConfig { display: none; }
@@ -79,15 +92,16 @@ input[type="checkbox"] { border: 0; }
 hr {
     height: 1px;
     border: 0;
-    background-color: #ccc;
+    background-color: #a39e9e;
     margin-top: 3px;
 }
+
 h1 {
     font-size: 18px;
     font-weight: bold;
 }
 
 h1 > img {
-    vertical-align:middle;
+    vertical-align: middle;
     margin-right: 5px
 }
