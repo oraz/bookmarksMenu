@@ -1,3 +1,6 @@
+Changelog 1.3.8 (XX.02.2010)
+- CSS changes on options panel
+
 Changelog 1.3.7 (24.02.2010)
 - Added new option FavIconWidth. FavIconHeight will be the same as FavIconWidth.
 

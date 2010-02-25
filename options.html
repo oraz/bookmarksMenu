@@ -23,7 +23,7 @@
                 <tr>
                     <td>Left button</td>
                     <td>
-                        <select size="1" style="width: 200px;" id="btn0" onchange="setMouseButtonAction(this, 0)">
+                        <select size="1" id="btn0" onchange="setMouseButtonAction(this, 0)">
                             <option>Open in current tab</option>
                             <option>Open in new tab</option>
                             <option>Open popup menu</option>
@@ -33,7 +33,7 @@
                 <tr>
                     <td>Middle button</td>
                     <td>
-                        <select size="1" style="width: 200px;" id="btn1" onchange="setMouseButtonAction(this, 1)">
+                        <select size="1" id="btn1" onchange="setMouseButtonAction(this, 1)">
                             <option>Open in current tab</option>
                             <option>Open in new tab</option>
                             <option>Open popup menu</option>
@@ -43,7 +43,7 @@
                 <tr>
                     <td>Right button</td>
                     <td>
-                        <select size="1" style="width: 200px;" id="btn2" onchange="setMouseButtonAction(this, 2)">
+                        <select size="1" id="btn2" onchange="setMouseButtonAction(this, 2)">
                             <option>Open in current tab</option>
                             <option>Open in new tab</option>
                             <option>Open popup menu</option>
@@ -89,7 +89,7 @@
                         <td>Max width for bookmark:</td>
                         <td>
                             <input type="number" style="width: 5em;" id="maxWidth" onkeyup="setIntProperty(this)"/>
-                            <select size="1" style="width: 10em;" id="maxWidthMesure" onchange="setMenuMaxWidthMesure(this)">
+                            <select size="1" id="maxWidthMesure" onchange="setMenuMaxWidthMesure(this)">
                                 <option value="em">'m' symbols</option>
                                 <option value="px">pixels</option>
                                 <option value="in">inches</option>

@@ -6,12 +6,11 @@
 
 body { padding: 10px; }
 
-table.config, div.config { border: 1px solid #ccc; }
+table.config, div.config { border: 1px solid #6f5e5e; }
 
 div.config {
     display: table;
     padding: 2px;
-    border: 1px solid #ccc;
 }
 
 div.tabs > table { width: 100%; }
@@ -51,11 +50,9 @@ ul.tabs > li { display: inline; }
 ul.tabs > li > span {
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
-    border-left: 1px solid #ccc;
-    border-top: 1px solid #ccc;
-    border-right: 1px solid #ccc;
+    border: 1px solid #6f5e5e;
     padding: 4px 6px 0px 6px;
-    font: 16px "DejaVu Sans", "Bitstream Vera Sans", sans-serif;
+    font-size: 16px;
     color: black;
     background: white;
 }
@@ -66,11 +63,11 @@ ul.tabs > li.fgTab > span {
 }
 
 ul.tabs > li.bgTab > span {
-    background: #ccc;
+    background-color: #b5b5b5;
     cursor: pointer;
 }
 
-ul.tabs > li.bgTab > span:hover { background-color: #b5b5b5; }
+ul.tabs > li.bgTab > span:hover { background-color: #ccc; }
 
 #mouseConfig { display: block; }
 #tabsConfig, #bookmarksShowHide, #treeConfig { display: none; }
@@ -86,7 +83,7 @@ hr {
     margin-top: 3px;
 }
 h1 {
-    font: 18px "DejaVu Sans", "Bitstream Vera Sans", sans-serif;
+    font-size: 18px;
     font-weight: bold;
 }
 
