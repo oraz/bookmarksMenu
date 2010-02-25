@@ -70,7 +70,7 @@ ul.tabs > li.bgTab > span {
 ul.tabs > li.bgTab > span:hover { background-color: #ccc; }
 
 #mouseConfig { display: block; }
-#tabsConfig, #bookmarksShowHide, #treeConfig { display: none; }
+#bookmarksShowHide, #treeConfig { display: none; }
 
 input.error { color: red; }
 

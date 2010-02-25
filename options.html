@@ -12,49 +12,46 @@
         <div class="tabs">
             <ul class="tabs" id="tabs">
                 <li class="fgTab" for="mouseConfig"><span onclick="showTab(this)">Mouse</span></li>
-                <li class="bgTab" for="tabsConfig"><span onclick="showTab(this)">Tabs</span></li>
                 <li class="bgTab" for="bookmarksShowHide"><span onclick="showTab(this)">Bookmarks</span></li>
                 <li class="bgTab" for="treeConfig"><span onclick="showTab(this)">Window &amp; Tree</span></li>
             </ul>
-            <table class="config" id="mouseConfig" cellspacing="0" cellpadding="0">
-                <tr>
-                    <th colspan="2">Mouse configuration:</th>
-                </tr>
-                <tr>
-                    <td>Left button</td>
-                    <td>
-                        <select size="1" id="btn0" onchange="setMouseButtonAction(this, 0)">
-                            <option>Open in current tab</option>
-                            <option>Open in new tab</option>
-                            <option>Open popup menu</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Middle button</td>
-                    <td>
-                        <select size="1" id="btn1" onchange="setMouseButtonAction(this, 1)">
-                            <option>Open in current tab</option>
-                            <option>Open in new tab</option>
-                            <option>Open popup menu</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Right button</td>
-                    <td>
-                        <select size="1" id="btn2" onchange="setMouseButtonAction(this, 2)">
-                            <option>Open in current tab</option>
-                            <option>Open in new tab</option>
-                            <option>Open popup menu</option>
-                        </select>
-                    </td>
-                </tr>
-            </table>
-            <div class="config" id="tabsConfig">
-                <div class="header">Tabs configuration</div>
-                <label><input type="checkbox" id="switchToNewTab"
-                    onchange="setSwitchToNewTab(this.checked);">When I open a bookmark in new tab, switch to it immediately</label>
+            <div class="config" id="mouseConfig">
+                <table cellspacing="0" cellpadding="0" style="margin-bottom: 1ex;">
+                    <tr>
+                        <th colspan="2">Mouse configuration</th>
+                    </tr>
+                    <tr>
+                        <td>Left button</td>
+                        <td align="left">
+                            <select size="1" id="btn0" onchange="setMouseButtonAction(this, 0)">
+                                <option>Open in current tab</option>
+                                <option>Open in new tab</option>
+                                <option>Open popup menu</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Middle button</td>
+                        <td align="left">
+                            <select size="1" id="btn1" onchange="setMouseButtonAction(this, 1)">
+                                <option>Open in current tab</option>
+                                <option>Open in new tab</option>
+                                <option>Open popup menu</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Right button</td>
+                        <td align="left">
+                            <select size="1" id="btn2" onchange="setMouseButtonAction(this, 2)">
+                                <option>Open in current tab</option>
+                                <option>Open in new tab</option>
+                                <option>Open popup menu</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+                <label><input type="checkbox" id="switchToNewTab" onchange="setSwitchToNewTab(this.checked);">&nbsp;When I open a bookmark in new tab, switch to it immediately</label>
             </div>
             <div class="config" id="bookmarksShowHide">
                 <div class="header">Select bookmarks to display</div>
@@ -75,7 +72,7 @@
                 </table>
                 <table cellspacing="0" cellpadding="0">
                     <tr>
-                        <th colspan="2">Bookmarks tree configuration:</th>
+                        <th colspan="2">Bookmarks tree configuration</th>
                     </tr>
                     <tr>
                         <td>Font size:</td>
