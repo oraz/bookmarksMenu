@@ -235,7 +235,6 @@ function getY(el)
 function createAnchor(node)
 {
 	var anchor = document.createElement('a');
-	var favicon;
 	anchor.id = node.id;
 	anchor.setAttribute('onclick', 'return false;');
 	anchor.onmouseup = openLink;
