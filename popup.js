@@ -333,7 +333,7 @@ chrome.bookmarks.getTree(function(nodes)
 	var styleSheet = document.styleSheets[document.styleSheets.length - 1];
 	var favIconWidth = getFavIconWidth();
 	styleSheet.addRule('a > img.favicon', 'width: ' + favIconWidth + 'px; height: ' + favIconWidth + 'px;');
-	styleSheet.addRule('li a', 'max-width: ' + getMaxWidth() + getMaxWidthMesure() + ';');
+	styleSheet.addRule('#bookmarksTree a', 'max-width: ' + getMaxWidth() + getMaxWidthMesure() + ';');
 
 	var ul = document.createElement('ul');
 	ul.setAttribute('class', 'bookmarksTree');
