@@ -371,8 +371,8 @@ chrome.bookmarks.getTree(function(nodes)
 	bodyStyle.width = ul.clientWidth + 2 + scrollBarWidth + 'px';
 	bodyStyle.height = ulHeight < winMaxHeight ? ulHeight + 'px' : winMaxHeight + 'px';
 
-	// run filling in background to increase rendering top items
-	setTimeout("fillTree()", 0);
+	// run filling in background to speed up rendering top items
+	setTimeout("fillTree()", 50);
 });
 
 function fillTree()
