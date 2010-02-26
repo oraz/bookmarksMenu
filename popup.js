@@ -2,12 +2,9 @@
 // vim:noet ts=4 sw=4
 
 var selectedBookmark = undefined;
-var maxWidth = getMaxWidth() + getMaxWidthMesure();
 
 var winMaxWidth = getWindowMaxWidth();
 var winMaxHeight = getWindowMaxHeight();
-
-var favIconWidth = getFavIconWidth();
 
 function isFolderURL(url)
 {
@@ -239,7 +236,6 @@ function createAnchor(node)
 	anchor.setAttribute('onclick', 'return false;');
 	anchor.setAttribute('onmousedown', 'return false;');
 	anchor.onmouseup = openLink;
-	anchor.style.maxWidth = maxWidth;
 	if(node.url == undefined)
 	{
 		anchor.href = "folder://";
@@ -254,7 +250,7 @@ function createAnchor(node)
 		var url = node.url;
 		anchor.href = url;
 	}
-	anchor.innerHTML = '<img class="favicon" width="' + favIconWidth + '" height="' + favIconWidth + '" src="' + getFavicon(node.url) + '"/>&nbsp;' + node.title;
+	anchor.innerHTML = '<img class="favicon" src="' + getFavicon(node.url) + '"/>&nbsp;' + node.title;
 	return anchor;
 }
 
@@ -334,6 +330,11 @@ chrome.bookmarks.getTree(function(nodes)
 {
 	document.body.style.fontSize = getFontSize() + 'px';
 
+	var styleSheet = document.styleSheets[document.styleSheets.length - 1];
+	var favIconWidth = getFavIconWidth();
+	styleSheet.addRule('a > img.favicon', 'width: ' + favIconWidth + 'px; height: ' + favIconWidth + 'px;');
+	styleSheet.addRule('li a', 'max-width: ' + getMaxWidth() + getMaxWidthMesure() + ';');
+
 	var ul = document.createElement('ul');
 	ul.setAttribute('class', 'bookmarksTree');
 	ul.setAttribute('id', 'bookmarksTree');
@@ -372,13 +373,6 @@ chrome.bookmarks.getTree(function(nodes)
 
 	// run filling in background to increase rendering top items
 	setTimeout("fillTree()", 0);
-
-	var favIcons = document.getElementById('popupMenu').getElementsByTagName('img');
-	for(var idx = favIcons.length - 1; idx >= 0; idx--)
-	{
-		favIcons[idx].width = favIconWidth;
-		favIcons[idx].height = favIconWidth;
-	}
 });
 
 function fillTree()
