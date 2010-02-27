@@ -6,19 +6,16 @@
 
 body { padding: 10px; }
 
-table.config, div.config {
+div.config {
     border: 1px solid #6f5e5e;
     position: relative;
     top: -1px;
     z-index: 0;
-}
-
-div.config {
-    display: table;
     padding: 2px;
+    display: none;
 }
 
-div.tabs > table { width: 100%; }
+div.config:nth-of-type(1) { display: block; }
 
 th, td { padding: 2px; }
 
@@ -81,9 +78,6 @@ ul.tabs > li.bgTab > span {
 }
 
 ul.tabs > li.bgTab > span:hover { background-color: #ece9e9; }
-
-#mouseConfig { display: block; }
-#bookmarksShowHide, #treeConfig { display: none; }
 
 input.error { color: red; }
 
