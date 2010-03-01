@@ -63,11 +63,11 @@
                     </tr>
                     <tr>
                         <td>Window width (max 800px):</td>
-                        <td><input type="number" style="width: 5em;" maxlength="3" id="winMaxWidth" onkeyup="setIntProperty(this, 800)"/>&nbsp;px</td>
+                        <td><input type="number" maxlength="3" id="winMaxWidth" oninput="setIntProperty(this, 800)"/>&nbsp;px</td>
                     </tr>
                     <tr>
                         <td>Window height (max 600px):</td>
-                        <td><input type="number" style="width: 5em;" maxlength="3" id="winMaxHeight" onkeyup="setIntProperty(this, 600)"/>&nbsp;px</td>
+                        <td><input type="number" maxlength="3" id="winMaxHeight" oninput="setIntProperty(this, 600)"/>&nbsp;px</td>
                     </tr>
                 </table>
                 <table cellspacing="0" cellpadding="0">
@@ -76,16 +76,16 @@
                     </tr>
                     <tr>
                         <td>Font size:</td>
-                        <td><input type="number" style="width: 5em;" maxlength="2" id="fontSize" onkeyup="setIntProperty(this)"/>&nbsp;px</td>
+                        <td><input type="number" maxlength="2" id="fontSize" oninput="setIntProperty(this)"/>&nbsp;px</td>
                     </tr>
                     <tr>
                         <td>Favicon width and height:</td>
-                        <td><input type="number" style="width: 5em;" maxlength="2" id="favIconWidth" onkeyup="setIntProperty(this)"/>&nbsp;px</td>
+                        <td><input type="number" maxlength="2" id="favIconWidth" oninput="setIntProperty(this)"/>&nbsp;px</td>
                     </tr>
                     <tr>
                         <td>Max width for bookmark:</td>
                         <td>
-                            <input type="number" style="width: 5em;" id="maxWidth" onkeyup="setIntProperty(this)"/>
+                            <input type="number" id="maxWidth" oninput="setIntProperty(this)"/>
                             <select size="1" id="maxWidthMesure" onchange="setMenuMaxWidthMesure(this)">
                                 <option value="em">'m' symbols</option>
                                 <option value="px">pixels</option>
