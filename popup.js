@@ -1,6 +1,8 @@
 
 // vim:noet ts=4 sw=4
 
+var activeFolder = undefined;
+
 var selectedBookmark = undefined;
 
 var winMaxWidth = getWindowMaxWidth();
@@ -56,18 +58,31 @@ function openLink(ev)
 		{
 			selectedBookmark = this;
 			var selected = this.parentNode;
-			while(true)
+			do
 			{
 				selected.setAttribute('class', 'selected');
 				selected = selected.parentNode.parentNode;
-				if(selected.tagName != 'LI')
-				{
-					break;
-				}
-			}
+			} while(selected.tagName == 'LI');
+
 			var body = document.body;
 
 			var popupMenu = document.getElementById('popupMenu');
+
+			var popupMenuItems = popupMenu.getElementsByTagName('li');
+			var itemClass = isFolderURL(this.href) ? "disabled" : "enabled";
+			popupMenuItems[0].setAttribute("class", itemClass);
+			popupMenuItems[1].setAttribute("class", itemClass);
+			if(itemClass == "enabled")
+			{
+				popupMenuItems[0].setAttribute("onMouseUp", "openSelected(event, false);");
+				popupMenuItems[1].setAttribute("onMouseUp", "openSelected(event, true);");
+			}
+			else
+			{
+				popupMenuItems[0].removeAttribute("onMouseUp");
+				popupMenuItems[1].removeAttribute("onMouseUp");
+			}
+
 			var popupMenuStyle = popupMenu.style;
 			popupMenuStyle.display = 'block';
 
@@ -119,15 +134,20 @@ function unSelect()
 	if(selectedBookmark != undefined)
 	{
 		var selected = selectedBookmark.parentNode;
-		while(true)
+		var folder = false;
+		do
 		{
-			selected.removeAttribute('class');
-			selected = selected.parentNode.parentNode;
-			if(selected.tagName != 'LI')
+			if(folder)
 			{
-				break;
+				selected.setAttribute("class", "hover");
 			}
-		}
+			else
+			{
+				selected.removeAttribute("class");
+				folder = true;
+			}
+			selected = selected.parentNode.parentNode;
+		} while(selected.tagName == 'LI');
 	}
 	document.getElementById('popupMenu').style.display = 'none';
 	document.getElementById('transparentLayer').style.display = 'none';
@@ -158,8 +178,17 @@ function deleteSelected(ev)
 	unSelect();
 	if(ev.button == 0 && selectedBookmark != undefined)
 	{
-		chrome.bookmarks.remove(selectedBookmark.id);
 		var li = selectedBookmark.parentNode;
+		chrome.bookmarks.remove(li.id);
+		if(li.childNodes.length == 2)
+		{
+			// we're deleting empty folder
+			activeFolder = activeFolder.parentNode.parentNode;
+			if(activeFolder.tagName != 'LI')
+			{
+				activeFolder = undefined;
+			}
+		}
 		var ul = li.parentNode;
 		ul.removeChild(li);
 		if(ul.childNodes.length == 0)
@@ -175,8 +204,28 @@ function deleteSelected(ev)
 	selectedBookmark = undefined;
 }
 
-function changeBodySize(anchor)
+function changeActiveFolder(anchor)
 {
+	if(activeFolder != undefined)
+	{
+		var parentFolderId = anchor.parentNode.parentNode.parentNode.id;
+		do
+		{
+			if(parentFolderId == activeFolder.id)
+			{
+				break;
+			}
+			activeFolder.removeAttribute("class");
+			activeFolder = activeFolder.parentNode.parentNode;
+		} while(activeFolder.tagName == 'LI');
+	}
+}
+
+function displayFolderContent(anchor)
+{
+	changeActiveFolder(anchor);
+	activeFolder = anchor.parentNode;
+	activeFolder.setAttribute("class", "hover");
 	var ul = anchor.parentNode.getElementsByTagName('ul')[0];
 	var body = document.body;
 	var style = body.style;
@@ -232,14 +281,13 @@ function getY(el)
 function createAnchor(node)
 {
 	var anchor = document.createElement('a');
-	anchor.id = node.id;
 	anchor.setAttribute('onclick', 'return false;');
 	anchor.setAttribute('onmousedown', 'return false;');
 	anchor.onmouseup = openLink;
 	if(node.url == undefined)
 	{
 		anchor.href = "folder://";
-		anchor.setAttribute('onMouseOver', "changeBodySize(this);");
+		anchor.setAttribute('onMouseOver', "displayFolderContent(this);");
 		if(node.children.length > 0)
 		{
 			anchor.onmouseup = undefined;
@@ -247,8 +295,8 @@ function createAnchor(node)
 	}
 	else
 	{
-		var url = node.url;
-		anchor.href = url;
+		anchor.href = node.url;
+		anchor.onmouseover = highlightBookmark;
 	}
 	anchor.innerHTML = '<img class="favicon" src="' + getFavicon(node.url) + '"/>&nbsp;' + node.title;
 	return anchor;
@@ -262,20 +310,33 @@ function addEmptyItem(ul)
 	ul.appendChild(li);
 }
 
+function highlightBookmark()
+{
+	changeActiveFolder(this);
+	this.parentNode.setAttribute("class", "hover");
+}
+
+function unHighlightBookmark()
+{
+	if(this.getAttribute("class") == "hover")
+	{
+		this.removeAttribute("class");
+	}
+}
+
 function addChild(node, htmlNode, appendChildsToFolder)
 {
+	var li = document.createElement('li');
+	li.id = node.id;
+	var anchor = createAnchor(node);
+	li.appendChild(anchor);
+	htmlNode.appendChild(li);
 	if(node.children == undefined)
 	{
-		var li = document.createElement('li');
-		li.appendChild(createAnchor(node));
-		htmlNode.appendChild(li);
+		li.onmouseout = unHighlightBookmark;
 	}
 	else
 	{
-		var li = document.createElement('li');
-		var anchor = createAnchor(node);
-		li.appendChild(anchor);
-		htmlNode.appendChild(li);
 		var children = node.children;
 		var len = children.length;
 		var hasSubMenus = false;

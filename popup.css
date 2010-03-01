@@ -42,6 +42,10 @@ li a {
     white-space: nowrap;
 }
 
+li.disabled > a {
+    color: gray;
+}
+
 li ul {
     position: absolute;
     right: 100%;
@@ -57,9 +61,9 @@ li.separator {
     border-style: solid;
 }
 
-li:hover > ul, .selected > ul { display: block; }
+li.hover > ul, .selected > ul { display: block; }
 
-li:hover > a, .selected > a {
+li.enabled:hover > a, li.hover > a, .selected > a {
     background-image: -webkit-gradient(linear, left top, left bottom, from(#86abd9), to(#1f5eab));
     color: white;
     padding: 2px 1em 2px 3px;

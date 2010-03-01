@@ -1,6 +1,11 @@
-Changelog 1.3.9 (01.03.2010)
+Changelog 2.0.0 (01.03.2010)
+- Changed structure of bookmarks tree. Now it's not so sensible to mouse
+motions. Content of subfolder doesn't disappear after mouse leaves it.
+- Disabled "Open in new tab/window" items in popup menu for empty folder.
+
+Changelog 1.3.9 (release wasn't published)
 - Removed unnecessary rules from options.css
-- oninput handler is used instead of onkeyup on options panel
+- Event 'onkeyup' was replaced by 'oninput' on options panel
 
 Changelog 1.3.8 (26.02.2010)
 - Prevent tree from hanging-up when user is trying to drag bookmark
