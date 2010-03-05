@@ -24,11 +24,15 @@ function BookmarksTree(isRoot)
 
 BookmarksTree.onMouseUp = function(ev)
 {
-	var bookmark = ev.srcElement.parentElement;
+	var bookmark = ev.srcElement;
+	while(!(bookmark instanceof HTMLLIElement))
+	{
+		bookmark = bookmark.parentElement;
+	}
 	var action = parseInt(getButtonAction(ev.button));
 	switch(action)
 	{
-		case 2: // open in current tab
+		case 0: // open in current tab
 			if(!bookmark.isFolder)
 			{
 				ev.ctrlKey ? bookmark.openInNewTab() : bookmark.open();
@@ -40,7 +44,7 @@ BookmarksTree.onMouseUp = function(ev)
 				bookmark.openInNewTab();
 			}
 			break;
-		case 0: // open popup menu
+		case 2: // open popup menu
 			if(!bookmark.isFolder || bookmark.isEmpty)
 			{
 				bookmark.showPopupMenu(ev);
@@ -214,7 +218,6 @@ with(HTMLLIElement)
 		{
 			this.removeAttribute("class");
 		}
-		this.rootFolder.removeAttribute('selectedBookmark');
 	}
 	prototype.fillFolder = function(completely)
 	{
@@ -264,15 +267,13 @@ with(HTMLLIElement)
 	}
 	prototype.openInNewTab = function()
 	{
-		alert('newTab');
-//		chrome.tabs.create({ url: this.url, selected: isSwitchToNewTab() });
-//		window.close();
+		chrome.tabs.create({ url: this.url, selected: isSwitchToNewTab() });
+		window.close();
 	}
 	prototype.openInNewWindow = function()
 	{
-		alert('newWindow');
-//		chrome.windows.create({ url: this.url });
-//		window.close();
+		chrome.windows.create({ url: this.url });
+		window.close();
 	}
 	prototype.getY = function()
 	{
@@ -304,18 +305,18 @@ with(HTMLLIElement)
 	}
 	prototype.showPopupMenu = function(ev)
 	{
-		this.rootFolder.selectedBookmark = this;
 		this.select();
 
 		var popupMenu = $('popupMenu');
+		popupMenu.selectedBookmark = this;
 		var popupMenuItems = popupMenu.getElementsByTagName('li');
 		var itemClass = this.isFolder ? "disabled" : "enabled";
 		popupMenuItems[0].setAttribute("class", itemClass);
 		popupMenuItems[1].setAttribute("class", itemClass);
 		if(!this.isFolder)
 		{
-			popupMenuItems[0].setAttribute("onMouseUp", "openSelected(event, false);");
-			popupMenuItems[1].setAttribute("onMouseUp", "openSelected(event, true);");
+			popupMenuItems[0].setAttribute('onmouseup', "processMenu(event, 'openInNewTab')");
+			popupMenuItems[1].setAttribute('onmouseup', "processMenu(event, 'openInNewWindow')");
 		}
 		else
 		{
@@ -366,33 +367,37 @@ with(HTMLLIElement)
 		transparentLayerStyle.height = bodyHeight - 2 + 'px';
 		transparentLayer.show();
 	}
+	prototype.remove = function()
+	{
+		chrome.bookmarks.remove(this.id);
+		var subTree = this.parentNode;
+		subTree.removeChild(this);
+		if(subTree.childElementCount == 0)
+		{
+			subTree.addEmpty();
+		}
+	}
 }
 
 function unSelect()
 {
-	$('bookmarksTree').selectedBookmark.unSelect();
-	$('popupMenu').hide();
+	var popupMenu = $('popupMenu');
+	popupMenu.selectedBookmark.unSelect();
+	popupMenu.hide();
 	$('transparentLayer').hide();
 }
 
-function openSelected(ev, newWindow)
-{
-	var bookmark = $('bookmarksTree').selectedBookmark;
-	if(ev.button == 0)
-	{
-		newWindow ? bookmark.openInNewWindow() : bookmark.openInNewTab();
-	}
-	else
-	{
-		unSelect();
-	}
-}
-
-function deleteSelected(ev)
+function processMenu(ev, action)
 {
 	if(ev.button == 0)
 	{
-		$('bookmarksTree').selectedBookmark.remove();
+		var popupMenu = ev.srcElement;
+		while(!(popupMenu instanceof HTMLUListElement))
+		{
+			popupMenu = popupMenu.parentNode;
+		}
+		var bookmark = popupMenu.selectedBookmark;
+		bookmark[action].call(bookmark);
 	}
 	unSelect();
 }
