@@ -22,17 +22,8 @@ ul {
 
 li { position: relative; }
 
-li.empty {
-    padding: 3px 8px;
-    color: gray;
-}
-
-li a {
+li label {
     display: block;
-    text-decoration: none;
-    color: black;
-    background-color: white;
-    cursor: default;
 
     padding: 3px;
     padding-right: 1em;
@@ -40,6 +31,11 @@ li a {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+}
+
+li.empty > label {
+    padding: 3px 1em;
+    color: gray;
 }
 
 li.disabled > a {
@@ -63,7 +59,7 @@ li.separator {
 
 li.hover > ul, .selected > ul { display: block; }
 
-li.enabled:hover > a, li.hover > a, .selected > a {
+li.enabled:hover > label, li.hover > label, .selected > label {
     background-image: -webkit-gradient(linear, left top, left bottom, from(#86abd9), to(#1f5eab));
     color: white;
     padding: 2px 1em 2px 3px;
@@ -71,7 +67,10 @@ li.enabled:hover > a, li.hover > a, .selected > a {
     border-bottom: 1px solid #689bdb;
 }
 
-a > img.favicon { vertical-align: bottom; }
+li > label > img {
+    vertical-align: bottom;
+    margin-right: 0.3em;
+}
 
 #popupMenu {
     display: none;
