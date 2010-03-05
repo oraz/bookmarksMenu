@@ -24,6 +24,8 @@ li { position: relative; }
 
 li label {
     display: block;
+    color: black;
+    background-color: white;
 
     padding: 3px;
     padding-right: 1em;
@@ -38,9 +40,7 @@ li.empty > label {
     color: gray;
 }
 
-li.disabled > a {
-    color: gray;
-}
+li.disabled > label { color: gray; }
 
 li ul {
     position: absolute;
@@ -57,9 +57,9 @@ li.separator {
     border-style: solid;
 }
 
-li.hover > ul, .selected > ul { display: block; }
+li.hover > ul { display: block; }
 
-li.enabled:hover > label, li.hover > label, .selected > label {
+li.enabled:hover > label, li.hover > label, li.selected > label {
     background-image: -webkit-gradient(linear, left top, left bottom, from(#86abd9), to(#1f5eab));
     color: white;
     padding: 2px 1em 2px 3px;

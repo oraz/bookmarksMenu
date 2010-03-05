@@ -1,12 +1,20 @@
 
 // vim:noet ts=4 sw=4
 
+var winMaxWidth = getWindowMaxWidth();
+var winMaxHeight = getWindowMaxHeight();
+
+function $(id)
+{
+	return document.getElementById(id);
+}
+
 function BookmarksTree(isRoot)
 {
 	var ul = document.createElement('ul');
 	if(isRoot)
 	{
-		ul.root = true;
+		ul.isRoot = true;
 		ul.id = ul.className = 'bookmarksTree';
 		ul.setAttribute('onmousedown', 'return false;');
 		ul.onmouseup = BookmarksTree.onMouseUp;
@@ -20,19 +28,23 @@ BookmarksTree.onMouseUp = function(ev)
 	var action = parseInt(getButtonAction(ev.button));
 	switch(action)
 	{
-		case 0: // open in current tab
-			if(!bookmark.folder)
+		case 2: // open in current tab
+			if(!bookmark.isFolder)
 			{
 				ev.ctrlKey ? bookmark.openInNewTab() : bookmark.open();
 			}
 			break;
 		case 1: // open in new tab
-			if(!bookmark.folder)
+			if(!bookmark.isFolder)
 			{
 				bookmark.openInNewTab();
 			}
 			break;
-		case 2: // open popup menu
+		case 0: // open popup menu
+			if(!bookmark.isFolder || bookmark.isEmpty)
+			{
+				bookmark.showPopupMenu(ev);
+			}
 			break;
 	}
 }
@@ -51,7 +63,7 @@ function Bookmark(bookmarkNode)
 
 	if(bookmarkNode.url == undefined)
 	{
-		li.folder = true;
+		li.isFolder = true;
 		li.childBookmarks = bookmarkNode.children;
 		li.onmouseover = this.displayFolderContent;
 	}
@@ -72,6 +84,49 @@ Bookmark.prototype.displayFolderContent = function()
 	}
 	this.highlight();
 	this.rootFolder.activeFolder = this;
+
+	var subTree = this.folderContent;
+	var body = document.body;
+	var bodyStyle = body.style;
+
+	var height = this.getY() + subTree.clientHeight + 2;
+	if(body.clientHeight < height)
+	{
+		bodyStyle.height = (height > winMaxHeight ? winMaxHeight : height) + 'px';
+	}
+
+	var width = 0;
+	var tmp = subTree;
+	while(!tmp.parentFolder.isRoot)
+	{
+		tmp = tmp.parentFolder;
+		width += tmp.clientWidth + 1;
+	}
+	if(width < winMaxWidth && this.treeDepth > 1)
+	{
+		var offset = (winMaxWidth - width) / this.treeDepth;
+		if(offset < subTree.clientWidth)
+		{
+			subTree.style.left = '-' + offset + 'px';
+		}
+	}
+	var scrollBarWidth = body.scrollHeight > body.clientHeight ? 15 : 0;
+	width += subTree.clientWidth + 2 + scrollBarWidth;
+	if(width < winMaxWidth && body.clientWidth < width)
+	{
+		bodyStyle.width = width + 'px';
+	}
+	else if(width > winMaxWidth)
+	{
+		bodyStyle.width = winMaxWidth + 'px';
+		subTree.style.left = '-' + (subTree.clientWidth - (width - winMaxWidth)) + 'px';
+	}
+}
+
+with(HTMLElement)
+{
+	prototype.show = function() { this.style.display = 'block'; }
+	prototype.hide = function() { this.style.display = 'none'; }
 }
 
 with(HTMLUListElement)
@@ -93,13 +148,13 @@ with(HTMLUListElement)
 		{
 			for(var i = 0; i < len; i++)
 			{
-				if(this.root && isBookmarkHidden(childBookmarks[i].title))
+				if(this.isRoot && isBookmarkHidden(childBookmarks[i].title))
 				{
 					continue;
 				}
 				var bookmark = new Bookmark(childBookmarks[i]);
 				this.appendChild(bookmark);
-				if(this.root)
+				if(this.isRoot)
 				{
 					bookmark.parentFolder = bookmark.rootFolder = this;
 				}
@@ -108,24 +163,27 @@ with(HTMLUListElement)
 					bookmark.parentFolder = this.parentFolder;
 					bookmark.rootFolder = this.parentFolder.rootFolder;
 				}
-				if(bookmark.folder && completely)
+				if(bookmark.isFolder && completely)
 				{
+					this.parentFolder.hasSubFolders = true;
 					bookmark.fillFolder(true);
 				}
 			}
 		}
-		else
+		else if(!this.isRoot)
 		{
-			if(!this.root)
-			{
-				var li = document.createElement('li');
-				li.setAttribute('class', 'empty');
-				var label = document.createElement('label');
-				label.appendChild(document.createTextNode('Empty'));
-				li.appendChild(label);
-				this.appendChild(li);
-			}
+			this.addEmpty();
 		}
+	}
+	prototype.addEmpty = function()
+	{
+		var li = document.createElement('li');
+		li.setAttribute('class', 'empty');
+		var label = document.createElement('label');
+		label.appendChild(document.createTextNode('Empty'));
+		li.appendChild(label);
+		this.appendChild(li);
+		this.parentFolder.isEmpty = true;
 	}
 }
 
@@ -143,14 +201,34 @@ with(HTMLLIElement)
 			this.removeAttribute("class");
 		}
 	}
+	prototype.select = function()
+	{
+		if(!this.isFolder)
+		{
+			this.setAttribute("class", "selected");
+		}
+	}
+	prototype.unSelect = function()
+	{
+		if(this.getAttribute("class") == "selected")
+		{
+			this.removeAttribute("class");
+		}
+		this.rootFolder.removeAttribute('selectedBookmark');
+	}
 	prototype.fillFolder = function(completely)
 	{
-		if(completely && this.folder)
+		if(completely && this.isFolder)
 		{
 			var subTree = new BookmarksTree();
 			this.appendChild(subTree);
+			this.folderContent = subTree;
 			subTree.parentFolder = this;
 			subTree.fillTree(this.childBookmarks, true);
+			if(!this.hasSubFolders)
+			{
+				this.fillTreeDepth();
+			}
 		}
 	}
 	prototype.unHighlightActiveFolder = function()
@@ -169,7 +247,7 @@ with(HTMLLIElement)
 	}
 	prototype.open = function()
 	{
-		var url = this.href;
+		var url = this.url;
 		if(isJsURL(url))
 		{
 			chrome.tabs.executeScript(null, { code: unescape(url.substr(11)) });
@@ -178,17 +256,145 @@ with(HTMLLIElement)
 		else
 		{
 			chrome.tabs.getSelected(null, function(tab)
-					{
-					chrome.tabs.update(tab.id, { url: url });
-					window.close();
-					});
+			{
+				chrome.tabs.update(tab.id, { url: url });
+				window.close();
+			});
 		}
 	}
 	prototype.openInNewTab = function()
 	{
-		chrome.tabs.create({ url: this.url, selected: isSwitchToNewTab() });
-		window.close();
+		alert('newTab');
+//		chrome.tabs.create({ url: this.url, selected: isSwitchToNewTab() });
+//		window.close();
 	}
+	prototype.openInNewWindow = function()
+	{
+		alert('newWindow');
+//		chrome.windows.create({ url: this.url });
+//		window.close();
+	}
+	prototype.getY = function()
+	{
+		var y = 0;
+		var el = this;
+		do
+		{
+			if(el.offsetTop > 0)
+			{
+				y += el.offsetTop;
+			}
+			el = el.offsetParent;
+		} while(el != null);
+		return y;
+	}
+	prototype.fillTreeDepth = function()
+	{
+		if(!this.isRoot && this.treeDepth == undefined)
+		{
+			var treeDepth = 1;
+			this.treeDepth = treeDepth;
+			var parentFolder = this.parentFolder;
+			while(!parentFolder.isRoot && (parentFolder.treeDepth == undefined || treeDepth > parentFolder.treeDepth))
+			{
+				parentFolder.treeDepth = ++treeDepth;
+				parentFolder = parentFolder.parentFolder;
+			}
+		}
+	}
+	prototype.showPopupMenu = function(ev)
+	{
+		this.rootFolder.selectedBookmark = this;
+		this.select();
+
+		var popupMenu = $('popupMenu');
+		var popupMenuItems = popupMenu.getElementsByTagName('li');
+		var itemClass = this.isFolder ? "disabled" : "enabled";
+		popupMenuItems[0].setAttribute("class", itemClass);
+		popupMenuItems[1].setAttribute("class", itemClass);
+		if(!this.isFolder)
+		{
+			popupMenuItems[0].setAttribute("onMouseUp", "openSelected(event, false);");
+			popupMenuItems[1].setAttribute("onMouseUp", "openSelected(event, true);");
+		}
+		else
+		{
+			popupMenuItems[0].removeAttribute("onMouseUp");
+			popupMenuItems[1].removeAttribute("onMouseUp");
+		}
+		popupMenu.show();
+
+		var body = document.body;
+		var bodyWidth = body.clientWidth;
+		var popupMenuStyle = popupMenu.style;
+		if(ev.clientX + popupMenu.clientWidth > body.clientWidth)
+		{
+			if(popupMenu.clientWidth > body.clientWidth)
+			{
+				bodyWidth = popupMenu.clientWidth + 7;
+				body.style.width = bodyWidth + 'px';
+			}
+			popupMenuStyle.left = bodyWidth - popupMenu.clientWidth - 5 + 'px';
+		}
+		else
+		{
+			popupMenuStyle.left = ev.clientX + 'px';
+		}
+
+		var bodyHeight = body.scrollHeight;
+		if(ev.clientY + popupMenu.clientHeight > body.clientHeight)
+		{
+			if(popupMenu.clientHeight > body.clientHeight)
+			{
+				bodyHeight = ev.clientY + popupMenu.clientHeight + 5;
+				body.style.height = bodyHeight + 'px';
+				popupMenuStyle.top = ev.clientY + 'px';
+			}
+			else
+			{
+				popupMenuStyle.top = ev.clientY + body.scrollTop - popupMenu.clientHeight + 'px';
+			}
+		}
+		else
+		{
+			popupMenuStyle.top = ev.clientY + body.scrollTop + 'px';
+		}
+
+		var transparentLayer = $('transparentLayer');
+		var transparentLayerStyle = transparentLayer.style;
+		transparentLayerStyle.width = bodyWidth - 2 + 'px';
+		transparentLayerStyle.height = bodyHeight - 2 + 'px';
+		transparentLayer.show();
+	}
+}
+
+function unSelect()
+{
+	$('bookmarksTree').selectedBookmark.unSelect();
+	$('popupMenu').hide();
+	$('transparentLayer').hide();
+}
+
+function openSelected(ev, newWindow)
+{
+	var bookmark = $('bookmarksTree').selectedBookmark;
+	if(ev.button == 0)
+	{
+		newWindow ? bookmark.openInNewWindow() : bookmark.openInNewTab();
+	}
+	else
+	{
+		unSelect();
+	}
+}
+
+function deleteSelected(ev)
+{
+	if(ev.button == 0)
+	{
+		$('bookmarksTree').selectedBookmark.remove();
+	}
+	unSelect();
 }
 
 chrome.bookmarks.getTree(function(nodes)
@@ -209,24 +415,32 @@ chrome.bookmarks.getTree(function(nodes)
 		for(var j = 0, childrenLength = children.length; j < childrenLength; j++)
 		{
 			bookmarksTree.fillTree(children[j].children, false);
-			if(j + 1 < childrenLength && bookmarksTree.childNodes.length > 0)
+			if(j + 1 < childrenLength && bookmarksTree.childElementCount > 0)
 			{
 				bookmarksTree.addSeparator();
 			}
 		}
 	}
 
+	var bodyStyle = document.body.style;
+	var bookmarksTreeHeight = bookmarksTree.clientHeight + 2;
+	var scrollBarWidth = bookmarksTreeHeight < winMaxHeight ? 0 : 15;
+
+	bodyStyle.width = bookmarksTree.clientWidth + 2 + scrollBarWidth + 'px';
+	bodyStyle.height = bookmarksTreeHeight < winMaxHeight ? bookmarksTreeHeight + 'px' : winMaxHeight + 'px';
+
 	// run filling in background to speed up rendering top items
 	setTimeout("fillTree()", 50);
 });
 
+
 function fillTree()
 {
-	var bookmarksTree = document.getElementById('bookmarksTree');
-	for(var i = 0, len = bookmarksTree.childNodes.length; i < len; i++)
+	var bookmarksTree = $('bookmarksTree');
+	for(var i = 0; i < bookmarksTree.childElementCount; i++)
 	{
 		var bookmark = bookmarksTree.childNodes[i];
-		if(bookmark.folder)
+		if(bookmark.isFolder)
 		{
 			bookmark.fillFolder(true);
 			bookmark.removeAttribute('childBookmarks');
