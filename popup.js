@@ -1,390 +1,323 @@
 
 // vim:noet ts=4 sw=4
 
-var activeFolder = undefined;
+var winMaxWidth = getWindowMaxWidth(),
+	winMaxHeight = getWindowMaxHeight();
 
-var selectedBookmark = undefined;
-
-var winMaxWidth = getWindowMaxWidth();
-var winMaxHeight = getWindowMaxHeight();
-
-function isFolderURL(url)
+function $(id)
 {
-	return url == 'folder:';
+	return document.getElementById(id);
 }
 
-function openInNewTab(anchor)
+function Bookmark(bookmarkNode)
 {
-	chrome.tabs.create({ url: anchor.href, selected: isSwitchToNewTab() });
-	window.close();
-}
+	var bookmark = document.createElement('li');
+	bookmark.id = bookmarkNode.id;
+	var label = document.createElement('label'),
+		favicon = document.createElement('img');
+	favicon.src = getFavicon(bookmarkNode.url);
+	label.appendChild(favicon);
+	label.appendChild(document.createTextNode(bookmarkNode.title));
+	bookmark.appendChild(label);
 
-function openInCurrentTab(anchor)
-{
-	var url = anchor.href;
-	if(isJsURL(url))
+	if(bookmarkNode.url == undefined)
 	{
-		chrome.tabs.executeScript(null, { 'code': unescape(url.substr(11)) });
-		window.close();
+		bookmark.isFolder = true;
+		bookmark.childBookmarks = bookmarkNode.children;
+		bookmark.onmouseover = bookmark.displayFolderContent;
 	}
 	else
 	{
-		chrome.tabs.getSelected(null, function(tab)
-		{
-			chrome.tabs.update(tab.id, { 'url': url });
-			window.close();
-		});
+		bookmark.url = bookmarkNode.url;
+		bookmark.onmouseover = bookmark.highlight;
+		bookmark.onmouseout = bookmark.unHighlight;
 	}
+	return bookmark;
 }
 
-function openLink(ev)
+
+with(HTMLElement)
 {
-	var action = parseInt(getButtonAction(ev.button));
-	switch(action)
+	prototype.show = function() { this.style.display = 'block'; }
+	prototype.hide = function() { this.style.display = 'none'; }
+}
+
+with(HTMLUListElement)
+{
+	prototype.fillFolderContent = function(childBookmarks, completely)
 	{
-		case 0: // open in current tab
+		var len = childBookmarks.length;
+		if(len > 0)
 		{
-			if(!isFolderURL(this.href))
-				ev.ctrlKey ?  openInNewTab(this) : openInCurrentTab(this);
-			break;
-		}
-		case 1: // open in new tab
-		{
-			if(!isFolderURL(this.href))
-				openInNewTab(this);
-			break;
-		}
-		case 2: // open pop up menu
-		{
-			selectedBookmark = this;
-			var selected = this.parentNode;
-			do
+			for(var i = 0; i < len; i++)
 			{
-				selected.setAttribute('class', 'selected');
-				selected = selected.parentNode.parentNode;
-			} while(selected.tagName == 'LI');
-
-			var body = document.body;
-
-			var popupMenu = document.getElementById('popupMenu');
-
-			var popupMenuItems = popupMenu.getElementsByTagName('li');
-			var itemClass = isFolderURL(this.href) ? "disabled" : "enabled";
-			popupMenuItems[0].setAttribute("class", itemClass);
-			popupMenuItems[1].setAttribute("class", itemClass);
-			if(itemClass == "enabled")
-			{
-				popupMenuItems[0].setAttribute("onMouseUp", "openSelected(event, false);");
-				popupMenuItems[1].setAttribute("onMouseUp", "openSelected(event, true);");
-			}
-			else
-			{
-				popupMenuItems[0].removeAttribute("onMouseUp");
-				popupMenuItems[1].removeAttribute("onMouseUp");
-			}
-
-			var popupMenuStyle = popupMenu.style;
-			popupMenuStyle.display = 'block';
-
-			var bodyWidth = body.clientWidth;
-
-			if(ev.clientX + popupMenu.clientWidth > body.clientWidth)
-			{
-				if(popupMenu.clientWidth > body.clientWidth)
+				if(this.isRoot && isBookmarkHidden(childBookmarks[i].title))
 				{
-					bodyWidth = popupMenu.clientWidth + 7;
-					body.style.width = bodyWidth + 'px';
+					continue;
 				}
-				popupMenuStyle.left = bodyWidth - popupMenu.clientWidth - 5 + 'px';
-			}
-			else
-			{
-				popupMenuStyle.left = ev.clientX + 'px';
-			}
-
-			var bodyHeight = body.scrollHeight;
-			if(ev.clientY + popupMenu.clientHeight > body.clientHeight)
-			{
-				if(popupMenu.clientHeight > body.clientHeight)
+				var bookmark = new Bookmark(childBookmarks[i]);
+				this.appendChild(bookmark);
+				if(this.isRoot)
 				{
-					bodyHeight = ev.clientY + popupMenu.clientHeight + 5;
-					body.style.height = bodyHeight + 'px';
-					popupMenuStyle.top = ev.clientY + 'px';
+					bookmark.parentFolder = bookmark.rootFolder = this;
 				}
 				else
 				{
-					popupMenuStyle.top = ev.clientY + body.scrollTop - popupMenu.clientHeight + 'px';
+					bookmark.parentFolder = this.parentElement;
+					bookmark.rootFolder = bookmark.parentFolder.rootFolder;
+				}
+				if(bookmark.isFolder && completely)
+				{
+					bookmark.parentFolder.hasSubFolders = true;
+					bookmark.fillFolder();
 				}
 			}
-			else
-			{
-				popupMenuStyle.top = ev.clientY + body.scrollTop + 'px';
-			}
-
-			var transparentLayerStyle = document.getElementById('transparentLayer').style;
-			transparentLayerStyle.width = bodyWidth - 2 + 'px';
-			transparentLayerStyle.height = bodyHeight - 2 + 'px';
-			transparentLayerStyle.display = 'block';
-			break;
+		}
+		else if(!this.isRoot)
+		{
+			this.fillAsEmpty();
 		}
 	}
-}
-function unSelect()
-{
-	if(selectedBookmark != undefined)
+	prototype.fillAsEmpty = function()
 	{
-		var selected = selectedBookmark.parentNode;
-		var folder = false;
-		do
-		{
-			if(folder)
-			{
-				selected.setAttribute("class", "hover");
-			}
-			else
-			{
-				selected.removeAttribute("class");
-				folder = true;
-			}
-			selected = selected.parentNode.parentNode;
-		} while(selected.tagName == 'LI');
+		this.innerHTML = '<li class="empty"><label>Empty</label></li>';
+		this.parentElement.isEmpty = true;
 	}
-	document.getElementById('popupMenu').style.display = 'none';
-	document.getElementById('transparentLayer').style.display = 'none';
 }
 
-function openSelected(ev, newWindow)
+with(HTMLLIElement)
 {
-	if(ev.button == 0 && selectedBookmark != undefined)
+	prototype.highlight = function()
 	{
-		if(newWindow)
+		this.unHighlightActiveFolder();
+		this.setAttribute("class", "hover");
+	}
+	prototype.unHighlight = function()
+	{
+		if(!this.isSelected)
 		{
-			chrome.windows.create({ url: selectedBookmark.href });
+			this.removeAttribute("class");
+		}
+	}
+	prototype.fillFolder = function()
+	{
+		if(this.isFolder)
+		{
+			this.folderContent = document.createElement('ul');
+			this.appendChild(this.folderContent);
+			this.folderContent.fillFolderContent(this.childBookmarks, true);
+			if(!this.hasSubFolders)
+			{
+				this.fillTreeDepth();
+			}
+		}
+	}
+	prototype.unHighlightActiveFolder = function()
+	{
+
+		var activeFolder = this.rootFolder.activeFolder;
+		if(activeFolder != undefined)
+		{
+			var parentFolderId = this.parentFolder.id;
+			while(activeFolder != undefined && activeFolder.id != parentFolderId)
+			{
+				activeFolder.unHighlight();
+				activeFolder = activeFolder.parentFolder;
+			}
+		}
+	}
+	prototype.open = function()
+	{
+		var url = this.url;
+		if(isJsURL(url))
+		{
+			chrome.tabs.executeScript(null, { code: unescape(url.substr(11)) });
 			window.close();
 		}
 		else
 		{
-			openInNewTab(selectedBookmark);
-		}
-	}
-	else
-	{
-		unSelect();
-		selectedBookmark = undefined;
-	}
-}
-function deleteSelected(ev)
-{
-	unSelect();
-	if(ev.button == 0 && selectedBookmark != undefined)
-	{
-		var li = selectedBookmark.parentNode;
-		chrome.bookmarks.remove(li.id);
-		if(li.childNodes.length == 2)
-		{
-			// we're deleting empty folder
-			activeFolder = activeFolder.parentNode.parentNode;
-			if(activeFolder.tagName != 'LI')
+			chrome.tabs.getSelected(null, function(tab)
 			{
-				activeFolder = undefined;
-			}
-		}
-		var ul = li.parentNode;
-		ul.removeChild(li);
-		if(ul.childNodes.length == 0)
-		{
-			addEmptyItem(ul);
-			var parentLI = ul.parentNode;
-			if(parentLI.tagName == 'LI')
-			{
-				parentLI.childNodes[0].onmouseup = openLink;
-			}
+				chrome.tabs.update(tab.id, { url: url });
+				window.close();
+			});
 		}
 	}
-	selectedBookmark = undefined;
-}
-
-function changeActiveFolder(anchor)
-{
-	if(activeFolder != undefined)
+	prototype.openInNewTab = function()
 	{
-		var parentFolderId = anchor.parentNode.parentNode.parentNode.id;
+		chrome.tabs.create({ url: this.url, selected: isSwitchToNewTab() });
+		window.close();
+	}
+	prototype.openInNewWindow = function()
+	{
+		chrome.windows.create({ url: this.url });
+		window.close();
+	}
+	prototype.getY = function()
+	{
+		var y = 0, el = this;
 		do
 		{
-			if(parentFolderId == activeFolder.id)
+			if(el.offsetTop > 0)
 			{
-				break;
+				y += el.offsetTop;
 			}
-			activeFolder.removeAttribute("class");
-			activeFolder = activeFolder.parentNode.parentNode;
-		} while(activeFolder.tagName == 'LI');
+			el = el.offsetParent;
+		} while(el != null);
+		return y;
 	}
-}
-
-function displayFolderContent(anchor)
-{
-	changeActiveFolder(anchor);
-	activeFolder = anchor.parentNode;
-	activeFolder.setAttribute("class", "hover");
-	var ul = anchor.parentNode.getElementsByTagName('ul')[0];
-	var body = document.body;
-	var style = body.style;
-
-	var height = getY(anchor) + ul.clientHeight + 2;
-	if(body.clientHeight < height)
+	prototype.fillTreeDepth = function()
 	{
-		style.height = (height > winMaxHeight ? winMaxHeight : height) + 'px';
-	}
-
-	var width = 0;
-	var tmpUL = ul;
-	while(tmpUL.parentNode.tagName != 'BODY')
-	{
-		tmpUL = tmpUL.parentNode.parentNode;
-		width += tmpUL.clientWidth + 1;
-	}
-	if(width < winMaxWidth && anchor.data > 1)
-	{
-		var offset = (winMaxWidth - width) / anchor.data;
-		if(offset < ul.clientWidth)
+		if(!this.isRoot && this.treeDepth == undefined)
 		{
-			ul.style.left = '-' + offset + 'px';
-		}
-	}
-	var scrollBarWidth = body.scrollHeight > body.clientHeight ? 15 : 0;
-	width += ul.clientWidth + 2 + scrollBarWidth;
-	if(width < winMaxWidth && body.clientWidth < width)
-	{
-		style.width = width + 'px';
-	}
-	else if(width > winMaxWidth)
-	{
-		style.width = winMaxWidth + 'px';
-		ul.style.left = '-' + (ul.clientWidth - (width - winMaxWidth)) + 'px';
-	}
-}
-
-function getY(el)
-{
-	var y = 0;
-	while(el != null)
-	{
-		if(el.offsetTop > 0)
-		{
-			y += el.offsetTop;
-		}
-		el = el.offsetParent;
-	}
-	return y;
-}
-
-function createAnchor(node)
-{
-	var anchor = document.createElement('a');
-	anchor.setAttribute('onclick', 'return false;');
-	anchor.setAttribute('onmousedown', 'return false;');
-	anchor.onmouseup = openLink;
-	if(node.url == undefined)
-	{
-		anchor.href = "folder://";
-		anchor.setAttribute('onMouseOver', "displayFolderContent(this);");
-		if(node.children.length > 0)
-		{
-			anchor.onmouseup = undefined;
-		}
-	}
-	else
-	{
-		anchor.href = node.url;
-		anchor.onmouseover = highlightBookmark;
-	}
-	anchor.innerHTML = '<img class="favicon" src="' + getFavicon(node.url) + '"/>&nbsp;' + node.title;
-	return anchor;
-}
-
-function addEmptyItem(ul)
-{
-	var li = document.createElement('li');
-	li.setAttribute('class', 'empty');
-	li.innerHTML = 'Empty';
-	ul.appendChild(li);
-}
-
-function highlightBookmark()
-{
-	changeActiveFolder(this);
-	this.parentNode.setAttribute("class", "hover");
-}
-
-function unHighlightBookmark()
-{
-	if(this.getAttribute("class") == "hover")
-	{
-		this.removeAttribute("class");
-	}
-}
-
-function addChild(node, htmlNode, appendChildsToFolder)
-{
-	var li = document.createElement('li');
-	li.id = node.id;
-	var anchor = createAnchor(node);
-	li.appendChild(anchor);
-	htmlNode.appendChild(li);
-	if(node.children == undefined)
-	{
-		li.onmouseout = unHighlightBookmark;
-	}
-	else
-	{
-		var children = node.children;
-		var len = children.length;
-		var hasSubMenus = false;
-		if(appendChildsToFolder)
-		{
-			var ul = document.createElement('ul');
-			li.appendChild(ul);
-			if(len > 0)
+			var treeDepth = 1;
+			this.treeDepth = treeDepth;
+			var parentFolder = this.parentFolder;
+			while(!parentFolder.isRoot && (parentFolder.treeDepth == undefined || treeDepth > parentFolder.treeDepth))
 			{
-				for(var i = 0; i < len; i++)
-				{
-					addChild(children[i], ul, appendChildsToFolder);
-					if(children[i].children != undefined)
-					{
-						hasSubMenus = true;
-					}
-				}
+				parentFolder.treeDepth = ++treeDepth;
+				parentFolder = parentFolder.parentFolder;
+			}
+		}
+	}
+	prototype.showPopupMenu = function(ev)
+	{
+		var popupMenu = $('popupMenu');
+		popupMenu.selectedBookmark = this;
+		var popupMenuItems = popupMenu.getElementsByTagName('li');
+		if(!this.isFolder)
+		{
+			popupMenuItems[0].className = popupMenuItems[1].className = "enabled";
+			popupMenuItems[0].setAttribute('onmouseup', "processMenu(event, 'openInNewTab')");
+			popupMenuItems[1].setAttribute('onmouseup', "processMenu(event, 'openInNewWindow')");
+		}
+		else
+		{
+			popupMenuItems[0].className = popupMenuItems[1].className = "disabled";
+			popupMenuItems[0].onmouseup = popupMenuItems[1].onmouseup = undefined;
+		}
+		popupMenu.show();
+
+		var body = document.body;
+		var bodyWidth = body.clientWidth;
+		var popupMenuStyle = popupMenu.style;
+		if(ev.clientX + popupMenu.clientWidth > body.clientWidth)
+		{
+			if(popupMenu.clientWidth > body.clientWidth)
+			{
+				bodyWidth = popupMenu.clientWidth + 7;
+				body.style.width = bodyWidth + 'px';
+			}
+			popupMenuStyle.left = bodyWidth - popupMenu.clientWidth - 5 + 'px';
+		}
+		else
+		{
+			popupMenuStyle.left = ev.clientX + 'px';
+		}
+
+		var bodyHeight = body.scrollHeight;
+		if(ev.clientY + popupMenu.clientHeight > body.clientHeight)
+		{
+			if(popupMenu.clientHeight > body.clientHeight)
+			{
+				bodyHeight = ev.clientY + popupMenu.clientHeight + 5;
+				body.style.height = bodyHeight + 'px';
+				popupMenuStyle.top = ev.clientY + 'px';
 			}
 			else
 			{
-				addEmptyItem(ul);
+				popupMenuStyle.top = ev.clientY + body.scrollTop - popupMenu.clientHeight + 'px';
 			}
 		}
 		else
 		{
-			li.data = children;
+			popupMenuStyle.top = ev.clientY + body.scrollTop + 'px';
 		}
 
-		if(appendChildsToFolder && !hasSubMenus)
+		var transparentLayer = $('transparentLayer');
+		var transparentLayerStyle = transparentLayer.style;
+		transparentLayerStyle.width = bodyWidth - 2 + 'px';
+		transparentLayerStyle.height = bodyHeight - 2 + 'px';
+		transparentLayer.show();
+	}
+	prototype.remove = function()
+	{
+		chrome.bookmarks.remove(this.id);
+		var folderContent = this.parentElement;
+		folderContent.removeChild(this);
+		if(folderContent.childElementCount == 0)
 		{
-			var depth = 0;
-			anchor.data = depth++;
-			while(true)
-			{
-				if(anchor.data != undefined && anchor.data > depth)
-				{
-					break;
-				}
-				anchor.data = depth++;
-				li = li.parentNode.parentNode;
-				if(li.tagName != 'LI')
-				{
-					break;
-				}
-				anchor = li.childNodes[0];
-			}
+			folderContent.fillAsEmpty();
 		}
 	}
+	prototype.displayFolderContent = function()
+	{
+		if(this.getAttribute("class") == "hover")
+		{
+			return;
+		}
+		this.highlight();
+		this.rootFolder.activeFolder = this;
+
+		var body = document.body,
+			bodyStyle = body.style,
+			height = this.getY() + this.folderContent.clientHeight + 2;
+		if(body.clientHeight < height)
+		{
+			bodyStyle.height = (height > winMaxHeight ? winMaxHeight : height) + 'px';
+		}
+
+		var width = 0, tmp = this;
+		do
+		{
+			width += tmp.clientWidth + 1;
+			tmp = tmp.parentFolder;
+		} while(!tmp.isRoot);
+		if(width < winMaxWidth && this.treeDepth > 1)
+		{
+			var offset = (winMaxWidth - width) / this.treeDepth;
+			if(offset < this.folderContent.clientWidth)
+			{
+				this.folderContent.style.left = '-' + offset + 'px';
+			}
+		}
+		var scrollBarWidth = body.scrollHeight > body.clientHeight ? 15 : 0;
+		width += this.folderContent.clientWidth + 2 + scrollBarWidth;
+		if(width < winMaxWidth && body.clientWidth < width)
+		{
+			bodyStyle.width = width + 'px';
+		}
+		else if(width > winMaxWidth)
+		{
+			bodyStyle.width = winMaxWidth + 'px';
+			this.folderContent.style.left = '-' + (this.folderContent.clientWidth - (width - winMaxWidth)) + 'px';
+		}
+	}
+}
+
+function unSelect()
+{
+	var popupMenu = $('popupMenu');
+	var bookmark = popupMenu.selectedBookmark;
+	bookmark.isSelected = false;
+	bookmark.unHighlight();
+	popupMenu.hide();
+	$('transparentLayer').hide();
+}
+
+function processMenu(ev, action)
+{
+	if(ev.button == 0)
+	{
+		var popupMenu = ev.srcElement;
+		while(!(popupMenu instanceof HTMLUListElement))
+		{
+			popupMenu = popupMenu.parentElement;
+		}
+		var bookmark = popupMenu.selectedBookmark;
+		bookmark[action].call(bookmark);
+	}
+	unSelect();
 }
 
 chrome.bookmarks.getTree(function(nodes)
@@ -393,73 +326,85 @@ chrome.bookmarks.getTree(function(nodes)
 
 	var styleSheet = document.styleSheets[document.styleSheets.length - 1];
 	var favIconWidth = getFavIconWidth();
-	styleSheet.addRule('a > img.favicon', 'width: ' + favIconWidth + 'px; height: ' + favIconWidth + 'px;');
-	styleSheet.addRule('#bookmarksTree a', 'max-width: ' + getMaxWidth() + getMaxWidthMesure() + ';');
+	styleSheet.addRule('label > img', 'width: ' + favIconWidth + 'px; height: ' + favIconWidth + 'px;');
+	styleSheet.addRule('#bookmarksTree label', 'max-width: ' + getMaxWidth() + getMaxWidthMesure() + ';');
 
-	var ul = document.createElement('ul');
-	ul.setAttribute('class', 'bookmarksTree');
-	ul.setAttribute('id', 'bookmarksTree');
+	var rootFolder = document.createElement('ul');
+	rootFolder.isRoot = true;
+	rootFolder.id = rootFolder.className = 'bookmarksTree';
+	rootFolder.setAttribute('onmousedown', 'return false;');
+	rootFolder.onmouseup = function(ev)
+	{
+		var bookmark = ev.srcElement;
+		while(!(bookmark instanceof HTMLLIElement))
+		{
+			bookmark = bookmark.parentElement;
+		}
+		if(bookmark.className == "separator")
+		{
+			return;
+		}
+		var action = parseInt(getButtonAction(ev.button));
+		switch(action)
+		{
+			case 0: // open in current tab
+				if(!bookmark.isFolder)
+				{
+					ev.ctrlKey ? bookmark.openInNewTab() : bookmark.open();
+				}
+				break;
+			case 1: // open in new tab
+				if(!bookmark.isFolder)
+				{
+					bookmark.openInNewTab();
+				}
+				break;
+			case 2: // open popup menu
+				if(!bookmark.isFolder || bookmark.isEmpty)
+				{
+					bookmark.isSelected = true;
+					bookmark.showPopupMenu(ev);
+				}
+				break;
+		}
+	};
 
-	document.body.appendChild(ul);
+	document.body.appendChild(rootFolder);
 	for(var i = 0, nodesLength = nodes.length; i < nodesLength; i++)
 	{
 		var children = nodes[i].children;
 		for(var j = 0, childrenLength = children.length; j < childrenLength; j++)
 		{
-			var allHidden = true;
-			var children2 = children[j].children;
-			for(var k = 0, children2Length = children2.length; k < children2Length; k++)
+			rootFolder.fillFolderContent(children[j].children, false);
+			if(j + 1 < childrenLength && rootFolder.childElementCount > 0)
 			{
-				if(!isBookmarkHidden(children2[k].title))
-				{
-					addChild(children2[k], ul);
-					allHidden = false;
-				}
-			}
-			if(j + 1 < childrenLength && !allHidden)
-			{
-				var li = document.createElement('li');
-				li.setAttribute('class', 'separator');
-				ul.appendChild(li);
+				var separator = document.createElement('li');
+				separator.className = 'separator';
+				rootFolder.appendChild(separator);
 			}
 		}
 	}
 
+	var height = rootFolder.clientHeight + 2;
 	var bodyStyle = document.body.style;
-	var ulHeight = ul.clientHeight + 2;
-	var scrollBarWidth = ulHeight < winMaxHeight ? 0 : 15;
-
-	bodyStyle.width = ul.clientWidth + 2 + scrollBarWidth + 'px';
-	bodyStyle.height = ulHeight < winMaxHeight ? ulHeight + 'px' : winMaxHeight + 'px';
+	bodyStyle.width = rootFolder.clientWidth + 2 + (height < winMaxHeight ? 0 : 15) + 'px';
+	bodyStyle.height = (height < winMaxHeight ? height : winMaxHeight) + 'px';
 
 	// run filling in background to speed up rendering top items
 	setTimeout("fillTree()", 50);
 });
 
+
 function fillTree()
 {
-	var ul = document.getElementById('bookmarksTree');
-	for(var i = 0, len = ul.childNodes.length; i < len; i++)
+	var rootFolder = $('bookmarksTree');
+	for(var i = 0; i < rootFolder.childElementCount; i++)
 	{
-		var li = ul.childNodes[i];
-		if(li.data != undefined)
+		var bookmark = rootFolder.childNodes[i];
+		if(bookmark.isFolder)
 		{
-			var children = li.data;
-			var li_ul = document.createElement('ul');
-			li.appendChild(li_ul);
-			var len2 = children.length;
-			if(len2 > 0)
-			{
-				for(var j = 0; j < len2; j++)
-				{
-					addChild(children[j], li_ul, true);
-				}
-			}
-			else
-			{
-				addEmptyItem(li_ul);
-			}
-			li.removeAttribute('data');
+			bookmark.fillFolder();
+			bookmark.removeAttribute('childBookmarks');
 		}
 	}
 }
