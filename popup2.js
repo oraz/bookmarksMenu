@@ -80,12 +80,7 @@ with(HTMLUListElement)
 	}
 	prototype.fillAsEmpty = function()
 	{
-		var li = document.createElement('li');
-		li.setAttribute('class', 'empty');
-		var label = document.createElement('label');
-		label.appendChild(document.createTextNode('Empty'));
-		li.appendChild(label);
-		this.appendChild(li);
+		this.innerHTML = '<li class="empty"><label>Empty</label></li>';
 		this.parentElement.isEmpty = true;
 	}
 }
