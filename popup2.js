@@ -1,8 +1,8 @@
 
 // vim:noet ts=4 sw=4
 
-var winMaxWidth = getWindowMaxWidth();
-var winMaxHeight = getWindowMaxHeight();
+var winMaxWidth = getWindowMaxWidth(),
+	winMaxHeight = getWindowMaxHeight();
 
 function $(id)
 {
@@ -13,8 +13,8 @@ function Bookmark(bookmarkNode)
 {
 	var bookmark = document.createElement('li');
 	bookmark.id = bookmarkNode.id;
-	var label = document.createElement('label');
-	var favicon = document.createElement('img');
+	var label = document.createElement('label'),
+		favicon = document.createElement('img');
 	favicon.src = getFavicon(bookmarkNode.url);
 	label.appendChild(favicon);
 	label.appendChild(document.createTextNode(bookmarkNode.title));
@@ -160,8 +160,7 @@ with(HTMLLIElement)
 	}
 	prototype.getY = function()
 	{
-		var y = 0;
-		var el = this;
+		var y = 0, el = this;
 		do
 		{
 			if(el.offsetTop > 0)
