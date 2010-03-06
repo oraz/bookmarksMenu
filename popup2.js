@@ -9,128 +9,32 @@ function $(id)
 	return document.getElementById(id);
 }
 
-function BookmarksTree(isRoot)
-{
-	var ul = document.createElement('ul');
-	if(isRoot)
-	{
-		ul.isRoot = true;
-		ul.id = ul.className = 'bookmarksTree';
-		ul.setAttribute('onmousedown', 'return false;');
-		ul.onmouseup = BookmarksTree.onMouseUp;
-	}
-	return ul;
-}
-
-BookmarksTree.onMouseUp = function(ev)
-{
-	var bookmark = ev.srcElement;
-	while(!(bookmark instanceof HTMLLIElement))
-	{
-		bookmark = bookmark.parentElement;
-	}
-	if(bookmark.className == "separator")
-	{
-		return;
-	}
-	var action = parseInt(getButtonAction(ev.button));
-	switch(action)
-	{
-		case 0: // open in current tab
-			if(!bookmark.isFolder)
-			{
-				ev.ctrlKey ? bookmark.openInNewTab() : bookmark.open();
-			}
-			break;
-		case 1: // open in new tab
-			if(!bookmark.isFolder)
-			{
-				bookmark.openInNewTab();
-			}
-			break;
-		case 2: // open popup menu
-			if(!bookmark.isFolder || bookmark.isEmpty)
-			{
-				bookmark.isSelected = true;
-				bookmark.showPopupMenu(ev);
-			}
-			break;
-	}
-}
-
 function Bookmark(bookmarkNode)
 {
-	var li = document.createElement('li');
-	li.id = bookmarkNode.id;
-
+	var bookmark = document.createElement('li');
+	bookmark.id = bookmarkNode.id;
 	var label = document.createElement('label');
 	var favicon = document.createElement('img');
 	favicon.src = getFavicon(bookmarkNode.url);
 	label.appendChild(favicon);
 	label.appendChild(document.createTextNode(bookmarkNode.title));
-	li.appendChild(label);
+	bookmark.appendChild(label);
 
 	if(bookmarkNode.url == undefined)
 	{
-		li.isFolder = true;
-		li.childBookmarks = bookmarkNode.children;
-		li.onmouseover = this.displayFolderContent;
+		bookmark.isFolder = true;
+		bookmark.childBookmarks = bookmarkNode.children;
+		bookmark.onmouseover = bookmark.displayFolderContent;
 	}
 	else
 	{
-		li.url = bookmarkNode.url;
-		li.onmouseover = li.highlight;
-		li.onmouseout = li.unHighlight;
+		bookmark.url = bookmarkNode.url;
+		bookmark.onmouseover = bookmark.highlight;
+		bookmark.onmouseout = bookmark.unHighlight;
 	}
-	return li;
+	return bookmark;
 }
 
-Bookmark.prototype.displayFolderContent = function()
-{
-	if(this.getAttribute("class") == "hover")
-	{
-		return;
-	}
-	this.highlight();
-	this.rootFolder.activeFolder = this;
-
-	var subTree = this.folderContent;
-	var body = document.body;
-	var bodyStyle = body.style;
-
-	var height = this.getY() + subTree.clientHeight + 2;
-	if(body.clientHeight < height)
-	{
-		bodyStyle.height = (height > winMaxHeight ? winMaxHeight : height) + 'px';
-	}
-
-	var width = 0;
-	var tmp = subTree;
-	while(!tmp.parentFolder.isRoot)
-	{
-		tmp = tmp.parentFolder;
-		width += tmp.clientWidth + 1;
-	}
-	if(width < winMaxWidth && this.treeDepth > 1)
-	{
-		var offset = (winMaxWidth - width) / this.treeDepth;
-		if(offset < subTree.clientWidth)
-		{
-			subTree.style.left = '-' + offset + 'px';
-		}
-	}
-	var scrollBarWidth = body.scrollHeight > body.clientHeight ? 15 : 0;
-	width += subTree.clientWidth + 2 + scrollBarWidth;
-	if(width < winMaxWidth && body.clientWidth < width)
-	{
-		bodyStyle.width = width + 'px';
-	}
-	else if(width > winMaxWidth)
-	{
-		bodyStyle.width = winMaxWidth + 'px';
-		subTree.style.left = '-' + (subTree.clientWidth - (width - winMaxWidth)) + 'px';
-	}
-}
 
 with(HTMLElement)
 {
@@ -140,17 +44,7 @@ with(HTMLElement)
 
 with(HTMLUListElement)
 {
-	prototype.addBookmark = function(bookmark)
-	{
-		this.appendChild(bookmark);
-	}
-	prototype.addSeparator = function()
-	{
-		var separator = document.createElement('li');
-		separator.className = 'separator';
-		this.appendChild(separator);
-	}
-	prototype.fillTree = function(childBookmarks, completely)
+	prototype.fillFolderContent = function(childBookmarks, completely)
 	{
 		var len = childBookmarks.length;
 		if(len > 0)
@@ -169,22 +63,22 @@ with(HTMLUListElement)
 				}
 				else
 				{
-					bookmark.parentFolder = this.parentFolder;
-					bookmark.rootFolder = this.parentFolder.rootFolder;
+					bookmark.parentFolder = this.parentElement;
+					bookmark.rootFolder = bookmark.parentFolder.rootFolder;
 				}
 				if(bookmark.isFolder && completely)
 				{
-					this.parentFolder.hasSubFolders = true;
-					bookmark.fillFolder(true);
+					bookmark.parentFolder.hasSubFolders = true;
+					bookmark.fillFolder();
 				}
 			}
 		}
 		else if(!this.isRoot)
 		{
-			this.addEmpty();
+			this.fillAsEmpty();
 		}
 	}
-	prototype.addEmpty = function()
+	prototype.fillAsEmpty = function()
 	{
 		var li = document.createElement('li');
 		li.setAttribute('class', 'empty');
@@ -192,7 +86,7 @@ with(HTMLUListElement)
 		label.appendChild(document.createTextNode('Empty'));
 		li.appendChild(label);
 		this.appendChild(li);
-		this.parentFolder.isEmpty = true;
+		this.parentElement.isEmpty = true;
 	}
 }
 
@@ -210,15 +104,13 @@ with(HTMLLIElement)
 			this.removeAttribute("class");
 		}
 	}
-	prototype.fillFolder = function(completely)
+	prototype.fillFolder = function()
 	{
-		if(completely && this.isFolder)
+		if(this.isFolder)
 		{
-			var subTree = new BookmarksTree();
-			this.appendChild(subTree);
-			this.folderContent = subTree;
-			subTree.parentFolder = this;
-			subTree.fillTree(this.childBookmarks, true);
+			this.folderContent = document.createElement('ul');
+			this.appendChild(this.folderContent);
+			this.folderContent.fillFolderContent(this.childBookmarks, true);
 			if(!this.hasSubFolders)
 			{
 				this.fillTreeDepth();
@@ -357,11 +249,54 @@ with(HTMLLIElement)
 	prototype.remove = function()
 	{
 		chrome.bookmarks.remove(this.id);
-		var subTree = this.parentNode;
-		subTree.removeChild(this);
-		if(subTree.childElementCount == 0)
+		var folderContent = this.parentElement;
+		folderContent.removeChild(this);
+		if(folderContent.childElementCount == 0)
 		{
-			subTree.addEmpty();
+			folderContent.fillAsEmpty();
+		}
+	}
+	prototype.displayFolderContent = function()
+	{
+		if(this.getAttribute("class") == "hover")
+		{
+			return;
+		}
+		this.highlight();
+		this.rootFolder.activeFolder = this;
+
+		var body = document.body,
+			bodyStyle = body.style,
+			height = this.getY() + this.folderContent.clientHeight + 2;
+		if(body.clientHeight < height)
+		{
+			bodyStyle.height = (height > winMaxHeight ? winMaxHeight : height) + 'px';
+		}
+
+		var width = 0, tmp = this;
+		do
+		{
+			width += tmp.clientWidth + 1;
+			tmp = tmp.parentFolder;
+		} while(!tmp.isRoot);
+		if(width < winMaxWidth && this.treeDepth > 1)
+		{
+			var offset = (winMaxWidth - width) / this.treeDepth;
+			if(offset < this.folderContent.clientWidth)
+			{
+				this.folderContent.style.left = '-' + offset + 'px';
+			}
+		}
+		var scrollBarWidth = body.scrollHeight > body.clientHeight ? 15 : 0;
+		width += this.folderContent.clientWidth + 2 + scrollBarWidth;
+		if(width < winMaxWidth && body.clientWidth < width)
+		{
+			bodyStyle.width = width + 'px';
+		}
+		else if(width > winMaxWidth)
+		{
+			bodyStyle.width = winMaxWidth + 'px';
+			this.folderContent.style.left = '-' + (this.folderContent.clientWidth - (width - winMaxWidth)) + 'px';
 		}
 	}
 }
@@ -383,7 +318,7 @@ function processMenu(ev, action)
 		var popupMenu = ev.srcElement;
 		while(!(popupMenu instanceof HTMLUListElement))
 		{
-			popupMenu = popupMenu.parentNode;
+			popupMenu = popupMenu.parentElement;
 		}
 		var bookmark = popupMenu.selectedBookmark;
 		bookmark[action].call(bookmark);
@@ -397,31 +332,69 @@ chrome.bookmarks.getTree(function(nodes)
 
 	var styleSheet = document.styleSheets[document.styleSheets.length - 1];
 	var favIconWidth = getFavIconWidth();
-	styleSheet.addRule('li > label > img', 'width: ' + favIconWidth + 'px; height: ' + favIconWidth + 'px;');
+	styleSheet.addRule('label > img', 'width: ' + favIconWidth + 'px; height: ' + favIconWidth + 'px;');
 	styleSheet.addRule('#bookmarksTree label', 'max-width: ' + getMaxWidth() + getMaxWidthMesure() + ';');
 
-	var bookmarksTree = new BookmarksTree(true);
+	var rootFolder = document.createElement('ul');
+	rootFolder.isRoot = true;
+	rootFolder.id = rootFolder.className = 'bookmarksTree';
+	rootFolder.setAttribute('onmousedown', 'return false;');
+	rootFolder.onmouseup = function(ev)
+	{
+		var bookmark = ev.srcElement;
+		while(!(bookmark instanceof HTMLLIElement))
+		{
+			bookmark = bookmark.parentElement;
+		}
+		if(bookmark.className == "separator")
+		{
+			return;
+		}
+		var action = parseInt(getButtonAction(ev.button));
+		switch(action)
+		{
+			case 0: // open in current tab
+				if(!bookmark.isFolder)
+				{
+					ev.ctrlKey ? bookmark.openInNewTab() : bookmark.open();
+				}
+				break;
+			case 1: // open in new tab
+				if(!bookmark.isFolder)
+				{
+					bookmark.openInNewTab();
+				}
+				break;
+			case 2: // open popup menu
+				if(!bookmark.isFolder || bookmark.isEmpty)
+				{
+					bookmark.isSelected = true;
+					bookmark.showPopupMenu(ev);
+				}
+				break;
+		}
+	};
 
-	document.body.appendChild(bookmarksTree);
+	document.body.appendChild(rootFolder);
 	for(var i = 0, nodesLength = nodes.length; i < nodesLength; i++)
 	{
 		var children = nodes[i].children;
 		for(var j = 0, childrenLength = children.length; j < childrenLength; j++)
 		{
-			bookmarksTree.fillTree(children[j].children, false);
-			if(j + 1 < childrenLength && bookmarksTree.childElementCount > 0)
+			rootFolder.fillFolderContent(children[j].children, false);
+			if(j + 1 < childrenLength && rootFolder.childElementCount > 0)
 			{
-				bookmarksTree.addSeparator();
+				var separator = document.createElement('li');
+				separator.className = 'separator';
+				rootFolder.appendChild(separator);
 			}
 		}
 	}
 
+	var height = rootFolder.clientHeight + 2;
 	var bodyStyle = document.body.style;
-	var bookmarksTreeHeight = bookmarksTree.clientHeight + 2;
-	var scrollBarWidth = bookmarksTreeHeight < winMaxHeight ? 0 : 15;
-
-	bodyStyle.width = bookmarksTree.clientWidth + 2 + scrollBarWidth + 'px';
-	bodyStyle.height = bookmarksTreeHeight < winMaxHeight ? bookmarksTreeHeight + 'px' : winMaxHeight + 'px';
+	bodyStyle.width = rootFolder.clientWidth + 2 + (height < winMaxHeight ? 0 : 15) + 'px';
+	bodyStyle.height = (height < winMaxHeight ? height : winMaxHeight) + 'px';
 
 	// run filling in background to speed up rendering top items
 	setTimeout("fillTree()", 50);
@@ -430,13 +403,13 @@ chrome.bookmarks.getTree(function(nodes)
 
 function fillTree()
 {
-	var bookmarksTree = $('bookmarksTree');
-	for(var i = 0; i < bookmarksTree.childElementCount; i++)
+	var rootFolder = $('bookmarksTree');
+	for(var i = 0; i < rootFolder.childElementCount; i++)
 	{
-		var bookmark = bookmarksTree.childNodes[i];
+		var bookmark = rootFolder.childNodes[i];
 		if(bookmark.isFolder)
 		{
-			bookmark.fillFolder(true);
+			bookmark.fillFolder();
 			bookmark.removeAttribute('childBookmarks');
 		}
 	}
