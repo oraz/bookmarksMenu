@@ -59,7 +59,7 @@ li.separator {
 
 li.hover > ul { display: block; }
 
-li.enabled:hover > label, li.hover > label, li.selected > label {
+li.enabled:hover > label, li.hover > label {
     background-image: -webkit-gradient(linear, left top, left bottom, from(#86abd9), to(#1f5eab));
     color: white;
     padding: 2px 1em 2px 3px;
@@ -67,7 +67,7 @@ li.enabled:hover > label, li.hover > label, li.selected > label {
     border-bottom: 1px solid #689bdb;
 }
 
-li > label > img {
+label > img {
     vertical-align: bottom;
     margin-right: 0.3em;
 }

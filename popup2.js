@@ -29,6 +29,10 @@ BookmarksTree.onMouseUp = function(ev)
 	{
 		bookmark = bookmark.parentElement;
 	}
+	if(bookmark.className == "separator")
+	{
+		return;
+	}
 	var action = parseInt(getButtonAction(ev.button));
 	switch(action)
 	{
@@ -47,6 +51,7 @@ BookmarksTree.onMouseUp = function(ev)
 		case 2: // open popup menu
 			if(!bookmark.isFolder || bookmark.isEmpty)
 			{
+				bookmark.isSelected = true;
 				bookmark.showPopupMenu(ev);
 			}
 			break;
@@ -200,21 +205,7 @@ with(HTMLLIElement)
 	}
 	prototype.unHighlight = function()
 	{
-		if(this.getAttribute("class") == "hover")
-		{
-			this.removeAttribute("class");
-		}
-	}
-	prototype.select = function()
-	{
-		if(!this.isFolder)
-		{
-			this.setAttribute("class", "selected");
-		}
-	}
-	prototype.unSelect = function()
-	{
-		if(this.getAttribute("class") == "selected")
+		if(!this.isSelected)
 		{
 			this.removeAttribute("class");
 		}
@@ -305,23 +296,19 @@ with(HTMLLIElement)
 	}
 	prototype.showPopupMenu = function(ev)
 	{
-		this.select();
-
 		var popupMenu = $('popupMenu');
 		popupMenu.selectedBookmark = this;
 		var popupMenuItems = popupMenu.getElementsByTagName('li');
-		var itemClass = this.isFolder ? "disabled" : "enabled";
-		popupMenuItems[0].setAttribute("class", itemClass);
-		popupMenuItems[1].setAttribute("class", itemClass);
 		if(!this.isFolder)
 		{
+			popupMenuItems[0].className = popupMenuItems[1].className = "enabled";
 			popupMenuItems[0].setAttribute('onmouseup', "processMenu(event, 'openInNewTab')");
 			popupMenuItems[1].setAttribute('onmouseup', "processMenu(event, 'openInNewWindow')");
 		}
 		else
 		{
-			popupMenuItems[0].removeAttribute("onMouseUp");
-			popupMenuItems[1].removeAttribute("onMouseUp");
+			popupMenuItems[0].className = popupMenuItems[1].className = "disabled";
+			popupMenuItems[0].onmouseup = popupMenuItems[1].onmouseup = undefined;
 		}
 		popupMenu.show();
 
@@ -382,7 +369,9 @@ with(HTMLLIElement)
 function unSelect()
 {
 	var popupMenu = $('popupMenu');
-	popupMenu.selectedBookmark.unSelect();
+	var bookmark = popupMenu.selectedBookmark;
+	bookmark.isSelected = false;
+	bookmark.unHighlight();
 	popupMenu.hide();
 	$('transparentLayer').hide();
 }
