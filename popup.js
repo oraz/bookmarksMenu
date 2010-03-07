@@ -1,8 +1,8 @@
 
 // vim:noet ts=4 sw=4
 
-var winMaxWidth = getWindowMaxWidth(),
-	winMaxHeight = getWindowMaxHeight();
+var winMaxWidth = getWindowMaxWidth();
+var winMaxHeight = getWindowMaxHeight();
 
 function $(id)
 {
@@ -13,8 +13,8 @@ function Bookmark(bookmarkNode)
 {
 	var bookmark = document.createElement('li');
 	bookmark.id = bookmarkNode.id;
-	var label = document.createElement('label'),
-		favicon = document.createElement('img');
+	var label = document.createElement('label');
+	var favicon = document.createElement('img');
 	favicon.src = getFavicon(bookmarkNode.url);
 	label.appendChild(favicon);
 	label.appendChild(document.createTextNode(bookmarkNode.title));
@@ -106,6 +106,7 @@ with(HTMLLIElement)
 			this.folderContent = document.createElement('ul');
 			this.appendChild(this.folderContent);
 			this.folderContent.fillFolderContent(this.childBookmarks, true);
+			this.childBookmarks = undefined;
 			if(!this.hasSubFolders)
 			{
 				this.fillTreeDepth();
@@ -258,10 +259,13 @@ with(HTMLLIElement)
 		}
 		this.highlight();
 		this.rootFolder.activeFolder = this;
+		if(this.childBookmarks)
+		{
+			this.fillFolder();
+		}
 
-		var body = document.body,
-			bodyStyle = body.style,
-			height = this.getY() + this.folderContent.clientHeight + 2;
+		var body = document.body, bodyStyle = body.style;
+		var height = this.getY() + this.folderContent.clientHeight + 2;
 		if(body.clientHeight < height)
 		{
 			bodyStyle.height = (height > winMaxHeight ? winMaxHeight : height) + 'px';
@@ -384,27 +388,8 @@ chrome.bookmarks.getTree(function(nodes)
 			}
 		}
 	}
-
 	var height = rootFolder.clientHeight + 2;
 	var bodyStyle = document.body.style;
 	bodyStyle.width = rootFolder.clientWidth + 2 + (height < winMaxHeight ? 0 : 15) + 'px';
 	bodyStyle.height = (height < winMaxHeight ? height : winMaxHeight) + 'px';
-
-	// run filling in background to speed up rendering top items
-	setTimeout("fillTree()", 50);
 });
-
-
-function fillTree()
-{
-	var rootFolder = $('bookmarksTree');
-	for(var i = 0; i < rootFolder.childElementCount; i++)
-	{
-		var bookmark = rootFolder.childNodes[i];
-		if(bookmark.isFolder)
-		{
-			bookmark.fillFolder();
-			bookmark.removeAttribute('childBookmarks');
-		}
-	}
-}
