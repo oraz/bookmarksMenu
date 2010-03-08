@@ -28,6 +28,7 @@ function Bookmark(bookmarkNode)
 	}
 	else
 	{
+		bookmark.isBookmark = true;
 		bookmark.url = bookmarkNode.url;
 		bookmark.onmouseover = bookmark.highlight;
 		bookmark.onmouseout = bookmark.unHighlight;
@@ -259,7 +260,7 @@ with(HTMLLIElement)
 		}
 		this.highlight();
 		this.rootFolder.activeFolder = this;
-		if(this.childBookmarks)
+		if(this.childBookmarks != undefined)
 		{
 			this.fillFolder();
 		}
@@ -344,27 +345,23 @@ chrome.bookmarks.getTree(function(nodes)
 		{
 			bookmark = bookmark.parentElement;
 		}
-		if(bookmark.className == "separator")
-		{
-			return;
-		}
 		var action = parseInt(getButtonAction(ev.button));
 		switch(action)
 		{
 			case 0: // open in current tab
-				if(!bookmark.isFolder)
+				if(bookmark.isBookmark)
 				{
 					ev.ctrlKey ? bookmark.openInNewTab() : bookmark.open();
 				}
 				break;
 			case 1: // open in new tab
-				if(!bookmark.isFolder)
+				if(bookmark.isBookmark)
 				{
 					bookmark.openInNewTab();
 				}
 				break;
 			case 2: // open popup menu
-				if(!bookmark.isFolder || bookmark.isEmpty)
+				if(bookmark.isBookmark || (bookmark.isFolder && bookmark.isEmpty))
 				{
 					bookmark.isSelected = true;
 					bookmark.showPopupMenu(ev);
