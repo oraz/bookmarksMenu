@@ -13,12 +13,12 @@ function Bookmark(bookmarkNode)
 {
 	var bookmark = document.createElement('li');
 	bookmark.id = bookmarkNode.id;
-	var label = document.createElement('label');
+	var span = document.createElement('span');
 	var favicon = document.createElement('img');
 	favicon.src = getFavicon(bookmarkNode.url);
-	label.appendChild(favicon);
-	label.appendChild(document.createTextNode(bookmarkNode.title));
-	bookmark.appendChild(label);
+	span.appendChild(favicon);
+	span.appendChild(document.createTextNode(bookmarkNode.title));
+	bookmark.appendChild(span);
 
 	if(bookmarkNode.url == undefined)
 	{
@@ -81,7 +81,7 @@ with(HTMLUListElement)
 	}
 	prototype.fillAsEmpty = function()
 	{
-		this.innerHTML = '<li class="empty"><label>Empty</label></li>';
+		this.innerHTML = '<li class="empty"><span>Empty</span></li>';
 		this.parentElement.isEmpty = true;
 	}
 }
@@ -331,8 +331,8 @@ chrome.bookmarks.getTree(function(nodes)
 
 	var styleSheet = document.styleSheets[document.styleSheets.length - 1];
 	var favIconWidth = getFavIconWidth();
-	styleSheet.addRule('label > img', 'width: ' + favIconWidth + 'px; height: ' + favIconWidth + 'px;');
-	styleSheet.addRule('#bookmarksTree label', 'max-width: ' + getMaxWidth() + getMaxWidthMesure() + ';');
+	styleSheet.addRule('span > img', 'width: ' + favIconWidth + 'px; height: ' + favIconWidth + 'px;');
+	styleSheet.addRule('#bookmarksTree span', 'max-width: ' + getMaxWidth() + getMaxWidthMesure() + ';');
 
 	var rootFolder = document.createElement('ul');
 	rootFolder.isRoot = true;

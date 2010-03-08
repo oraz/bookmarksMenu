@@ -1,6 +1,6 @@
 {
     "name": "QuickBookmarksTree",
-    "version": "2.0.0.7",
+    "version": "2.0.0.8",
     "description": "Show bookmarks tree",
     "browser_action":
     {

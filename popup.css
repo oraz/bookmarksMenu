@@ -22,10 +22,11 @@ ul {
 
 li { position: relative; }
 
-li label {
+li span {
     display: block;
     color: black;
     background-color: white;
+    cursor: default;
 
     padding: 3px;
     padding-right: 1em;
@@ -35,12 +36,12 @@ li label {
     white-space: nowrap;
 }
 
-li.empty > label {
+li.empty > span {
     padding: 3px 1em;
     color: gray;
 }
 
-li.disabled > label { color: gray; }
+li.disabled > span { color: gray; }
 
 li ul {
     position: absolute;
@@ -59,7 +60,7 @@ li.separator {
 
 li.hover > ul { display: block; }
 
-li.enabled:hover > label, li.hover > label {
+li.enabled:hover > span, li.hover > span {
     background-image: -webkit-gradient(linear, left top, left bottom, from(#86abd9), to(#1f5eab));
     color: white;
     padding: 2px 1em 2px 3px;
@@ -67,7 +68,7 @@ li.enabled:hover > label, li.hover > label {
     border-bottom: 1px solid #689bdb;
 }
 
-label > img {
+span > img {
     vertical-align: bottom;
     margin-right: 0.3em;
 }
