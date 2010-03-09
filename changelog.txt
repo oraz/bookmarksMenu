@@ -1,3 +1,9 @@
+Changelog 2.1.0 (xx.03.2010)
+- popup.js was fully rewritten.
+- MOUSE_DOWN event is ignored by all document.
+- <span> is used instead of <a> element to display bookmark title
+- Top level folders are filling when MOUSE_OVER event occurs first time.
+
 Changelog 2.0.0 (01.03.2010)
 - Changed structure of bookmarks tree. Now it's not so sensible to mouse
 motions. Content of subfolder doesn't disappear after mouse leaves it.
