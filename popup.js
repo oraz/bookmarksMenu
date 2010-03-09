@@ -102,16 +102,13 @@ with(HTMLLIElement)
 	}
 	prototype.fillFolder = function()
 	{
-		if(this.isFolder)
+		this.folderContent = document.createElement('ul');
+		this.appendChild(this.folderContent);
+		this.folderContent.fillFolderContent(this.childBookmarks, true);
+		this.childBookmarks = undefined;
+		if(!this.hasSubFolders)
 		{
-			this.folderContent = document.createElement('ul');
-			this.appendChild(this.folderContent);
-			this.folderContent.fillFolderContent(this.childBookmarks, true);
-			this.childBookmarks = undefined;
-			if(!this.hasSubFolders)
-			{
-				this.fillTreeDepth();
-			}
+			this.fillTreeDepth();
 		}
 	}
 	prototype.unHighlightActiveFolder = function()
@@ -186,17 +183,15 @@ with(HTMLLIElement)
 	{
 		var popupMenu = $('popupMenu');
 		popupMenu.selectedBookmark = this;
-		var popupMenuItems = popupMenu.getElementsByTagName('li');
 		if(!this.isFolder)
 		{
-			popupMenuItems[0].className = popupMenuItems[1].className = "enabled";
-			popupMenuItems[0].setAttribute('onmouseup', "processMenu(event, 'openInNewTab')");
-			popupMenuItems[1].setAttribute('onmouseup', "processMenu(event, 'openInNewWindow')");
+			popupMenu.setMenuItemEnabled(0, 'openInNewTab');
+			popupMenu.setMenuItemEnabled(1, 'openInNewWindow');
 		}
 		else
 		{
-			popupMenuItems[0].className = popupMenuItems[1].className = "disabled";
-			popupMenuItems[0].onmouseup = popupMenuItems[1].onmouseup = undefined;
+			popupMenu.setMenuItemDisabled(0);
+			popupMenu.setMenuItemDisabled(1);
 		}
 		popupMenu.show();
 
@@ -337,7 +332,6 @@ chrome.bookmarks.getTree(function(nodes)
 	var rootFolder = document.createElement('ul');
 	rootFolder.isRoot = true;
 	rootFolder.id = rootFolder.className = 'bookmarksTree';
-	rootFolder.setAttribute('onmousedown', 'return false;');
 	rootFolder.onmouseup = function(ev)
 	{
 		var bookmark = ev.srcElement;
@@ -390,3 +384,24 @@ chrome.bookmarks.getTree(function(nodes)
 	bodyStyle.width = rootFolder.clientWidth + 2 + (height < winMaxHeight ? 0 : 15) + 'px';
 	bodyStyle.height = (height < winMaxHeight ? height : winMaxHeight) + 'px';
 });
+
+window.onload = function()
+{
+	var popupMenu = $('popupMenu');
+	popupMenu.setMenuItemEnabled = function(itemIdx, action)
+	{
+		var popupMenuItem = popupMenu.getElementsByTagName('li')[itemIdx];
+		popupMenuItem.className = "enabled";
+		popupMenuItem.setAttribute('onmouseup', "processMenu(event, '" + action + "')");
+		popupMenuItem.setAttribute("onmouseover", "this.className = 'hover'");
+		popupMenuItem.setAttribute("onmouseout", "this.className = 'enabled'");
+	};
+	popupMenu.setMenuItemDisabled = function(itemIdx)
+	{
+		var popupMenuItem = popupMenu.getElementsByTagName('li')[itemIdx];
+		popupMenuItem.className = "disabled";
+		popupMenuItem.removeAttribute("onmouseup");
+		popupMenuItem.removeAttribute("onmouseover");
+		popupMenuItem.removeAttribute("onmouseout");
+	};
+};
