@@ -6,7 +6,7 @@ var winMaxHeight = getWindowMaxHeight();
 
 function $(id)
 {
-	return document.getElementById(id);
+	return document.all[id];
 }
 
 function Bookmark(bookmarkNode)
