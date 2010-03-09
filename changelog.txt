@@ -1,4 +1,4 @@
-Changelog 2.1.0 (xx.03.2010)
+Changelog 2.1.0 (09.03.2010)
 - popup.js was fully rewritten.
 - MOUSE_DOWN event is ignored by all document.
 - <span> is used instead of <a> element to display bookmark title
