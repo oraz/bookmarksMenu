@@ -183,16 +183,7 @@ with(HTMLLIElement)
 	{
 		var popupMenu = $('popupMenu');
 		popupMenu.selectedBookmark = this;
-		if(!this.isFolder)
-		{
-			popupMenu.setMenuItemEnabled(0);
-			popupMenu.setMenuItemEnabled(1);
-		}
-		else
-		{
-			popupMenu.setMenuItemDisabled(0);
-			popupMenu.setMenuItemDisabled(1);
-		}
+		this.isBookmark ? popupMenu.setMenuItemsEnabled(0, 1) : popupMenu.setMenuItemsDisabled(0, 1);
 		popupMenu.show();
 
 		var body = document.body;
@@ -388,21 +379,29 @@ chrome.bookmarks.getTree(function(nodes)
 window.onload = function()
 {
 	var popupMenu = $('popupMenu');
-	popupMenu.setMenuItemEnabled = function(itemIdx)
+	popupMenu.setMenuItemsEnabled = function()
 	{
-		var popupMenuItem = this.getElementsByTagName('li')[itemIdx];
-		popupMenuItem.className = "enabled";
-		popupMenuItem.setAttribute('onmouseup', "processMenu(event, '" + popupMenuItem.getAttribute("action") + "')");
-		popupMenuItem.setAttribute("onmouseover", "this.className = 'hover'");
-		popupMenuItem.setAttribute("onmouseout", "this.className = 'enabled'");
+		var popupMenuItems = this.getElementsByTagName('li');
+		for(var idx = arguments.length - 1; idx >= 0; idx--)
+		{
+			var item = popupMenuItems[arguments[idx]];
+			item.className = "enabled";
+			item.setAttribute('onmouseup', "processMenu(event, '" + item.getAttribute("action") + "')");
+			item.setAttribute("onmouseover", "this.className = 'hover'");
+			item.setAttribute("onmouseout", "this.className = 'enabled'");
+		}
 	};
-	popupMenu.setMenuItemDisabled = function(itemIdx)
+	popupMenu.setMenuItemsDisabled = function()
 	{
-		var popupMenuItem = this.getElementsByTagName('li')[itemIdx];
-		popupMenuItem.className = "disabled";
-		popupMenuItem.removeAttribute("onmouseup");
-		popupMenuItem.removeAttribute("onmouseover");
-		popupMenuItem.removeAttribute("onmouseout");
+		var popupMenuItems = this.getElementsByTagName('li');
+		for(var idx = arguments.length - 1; idx >= 0; idx--)
+		{
+			var item = popupMenuItems[arguments[idx]];
+			item.className = "disabled";
+			item.removeAttribute("onmouseup");
+			item.removeAttribute("onmouseover");
+			item.removeAttribute("onmouseout");
+		}
 	};
-	popupMenu.setMenuItemEnabled(3);
+	popupMenu.setMenuItemsEnabled(3);
 };
