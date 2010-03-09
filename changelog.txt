@@ -1,3 +1,7 @@
+Changelog 2.1.1 (XX.03.2010)
+- Changed $() function
+- Changed setMenuItemEnabled/Disabled functions
+
 Changelog 2.1.0 (09.03.2010)
 - popup.js was fully rewritten.
 - MOUSE_DOWN event is ignored by all document.

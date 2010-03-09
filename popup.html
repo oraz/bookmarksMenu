@@ -8,10 +8,10 @@
     <body onmousedown="return false;">
         <div id="transparentLayer" onmouseup="unSelect()"></div>
         <ul id="popupMenu">
-            <li class="enabled"><span><img class="favicon" src="icons/tab-new.png">Open in new tab</span></li>
-            <li class="enabled"><span><img class="favicon" src="icons/window-new.png">Open in new window</span></li>
+            <li action="openInNewTab"><span><img src="icons/tab-new.png">Open in new tab</span></li>
+            <li action="openInNewWindow"><span><img src="icons/window-new.png">Open in new window</span></li>
             <li class="separator"></li>
-            <li class="enabled" onmouseup="processMenu(event, 'remove');" onmouseover="this.className='hover'" onmouseout="this.className='enabled'"><span><img class="favicon" src="icons/icon_delete.png">Delete</span></li>
+            <li action="remove"><span><img src="icons/icon_delete.png">Delete</span></li>
         </ul>
     </body>
 </html>

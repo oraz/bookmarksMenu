@@ -185,8 +185,8 @@ with(HTMLLIElement)
 		popupMenu.selectedBookmark = this;
 		if(!this.isFolder)
 		{
-			popupMenu.setMenuItemEnabled(0, 'openInNewTab');
-			popupMenu.setMenuItemEnabled(1, 'openInNewWindow');
+			popupMenu.setMenuItemEnabled(0);
+			popupMenu.setMenuItemEnabled(1);
 		}
 		else
 		{
@@ -388,20 +388,21 @@ chrome.bookmarks.getTree(function(nodes)
 window.onload = function()
 {
 	var popupMenu = $('popupMenu');
-	popupMenu.setMenuItemEnabled = function(itemIdx, action)
+	popupMenu.setMenuItemEnabled = function(itemIdx)
 	{
-		var popupMenuItem = popupMenu.getElementsByTagName('li')[itemIdx];
+		var popupMenuItem = this.getElementsByTagName('li')[itemIdx];
 		popupMenuItem.className = "enabled";
-		popupMenuItem.setAttribute('onmouseup', "processMenu(event, '" + action + "')");
+		popupMenuItem.setAttribute('onmouseup', "processMenu(event, '" + popupMenuItem.getAttribute("action") + "')");
 		popupMenuItem.setAttribute("onmouseover", "this.className = 'hover'");
 		popupMenuItem.setAttribute("onmouseout", "this.className = 'enabled'");
 	};
 	popupMenu.setMenuItemDisabled = function(itemIdx)
 	{
-		var popupMenuItem = popupMenu.getElementsByTagName('li')[itemIdx];
+		var popupMenuItem = this.getElementsByTagName('li')[itemIdx];
 		popupMenuItem.className = "disabled";
 		popupMenuItem.removeAttribute("onmouseup");
 		popupMenuItem.removeAttribute("onmouseover");
 		popupMenuItem.removeAttribute("onmouseout");
 	};
+	popupMenu.setMenuItemEnabled(3);
 };
