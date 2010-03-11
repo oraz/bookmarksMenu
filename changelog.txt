@@ -1,4 +1,4 @@
-Changelog 2.1.0.2 (XX.03.2010)
+Changelog 2.2.0 (11.03.2010)
 - Changed setMenuItemEnabled/Disabled functions
 - Changed appearance of subfolder content
 

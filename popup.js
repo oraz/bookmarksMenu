@@ -121,6 +121,7 @@ with(HTMLLIElement)
 			while(activeFolder != undefined && activeFolder.id != parentFolderId)
 			{
 				activeFolder.unHighlight();
+				activeFolder.folderContent.style.top = '-1px';
 				activeFolder = activeFolder.parentFolder;
 			}
 		}
@@ -154,13 +155,8 @@ with(HTMLLIElement)
 	}
 	prototype.getY = function()
 	{
-		var y = 0, el = this;
-		do
-		{
-			y += el.offsetTop;
-			el = el.offsetParent;
-		} while(el != null);
-		return y;
+		var body = document.body;
+		return this.getBoundingClientRect().top + body.scrollTop - body.clientTop;
 	}
 	prototype.fillTreeDepth = function()
 	{
@@ -249,24 +245,23 @@ with(HTMLLIElement)
 		}
 
 		var body = document.body, bodyStyle = body.style;
-		var posY = this.getY(), height = this.folderContent.offsetHeight;
-		var offset = 1;
-		if(posY + height - body.scrollTop > body.clientHeight)
+		var posY = this.getY();
+		var contentHeight = this.folderContent.offsetHeight, offset = 1;
+		if(posY + contentHeight > body.scrollTop + body.clientHeight)
 		{
-			offset = posY + 1 + height - body.clientHeight - body.scrollTop;
-			var parentFolder = this.parentFolder;
-			while(!parentFolder.isRoot)
+			offset = posY + contentHeight - body.clientHeight - body.scrollTop;
+			if(offset > posY - body.scrollTop)
 			{
-				offset++;
-				parentFolder = parentFolder.parentFolder;
+				offset = posY - body.scrollTop;
 			}
 			this.folderContent.style.top = '-' + offset + 'px';
 		}
-		var height = posY - offset + this.folderContent.offsetHeight + 1;
+
+		var height = posY - offset + contentHeight;
 		if(body.clientHeight < height)
 		{
+			// need to change width to take effect
 			bodyStyle.height = (height > winMaxHeight ? winMaxHeight : height) + 'px';
-			bodyStyle.width = body.offsetWidth + 1 + 'px'; // need to change width to take effect
 		}
 
 		var width = 0, tmp = this;
