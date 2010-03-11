@@ -157,10 +157,7 @@ with(HTMLLIElement)
 		var y = 0, el = this;
 		do
 		{
-			if(el.offsetTop > 0)
-			{
-				y += el.offsetTop;
-			}
+			y += el.offsetTop;
 			el = el.offsetParent;
 		} while(el != null);
 		return y;
@@ -252,10 +249,22 @@ with(HTMLLIElement)
 		}
 
 		var body = document.body, bodyStyle = body.style;
-		var height = this.getY() + this.folderContent.clientHeight + 2;
+		var posY = this.getY(), height = this.folderContent.offsetHeight;
+		var offset = 1;
+		if(posY + height - body.scrollTop > body.clientHeight)
+		{
+			offset = posY + 1 + height - body.clientHeight - body.scrollTop;
+			if(posY - body.scrollTop - offset < 0)
+			{
+				offset = posY - body.scrollTop + 1;
+			}
+			this.folderContent.style.top = '-' + offset + 'px';
+		}
+		var height = posY - offset + this.folderContent.offsetHeight + 1;
 		if(body.clientHeight < height)
 		{
 			bodyStyle.height = (height > winMaxHeight ? winMaxHeight : height) + 'px';
+			bodyStyle.width = body.offsetWidth + 1 + 'px'; // need to change width to take effect
 		}
 
 		var width = 0, tmp = this;

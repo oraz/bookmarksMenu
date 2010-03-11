@@ -1,5 +1,6 @@
-Changelog 2.1.1 (XX.03.2010)
+Changelog 2.1.0.2 (XX.03.2010)
 - Changed setMenuItemEnabled/Disabled functions
+- Changed appearance of subfolder content
 
 Changelog 2.1.0 (09.03.2010)
 - popup.js was fully rewritten.
