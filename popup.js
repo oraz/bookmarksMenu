@@ -254,9 +254,11 @@ with(HTMLLIElement)
 		if(posY + height - body.scrollTop > body.clientHeight)
 		{
 			offset = posY + 1 + height - body.clientHeight - body.scrollTop;
-			if(posY - body.scrollTop - offset < 0)
+			var parentFolder = this.parentFolder;
+			while(!parentFolder.isRoot)
 			{
-				offset = posY - body.scrollTop + 1;
+				offset++;
+				parentFolder = parentFolder.parentFolder;
 			}
 			this.folderContent.style.top = '-' + offset + 'px';
 		}
