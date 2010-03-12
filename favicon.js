@@ -25,5 +25,6 @@ function getFavicon(url)
 	{
 		return 'icons/html.png';
 	}
+//	return 'chrome://favicon/' + url;
 	return 'http://getfavicon.appspot.com/' + url;
 }
