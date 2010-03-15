@@ -87,9 +87,18 @@ with(HTMLUListElement)
 				bookmark.onmouseover = bookmark.highlight;
 				bookmark.onmouseout = bookmark.unHighlight;
 				var span = document.createElement('span');
-				var favIcon = this.firstChild.firstChild.firstChild;
-				var iconMarginRight = window.getComputedStyle(favIcon).marginRight; // contains '3px'
-				span.style.paddingLeft = favIcon.offsetLeft + favIcon.scrollWidth + parseInt(iconMarginRight);
+				if(bookmark.rootFolder.textPaddingLeft != undefined)
+				{
+					span.style.paddingLeft = bookmark.rootFolder.textPaddingLeft;
+				}
+				else
+				{
+					var favIcon = bookmark.rootFolder.firstChild.firstChild.firstChild;
+					var iconMarginRight = window.getComputedStyle(favIcon).marginRight; // contains '3px'
+					span.style.paddingLeft =
+						bookmark.rootFolder.textPaddingLeft =
+						favIcon.offsetLeft + favIcon.scrollWidth + parseInt(iconMarginRight);
+				}
 				span.appendChild(document.createTextNode("Open all in tabs"));
 				bookmark.appendChild(span);
 				bookmark.isOpenAll = true;
