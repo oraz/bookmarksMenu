@@ -1,3 +1,7 @@
+Changelog 2.2.0.1 (XX.03.2010)
+- Display tooltip with full bookmark name if it's too long and doesn't fit in
+bookmark tree.
+
 Changelog 2.2.0 (11.03.2010)
 - Changed setMenuItemEnabled/Disabled functions
 - Changed appearance of subfolder content

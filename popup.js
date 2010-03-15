@@ -92,6 +92,11 @@ with(HTMLLIElement)
 	{
 		this.unHighlightActiveFolder();
 		this.setAttribute("class", "hover");
+		var span = this.firstChild;
+		if(span.offsetWidth < span.scrollWidth && span.title == "")
+		{
+			span.title = span.innerText;
+		}
 	}
 	prototype.unHighlight = function()
 	{
