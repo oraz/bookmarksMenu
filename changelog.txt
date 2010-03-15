@@ -1,6 +1,5 @@
-Changelog 2.2.0.1 (XX.03.2010)
-- Display tooltip with full bookmark name if it's too long and doesn't fit in
-bookmark tree.
+Changelog 2.2.1 (15.03.2010)
+- Show tooltip with full bookmark name for long names
 
 Changelog 2.2.0 (11.03.2010)
 - Changed setMenuItemEnabled/Disabled functions
