@@ -1,3 +1,6 @@
+Changelog 2.3.0 (15.03.2010)
+- Added bookmark menu item 'Open all in tabs' like in Firefox
+
 Changelog 2.2.1 (15.03.2010)
 - Show tooltip with full bookmark name for long names
 

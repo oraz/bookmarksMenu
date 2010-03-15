@@ -50,6 +50,7 @@ with(HTMLUListElement)
 		var len = childBookmarks.length;
 		if(len > 0)
 		{
+			var countBookmarks = 0;
 			for(var i = 0; i < len; i++)
 			{
 				if(this.isRoot && isBookmarkHidden(childBookmarks[i].title))
@@ -66,12 +67,33 @@ with(HTMLUListElement)
 				{
 					bookmark.parentFolder = this.parentElement;
 					bookmark.rootFolder = bookmark.parentFolder.rootFolder;
+					if(bookmark.isBookmark)
+					{
+						countBookmarks++;
+					}
 				}
 				if(bookmark.isFolder && completely)
 				{
 					bookmark.parentFolder.hasSubFolders = true;
 					bookmark.fillFolder();
 				}
+			}
+			if(!this.isRoot && countBookmarks > 1)
+			{
+				this.addSeparator();
+				var bookmark = document.createElement('li');
+				bookmark.parentFolder = this.parentElement;
+				bookmark.rootFolder = bookmark.parentFolder.rootFolder;
+				bookmark.onmouseover = bookmark.highlight;
+				bookmark.onmouseout = bookmark.unHighlight;
+				var span = document.createElement('span');
+				var favIcon = this.firstChild.firstChild.firstChild;
+				var iconMarginRight = window.getComputedStyle(favIcon).marginRight; // contains '3px'
+				span.style.paddingLeft = favIcon.offsetLeft + favIcon.scrollWidth + parseInt(iconMarginRight);
+				span.appendChild(document.createTextNode("Open all in tabs"));
+				bookmark.appendChild(span);
+				bookmark.isOpenAll = true;
+				this.appendChild(bookmark);
 			}
 		}
 		else if(!this.isRoot)
@@ -83,6 +105,24 @@ with(HTMLUListElement)
 	{
 		this.innerHTML = '<li class="empty"><span>Empty</span></li>';
 		this.parentElement.isEmpty = true;
+	}
+	prototype.addSeparator = function()
+	{
+		var separator = document.createElement('li');
+		separator.className = 'separator';
+		this.appendChild(separator);
+	}
+	prototype.openAllInTabs = function()
+	{
+		for(var idx in this.childNodes)
+		{
+			var bookmark = this.childNodes[idx];
+			if(bookmark.isBookmark)
+			{
+				chrome.tabs.create({ url: bookmark.url, selected: false });
+			}
+		}
+		window.close();
 	}
 }
 
@@ -118,7 +158,6 @@ with(HTMLLIElement)
 	}
 	prototype.unHighlightActiveFolder = function()
 	{
-
 		var activeFolder = this.rootFolder.activeFolder;
 		if(activeFolder != undefined)
 		{
@@ -235,6 +274,23 @@ with(HTMLLIElement)
 		{
 			folderContent.fillAsEmpty();
 		}
+		else
+		{
+			var bookmarksCount = 0;
+			for(var idx in folderContent.childNodes)
+			{
+				if(folderContent.childNodes[idx].isBookmark)
+				{
+					bookmarksCount++;
+				}
+			}
+			if(bookmarksCount < 2 && folderContent.lastElementChild.isOpenAll)
+			{
+				// remove "open all" and separator
+				folderContent.removeChild(folderContent.lastElementChild);
+				folderContent.removeChild(folderContent.lastElementChild);
+			}
+		}
 	}
 	prototype.displayFolderContent = function()
 	{
@@ -349,6 +405,10 @@ chrome.bookmarks.getTree(function(nodes)
 				{
 					ev.ctrlKey ? bookmark.openInNewTab() : bookmark.open();
 				}
+				else if(bookmark.isOpenAll)
+				{
+					bookmark.parentElement.openAllInTabs();
+				}
 				break;
 			case 1: // open in new tab
 				if(bookmark.isBookmark)
@@ -367,20 +427,14 @@ chrome.bookmarks.getTree(function(nodes)
 	};
 
 	document.body.appendChild(rootFolder);
-	for(var i = 0, nodesLength = nodes.length; i < nodesLength; i++)
+	var nodesChildren = nodes[0].children;
+	rootFolder.fillFolderContent(nodesChildren[0].children, false);
+	if(rootFolder.childElementCount > 0)
 	{
-		var children = nodes[i].children;
-		for(var j = 0, childrenLength = children.length; j < childrenLength; j++)
-		{
-			rootFolder.fillFolderContent(children[j].children, false);
-			if(j + 1 < childrenLength && rootFolder.childElementCount > 0)
-			{
-				var separator = document.createElement('li');
-				separator.className = 'separator';
-				rootFolder.appendChild(separator);
-			}
-		}
+		rootFolder.addSeparator();
 	}
+	rootFolder.fillFolderContent(nodesChildren[1].children, false);
+
 	var height = rootFolder.clientHeight + 2;
 	var bodyStyle = document.body.style;
 	bodyStyle.width = rootFolder.clientWidth + 2 + (height < winMaxHeight ? 0 : 15) + 'px';
