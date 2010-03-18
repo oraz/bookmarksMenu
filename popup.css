@@ -92,3 +92,12 @@ span > img {
     z-index: 1;
 }
 
+::-webkit-scrollbar {
+    background-color: #ccc;
+    border: 0;
+    width: 7px;
+}
+::-webkit-scrollbar-thumb:vertical {
+    background-color: #86abd9;
+    -webkit-box-shadow: 0 -1px 0 #1f5eab, 0 1px 0 #1f5eab;
+}

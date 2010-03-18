@@ -1,3 +1,6 @@
+Changelog 2.3.2 (XX.03.2010)
+- Added styles for scrollbar.
+
 Changelog 2.3.1 (18.03.2010)
 - Disabled tooltip for long bookmark names. It can be enabled from options
 panel in 'Window & Tree' tab.
