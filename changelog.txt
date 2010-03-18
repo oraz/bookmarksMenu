@@ -1,3 +1,7 @@
+Changelog 2.3.1 (XX.03.2010)
+- Disabled tooltip for long bookmark names. It can be enabled from options
+panel in 'Window & Tree' tab.
+
 Changelog 2.3.0 (15.03.2010)
 - Added bookmark menu item 'Open all in tabs' like in Firefox
 

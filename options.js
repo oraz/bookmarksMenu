@@ -1,6 +1,8 @@
 
 // vim:noet ts=4 sw=4
 
+function $(id) { return document.getElementById(id); }
+
 function setMouseButtonAction(select, button)
 {
 	localStorage[button] = select.selectedIndex;
@@ -17,6 +19,18 @@ function setIntProperty(input, maxLimit)
 	}
 	input.removeAttribute('class');
 	localStorage[input.id] = value;
+}
+
+function setBoolProperty(property, value)
+{
+	if(value)
+	{
+		localStorage[property] = true;
+	}
+	else
+	{
+		delete localStorage[property];
+	}
 }
 
 function setMenuMaxWidthMesure(maxWidthMesure)
@@ -36,21 +50,9 @@ function setBookmarkHidden(title, hidden)
 	}
 }
 
-function setSwitchToNewTab(switchToNewTab)
-{
-	if(switchToNewTab)
-	{
-		localStorage['switchToNewTab'] = true;
-	}
-	else
-	{
-		delete localStorage['switchToNewTab'];
-	}
-}
-
 function showHideElem(id)
 {
-	var elemStyle = document.getElementById(id).style;
+	var elemStyle = $(id).style;
 	elemStyle.display = elemStyle.display == 'none' ? 'inline' : 'none';
 }
 
@@ -63,12 +65,12 @@ function showTab(span)
 		if(tabs[idx].getAttribute('class') == 'fgTab')
 		{
 			tabs[idx].setAttribute('class', 'bgTab');
-			document.getElementById(tabs[idx].getAttribute('for')).style.display = 'none';
+			$(tabs[idx].getAttribute('for')).style.display = 'none';
 			break;
 		}
 	}
 	currentTab.setAttribute('class', 'fgTab');
-	document.getElementById(currentTab.getAttribute('for')).style.display = 'block';
+	$(currentTab.getAttribute('for')).style.display = 'block';
 }
 
 function resetWindowSettings()
@@ -79,19 +81,21 @@ function resetWindowSettings()
 	delete localStorage['winMaxWidth'];
 	delete localStorage['winMaxHeight'];
 	delete localStorage['favIconWidth'];
+	delete localStorage['showTooltip'];
 	initWindowSettingsTab();
 }
 
 function initWindowSettingsTab()
 {
-	document.getElementById('winMaxWidth').value = getWindowMaxWidth();
-	document.getElementById('winMaxHeight').value = getWindowMaxHeight();
-	document.getElementById('fontSize').value = getFontSize();
-	document.getElementById('favIconWidth').value = getFavIconWidth();
-	document.getElementById('maxWidth').value = getMaxWidth();
+	$('winMaxWidth').value = getWindowMaxWidth();
+	$('winMaxHeight').value = getWindowMaxHeight();
+	$('showTooltip').checked = isShowTooltip();
+	$('fontSize').value = getFontSize();
+	$('favIconWidth').value = getFavIconWidth();
+	$('maxWidth').value = getMaxWidth();
 
 	var mesure = getMaxWidthMesure();
-	var maxWidthMesure = document.getElementById('maxWidthMesure');
+	var maxWidthMesure = $('maxWidthMesure');
 	for(var idx = 0, len = maxWidthMesure.options.length; idx < len; idx++)
 	{
 		if(maxWidthMesure.options[idx].value == mesure)
@@ -106,17 +110,17 @@ window.onload = function()
 {
 	for(var idx = 0; idx < 3; idx++)
 	{
-		document.getElementById('btn' + idx).selectedIndex = getButtonAction(idx);
+		$('btn' + idx).selectedIndex = getButtonAction(idx);
 	}
 
 	if(isSwitchToNewTab())
 	{
-		document.getElementById('switchToNewTab').checked = true;
+		$('switchToNewTab').checked = true;
 	}
 
 	chrome.bookmarks.getTree(function(nodes)
 	{
-		var bookmarksShowHide = document.getElementById('bookmarksShowHide');
+		var bookmarksShowHide = $('bookmarksShowHide');
 		for(var i = 0, nodesLength = nodes.length; i < nodesLength; i++)
 		{
 			var children = nodes[i].children;

@@ -52,3 +52,9 @@ function getFavIconWidth()
 	var favIconWidth = localStorage['favIconWidth'];
 	return favIconWidth == undefined ? 16 : favIconWidth;
 }
+
+function isShowTooltip()
+{
+	return localStorage['showTooltip'] == 'true';
+}
+
