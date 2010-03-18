@@ -75,11 +75,6 @@
                         <th colspan="2">Bookmarks tree configuration</th>
                     </tr>
                     <tr>
-                        <td colspan="2">
-                            <label><input type="checkbox" id="showTooltip" onchange="setBoolProperty('showTooltip', this.checked);">&nbsp;Show tooltip for long bookmark name</label>
-                        </td>
-                    </tr>
-                    <tr>
                         <td>Font size:</td>
                         <td><input type="number" maxlength="2" id="fontSize" oninput="setIntProperty(this)"/>&nbsp;px</td>
                     </tr>
@@ -98,6 +93,11 @@
                                 <option value="cm">centimeters</option>
                                 <option value="mm">millimeters</option>
                             </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="padding-top: 1ex;">
+                            <label><input type="checkbox" id="showTooltip" onchange="setBoolProperty('showTooltip', this.checked);">&nbsp;Show tooltip for long bookmark name</label>
                         </td>
                     </tr>
                 </table>
