@@ -120,6 +120,7 @@ with(HTMLUListElement)
 	{
 		var separator = document.createElement('li');
 		separator.className = 'separator';
+		separator.isSeparator = true;
 		this.appendChild(separator);
 	}
 	prototype.openAllInTabs = function()
@@ -364,6 +365,51 @@ with(HTMLLIElement)
 			this.folderContent.style.left = '-' + (this.folderContent.clientWidth - (width - winMaxWidth)) + 'px';
 		}
 	}
+	prototype.reoder = function()
+	{
+		var folderId = this.parentFolder.id;
+		var folderContent = this.parentElement;
+		var folders = new Array();
+		var bookmarks = new Array();
+		var separator = null;
+		do
+		{
+			var child = folderContent.firstChild;
+			if(child.isBookmark)
+			{
+				bookmarks.push(child);
+			}
+			else if(child.isFolder)
+			{
+				folders.push(child);
+			}
+			else if(child.isSeparator)
+			{
+				separator = child;
+				break;
+			}
+			folderContent.removeChild(folderContent.firstChild);
+		} while(folderContent.hasChildNodes());
+
+		var sortBookmarks = function(b1, b2)
+		{
+			var text1 = b1.firstChild.innerText;
+			var text2 = b2.firstChild.innerText;
+			return text1 > text2 ? 1 :
+				text1 < text2 ? -1 : 0;
+		};
+		folders.sort(sortBookmarks);
+		bookmarks.sort(sortBookmarks);
+
+		for(var idx = 0, len = folders.length; idx < len; idx++)
+		{
+			folderContent.insertBefore(folders[idx], separator);
+		}
+		for(var idx = 0, len = bookmarks.length; idx < len; idx++)
+		{
+			folderContent.insertBefore(bookmarks[idx], separator);
+		}
+	}
 }
 
 function unSelect()
@@ -482,4 +528,5 @@ window.onload = function()
 		}
 	};
 	popupMenu.setMenuItemsEnabled(3);
+	popupMenu.setMenuItemsEnabled(5);
 };
