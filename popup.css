@@ -93,9 +93,10 @@ span > img {
 }
 
 ::-webkit-scrollbar {
-    background-color: #ccc;
+    background-color: #e2dbdb;
+    border: 1px solid #ccc;
     width: 7px;
 }
 ::-webkit-scrollbar-thumb:vertical {
-    background-image: -webkit-gradient(linear, left top, right top, from(#86abd9), to(#1f5eab));
+    background-image: -webkit-gradient(linear, left top, right top, from(#ccc), to(gray));
 }

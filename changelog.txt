@@ -1,3 +1,6 @@
+Changelog 2.3.3 (19.03.2010)
+- Changed colors for scrollbar.
+
 Changelog 2.3.2 (19.03.2010)
 - Added styles for scrollbar to make it thin.
 
