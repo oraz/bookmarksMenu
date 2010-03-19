@@ -54,15 +54,17 @@ with(HTMLUListElement)
 			var countBookmarks = 0;
 			for(var i = 0; i < len; i++)
 			{
-				if(this.isRoot && isBookmarkHidden(childBookmarks[i].title))
-				{
-					continue;
-				}
 				var bookmark = new Bookmark(childBookmarks[i]);
 				this.appendChild(bookmark);
 				if(this.isRoot)
 				{
+					if(isBookmarkHidden(childBookmarks[i].title))
+					{
+						bookmark.hide();
+						bookmark.isBookmarkHidden = true;
+					}
 					bookmark.parentFolder = bookmark.rootFolder = this;
+					bookmark.parentFolderId = childBookmarks[i].parentId;
 				}
 				else
 				{
@@ -94,7 +96,16 @@ with(HTMLUListElement)
 				}
 				else
 				{
-					var favIcon = bookmark.rootFolder.firstChild.firstChild.firstChild;
+					var favIcon;
+					for(var idx = bookmark.rootFolder.childElementCount - 1; idx >= 0; idx--)
+					{
+						var tmp = bookmark.rootFolder.childNodes[idx];
+						if((tmp.isFolder || tmp.isBookmark) && !tmp.isBookmarkHidden)
+						{
+							favIcon = tmp.firstChild.firstChild;
+							break;
+						}
+					}
 					var iconMarginRight = window.getComputedStyle(favIcon).marginRight; // contains '3px'
 					span.style.paddingLeft =
 						bookmark.rootFolder.textPaddingLeft =
@@ -234,7 +245,16 @@ with(HTMLLIElement)
 	{
 		var popupMenu = $('popupMenu');
 		popupMenu.selectedBookmark = this;
-		this.isBookmark ? popupMenu.setMenuItemsEnabled(0, 1) : popupMenu.setMenuItemsDisabled(0, 1);
+		if(this.isBookmark)
+		{
+			popupMenu.setMenuItemsEnabled(0, 1, 3, 5);
+		}
+		else
+		{
+			popupMenu.setMenuItemsDisabled(0, 1);
+			popupMenu.setMenuItemsEnabled(3);
+			this.isEmpty ? popupMenu.setMenuItemsEnabled(5) : popupMenu.setMenuItemsDisabled(5);
+		}
 		popupMenu.show();
 
 		var body = document.body;
@@ -365,49 +385,52 @@ with(HTMLLIElement)
 			this.folderContent.style.left = '-' + (this.folderContent.clientWidth - (width - winMaxWidth)) + 'px';
 		}
 	}
-	prototype.reoder = function()
+	prototype.reorder = function(beforeSeparator)
 	{
-		var folderId = this.parentFolder.id;
 		var folderContent = this.parentElement;
-		var folders = new Array();
+		if(this.parentFolder.isRoot && beforeSeparator == undefined)
+		{
+			if(!folderContent.firstChild.isSeparator)
+				folderContent.firstChild.reorder(true);
+			if(!folderContent.lastChild.isSeparator)
+				folderContent.lastChild.reorder(false);
+			return;
+		}
+		if(beforeSeparator == undefined)
+		{
+			beforeSeparator = true;
+		}
 		var bookmarks = new Array();
 		var separator = null;
 		do
 		{
-			var child = folderContent.firstChild;
-			if(child.isBookmark)
+			var child = beforeSeparator ? folderContent.firstChild : folderContent.lastChild;
+			if(child.isSeparator)
 			{
-				bookmarks.push(child);
-			}
-			else if(child.isFolder)
-			{
-				folders.push(child);
-			}
-			else if(child.isSeparator)
-			{
-				separator = child;
+				if(beforeSeparator)
+				{
+					separator = child;
+				}
 				break;
 			}
-			folderContent.removeChild(folderContent.firstChild);
+			bookmarks.push(child);
+			folderContent.removeChild(child);
 		} while(folderContent.hasChildNodes());
 
-		var sortBookmarks = function(b1, b2)
+		bookmarks.sort(function(b1, b2)
 		{
-			var text1 = b1.firstChild.innerText;
-			var text2 = b2.firstChild.innerText;
-			return text1 > text2 ? 1 :
-				text1 < text2 ? -1 : 0;
-		};
-		folders.sort(sortBookmarks);
-		bookmarks.sort(sortBookmarks);
+			if(b1.isFolder && b2.isBookmark) { return -1; }
+			if(b2.isFolder && b1.isBookmark) { return 1; }
 
-		for(var idx = 0, len = folders.length; idx < len; idx++)
-		{
-			folderContent.insertBefore(folders[idx], separator);
-		}
+			var t1 = b1.firstChild.innerText, t2 = b2.firstChild.innerText;
+			return t1 > t2 ? 1 : t1 < t2 ? -1 : 0;
+		});
+
+		var folderId = this.parentFolder.isRoot ? this.parentFolderId : this.parentFolder.id;
 		for(var idx = 0, len = bookmarks.length; idx < len; idx++)
 		{
 			folderContent.insertBefore(bookmarks[idx], separator);
+			chrome.bookmarks.move(bookmarks[idx].id, { parentId: folderId, index: idx });
 		}
 	}
 }
@@ -476,7 +499,7 @@ chrome.bookmarks.getTree(function(nodes)
 				}
 				break;
 			case 2: // open popup menu
-				if(bookmark.isBookmark || (bookmark.isFolder && bookmark.isEmpty))
+				if(bookmark.isBookmark || bookmark.isFolder)
 				{
 					bookmark.isSelected = true;
 					bookmark.showPopupMenu(ev);
@@ -488,9 +511,19 @@ chrome.bookmarks.getTree(function(nodes)
 	document.body.appendChild(rootFolder);
 	var nodesChildren = nodes[0].children;
 	rootFolder.fillFolderContent(nodesChildren[0].children, false);
-	if(rootFolder.childElementCount > 0)
+	var hideSeparator = true;
+	for(var idx = rootFolder.childElementCount - 1; idx >= 0; idx--)
 	{
-		rootFolder.addSeparator();
+		if(rootFolder.childNodes[idx].isBookmarkHidden == undefined)
+		{
+			hideSeparator = false;
+			break;
+		}
+	}
+	rootFolder.addSeparator();
+	if(hideSeparator)
+	{
+		rootFolder.lastChild.hide();
 	}
 	rootFolder.fillFolderContent(nodesChildren[1].children, false);
 
@@ -527,6 +560,4 @@ window.onload = function()
 			item.removeAttribute("onmouseout");
 		}
 	};
-	popupMenu.setMenuItemsEnabled(3);
-	popupMenu.setMenuItemsEnabled(5);
 };
