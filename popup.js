@@ -352,7 +352,7 @@ with(HTMLLIElement)
 				this.folderContent.style.left = '-' + offset + 'px';
 			}
 		}
-		var scrollBarWidth = body.scrollHeight > body.clientHeight ? 15 : 0;
+		var scrollBarWidth = body.scrollHeight > body.clientHeight ? 7 : 0;
 		width += this.folderContent.clientWidth + 2 + scrollBarWidth;
 		if(width < winMaxWidth && body.clientWidth < width)
 		{
@@ -450,7 +450,7 @@ chrome.bookmarks.getTree(function(nodes)
 
 	var height = rootFolder.clientHeight + 2;
 	var bodyStyle = document.body.style;
-	bodyStyle.width = rootFolder.clientWidth + 2 + (height < winMaxHeight ? 0 : 15) + 'px';
+	bodyStyle.width = rootFolder.clientWidth + 2 + (height < winMaxHeight ? 0 : 7) + 'px';
 	bodyStyle.height = (height < winMaxHeight ? height : winMaxHeight) + 'px';
 });
 
