@@ -111,7 +111,7 @@ with(HTMLUListElement)
 						bookmark.rootFolder.textPaddingLeft =
 						favIcon.offsetLeft + favIcon.scrollWidth + parseInt(iconMarginRight);
 				}
-				span.appendChild(document.createTextNode("Open all in tabs"));
+				span.appendChild(document.createTextNode("Open All in Tabs"));
 				bookmark.appendChild(span);
 				bookmark.isOpenAll = true;
 				this.appendChild(bookmark);
@@ -245,16 +245,16 @@ with(HTMLLIElement)
 	{
 		var popupMenu = $('popupMenu');
 		popupMenu.selectedBookmark = this;
-		if(this.isBookmark)
+		var popupItems = { 0: true, 1: true, 3: this.parentElement.childElementCount > 1, 5: true };
+		if(this.isFolder)
 		{
-			popupMenu.setMenuItemsEnabled(0, 1, 3, 5);
+			popupItems[0] = popupItems[1] = false;
+			if(!this.isEmpty)
+			{
+				popupItems[5] = false;
+			}
 		}
-		else
-		{
-			popupMenu.setMenuItemsDisabled(0, 1);
-			popupMenu.setMenuItemsEnabled(3);
-			this.isEmpty ? popupMenu.setMenuItemsEnabled(5) : popupMenu.setMenuItemsDisabled(5);
-		}
+		popupMenu.configMenu(popupItems);
 		popupMenu.show();
 
 		var body = document.body;
@@ -536,28 +536,26 @@ chrome.bookmarks.getTree(function(nodes)
 window.onload = function()
 {
 	var popupMenu = $('popupMenu');
-	popupMenu.setMenuItemsEnabled = function()
+	popupMenu.configMenu = function(items)
 	{
 		var popupMenuItems = this.getElementsByTagName('li');
-		for(var idx = arguments.length - 1; idx >= 0; idx--)
+		for(var idx in items)
 		{
-			var item = popupMenuItems[arguments[idx]];
-			item.className = "enabled";
-			item.setAttribute('onmouseup', "processMenu(event, '" + item.getAttribute("action") + "')");
-			item.setAttribute("onmouseover", "this.className = 'hover'");
-			item.setAttribute("onmouseout", "this.className = 'enabled'");
-		}
-	};
-	popupMenu.setMenuItemsDisabled = function()
-	{
-		var popupMenuItems = this.getElementsByTagName('li');
-		for(var idx = arguments.length - 1; idx >= 0; idx--)
-		{
-			var item = popupMenuItems[arguments[idx]];
-			item.className = "disabled";
-			item.removeAttribute("onmouseup");
-			item.removeAttribute("onmouseover");
-			item.removeAttribute("onmouseout");
+			var item = popupMenuItems[idx];
+			if(items[idx])
+			{
+				item.className = "enabled";
+				item.setAttribute('onmouseup', "processMenu(event, '" + item.getAttribute("action") + "')");
+				item.setAttribute("onmouseover", "this.className = 'hover'");
+				item.setAttribute("onmouseout", "this.className = 'enabled'");
+			}
+			else
+			{
+				item.className = "disabled";
+				item.removeAttribute("onmouseup");
+				item.removeAttribute("onmouseover");
+				item.removeAttribute("onmouseout");
+			}
 		}
 	};
 };
