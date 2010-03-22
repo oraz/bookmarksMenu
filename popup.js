@@ -457,9 +457,37 @@ function processMenu(ev, action)
 	}
 	unSelect();
 }
-
-function parseBookmarkTree(nodes)
+chrome.bookmarks.getTree(function(nodes)
 {
+	// waiting for DOM loading
+	if(document.readyState == 'loaded' || document.readyState == 'complete')
+	{
+		fillBookmarksTree(nodes);
+	}
+	else
+	{
+		setTimeout(function()
+		{
+			if(document.readyState == 'loaded' || document.readyState == 'complete')
+			{
+				fillBookmarksTree(nodes);
+			}
+			else
+			{
+				setTimeout(arguments.callee, 1);
+			}
+		}, 0);
+	}
+});
+
+function fillBookmarksTree(nodes)
+{
+	document.body.style.fontSize = getFontSize() + 'px';
+	var styleSheet = document.styleSheets[document.styleSheets.length - 1];
+	var favIconWidth = getFavIconWidth();
+	styleSheet.addRule('span > img', 'width: ' + favIconWidth + 'px; height: ' + favIconWidth + 'px;');
+	styleSheet.addRule('#bookmarksTree span', 'max-width: ' + getMaxWidth() + getMaxWidthMesure() + ';');
+
 	var rootFolder = $('bookmarksTree');
 	rootFolder.isRoot = true;
 
@@ -484,19 +512,7 @@ function parseBookmarkTree(nodes)
 	bodyStyle.height = (height < winMaxHeight ? height : winMaxHeight) + 'px';
 
 	delete rootFolder.hasVisibleBookmarks;
-}
-
-document.addEventListener('DOMContentLoaded', function()
-{
-	this.body.style.fontSize = getFontSize() + 'px';
-	var styleSheet = this.styleSheets[this.styleSheets.length - 1];
-	var favIconWidth = getFavIconWidth();
-	styleSheet.addRule('span > img', 'width: ' + favIconWidth + 'px; height: ' + favIconWidth + 'px;');
-	styleSheet.addRule('#bookmarksTree span', 'max-width: ' + getMaxWidth() + getMaxWidthMesure() + ';');
-
-	chrome.bookmarks.getTree(parseBookmarkTree);
-
-	$('bookmarksTree').onmouseup = function(ev)
+	rootFolder.onmouseup = function(ev)
 	{
 		var bookmark = ev.srcElement;
 		while(!(bookmark instanceof HTMLLIElement))
@@ -553,5 +569,5 @@ document.addEventListener('DOMContentLoaded', function()
 			}
 		}
 	};
-}, false);
+}
 
