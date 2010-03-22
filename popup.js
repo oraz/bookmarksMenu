@@ -245,16 +245,9 @@ with(HTMLLIElement)
 	{
 		var popupMenu = $('popupMenu');
 		popupMenu.selectedBookmark = this;
-		var popupItems = { 0: true, 1: true, 3: this.parentElement.childElementCount > 1, 5: true };
-		if(this.isFolder)
-		{
-			popupItems[0] = popupItems[1] = false;
-			if(!this.isEmpty)
-			{
-				popupItems[5] = false;
-			}
-		}
-		popupMenu.configMenu(popupItems);
+		popupMenu.configMenu({ 0: this.isBookmark, 1: this.isBookmark,
+				3: this.parentElement.childElementCount > 1,
+				5: this.isBookmark || this.isFolder && this.isEmpty });
 		popupMenu.show();
 
 		var body = document.body;
@@ -422,7 +415,8 @@ with(HTMLLIElement)
 			if(b1.isFolder && b2.isBookmark) { return -1; }
 			if(b2.isFolder && b1.isBookmark) { return 1; }
 
-			var t1 = b1.firstChild.innerText, t2 = b2.firstChild.innerText;
+			var t1 = b1.firstChild.innerText.toLowerCase(),
+				t2 = b2.firstChild.innerText.toLowerCase();
 			return t1 > t2 ? 1 : t1 < t2 ? -1 : 0;
 		});
 
@@ -535,14 +529,13 @@ chrome.bookmarks.getTree(function(nodes)
 
 window.onload = function()
 {
-	var popupMenu = $('popupMenu');
-	popupMenu.configMenu = function(items)
+	$('popupMenu').configMenu = function(config)
 	{
 		var popupMenuItems = this.getElementsByTagName('li');
-		for(var idx in items)
+		for(var idx in config)
 		{
 			var item = popupMenuItems[idx];
-			if(items[idx])
+			if(config[idx])
 			{
 				item.className = "enabled";
 				item.setAttribute('onmouseup', "processMenu(event, '" + item.getAttribute("action") + "')");
