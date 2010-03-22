@@ -63,6 +63,10 @@ with(HTMLUListElement)
 						bookmark.hide();
 						bookmark.isBookmarkHidden = true;
 					}
+					else
+					{
+						this.hasVisibleBookmarks = true;
+					}
 					bookmark.parentFolder = bookmark.rootFolder = this;
 					bookmark.parentFolderId = childBookmarks[i].parentId;
 				}
@@ -496,21 +500,19 @@ function parseBookmarkTree(nodes)
 
 	var nodesChildren = nodes[0].children;
 	rootFolder.fillFolderContent(nodesChildren[0].children, false);
-	var hideSeparator = true;
-	for(var idx = rootFolder.childElementCount - 1; idx >= 0; idx--)
-	{
-		if(!rootFolder.childNodes[idx].isBookmarkHidden)
-		{
-			hideSeparator = false;
-			break;
-		}
-	}
 	rootFolder.addSeparator();
-	if(hideSeparator)
+	var separator = rootFolder.lastChild;
+	if(!rootFolder.hasVisibleBookmarks)
 	{
-		rootFolder.lastChild.hide();
+		separator.hide();
 	}
+	rootFolder.hasVisibleBookmarks = false;
 	rootFolder.fillFolderContent(nodesChildren[1].children, false);
+	if(!rootFolder.hasVisibleBookmarks)
+	{
+		separator.hide();
+	}
+	delete rootFolder.hasVisibleBookmarks;
 
 	var height = rootFolder.clientHeight + 2;
 	var bodyStyle = document.body.style;
