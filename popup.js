@@ -484,7 +484,19 @@ function parseBookmarkTree(nodes)
 	bodyStyle.height = (height < winMaxHeight ? height : winMaxHeight) + 'px';
 
 	delete rootFolder.hasVisibleBookmarks;
-	rootFolder.onmouseup = function(ev)
+}
+
+document.addEventListener('DOMContentLoaded', function()
+{
+	document.body.style.fontSize = getFontSize() + 'px';
+	var styleSheet = document.styleSheets[document.styleSheets.length - 1];
+	var favIconWidth = getFavIconWidth();
+	styleSheet.addRule('span > img', 'width: ' + favIconWidth + 'px; height: ' + favIconWidth + 'px;');
+	styleSheet.addRule('#bookmarksTree span', 'max-width: ' + getMaxWidth() + getMaxWidthMesure() + ';');
+
+	chrome.bookmarks.getTree(parseBookmarkTree);
+
+	$('bookmarksTree').onmouseup = function(ev)
 	{
 		var bookmark = ev.srcElement;
 		while(!(bookmark instanceof HTMLLIElement))
@@ -519,18 +531,6 @@ function parseBookmarkTree(nodes)
 				break;
 		}
 	};
-}
-
-window.onload = function()
-{
-	document.body.style.fontSize = getFontSize() + 'px';
-	var styleSheet = document.styleSheets[document.styleSheets.length - 1];
-	var favIconWidth = getFavIconWidth();
-	styleSheet.addRule('span > img', 'width: ' + favIconWidth + 'px; height: ' + favIconWidth + 'px;');
-	styleSheet.addRule('#bookmarksTree span', 'max-width: ' + getMaxWidth() + getMaxWidthMesure() + ';');
-
-	chrome.bookmarks.getTree(parseBookmarkTree);
-
 	$('popupMenu').configMenu = function(config)
 	{
 		var popupMenuItems = this.getElementsByTagName('li');
@@ -553,4 +553,5 @@ window.onload = function()
 			}
 		}
 	};
-};
+}, false);
+
