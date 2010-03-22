@@ -454,18 +454,10 @@ function processMenu(ev, action)
 	unSelect();
 }
 
-chrome.bookmarks.getTree(function(nodes)
+function parseBookmarkTree(nodes)
 {
-	document.body.style.fontSize = getFontSize() + 'px';
-
-	var styleSheet = document.styleSheets[document.styleSheets.length - 1];
-	var favIconWidth = getFavIconWidth();
-	styleSheet.addRule('span > img', 'width: ' + favIconWidth + 'px; height: ' + favIconWidth + 'px;');
-	styleSheet.addRule('#bookmarksTree span', 'max-width: ' + getMaxWidth() + getMaxWidthMesure() + ';');
-
-	var rootFolder = document.createElement('ul');
+	var rootFolder = $('bookmarksTree');
 	rootFolder.isRoot = true;
-	rootFolder.id = rootFolder.className = 'bookmarksTree';
 	rootFolder.onmouseup = function(ev)
 	{
 		var bookmark = ev.srcElement;
@@ -502,13 +494,12 @@ chrome.bookmarks.getTree(function(nodes)
 		}
 	};
 
-	document.body.appendChild(rootFolder);
 	var nodesChildren = nodes[0].children;
 	rootFolder.fillFolderContent(nodesChildren[0].children, false);
 	var hideSeparator = true;
 	for(var idx = rootFolder.childElementCount - 1; idx >= 0; idx--)
 	{
-		if(rootFolder.childNodes[idx].isBookmarkHidden == undefined)
+		if(!rootFolder.childNodes[idx].isBookmarkHidden)
 		{
 			hideSeparator = false;
 			break;
@@ -525,10 +516,18 @@ chrome.bookmarks.getTree(function(nodes)
 	var bodyStyle = document.body.style;
 	bodyStyle.width = rootFolder.clientWidth + 2 + (height < winMaxHeight ? 0 : 7) + 'px';
 	bodyStyle.height = (height < winMaxHeight ? height : winMaxHeight) + 'px';
-});
+}
 
 window.onload = function()
 {
+	document.body.style.fontSize = getFontSize() + 'px';
+	var styleSheet = document.styleSheets[document.styleSheets.length - 1];
+	var favIconWidth = getFavIconWidth();
+	styleSheet.addRule('span > img', 'width: ' + favIconWidth + 'px; height: ' + favIconWidth + 'px;');
+	styleSheet.addRule('#bookmarksTree span', 'max-width: ' + getMaxWidth() + getMaxWidthMesure() + ';');
+
+	chrome.bookmarks.getTree(parseBookmarkTree);
+
 	$('popupMenu').configMenu = function(config)
 	{
 		var popupMenuItems = this.getElementsByTagName('li');
