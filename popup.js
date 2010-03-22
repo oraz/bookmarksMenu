@@ -462,6 +462,28 @@ function parseBookmarkTree(nodes)
 {
 	var rootFolder = $('bookmarksTree');
 	rootFolder.isRoot = true;
+
+	var nodesChildren = nodes[0].children;
+	rootFolder.fillFolderContent(nodesChildren[0].children, false);
+	rootFolder.addSeparator();
+	var separator = rootFolder.lastChild;
+	if(!rootFolder.hasVisibleBookmarks)
+	{
+		separator.hide();
+	}
+	rootFolder.hasVisibleBookmarks = false;
+	rootFolder.fillFolderContent(nodesChildren[1].children, false);
+	if(!rootFolder.hasVisibleBookmarks)
+	{
+		separator.hide();
+	}
+
+	var height = rootFolder.clientHeight + 2;
+	var bodyStyle = document.body.style;
+	bodyStyle.width = rootFolder.clientWidth + 2 + (height < winMaxHeight ? 0 : 7) + 'px';
+	bodyStyle.height = (height < winMaxHeight ? height : winMaxHeight) + 'px';
+
+	delete rootFolder.hasVisibleBookmarks;
 	rootFolder.onmouseup = function(ev)
 	{
 		var bookmark = ev.srcElement;
@@ -497,27 +519,6 @@ function parseBookmarkTree(nodes)
 				break;
 		}
 	};
-
-	var nodesChildren = nodes[0].children;
-	rootFolder.fillFolderContent(nodesChildren[0].children, false);
-	rootFolder.addSeparator();
-	var separator = rootFolder.lastChild;
-	if(!rootFolder.hasVisibleBookmarks)
-	{
-		separator.hide();
-	}
-	rootFolder.hasVisibleBookmarks = false;
-	rootFolder.fillFolderContent(nodesChildren[1].children, false);
-	if(!rootFolder.hasVisibleBookmarks)
-	{
-		separator.hide();
-	}
-	delete rootFolder.hasVisibleBookmarks;
-
-	var height = rootFolder.clientHeight + 2;
-	var bodyStyle = document.body.style;
-	bodyStyle.width = rootFolder.clientWidth + 2 + (height < winMaxHeight ? 0 : 7) + 'px';
-	bodyStyle.height = (height < winMaxHeight ? height : winMaxHeight) + 'px';
 }
 
 window.onload = function()
