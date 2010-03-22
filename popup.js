@@ -488,8 +488,8 @@ function parseBookmarkTree(nodes)
 
 document.addEventListener('DOMContentLoaded', function()
 {
-	document.body.style.fontSize = getFontSize() + 'px';
-	var styleSheet = document.styleSheets[document.styleSheets.length - 1];
+	this.body.style.fontSize = getFontSize() + 'px';
+	var styleSheet = this.styleSheets[this.styleSheets.length - 1];
 	var favIconWidth = getFavIconWidth();
 	styleSheet.addRule('span > img', 'width: ' + favIconWidth + 'px; height: ' + favIconWidth + 'px;');
 	styleSheet.addRule('#bookmarksTree span', 'max-width: ' + getMaxWidth() + getMaxWidthMesure() + ';');
