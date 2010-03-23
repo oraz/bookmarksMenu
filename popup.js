@@ -463,7 +463,7 @@ chrome.bookmarks.getTree(function(nodes)
 	// waiting for DOM loading
 	if(document.readyState == 'loaded' || document.readyState == 'complete')
 	{
-		fillBookmarksTree(nodes);
+		initBookmarksTree(nodes);
 	}
 	else
 	{
@@ -472,7 +472,7 @@ chrome.bookmarks.getTree(function(nodes)
 	}
 });
 
-function fillBookmarksTree(nodes)
+function initBookmarksTree(nodes)
 {
 	document.body.style.fontSize = getFontSize() + 'px';
 	var styleSheet = document.styleSheets[document.styleSheets.length - 1];
