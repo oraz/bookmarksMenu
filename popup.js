@@ -249,9 +249,9 @@ with(HTMLLIElement)
 	{
 		var popupMenu = $('popupMenu');
 		popupMenu.selectedBookmark = this;
-		popupMenu.configMenu({ 0: this.isBookmark, 1: this.isBookmark,
-				3: this.parentElement.childElementCount > 1,
-				5: this.isBookmark || this.isFolder && this.isEmpty });
+		popupMenu.configMenu({ openInNewTab: this.isBookmark, openInNewWindow: this.isBookmark,
+				reorder: this.parentElement.childElementCount > 1,
+				remove: this.isBookmark || this.isFolder && this.isEmpty });
 		popupMenu.show();
 
 		var body = document.body;
@@ -541,14 +541,14 @@ function fillBookmarksTree(nodes)
 	};
 	$('popupMenu').configMenu = function(config)
 	{
-		var popupMenuItems = this.getElementsByTagName('li');
-		for(var idx in config)
+		for(var action in config)
 		{
-			var item = popupMenuItems[idx];
-			if(config[idx])
+			var item = document.evaluate('li[@action="' + action + '"]', this, null,
+					XPathResult.ANY_UNORDERED_NODE_TYPE, null).singleNodeValue;
+			if(config[action])
 			{
 				item.className = "enabled";
-				item.setAttribute('onmouseup', "processMenu(event, '" + item.getAttribute("action") + "')");
+				item.setAttribute('onmouseup', "processMenu(event, '" + action + "')");
 				item.setAttribute("onmouseover", "this.className = 'hover'");
 				item.setAttribute("onmouseout", "this.className = 'enabled'");
 			}
