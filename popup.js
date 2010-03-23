@@ -457,6 +457,7 @@ function processMenu(ev, action)
 	}
 	unSelect();
 }
+
 chrome.bookmarks.getTree(function(nodes)
 {
 	// waiting for DOM loading
@@ -466,17 +467,8 @@ chrome.bookmarks.getTree(function(nodes)
 	}
 	else
 	{
-		setTimeout(function()
-		{
-			if(document.readyState == 'loaded' || document.readyState == 'complete')
-			{
-				fillBookmarksTree(nodes);
-			}
-			else
-			{
-				setTimeout(arguments.callee, 1);
-			}
-		}, 0);
+		var f = arguments.callee;
+		setTimeout(function() { f(nodes); }, 5);
 	}
 });
 
