@@ -1,6 +1,7 @@
 Changelog 2.4.1 (23.03.2010)
 - Waiting for DOM loading before filling bookmarks menu instead of handling
 window.onload event
+- Changed method configMenu of popupMenu
 
 Changelog 2.4.0 (22.03.2010)
 - Added popup menu item 'Reorder by Title'. Sometimes it stops working because
