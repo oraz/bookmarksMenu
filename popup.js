@@ -365,7 +365,6 @@ with(HTMLLIElement)
 		var height = posY - offset + contentHeight;
 		if(body.clientHeight < height)
 		{
-			// need to change width to take effect
 			body.setHeight(height);
 		}
 
@@ -383,8 +382,8 @@ with(HTMLLIElement)
 				this.folderContent.style.left = '-' + offset + 'px';
 			}
 		}
-		var scrollBarWidth = body.scrollHeight > body.clientHeight ? 7 : 0;
-		width += this.folderContent.clientWidth + 2 + scrollBarWidth;
+		// vscrollBar width = offsetWidth - clientWidth
+		width += this.folderContent.clientWidth + 2 + (body.offsetWidth - body.clientWidth);
 		if(width < winMaxWidth && body.clientWidth < width)
 		{
 			bodyStyle.width = width + 'px';
