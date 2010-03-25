@@ -44,6 +44,19 @@ with(HTMLElement)
 	prototype.hide = function() { this.style.display = 'none'; }
 }
 
+HTMLBodyElement.prototype.setHeight = function(height)
+{
+	if(height > winMaxHeight)
+	{
+		this.style.height = winMaxHeight + 'px';
+		this.style.overflowY = 'scroll';
+	}
+	else
+	{
+		this.style.height = height + 'px';
+	}
+}
+
 with(HTMLUListElement)
 {
 	prototype.fillFolderContent = function(childBookmarks, completely)
@@ -353,7 +366,7 @@ with(HTMLLIElement)
 		if(body.clientHeight < height)
 		{
 			// need to change width to take effect
-			bodyStyle.height = (height > winMaxHeight ? winMaxHeight : height) + 'px';
+			body.setHeight(height);
 		}
 
 		var width = 0, tmp = this;
@@ -474,7 +487,8 @@ chrome.bookmarks.getTree(function(nodes)
 
 function initBookmarksTree(nodes)
 {
-	document.body.style.fontSize = getFontSize() + 'px';
+	var bodyStyle = document.body.style;
+	bodyStyle.fontSize = getFontSize() + 'px';
 	var styleSheet = document.styleSheets[document.styleSheets.length - 1];
 	var favIconWidth = getFavIconWidth();
 	styleSheet.addRule('span > img', 'width: ' + favIconWidth + 'px; height: ' + favIconWidth + 'px;');
@@ -499,9 +513,8 @@ function initBookmarksTree(nodes)
 	}
 
 	var height = rootFolder.clientHeight + 2;
-	var bodyStyle = document.body.style;
 	bodyStyle.width = rootFolder.clientWidth + 2 + (height < winMaxHeight ? 0 : 7) + 'px';
-	bodyStyle.height = (height < winMaxHeight ? height : winMaxHeight) + 'px';
+	document.body.setHeight(height);
 
 	delete rootFolder.hasVisibleBookmarks;
 	rootFolder.onmouseup = function(ev)
