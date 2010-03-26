@@ -1,6 +1,6 @@
 {
     "name": "QuickBookmarksTree",
-    "version": "2.5.0.2",
+    "version": "2.5.0.3",
     "description": "Show bookmarks tree",
     "default_locale": "en",
     "browser_action":

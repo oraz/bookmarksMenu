@@ -106,6 +106,7 @@ function initWindowSettingsTab()
 
 window.onload = function()
 {
+	i18n.initElements();
 	for(var idx = 0; idx < 3; idx++)
 	{
 		$('btn' + idx).selectedIndex = getButtonAction(idx);
