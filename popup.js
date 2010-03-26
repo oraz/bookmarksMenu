@@ -270,14 +270,19 @@ with(HTMLLIElement)
 		var body = document.body;
 		var bodyWidth = body.clientWidth;
 		var popupMenuStyle = popupMenu.style;
-		if(ev.clientX + popupMenu.clientWidth > body.clientWidth)
+		var popupMenuWidth = popupMenu.clientWidth + 3; // 3 is a border size
+		if(ev.clientX + popupMenuWidth >= body.clientWidth)
 		{
-			if(popupMenu.clientWidth > body.clientWidth)
+			if(ev.clientX > popupMenuWidth)
 			{
-				bodyWidth = popupMenu.clientWidth + 7;
-				body.style.width = bodyWidth + 'px';
+				popupMenuStyle.left = ev.clientX - popupMenuWidth + 'px';
 			}
-			popupMenuStyle.left = bodyWidth - popupMenu.clientWidth - 5 + 'px';
+			else
+			{
+				bodyWidth += popupMenuWidth - ev.clientX;
+				body.style.width = bodyWidth + (body.offsetWidth - body.clientWidth) + 'px';
+				popupMenuStyle.left = '1px';
+			}
 		}
 		else
 		{

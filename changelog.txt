@@ -1,3 +1,6 @@
+Changelog 2.4.2.1 (XX.03.2010)
+- Changed positionong of popup menu
+
 Changelog 2.4.2 (25.03.2010)
 - Fixed scroll bar appearance to be compatible with Chrome 5.0.342.7 beta.
 
