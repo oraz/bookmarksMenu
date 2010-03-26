@@ -1,0 +1,9 @@
+{
+    "empty": { "message": "Empty" },
+    "openAllInTabs": { "message": "Open All in Tabs" },
+
+    "openInNewTab": { "message": "Open in New Tab" },
+    "openInNewWindow": { "message": "Open in New Window" },
+    "reorder": { "message": "Reorder by Title" },
+    "remove": { "message": "Delete" }
+}

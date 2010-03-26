@@ -1,0 +1,9 @@
+{
+    "empty": { "message": "Пусто" },
+    "openAllInTabs": { "message": "Открыть всё во вкладках" },
+
+    "openInNewTab": { "message": "Открыть в новой вкладке" },
+    "openInNewWindow": { "message": "Открыть в новом окне" },
+    "reorder": { "message": "Упорядочить по заголовкам" },
+    "remove": { "message": "Удалить" }
+}
