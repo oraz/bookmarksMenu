@@ -1,6 +1,4 @@
 
-// vim:noet ts=4 sw=4
-
 var winMaxWidth = getWindowMaxWidth();
 var winMaxHeight = getWindowMaxHeight();
 var showTooltip = isShowTooltip();
@@ -128,7 +126,7 @@ with(HTMLUListElement)
 						bookmark.rootFolder.textPaddingLeft =
 						favIcon.offsetLeft + favIcon.scrollWidth + parseInt(iconMarginRight);
 				}
-				span.appendChild(document.createTextNode(chrome.i18n.getMessage('openAllInTabs')));
+				span.appendChild(document.createTextNode(i18n.getMessage('openAllInTabs')));
 				bookmark.appendChild(span);
 				bookmark.isOpenAll = true;
 				this.appendChild(bookmark);
@@ -141,7 +139,7 @@ with(HTMLUListElement)
 	}
 	prototype.fillAsEmpty = function()
 	{
-		this.innerHTML = '<li class="empty"><span>' + chrome.i18n.getMessage('empty') + '</span></li>';
+		this.innerHTML = '<li class="empty"><span>' + i18n.getMessage('empty') + '</span></li>';
 		this.parentElement.isEmpty = true;
 	}
 	prototype.addSeparator = function()
@@ -557,13 +555,7 @@ function initBookmarksTree(nodes)
 	};
 
 	var popupMenu = $('popupMenu');
-	var snapshot = document.evaluate('li[@action]', popupMenu, null, XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE, null);
-	for(var idx = snapshot.snapshotLength - 1; idx >= 0; idx--)
-	{
-		var item = snapshot.snapshotItem(idx);
-		item.firstChild.appendChild(document.createTextNode(chrome.i18n.getMessage(item.getAttribute('action'))));
-	}
-
+	i18n.initElements(popupMenu);
 	popupMenu.configMenu = function(config)
 	{
 		for(var action in config)
@@ -588,3 +580,4 @@ function initBookmarksTree(nodes)
 	};
 }
 
+// vim:noet

@@ -1,6 +1,4 @@
 
-// vim:noet ts=4 sw=4
-
 function getButtonAction(btn)
 {
 	var action = localStorage[btn];
@@ -58,3 +56,4 @@ function isShowTooltip()
 	return localStorage['showTooltip'] == 'true';
 }
 
+// vim:noet ts=4 sw=4

@@ -1,6 +1,4 @@
 
-// vim:noet ts=4 sw=4
-
 function isJsURL(url)
 {
 	return url.substr(0, 11) == 'javascript:';
@@ -28,3 +26,5 @@ function getFavicon(url)
 //	return 'chrome://favicon/' + url;
 	return 'http://getfavicon.appspot.com/' + url;
 }
+
+// vim:noet

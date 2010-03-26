@@ -3,17 +3,18 @@
         <link rel="stylesheet" type="text/css" href="popup.css">
         <script type="text/javascript" src="localstorage.js"></script>
         <script type="text/javascript" src="favicon.js"></script>
+        <script type="text/javascript" src="i18n.js"></script>
         <script type="text/javascript" src="popup.js"></script>
     </head>
     <body onmousedown="return false;">
         <div id="transparentLayer" onmouseup="unSelect()"></div>
         <ul id="popupMenu">
-            <li action="openInNewTab"><span><img src="icons/tab-new.png"></span></li>
-            <li action="openInNewWindow"><span><img src="icons/window-new.png"></span></li>
+            <li action="openInNewTab"><span><img src="icons/tab-new.png"><i18n msg="openInNewTab" /></span></li>
+            <li action="openInNewWindow"><span><img src="icons/window-new.png"><i18n msg="openInNewWindow" /></span></li>
             <li class="separator"></li>
-            <li action="reorder"><span><img src="icons/reorder.png"></span></li>
+            <li action="reorder"><span><img src="icons/reorder.png"><i18n msg="reorder" /></span></li>
             <li class="separator"></li>
-            <li action="remove"><span><img src="icons/icon_delete.png"></span></li>
+            <li action="remove"><span><img src="icons/icon_delete.png"><i18n msg="remove" /></span></li>
         </ul>
         <ul id="bookmarksTree" class="bookmarksTree"></ul>
     </body>

@@ -1,12 +1,12 @@
 {
     "name": "QuickBookmarksTree",
-    "version": "2.5.0.1",
+    "version": "2.5.0.2",
     "description": "Show bookmarks tree",
     "default_locale": "en",
     "browser_action":
     {
         "default_icon": "icons/icon-24.png",
-        "default_title": "Bookmarks",
+        "default_title": "__MSG_extDescription__",
         "popup": "popup.html"
     },
     "icons":

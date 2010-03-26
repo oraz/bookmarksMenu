@@ -1,6 +1,4 @@
 
-// vim:noet ts=4 sw=4
-
 function $(id) { return document.getElementById(id); }
 
 function setMouseButtonAction(select, button)
@@ -159,3 +157,5 @@ window.onload = function()
 	});
 	initWindowSettingsTab();
 };
+
+// vim:noet
