@@ -83,11 +83,10 @@ span > img {
 }
 
 #transparentLayer {
-    border: 1px solid black;
-    position: absolute;
-    top: 0px; left: 0px;
-    background-color: gray;
-    opacity: 0.35;
+    position: fixed;
+    left: 0px; top: 0px; bottom: 0px;
+    background-color: white;
+    opacity: 0.5;
     display: none;
     z-index: 1;
 }
