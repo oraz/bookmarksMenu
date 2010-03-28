@@ -28,7 +28,7 @@
     "tmRightBtn": { "message": "Right button" },
     "tmOpenInCurTab": { "message": "Open in current tab" },
     "tmOpenInNewTab": { "message": "Open in new tab" },
-    "tmOpenPopupMenu": { "message": "Show context menu" },
+    "tmShowContextMenu": { "message": "Show context menu" },
     "tmSwitchToNewTab": { "message": "When I open a bookmark in new tab, switch to it immediately"},
 
     // Bookmarks tab

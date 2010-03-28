@@ -73,7 +73,7 @@ span > img {
     margin-right: 0.3em;
 }
 
-#popupMenu {
+#contextMenu {
     display: none;
     position: absolute;
     z-index: 2;

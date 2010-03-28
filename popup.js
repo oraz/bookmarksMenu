@@ -278,55 +278,55 @@ with(HTMLLIElement)
 			}
 		}
 	}
-	prototype.showPopupMenu = function(ev)
+	prototype.showContextMenu = function(ev)
 	{
-		var popupMenu = $('popupMenu');
-		popupMenu.selectedBookmark = this;
-		popupMenu.configMenu({ openInNewTab: this.isBookmark, openInNewWindow: this.isBookmark,
+		var contextMenu = $('contextMenu');
+		contextMenu.selectedBookmark = this;
+		contextMenu.configMenu({ openInNewTab: this.isBookmark, openInNewWindow: this.isBookmark,
 				reorder: this.parentElement.childElementCount > 1,
 				remove: this.isBookmark || this.isFolder && this.isEmpty });
-		popupMenu.show();
+		contextMenu.show();
 
 		var body = document.body;
 		var bodyWidth = body.clientWidth;
-		var popupMenuStyle = popupMenu.style;
-		var popupMenuWidth = popupMenu.clientWidth + 3; // 3 is a border size
+		var contextMenuStyle = contextMenu.style;
+		var contextMenuWidth = contextMenu.clientWidth + 3; // 3 is a border size
 		var scrollBarWidth = body.offsetWidth - body.clientWidth;
-		if(ev.clientX + popupMenuWidth >= body.clientWidth)
+		if(ev.clientX + contextMenuWidth >= body.clientWidth)
 		{
-			if(ev.clientX > popupMenuWidth)
+			if(ev.clientX > contextMenuWidth)
 			{
-				popupMenuStyle.left = ev.clientX - popupMenuWidth + 'px';
+				contextMenuStyle.left = ev.clientX - contextMenuWidth + 'px';
 			}
 			else
 			{
-				bodyWidth += popupMenuWidth - ev.clientX;
+				bodyWidth += contextMenuWidth - ev.clientX;
 				body.style.width = bodyWidth + scrollBarWidth + 'px';
-				popupMenuStyle.left = '1px';
+				contextMenuStyle.left = '1px';
 			}
 		}
 		else
 		{
-			popupMenuStyle.left = ev.clientX + 'px';
+			contextMenuStyle.left = ev.clientX + 'px';
 		}
 
 		var bodyHeight = body.scrollHeight;
-		if(ev.clientY + popupMenu.clientHeight > body.clientHeight)
+		if(ev.clientY + contextMenu.clientHeight > body.clientHeight)
 		{
-			if(popupMenu.clientHeight > body.clientHeight)
+			if(contextMenu.clientHeight > body.clientHeight)
 			{
-				bodyHeight = ev.clientY + popupMenu.clientHeight + 5;
+				bodyHeight = ev.clientY + contextMenu.clientHeight + 5;
 				body.style.height = bodyHeight + 'px';
-				popupMenuStyle.top = ev.clientY + 'px';
+				contextMenuStyle.top = ev.clientY + 'px';
 			}
 			else
 			{
-				popupMenuStyle.top = ev.clientY + body.scrollTop - popupMenu.clientHeight + 'px';
+				contextMenuStyle.top = ev.clientY + body.scrollTop - contextMenu.clientHeight + 'px';
 			}
 		}
 		else
 		{
-			popupMenuStyle.top = ev.clientY + body.scrollTop + 'px';
+			contextMenuStyle.top = ev.clientY + body.scrollTop + 'px';
 		}
 
 		var transparentLayer = $('transparentLayer');
@@ -471,11 +471,11 @@ with(HTMLLIElement)
 
 function unSelect()
 {
-	var popupMenu = $('popupMenu');
-	var bookmark = popupMenu.selectedBookmark;
+	var contextMenu = $('contextMenu');
+	var bookmark = contextMenu.selectedBookmark;
 	bookmark.isSelected = false;
 	bookmark.unHighlight();
-	popupMenu.hide();
+	contextMenu.hide();
 	$('transparentLayer').hide();
 }
 
@@ -483,12 +483,12 @@ function processMenu(ev, action)
 {
 	if(ev.button == 0)
 	{
-		var popupMenu = ev.srcElement;
-		while(!(popupMenu instanceof HTMLUListElement))
+		var contextMenu = ev.srcElement;
+		while(!(contextMenu instanceof HTMLUListElement))
 		{
-			popupMenu = popupMenu.parentElement;
+			contextMenu = contextMenu.parentElement;
 		}
-		var bookmark = popupMenu.selectedBookmark;
+		var bookmark = contextMenu.selectedBookmark;
 		bookmark[action].call(bookmark);
 	}
 	unSelect();
@@ -582,19 +582,19 @@ function initBookmarksTree(nodes)
 					}
 				}
 				break;
-			case 2: // open popup menu
+			case 2: // open context menu
 				if(bookmark.isBookmark || bookmark.isFolder)
 				{
 					bookmark.isSelected = true;
-					bookmark.showPopupMenu(ev);
+					bookmark.showContextMenu(ev);
 				}
 				break;
 		}
 	};
 
-	var popupMenu = $('popupMenu');
-	i18n.initElements(popupMenu);
-	popupMenu.configMenu = function(config)
+	var contextMenu = $('contextMenu');
+	i18n.initElements(contextMenu);
+	contextMenu.configMenu = function(config)
 	{
 		for(var action in config)
 		{

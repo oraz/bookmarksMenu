@@ -104,7 +104,7 @@ function initWindowSettingsTab()
 	}
 }
 
-window.onload = function()
+document.addEventListener("DOMContentLoaded", function()
 {
 	i18n.initElements();
 	for(var idx = 0; idx < 3; idx++)
@@ -157,6 +157,6 @@ window.onload = function()
 		}
 	});
 	initWindowSettingsTab();
-};
+}, false);
 
 // vim:noet
