@@ -1,5 +1,7 @@
 {
-    "extDescription": { "message": "Закладки" },
+    // manifest.json
+    "extDescription": { "message": "Показывает дерево закладок" },
+    "extTitle": { "message": "Закладки" },
 
     // Tree
     "empty": { "message": "Пусто" },
