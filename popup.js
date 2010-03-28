@@ -151,14 +151,30 @@ with(HTMLUListElement)
 		separator.isSeparator = true;
 		this.appendChild(separator);
 	}
-	prototype.openAllInTabs = function()
+	prototype.openAllInTabs = function(firstInCurrentTab)
 	{
-		for(var idx in this.childNodes)
+		var firstTab = true;
+		for(var idx = 0, len = this.childNodes.length; idx < len; idx++)
 		{
 			var bookmark = this.childNodes[idx];
 			if(bookmark.isBookmark)
 			{
-				chrome.tabs.create({ url: bookmark.url, selected: false });
+				if(firstTab && firstInCurrentTab)
+				{
+					bookmark.open(false);
+				}
+				else if(firstTab)
+				{
+					chrome.tabs.create({ url: bookmark.url, selected: false }, function(tab)
+					{
+						chrome.tabs.update(tab.id, { selected: true });
+					});
+				}
+				else
+				{
+					chrome.tabs.create({ url: bookmark.url, selected: false });
+				}
+				firstTab = false;
 			}
 		}
 		window.close();
@@ -212,20 +228,26 @@ with(HTMLLIElement)
 			}
 		}
 	}
-	prototype.open = function()
+	prototype.open = function(closeAfterOpen)
 	{
 		var url = this.url;
 		if(isJsURL(url))
 		{
 			chrome.tabs.executeScript(null, { code: unescape(url.substr(11)) });
-			window.close();
+			if(closeAfterOpen)
+			{
+				window.close();
+			}
 		}
 		else
 		{
 			chrome.tabs.getSelected(null, function(tab)
 			{
 				chrome.tabs.update(tab.id, { url: url });
-				window.close();
+				if(closeAfterOpen)
+				{
+					window.close();
+				}
 			});
 		}
 	}
@@ -325,7 +347,7 @@ with(HTMLLIElement)
 		else
 		{
 			var bookmarksCount = 0;
-			for(var idx in folderContent.childNodes)
+			for(var idx = folderContent.childNodes.length - 1; idx >= 0; idx--)
 			{
 				if(folderContent.childNodes[idx].isBookmark)
 				{
@@ -533,17 +555,33 @@ function initBookmarksTree(nodes)
 			case 0: // open in current tab
 				if(bookmark.isBookmark)
 				{
-					ev.ctrlKey ? bookmark.openInNewTab() : bookmark.open();
+					ev.ctrlKey ? bookmark.openInNewTab() : bookmark.open(true);
 				}
 				else if(bookmark.isOpenAll)
 				{
-					bookmark.parentElement.openAllInTabs();
+					bookmark.parentElement.openAllInTabs(true);
 				}
 				break;
 			case 1: // open in new tab
 				if(bookmark.isBookmark)
 				{
 					bookmark.openInNewTab();
+				}
+				else if(bookmark.isOpenAll)
+				{
+					bookmark.parentElement.openAllInTabs(false);
+				}
+				else if(bookmark.isFolder)
+				{
+					var folderContent = bookmark.lastChild;
+					for(var idx = 0, len = this.childNodes.length; idx < len; idx++)
+					{
+						if(folderContent.childNodes[idx].isBookmark)
+						{
+							folderContent.openAllInTabs(false);
+							break;
+						}
+					}
 				}
 				break;
 			case 2: // open popup menu
