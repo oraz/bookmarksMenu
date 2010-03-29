@@ -1,5 +1,7 @@
 Changelog 2.5.0 (29.03.2010)
 - Added translation to Russian.
+- Fixed handler for middle button click for folders and for 'Open All in Tabs'
+item
 
 Changelog 2.4.4 (28.03.2010)
 - Added handler for middle button click for folders and for 'Open All in Tabs'
