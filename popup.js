@@ -22,12 +22,14 @@ function Bookmark(bookmarkNode)
 	if(bookmarkNode.url == undefined)
 	{
 		bookmark.isFolder = true;
+		bookmark.setAttribute("type", "folder");
 		bookmark.childBookmarks = bookmarkNode.children;
 		bookmark.onmouseover = bookmark.displayFolderContent;
 	}
 	else
 	{
 		bookmark.isBookmark = true;
+		bookmark.setAttribute("type", "bookmark");
 		bookmark.url = bookmarkNode.url;
 		bookmark.onmouseover = bookmark.highlight;
 		bookmark.onmouseout = bookmark.unHighlight;
@@ -73,6 +75,7 @@ with(HTMLUListElement)
 					{
 						bookmark.hide();
 						bookmark.isBookmarkHidden = true;
+						bookmark.setAttribute("type", "hidden");
 					}
 					else
 					{
@@ -111,16 +114,8 @@ with(HTMLUListElement)
 				}
 				else
 				{
-					var favIcon;
-					for(var idx = bookmark.rootFolder.childElementCount - 1; idx >= 0; idx--)
-					{
-						var tmp = bookmark.rootFolder.childNodes[idx];
-						if((tmp.isFolder || tmp.isBookmark) && !tmp.isBookmarkHidden)
-						{
-							favIcon = tmp.firstChild.firstChild;
-							break;
-						}
-					}
+					var favIcon = document.evaluate('li[@type="bookmark" or @type="folder"]', bookmark.rootFolder,
+							null, XPathResult.ANY_UNORDERED_NODE_TYPE, null).singleNodeValue.firstChild.firstChild;
 					var iconMarginRight = window.getComputedStyle(favIcon).marginRight; // contains '3px'
 					span.style.paddingLeft =
 						bookmark.rootFolder.textPaddingLeft =
@@ -151,28 +146,16 @@ with(HTMLUListElement)
 	}
 	prototype.openAllInTabs = function(firstInCurrentTab)
 	{
-		var firstTab = true;
-		for(var idx = 0, len = this.childNodes.length; idx < len; idx++)
+		var snapshot = document.evaluate('li[@type="bookmark"]', this, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+		for(var idx = 0, len = snapshot.snapshotLength; idx < len; idx++)
 		{
-			var bookmark = this.childNodes[idx];
-			if(bookmark.isBookmark)
+			if(idx == 0 && firstInCurrentTab)
 			{
-				if(firstTab && firstInCurrentTab)
-				{
-					bookmark.open(false);
-				}
-				else if(firstTab)
-				{
-					chrome.tabs.create({ url: bookmark.url, selected: false }, function(tab)
-					{
-						chrome.tabs.update(tab.id, { selected: true });
-					});
-				}
-				else
-				{
-					chrome.tabs.create({ url: bookmark.url, selected: false });
-				}
-				firstTab = false;
+				snapshot.snapshotItem(idx).open(false);
+			}
+			else
+			{
+				chrome.tabs.create({ url: snapshot.snapshotItem(idx).url, selected: idx == 0 });
 			}
 		}
 		window.close();
@@ -344,14 +327,8 @@ with(HTMLLIElement)
 		}
 		else
 		{
-			var bookmarksCount = 0;
-			for(var idx = folderContent.childNodes.length - 1; idx >= 0; idx--)
-			{
-				if(folderContent.childNodes[idx].isBookmark)
-				{
-					bookmarksCount++;
-				}
-			}
+			var bookmarksCount = document.evaluate('count(li[@type="bookmark"])', folderContent, null,
+					XPathResult.NUMBER_TYPE, null).numberValue;
 			if(bookmarksCount < 2 && folderContent.lastElementChild.isOpenAll)
 			{
 				// remove "open all" and separator
@@ -572,13 +549,11 @@ function initBookmarksTree(nodes)
 				else if(bookmark.isFolder)
 				{
 					var folderContent = bookmark.lastChild;
-					for(var idx = 0, len = this.childNodes.length; idx < len; idx++)
+					var count = document.evaluate('count(li[@type="bookmark"])', folderContent, null,
+							XPathResult.NUMBER_TYPE, null);
+					if(count.numberValue > 0)
 					{
-						if(folderContent.childNodes[idx].isBookmark)
-						{
-							folderContent.openAllInTabs(false);
-							break;
-						}
+						folderContent.openAllInTabs(false);
 					}
 				}
 				break;
