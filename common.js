@@ -32,20 +32,11 @@ function isFileURL(url)
 
 function getFavicon(url)
 {
-	if(url == undefined)
-	{
-		return 'icons/folder.png';
-	}
-	if(isJsURL(url))
-	{
-		return 'icons/js.png';
-	}
-	if(isFileURL(url))
-	{
-		return 'icons/html.png';
-	}
-//	return 'chrome://favicon/' + url;
-	return 'http://getfavicon.appspot.com/' + url;
+	return url == undefined ? 'icons/folder.png'
+		: isJsURL(url) ? 'icons/js.png'
+		: isFileURL(url) ? 'icons/html.png'
+//		: 'chrome://favicon/' + url;
+		: 'http://getfavicon.appspot.com/' + url;
 }
 
 // vim:noet
