@@ -2,18 +2,18 @@
     <head>
         <link rel="stylesheet" type="text/css" href="popup.css">
         <script type="text/javascript" src="localstorage.js"></script>
-        <script type="text/javascript" src="favicon.js"></script>
+        <script type="text/javascript" src="common.js"></script>
         <script type="text/javascript" src="popup.js"></script>
     </head>
     <body onmousedown="return false;">
         <div id="transparentLayer" onmouseup="unSelect()"></div>
-        <ul id="popupMenu">
-            <li action="openInNewTab"><span><img src="icons/tab-new.png">Open in New Tab</span></li>
-            <li action="openInNewWindow"><span><img src="icons/window-new.png">Open in New Window</span></li>
+        <ul id="contextMenu">
+            <li action="openInNewTab"><span i18n="openInNewTab"><img src="icons/tab-new.png"></span></li>
+            <li action="openInNewWindow"><span i18n="openInNewWindow"><img src="icons/window-new.png"></span></li>
             <li class="separator"></li>
-            <li action="reorder"><span><img src="icons/reorder.png">Reorder by Title</span></li>
+            <li action="reorder"><span i18n="reorder"><img src="icons/reorder.png"></span></li>
             <li class="separator"></li>
-            <li action="remove"><span><img src="icons/icon_delete.png">Delete</span></li>
+            <li action="remove"><span i18n="remove"><img src="icons/icon_delete.png"></span></li>
         </ul>
         <ul id="bookmarksTree" class="bookmarksTree"></ul>
     </body>

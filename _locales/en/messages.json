@@ -1,0 +1,55 @@
+{
+    // manifest.json
+    "extDescription": { "message": "Show bookmarks tree" },
+    "extTitle": { "message": "Bookmarks" },
+
+    // Tree
+    "empty": { "message": "empty" },
+    "openAllInTabs": { "message": "Open All in Tabs" },
+
+    // Popup menu
+    "openInNewTab": { "message": "Open in New Tab" },
+    "openInNewWindow": { "message": "Open in New Window" },
+    "reorder": { "message": "Reorder by Title" },
+    "remove": { "message": "Delete" },
+
+    // Options page
+    "mainHeader": { "message": "QuickBookrmarksTree settings" },
+
+    // tabs names
+    "tabMouse": { "message": "Mouse" },
+    "tabBookmarks": { "message": "Bookmarks" },
+    "tabWindow": { "message": "Window & Tree" },
+
+    // Mouse tab
+    "tmMouseConfig": { "message": "Mouse configuration" },
+    "tmLeftBtn": { "message": "Left button" },
+    "tmMiddleBtn": { "message": "Middle button" },
+    "tmRightBtn": { "message": "Right button" },
+    "tmOpenInCurTab": { "message": "Open in current tab" },
+    "tmOpenInNewTab": { "message": "Open in new tab" },
+    "tmShowContextMenu": { "message": "Show context menu" },
+    "tmSwitchToNewTab": { "message": "When I open a bookmark in new tab, switch to it immediately"},
+
+    // Bookmarks tab
+    "tbSelectBookmarks": { "message": "Select bookmarks to display" },
+
+    // Window & Tree tab
+    "twPopupConfig": { "message": "Popup window configuration" },
+    "twWinMaxWidth": { "message": "Window width (max 800px):" },
+    "twWinMaxHeight": { "message": "Window height (max 600px):" },
+    "twMesurePX": { "message": "px" },
+
+    "twTreeConfig": { "message": "Bookmarks tree configuration" },
+    "twFontSize": { "message": "Font size:" },
+    "twFaviconSize": { "message": "Favicon width and height:" },
+    "twMaxBookmarkWidth": { "message": "Max width for bookmark:" },
+    "twMaxBookmarkWidthEM": { "message": "'m' symbols" },
+    "twMaxBookmarkWidthPX": { "message": "pixels" },
+    "twMaxBookmarkWidthIN": { "message": "inches" },
+    "twMaxBookmarkWidthCM": { "message": "centimeters" },
+    "twMaxBookmarkWidthMM": { "message": "millimeters" },
+
+    "twShowTooltip": { "message": "Show tooltip for long bookmark name" },
+    "twRestoreDflt": { "message": "Restore default settings" }
+}

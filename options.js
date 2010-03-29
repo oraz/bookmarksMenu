@@ -1,8 +1,4 @@
 
-// vim:noet ts=4 sw=4
-
-function $(id) { return document.getElementById(id); }
-
 function setMouseButtonAction(select, button)
 {
 	localStorage[button] = select.selectedIndex;
@@ -106,8 +102,9 @@ function initWindowSettingsTab()
 	}
 }
 
-window.onload = function()
+document.addEventListener("DOMContentLoaded", function()
 {
+	chrome.i18n.initElements();
 	for(var idx = 0; idx < 3; idx++)
 	{
 		$('btn' + idx).selectedIndex = getButtonAction(idx);
@@ -158,4 +155,6 @@ window.onload = function()
 		}
 	});
 	initWindowSettingsTab();
-};
+}, false);
+
+// vim:noet

@@ -1,14 +1,7 @@
 
-// vim:noet ts=4 sw=4
-
 var winMaxWidth = getWindowMaxWidth();
 var winMaxHeight = getWindowMaxHeight();
 var showTooltip = isShowTooltip();
-
-function $(id)
-{
-	return document.getElementById(id);
-}
 
 function Bookmark(bookmarkNode)
 {
@@ -24,12 +17,14 @@ function Bookmark(bookmarkNode)
 	if(bookmarkNode.url == undefined)
 	{
 		bookmark.isFolder = true;
+		bookmark.setAttribute("type", "folder");
 		bookmark.childBookmarks = bookmarkNode.children;
 		bookmark.onmouseover = bookmark.displayFolderContent;
 	}
 	else
 	{
 		bookmark.isBookmark = true;
+		bookmark.setAttribute("type", "bookmark");
 		bookmark.url = bookmarkNode.url;
 		bookmark.onmouseover = bookmark.highlight;
 		bookmark.onmouseout = bookmark.unHighlight;
@@ -75,6 +70,7 @@ with(HTMLUListElement)
 					{
 						bookmark.hide();
 						bookmark.isBookmarkHidden = true;
+						bookmark.setAttribute("type", "hidden");
 					}
 					else
 					{
@@ -113,22 +109,14 @@ with(HTMLUListElement)
 				}
 				else
 				{
-					var favIcon;
-					for(var idx = bookmark.rootFolder.childElementCount - 1; idx >= 0; idx--)
-					{
-						var tmp = bookmark.rootFolder.childNodes[idx];
-						if((tmp.isFolder || tmp.isBookmark) && !tmp.isBookmarkHidden)
-						{
-							favIcon = tmp.firstChild.firstChild;
-							break;
-						}
-					}
+					var favIcon = XPath('li[@type="bookmark" or @type="folder"]', bookmark.rootFolder,
+							XPathResult.ANY_UNORDERED_NODE_TYPE).singleNodeValue.firstChild.firstChild;
 					var iconMarginRight = window.getComputedStyle(favIcon).marginRight; // contains '3px'
 					span.style.paddingLeft =
 						bookmark.rootFolder.textPaddingLeft =
 						favIcon.offsetLeft + favIcon.scrollWidth + parseInt(iconMarginRight);
 				}
-				span.appendChild(document.createTextNode("Open All in Tabs"));
+				span.appendChild(document.createTextNode(chrome.i18n.getMessage('openAllInTabs')));
 				bookmark.appendChild(span);
 				bookmark.isOpenAll = true;
 				this.appendChild(bookmark);
@@ -141,7 +129,7 @@ with(HTMLUListElement)
 	}
 	prototype.fillAsEmpty = function()
 	{
-		this.innerHTML = '<li class="empty"><span>Empty</span></li>';
+		this.innerHTML = '<li class="empty"><span>(' + chrome.i18n.getMessage('empty') + ')</span></li>';
 		this.parentElement.isEmpty = true;
 	}
 	prototype.addSeparator = function()
@@ -153,31 +141,23 @@ with(HTMLUListElement)
 	}
 	prototype.openAllInTabs = function(firstInCurrentTab)
 	{
-		var firstTab = true;
-		for(var idx = 0, len = this.childNodes.length; idx < len; idx++)
+		var snapshot = XPath('li[@type="bookmark"]', this, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE);
+		for(var idx = 0, len = snapshot.snapshotLength; idx < len; idx++)
 		{
-			var bookmark = this.childNodes[idx];
-			if(bookmark.isBookmark)
+			if(idx == 0 && firstInCurrentTab)
 			{
-				if(firstTab && firstInCurrentTab)
-				{
-					bookmark.open(false);
-				}
-				else if(firstTab)
-				{
-					chrome.tabs.create({ url: bookmark.url, selected: false }, function(tab)
-					{
-						chrome.tabs.update(tab.id, { selected: true });
-					});
-				}
-				else
-				{
-					chrome.tabs.create({ url: bookmark.url, selected: false });
-				}
-				firstTab = false;
+				snapshot.snapshotItem(idx).open(false);
+			}
+			else
+			{
+				chrome.tabs.create({ url: snapshot.snapshotItem(idx).url, selected: idx == 0 });
 			}
 		}
 		window.close();
+	}
+	prototype.getNumberOfBookmarks = function()
+	{
+		return XPath('count(li[@type="bookmark"])', this, XPathResult.NUMBER_TYPE).numberValue;
 	}
 }
 
@@ -280,55 +260,55 @@ with(HTMLLIElement)
 			}
 		}
 	}
-	prototype.showPopupMenu = function(ev)
+	prototype.showContextMenu = function(ev)
 	{
-		var popupMenu = $('popupMenu');
-		popupMenu.selectedBookmark = this;
-		popupMenu.configMenu({ openInNewTab: this.isBookmark, openInNewWindow: this.isBookmark,
+		var contextMenu = $('contextMenu');
+		contextMenu.selectedBookmark = this;
+		contextMenu.configMenu({ openInNewTab: this.isBookmark, openInNewWindow: this.isBookmark,
 				reorder: this.parentElement.childElementCount > 1,
 				remove: this.isBookmark || this.isFolder && this.isEmpty });
-		popupMenu.show();
+		contextMenu.show();
 
 		var body = document.body;
 		var bodyWidth = body.clientWidth;
-		var popupMenuStyle = popupMenu.style;
-		var popupMenuWidth = popupMenu.clientWidth + 3; // 3 is a border size
+		var contextMenuStyle = contextMenu.style;
+		var contextMenuWidth = contextMenu.clientWidth + 3; // 3 is a border size
 		var scrollBarWidth = body.offsetWidth - body.clientWidth;
-		if(ev.clientX + popupMenuWidth >= body.clientWidth)
+		if(ev.clientX + contextMenuWidth >= body.clientWidth)
 		{
-			if(ev.clientX > popupMenuWidth)
+			if(ev.clientX > contextMenuWidth)
 			{
-				popupMenuStyle.left = ev.clientX - popupMenuWidth + 'px';
+				contextMenuStyle.left = ev.clientX - contextMenuWidth + 'px';
 			}
 			else
 			{
-				bodyWidth += popupMenuWidth - ev.clientX;
+				bodyWidth += contextMenuWidth - ev.clientX;
 				body.style.width = bodyWidth + scrollBarWidth + 'px';
-				popupMenuStyle.left = '1px';
+				contextMenuStyle.left = '1px';
 			}
 		}
 		else
 		{
-			popupMenuStyle.left = ev.clientX + 'px';
+			contextMenuStyle.left = ev.clientX + 'px';
 		}
 
 		var bodyHeight = body.scrollHeight;
-		if(ev.clientY + popupMenu.clientHeight > body.clientHeight)
+		if(ev.clientY + contextMenu.clientHeight > body.clientHeight)
 		{
-			if(popupMenu.clientHeight > body.clientHeight)
+			if(contextMenu.clientHeight > body.clientHeight)
 			{
-				bodyHeight = ev.clientY + popupMenu.clientHeight + 5;
+				bodyHeight = ev.clientY + contextMenu.clientHeight + 5;
 				body.style.height = bodyHeight + 'px';
-				popupMenuStyle.top = ev.clientY + 'px';
+				contextMenuStyle.top = ev.clientY + 'px';
 			}
 			else
 			{
-				popupMenuStyle.top = ev.clientY + body.scrollTop - popupMenu.clientHeight + 'px';
+				contextMenuStyle.top = ev.clientY + body.scrollTop - contextMenu.clientHeight + 'px';
 			}
 		}
 		else
 		{
-			popupMenuStyle.top = ev.clientY + body.scrollTop + 'px';
+			contextMenuStyle.top = ev.clientY + body.scrollTop + 'px';
 		}
 
 		var transparentLayer = $('transparentLayer');
@@ -344,22 +324,11 @@ with(HTMLLIElement)
 		{
 			folderContent.fillAsEmpty();
 		}
-		else
+		else if(folderContent.getNumberOfBookmarks() < 2 && folderContent.lastElementChild.isOpenAll)
 		{
-			var bookmarksCount = 0;
-			for(var idx = folderContent.childNodes.length - 1; idx >= 0; idx--)
-			{
-				if(folderContent.childNodes[idx].isBookmark)
-				{
-					bookmarksCount++;
-				}
-			}
-			if(bookmarksCount < 2 && folderContent.lastElementChild.isOpenAll)
-			{
-				// remove "open all" and separator
-				folderContent.removeChild(folderContent.lastElementChild);
-				folderContent.removeChild(folderContent.lastElementChild);
-			}
+			// remove "open all" and separator
+			folderContent.removeChild(folderContent.lastElementChild);
+			folderContent.removeChild(folderContent.lastElementChild);
 		}
 	}
 	prototype.displayFolderContent = function()
@@ -473,11 +442,11 @@ with(HTMLLIElement)
 
 function unSelect()
 {
-	var popupMenu = $('popupMenu');
-	var bookmark = popupMenu.selectedBookmark;
+	var contextMenu = $('contextMenu');
+	var bookmark = contextMenu.selectedBookmark;
 	bookmark.isSelected = false;
 	bookmark.unHighlight();
-	popupMenu.hide();
+	contextMenu.hide();
 	$('transparentLayer').hide();
 }
 
@@ -485,12 +454,12 @@ function processMenu(ev, action)
 {
 	if(ev.button == 0)
 	{
-		var popupMenu = ev.srcElement;
-		while(!(popupMenu instanceof HTMLUListElement))
+		var contextMenu = ev.srcElement;
+		while(!(contextMenu instanceof HTMLUListElement))
 		{
-			popupMenu = popupMenu.parentElement;
+			contextMenu = contextMenu.parentElement;
 		}
-		var bookmark = popupMenu.selectedBookmark;
+		var bookmark = contextMenu.selectedBookmark;
 		bookmark[action].call(bookmark);
 	}
 	unSelect();
@@ -574,31 +543,29 @@ function initBookmarksTree(nodes)
 				else if(bookmark.isFolder)
 				{
 					var folderContent = bookmark.lastChild;
-					for(var idx = 0, len = this.childNodes.length; idx < len; idx++)
+					if(folderContent.getNumberOfBookmarks() > 0)
 					{
-						if(folderContent.childNodes[idx].isBookmark)
-						{
-							folderContent.openAllInTabs(false);
-							break;
-						}
+						folderContent.openAllInTabs(false);
 					}
 				}
 				break;
-			case 2: // open popup menu
+			case 2: // open context menu
 				if(bookmark.isBookmark || bookmark.isFolder)
 				{
 					bookmark.isSelected = true;
-					bookmark.showPopupMenu(ev);
+					bookmark.showContextMenu(ev);
 				}
 				break;
 		}
 	};
-	$('popupMenu').configMenu = function(config)
+
+	var contextMenu = $('contextMenu');
+	chrome.i18n.initElements(contextMenu);
+	contextMenu.configMenu = function(config)
 	{
 		for(var action in config)
 		{
-			var item = document.evaluate('li[@action="' + action + '"]', this, null,
-					XPathResult.ANY_UNORDERED_NODE_TYPE, null).singleNodeValue;
+			var item = XPath('li[@action="' + action + '"]', this, XPathResult.ANY_UNORDERED_NODE_TYPE).singleNodeValue;
 			if(config[action])
 			{
 				item.className = "enabled";
@@ -617,3 +584,4 @@ function initBookmarksTree(nodes)
 	};
 }
 
+// vim:noet

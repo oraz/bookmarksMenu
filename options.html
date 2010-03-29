@@ -2,107 +2,107 @@
     <head>
         <link rel="stylesheet" type="text/css" href="options.css">
         <script type="text/javascript" src="localstorage.js"></script>
-        <script type="text/javascript" src="favicon.js"></script>
+        <script type="text/javascript" src="common.js"></script>
         <script type="text/javascript" src="options.js"></script>
     </head>
     <body>
         <a href="changelog.txt" style="position:absolute; right: 10px;">View changelog</a>
-        <h1><img src="icons/icon-24.png" />QuickBookrmarksTree settings</h1>
+        <h1 i18n="mainHeader"><img src="icons/icon-24.png" /></h1>
         <br />
         <div class="tabs">
             <ul class="tabs" id="tabs">
-                <li class="fgTab" for="mouseConfig"><span onclick="showTab(this)">Mouse</span></li>
-                <li class="bgTab" for="bookmarksShowHide"><span onclick="showTab(this)">Bookmarks</span></li>
-                <li class="bgTab" for="treeConfig"><span onclick="showTab(this)">Window &amp; Tree</span></li>
+                <li class="fgTab" for="mouseConfig"><span i18n="tabMouse" onclick="showTab(this)"></span></li>
+                <li class="bgTab" for="bookmarksShowHide"><span i18n="tabBookmarks" onclick="showTab(this)"></span></li>
+                <li class="bgTab" for="treeConfig"><span i18n="tabWindow" onclick="showTab(this)"></span></li>
             </ul>
             <div class="config" id="mouseConfig">
                 <table cellspacing="0" cellpadding="0" style="margin-bottom: 1ex;">
                     <tr>
-                        <th colspan="2">Mouse configuration</th>
+                        <th i18n="tmMouseConfig" colspan="2"></th>
                     </tr>
                     <tr>
-                        <td>Left button</td>
+                        <td i18n="tmLeftBtn"></td>
                         <td align="left">
                             <select size="1" id="btn0" onchange="setMouseButtonAction(this, 0)">
-                                <option>Open in current tab</option>
-                                <option>Open in new tab</option>
-                                <option>Open popup menu</option>
+                                <option i18n="tmOpenInCurTab"></option>
+                                <option i18n="tmOpenInNewTab"></option>
+                                <option i18n="tmShowContextMenu"></option>
                             </select>
                         </td>
                     </tr>
                     <tr>
-                        <td>Middle button</td>
+                        <td i18n="tmMiddleBtn"></td>
                         <td align="left">
                             <select size="1" id="btn1" onchange="setMouseButtonAction(this, 1)">
-                                <option>Open in current tab</option>
-                                <option>Open in new tab</option>
-                                <option>Open popup menu</option>
+                                <option i18n="tmOpenInCurTab"></option>
+                                <option i18n="tmOpenInNewTab"></option>
+                                <option i18n="tmShowContextMenu"></option>
                             </select>
                         </td>
                     </tr>
                     <tr>
-                        <td>Right button</td>
+                        <td i18n="tmRightBtn"></td>
                         <td align="left">
                             <select size="1" id="btn2" onchange="setMouseButtonAction(this, 2)">
-                                <option>Open in current tab</option>
-                                <option>Open in new tab</option>
-                                <option>Open popup menu</option>
+                                <option i18n="tmOpenInCurTab"></option>
+                                <option i18n="tmOpenInNewTab"></option>
+                                <option i18n="tmShowContextMenu"></option>
                             </select>
                         </td>
                     </tr>
                 </table>
-                <label><input type="checkbox" id="switchToNewTab" onchange="setBoolProperty('switchToNewTab', this.checked);">&nbsp;When I open a bookmark in new tab, switch to it immediately</label>
+                <label i18n="tmSwitchToNewTab"><input type="checkbox" id="switchToNewTab" onchange="setBoolProperty('switchToNewTab', this.checked);">&nbsp;</label>
             </div>
             <div class="config" id="bookmarksShowHide">
-                <div class="header">Select bookmarks to display</div>
+                <div class="header" i18n="tbSelectBookmarks"></div>
             </div>
             <div class="config" id="treeConfig">
                 <table cellpadding="0" cellspacing="0">
                     <tr>
-                        <th colspan="2">Popup window configuration</th>
+                        <th i18n="twPopupConfig" colspan="2"></th>
                     </tr>
                     <tr>
-                        <td>Window width (max 800px):</td>
-                        <td><input type="number" maxlength="3" id="winMaxWidth" oninput="setIntProperty(this, 800)"/>&nbsp;px</td>
+                        <td i18n="twWinMaxWidth"></td>
+                        <td i18n="twMesurePX"><input type="number" maxlength="3" id="winMaxWidth" oninput="setIntProperty(this, 800)"/>&nbsp;</td>
                     </tr>
                     <tr>
-                        <td>Window height (max 600px):</td>
-                        <td><input type="number" maxlength="3" id="winMaxHeight" oninput="setIntProperty(this, 600)"/>&nbsp;px</td>
+                        <td i18n="twWinMaxHeight"></td>
+                        <td i18n="twMesurePX"><input type="number" maxlength="3" id="winMaxHeight" oninput="setIntProperty(this, 600)"/>&nbsp;</td>
                     </tr>
                 </table>
                 <table cellspacing="0" cellpadding="0">
                     <tr>
-                        <th colspan="2">Bookmarks tree configuration</th>
+                        <th i18n="twTreeConfig" colspan="2"></th>
                     </tr>
                     <tr>
-                        <td>Font size:</td>
-                        <td><input type="number" maxlength="2" id="fontSize" oninput="setIntProperty(this)"/>&nbsp;px</td>
+                        <td i18n="twFontSize"></td>
+                        <td i18n="twMesurePX"><input type="number" maxlength="2" id="fontSize" oninput="setIntProperty(this)"/>&nbsp;</td>
                     </tr>
                     <tr>
-                        <td>Favicon width and height:</td>
-                        <td><input type="number" maxlength="2" id="favIconWidth" oninput="setIntProperty(this)"/>&nbsp;px</td>
+                        <td i18n="twFaviconSize"></td>
+                        <td i18n="twMesurePX"><input type="number" maxlength="2" id="favIconWidth" oninput="setIntProperty(this)"/>&nbsp;</td>
                     </tr>
                     <tr>
-                        <td>Max width for bookmark:</td>
+                        <td i18n="twMaxBookmarkWidth"></td>
                         <td>
                             <input type="number" id="maxWidth" oninput="setIntProperty(this)"/>
                             <select size="1" id="maxWidthMesure" onchange="setMenuMaxWidthMesure(this)">
-                                <option value="em">'m' symbols</option>
-                                <option value="px">pixels</option>
-                                <option value="in">inches</option>
-                                <option value="cm">centimeters</option>
-                                <option value="mm">millimeters</option>
+                                <option i18n="twMaxBookmarkWidthEM" value="em"></option>
+                                <option i18n="twMaxBookmarkWidthPX" value="px"></option>
+                                <option i18n="twMaxBookmarkWidthIN" value="in"></option>
+                                <option i18n="twMaxBookmarkWidthCM" value="cm"></option>
+                                <option i18n="twMaxBookmarkWidthMM" value="mm"></option>
                             </select>
                         </td>
                     </tr>
                     <tr>
                         <td colspan="2" style="padding-top: 1ex;">
-                            <label><input type="checkbox" id="showTooltip" onchange="setBoolProperty('showTooltip', this.checked);">&nbsp;Show tooltip for long bookmark name</label>
+                            <label i18n="twShowTooltip"><input type="checkbox" id="showTooltip" onchange="setBoolProperty('showTooltip', this.checked);">&nbsp;</label>
                         </td>
                     </tr>
                 </table>
                 <hr />
-                <input type="button" style="margin-top: 3px;" onclick="resetWindowSettings()" value="Reset settings to default"/>
+                <button style="margin-top: 3px;" onclick="resetWindowSettings()" i18n="twRestoreDflt"></button>
             </div>
         </div>
     </body>
