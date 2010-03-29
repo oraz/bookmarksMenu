@@ -3,11 +3,6 @@ var winMaxWidth = getWindowMaxWidth();
 var winMaxHeight = getWindowMaxHeight();
 var showTooltip = isShowTooltip();
 
-function $(id)
-{
-	return document.getElementById(id);
-}
-
 function Bookmark(bookmarkNode)
 {
 	var bookmark = document.createElement('li');
@@ -114,8 +109,8 @@ with(HTMLUListElement)
 				}
 				else
 				{
-					var favIcon = document.evaluate('li[@type="bookmark" or @type="folder"]', bookmark.rootFolder,
-							null, XPathResult.ANY_UNORDERED_NODE_TYPE, null).singleNodeValue.firstChild.firstChild;
+					var favIcon = XPath('li[@type="bookmark" or @type="folder"]', bookmark.rootFolder,
+							XPathResult.ANY_UNORDERED_NODE_TYPE).singleNodeValue.firstChild.firstChild;
 					var iconMarginRight = window.getComputedStyle(favIcon).marginRight; // contains '3px'
 					span.style.paddingLeft =
 						bookmark.rootFolder.textPaddingLeft =
@@ -146,7 +141,7 @@ with(HTMLUListElement)
 	}
 	prototype.openAllInTabs = function(firstInCurrentTab)
 	{
-		var snapshot = document.evaluate('li[@type="bookmark"]', this, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+		var snapshot = XPath('li[@type="bookmark"]', this, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE);
 		for(var idx = 0, len = snapshot.snapshotLength; idx < len; idx++)
 		{
 			if(idx == 0 && firstInCurrentTab)
@@ -159,6 +154,10 @@ with(HTMLUListElement)
 			}
 		}
 		window.close();
+	}
+	prototype.getNumberOfBookmarks = function()
+	{
+		return XPath('count(li[@type="bookmark"])', this, XPathResult.NUMBER_TYPE).numberValue;
 	}
 }
 
@@ -325,16 +324,11 @@ with(HTMLLIElement)
 		{
 			folderContent.fillAsEmpty();
 		}
-		else
+		else if(folderContent.getNumberOfBookmarks() < 2 && folderContent.lastElementChild.isOpenAll)
 		{
-			var bookmarksCount = document.evaluate('count(li[@type="bookmark"])', folderContent, null,
-					XPathResult.NUMBER_TYPE, null).numberValue;
-			if(bookmarksCount < 2 && folderContent.lastElementChild.isOpenAll)
-			{
-				// remove "open all" and separator
-				folderContent.removeChild(folderContent.lastElementChild);
-				folderContent.removeChild(folderContent.lastElementChild);
-			}
+			// remove "open all" and separator
+			folderContent.removeChild(folderContent.lastElementChild);
+			folderContent.removeChild(folderContent.lastElementChild);
 		}
 	}
 	prototype.displayFolderContent = function()
@@ -549,9 +543,7 @@ function initBookmarksTree(nodes)
 				else if(bookmark.isFolder)
 				{
 					var folderContent = bookmark.lastChild;
-					var count = document.evaluate('count(li[@type="bookmark"])', folderContent, null,
-							XPathResult.NUMBER_TYPE, null);
-					if(count.numberValue > 0)
+					if(folderContent.getNumberOfBookmarks() > 0)
 					{
 						folderContent.openAllInTabs(false);
 					}
@@ -573,8 +565,7 @@ function initBookmarksTree(nodes)
 	{
 		for(var action in config)
 		{
-			var item = document.evaluate('li[@action="' + action + '"]', this, null,
-					XPathResult.ANY_UNORDERED_NODE_TYPE, null).singleNodeValue;
+			var item = XPath('li[@action="' + action + '"]', this, XPathResult.ANY_UNORDERED_NODE_TYPE).singleNodeValue;
 			if(config[action])
 			{
 				item.className = "enabled";

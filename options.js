@@ -1,6 +1,4 @@
 
-function $(id) { return document.getElementById(id); }
-
 function setMouseButtonAction(select, button)
 {
 	localStorage[button] = select.selectedIndex;
