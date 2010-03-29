@@ -4,4 +4,19 @@ set -e
 folder=$(basename $PWD)
 cd ..
 rm -f "$folder.zip"
-zip -r "$folder.zip" "$folder" -x \*/.git/\* -x $folder/$(basename $0)
+export ZIPOPT="-D"
+
+zip -r $folder.zip $folder -x \*/.git/\* -x $folder/$(basename $0) -x $folder/_locales/\*/messages.json
+
+# Removing comments from messages.json for each locale
+rm -fr /tmp/$folder
+for loc in en ru
+do
+    dir=$folder/_locales/$loc
+    file=$dir/messages.json
+    mkdir -p /tmp/$dir
+    egrep -v "^\\s*//" $file >/tmp/$file
+    (cd /tmp; zip ~-/"$folder.zip" $file)
+done
+rm -fr /tmp/$folder
+
