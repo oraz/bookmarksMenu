@@ -1,3 +1,7 @@
+Changelog 2.5.1 (29.03.2010)
+- Special fix for Linux x86_64. If user clicks middle button on folder, just
+first bookmark opens. Tested on Debian Lenny.
+
 Changelog 2.5.0 (29.03.2010)
 - Added translation to Russian.
 - Fixed handler for middle button click for folders and for 'Open All in Tabs'
