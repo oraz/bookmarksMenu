@@ -126,7 +126,7 @@ with(HTMLUListElement)
 						bookmark.rootFolder.textPaddingLeft =
 						favIcon.offsetLeft + favIcon.scrollWidth + parseInt(iconMarginRight);
 				}
-				span.appendChild(document.createTextNode(i18n.getMessage('openAllInTabs')));
+				span.appendChild(document.createTextNode(chrome.i18n.getMessage('openAllInTabs')));
 				bookmark.appendChild(span);
 				bookmark.isOpenAll = true;
 				this.appendChild(bookmark);
@@ -139,7 +139,7 @@ with(HTMLUListElement)
 	}
 	prototype.fillAsEmpty = function()
 	{
-		this.innerHTML = '<li class="empty"><span>' + i18n.getMessage('empty') + '</span></li>';
+		this.innerHTML = '<li class="empty"><span>(' + chrome.i18n.getMessage('empty') + ')</span></li>';
 		this.parentElement.isEmpty = true;
 	}
 	prototype.addSeparator = function()
@@ -593,7 +593,7 @@ function initBookmarksTree(nodes)
 	};
 
 	var contextMenu = $('contextMenu');
-	i18n.initElements(contextMenu);
+	chrome.i18n.initElements(contextMenu);
 	contextMenu.configMenu = function(config)
 	{
 		for(var action in config)
