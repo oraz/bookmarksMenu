@@ -239,9 +239,9 @@ with(HTMLLIElement)
 			});
 		}
 	}
-	prototype.openInNewTab = function()
+	prototype.openInNewTab = function(switchToNewTab)
 	{
-		chrome.tabs.create({ url: this.url, selected: isSwitchToNewTab() });
+		chrome.tabs.create({ url: this.url, selected: switchToNewTab || isSwitchToNewTab() });
 		window.close();
 	}
 	prototype.openInNewWindow = function()
@@ -532,7 +532,9 @@ function initBookmarksTree(nodes)
 			case 0: // open in current tab
 				if(bookmark.isBookmark)
 				{
-					ev.ctrlKey ? bookmark.openInNewTab() : bookmark.open(true);
+					ev.ctrlKey ? bookmark.openInNewTab()
+						: ev.shiftKey ? bookmark.openInNewWindow()
+						: bookmark.open(true);
 				}
 				else if(bookmark.isOpenAll)
 				{
@@ -542,7 +544,8 @@ function initBookmarksTree(nodes)
 			case 1: // open in new tab
 				if(bookmark.isBookmark)
 				{
-					bookmark.openInNewTab();
+					// switch to new tab if shift key pressed
+					bookmark.openInNewTab(ev.shiftKey);
 				}
 				else if(bookmark.isOpenAll)
 				{
