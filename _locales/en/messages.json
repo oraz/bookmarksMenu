@@ -15,6 +15,7 @@
 
     // Options page
     "mainHeader": { "message": "QuickBookrmarksTree settings" },
+    "changelog": { "message": "View changelog"},
 
     // tabs names
     "tabMouse": { "message": "Mouse" },

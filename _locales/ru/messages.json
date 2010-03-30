@@ -15,6 +15,7 @@
 
     // Options page
     "mainHeader": { "message": "Настройки QuickBookrmarksTree" },
+    "changelog": { "message": "Посмотреть журнал изменений"},
 
     // tabs names
     "tabMouse": { "message": "Мышь" },
