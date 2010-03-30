@@ -101,3 +101,13 @@ h1 > img {
     vertical-align: middle;
     margin-right: 5px
 }
+
+button {
+    border: 1px solid #a39e9e;
+    border-radius: 3px;
+    padding: 1px 7px;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#ece9e9), to(#d8d8d8));
+}
+button:hover { border-color: #746a6a; }
+button:active { background-image: -webkit-gradient(linear, left top, left bottom, from(#dadada), to(#ece9e9)); }
+
