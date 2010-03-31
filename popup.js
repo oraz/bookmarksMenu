@@ -141,26 +141,27 @@ with(HTMLUListElement)
 	}
 	prototype.openAllInTabs = function(firstInCurrentTab)
 	{
-		var snapshot = XPath('li[@type="bookmark"]', this, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE);
-		for(var idx = 0, len = snapshot.snapshotLength; idx < len; idx++)
+		XPath('li[@type="bookmark"]', this, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE).forEach(function(bookmark)
 		{
-			if(idx == 0 && firstInCurrentTab)
+			var firstCall = arguments.callee.firstCall == undefined;
+			if(firstCall && firstInCurrentTab)
 			{
-				snapshot.snapshotItem(idx).open(false);
+				bookmark.open(false);
 			}
-			else if(idx == 0 && navigator.userAgent.indexOf('Linux x86_64') != -1)
+			else if(firstCall && navigator.userAgent.indexOf('Linux x86_64') != -1)
 			{
 				// special fix for Linux x86_64
-				chrome.tabs.create({ url: snapshot.snapshotItem(idx).url, selected: false }, function(tab)
+				chrome.tabs.create({ url: bookmark.url, selected: false }, function(tab)
 				{
 					chrome.tabs.update(tab.id, { selected: true });
 				});
 			}
 			else
 			{
-				chrome.tabs.create({ url: snapshot.snapshotItem(idx).url, selected: idx == 0 });
+				chrome.tabs.create({ url: bookmark.url, selected: firstCall });
 			}
-		}
+			arguments.callee.firstCall = false;
+		});
 		window.close();
 	}
 	prototype.getNumberOfBookmarks = function()
@@ -279,11 +280,9 @@ with(HTMLLIElement)
 			reorder: this.parentElement.childElementCount > 1,
 			remove: this.isBookmark || this.isFolder && this.isEmpty
 		};
-		var snapshot = XPath('li[@action]', contextMenu, XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE);
-		for(var idx = 0, len = snapshot.snapshotLength; idx < len; idx++)
+		XPath('li[@action]', contextMenu, XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE).forEach(function(item)
 		{
-			var item = snapshot.snapshotItem(idx),
-				action = item.getAttribute('action');
+			var action = item.getAttribute('action');
 			if(config[action])
 			{
 				item.className = "enabled";
@@ -298,7 +297,7 @@ with(HTMLLIElement)
 				item.removeAttribute("onmouseover");
 				item.removeAttribute("onmouseout");
 			}
-		}
+		});
 		contextMenu.show();
 
 		var body = document.body;

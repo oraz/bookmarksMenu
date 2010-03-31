@@ -1,23 +1,26 @@
 
+function $(id) { return document.getElementById(id); }
+
 function XPath(xpathExpression, contextNode, resultType)
 {
 	return document.evaluate(xpathExpression, contextNode, null, resultType, null);
 }
 
-function $(id)
+XPathResult.prototype.forEach = function(func)
 {
-	return document.getElementById(id);
-}
+	for(var idx = 0, len = this.snapshotLength; idx < len; idx++)
+	{
+		func(this.snapshotItem(idx));
+	}
+};
 
 chrome.i18n.initElements = function(el)
 {
-	var snapshot = XPath('.//*[@i18n]', el ? el : document, XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE);
-	for(var idx = 0, len = snapshot.snapshotLength; idx < len; idx++)
+	XPath('.//*[@i18n]', el ? el : document, XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE).forEach(function(node)
 	{
-		var item = snapshot.snapshotItem(idx);
-		item.appendChild(document.createTextNode(this.getMessage(item.getAttribute('i18n'))));
-		item.removeAttribute('i18n');
-	}
+		node.appendChild(document.createTextNode(chrome.i18n.getMessage(node.getAttribute('i18n'))));
+		node.removeAttribute('i18n');
+	});
 };
 
 function isJsURL(url)
