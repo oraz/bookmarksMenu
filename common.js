@@ -11,7 +11,7 @@ function $(id)
 
 chrome.i18n.initElements = function(el)
 {
-	var snapshot = XPath('//*[@i18n]', el ? el : document, XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE);
+	var snapshot = XPath('.//*[@i18n]', el ? el : document, XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE);
 	for(var idx = 0, len = snapshot.snapshotLength; idx < len; idx++)
 	{
 		var item = snapshot.snapshotItem(idx);

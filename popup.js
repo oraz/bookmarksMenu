@@ -110,7 +110,7 @@ with(HTMLUListElement)
 				else
 				{
 					var favIcon = XPath('li[@type="bookmark" or @type="folder"]', bookmark.rootFolder,
-							XPathResult.ANY_UNORDERED_NODE_TYPE).singleNodeValue.firstChild.firstChild;
+							XPathResult.FIRST_ORDERED_NODE_TYPE).singleNodeValue.firstChild.firstChild;
 					var iconMarginRight = window.getComputedStyle(favIcon).marginRight; // contains '3px'
 					span.style.paddingLeft =
 						bookmark.rootFolder.textPaddingLeft =
@@ -272,9 +272,33 @@ with(HTMLLIElement)
 	{
 		var contextMenu = $('contextMenu');
 		contextMenu.selectedBookmark = this;
-		contextMenu.configMenu({ openInNewTab: this.isBookmark, openInNewWindow: this.isBookmark,
-				reorder: this.parentElement.childElementCount > 1,
-				remove: this.isBookmark || this.isFolder && this.isEmpty });
+		var config =
+		{
+			openInNewTab: this.isBookmark,
+			openInNewWindow: this.isBookmark,
+			reorder: this.parentElement.childElementCount > 1,
+			remove: this.isBookmark || this.isFolder && this.isEmpty
+		};
+		var snapshot = XPath('li[@action]', contextMenu, XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE);
+		for(var idx = 0, len = snapshot.snapshotLength; idx < len; idx++)
+		{
+			var item = snapshot.snapshotItem(idx),
+				action = item.getAttribute('action');
+			if(config[action])
+			{
+				item.className = "enabled";
+				item.setAttribute('onmouseup', "processMenu(event, '" + action + "')");
+				item.setAttribute("onmouseover", "this.className = 'hover'");
+				item.setAttribute("onmouseout", "this.className = 'enabled'");
+			}
+			else
+			{
+				item.className = "disabled";
+				item.removeAttribute("onmouseup");
+				item.removeAttribute("onmouseover");
+				item.removeAttribute("onmouseout");
+			}
+		}
 		contextMenu.show();
 
 		var body = document.body;
@@ -570,29 +594,7 @@ function initBookmarksTree(nodes)
 		}
 	};
 
-	var contextMenu = $('contextMenu');
-	chrome.i18n.initElements(contextMenu);
-	contextMenu.configMenu = function(config)
-	{
-		for(var action in config)
-		{
-			var item = XPath('li[@action="' + action + '"]', this, XPathResult.ANY_UNORDERED_NODE_TYPE).singleNodeValue;
-			if(config[action])
-			{
-				item.className = "enabled";
-				item.setAttribute('onmouseup', "processMenu(event, '" + action + "')");
-				item.setAttribute("onmouseover", "this.className = 'hover'");
-				item.setAttribute("onmouseout", "this.className = 'enabled'");
-			}
-			else
-			{
-				item.className = "disabled";
-				item.removeAttribute("onmouseup");
-				item.removeAttribute("onmouseover");
-				item.removeAttribute("onmouseout");
-			}
-		}
-	};
+	chrome.i18n.initElements($('contextMenu'));
 }
 
 // vim:noet

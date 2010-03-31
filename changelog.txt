@@ -1,6 +1,8 @@
-Changelog 2.5.1.3 (XX.03.2010)
+Changelog 2.5.2 (31.03.2010)
 - Shift+Middle button click opens bookmark in new tab and switches to it
 - Shift+Left button click opens bookmark in new window
+- Optimized XPath queries.
+- Finished translation to Russian
 
 Changelog 2.5.1 (29.03.2010)
 - Special fix for Linux x86_64. If user clicks middle button on folder, just
