@@ -141,7 +141,7 @@ with(HTMLUListElement)
 	}
 	prototype.openAllInTabs = function(firstInCurrentTab)
 	{
-		XPath('li[@type="bookmark"]', this, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE).forEach(function(bookmark)
+		XPath('li[@type="bookmark"]', this, XPathResult.ORDERED_NODE_ITERATOR_TYPE).forEach(function(bookmark)
 		{
 			var firstCall = arguments.callee.firstCall == undefined;
 			if(firstCall && firstInCurrentTab)

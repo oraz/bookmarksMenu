@@ -8,9 +8,20 @@ function XPath(xpathExpression, contextNode, resultType)
 
 XPathResult.prototype.forEach = function(func)
 {
-	for(var idx = 0, len = this.snapshotLength; idx < len; idx++)
+	if(this.resultType == this.ORDERED_NODE_SNAPSHOT_TYPE || this.resultType == this.UNORDERED_NODE_SNAPSHOT_TYPE)
 	{
-		func(this.snapshotItem(idx));
+		for(var idx = 0, len = this.snapshotLength; idx < len; idx++)
+		{
+			func(this.snapshotItem(idx));
+		}
+	}
+	else if(this.resultType == this.ORDERED_NODE_ITERATOR_TYPE || this.resultType == this.UNORDERED_NODE_ITERATOR_TYPE)
+	{
+		var node;
+		while(node = this.iterateNext())
+		{
+			func(node);
+		}
 	}
 };
 
