@@ -1,0 +1,62 @@
+{
+    // manifest.json
+    "extDescription": { "message": "Montre l'arbre des favoris" },
+    "extTitle": { "message": "Favoris" },
+
+    // Tree
+    "empty": { "message": "vide" },
+    "openAllInTabs": {
+        "message": "Tout ouvrir dans des onglets",
+        "commentaire": "traduction de Firefox"
+    },
+
+    // Popup menu
+    "openInNewTab": { "message": "Ouvrir dans un nouvel onglet" },
+    "openInNewWindow": { "message": "Ouvrir dans une nouvelle fenêtre" },
+    "reorder": { "message": "Trier par nom" },
+    "remove": { "message": "Supprimer" },
+
+    // Options page
+    "mainHeader": { "message": "Configuration de 'QuickBookrmarksTree'" },
+    "changelog": { "message": "Regarder journal des modifications"},
+
+    // tabs names
+    "tabMouse": { "message": "Souris" },
+    "tabBookmarks": { "message": "Favoris" },
+    "tabWindow": { "message": "Fenêtre et arbre" },
+
+    // Mouse tab
+    "tmMouseConfig": { "message": "Configuration de souris" },
+    "tmLeftBtn": { "message": "Buoton gauche" },
+    "tmMiddleBtn": { "message": "Buoton moyen" },
+    "tmRightBtn": { "message": "Buoton droit" },
+    "tmOpenInCurTab": { "message": "Ouvrir dans l'onglet courant" },
+    "tmOpenInNewTab": { "message": "Ouvrir dans une nouvelle fenêtre" },
+    "tmShowContextMenu": { "message": "Montrer menu contextuel" },
+    "tmSwitchToNewTab": {
+        "message": "Lors de l'ouverture d'un lien dans un nouvel onglet, basculer vers celui-ci immédiatement",
+        "commentaire": "traduction de Firefox"
+    },
+
+    // Bookmarks tab
+    "tbSelectBookmarks": { "message": "Sélectez les favoris pour montrer" },
+
+    // Window & Tree tab
+    "twPopupConfig": { "message": "Configuration de fenêtre" },
+    "twWinMaxWidth": { "message": "Largeur de fenêtre (max 800px):" },
+    "twWinMaxHeight": { "message": "Hauteur de fenêtre (max 600px):" },
+    "twMesurePX": { "message": "px" },
+
+    "twTreeConfig": { "message": "Configuration d'arbre des favoris" },
+    "twFontSize": { "message": "Taille des caractères:" },
+    "twFaviconSize": { "message": "Largeur et hauteur de favicône:" },
+    "twMaxBookmarkWidth": { "message": "Largeur max pour favori:" },
+    "twMaxBookmarkWidthEM": { "message": "'m' symboles" },
+    "twMaxBookmarkWidthPX": { "message": "pixels" },
+    "twMaxBookmarkWidthIN": { "message": "pouces" },
+    "twMaxBookmarkWidthCM": { "message": "centimètres" },
+    "twMaxBookmarkWidthMM": { "message": "millimètres" },
+
+    "twShowTooltip": { "message": "Montrer info-bulle pour noms longs" },
+    "twRestoreDflt": { "message": "Restaurer les valeurs par défaut" }
+}

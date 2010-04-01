@@ -1,6 +1,6 @@
 {
     // manifest.json
-    "extDescription": { "message": "Show bookmarks tree" },
+    "extDescription": { "message": "Shows bookmarks tree" },
     "extTitle": { "message": "Bookmarks" },
 
     // Tree
