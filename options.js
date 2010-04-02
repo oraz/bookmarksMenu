@@ -87,25 +87,21 @@ function resetWindowSettings()
 	initWindowSettingsTab();
 }
 
+HTMLSelectElement.prototype.selectByValue = function(value)
+{
+	this.selectedIndex = XPath('count(option[@value="' + value + '"]/preceding-sibling::option)',
+			this, XPathResult.NUMBER_TYPE).numberValue;
+}
+
 function initWindowSettingsTab()
 {
 	$('winMaxWidth').value = getWindowMaxWidth();
 	$('winMaxHeight').value = getWindowMaxHeight();
-
-	var selFontFamily = $('fontFamily');
-	selFontFamily.selectedIndex =
-		XPath('count(option[@value="' + getFontFamily() + '"]/preceding-sibling::option)', selFontFamily,
-				XPathResult.NUMBER_TYPE).numberValue;
-
+	$('fontFamily').selectByValue(getFontFamily());
 	$('fontSize').value = getFontSize();
 	$('favIconWidth').value = getFavIconWidth();
 	$('maxWidth').value = getMaxWidth();
-
-	var maxWidthMesure = $('maxWidthMesure');
-	maxWidthMesure.selectedIndex =
-		XPath('count(option[@value="' + getMaxWidthMesure() + '"]/preceding-sibling::option)', maxWidthMesure,
-				XPathResult.NUMBER_TYPE).numberValue;
-
+	$('maxWidthMesure').selectByValue(getMaxWidthMesure());
 	$('showTooltip').checked = isShowTooltip();
 }
 
