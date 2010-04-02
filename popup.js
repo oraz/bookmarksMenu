@@ -187,10 +187,7 @@ with(HTMLLIElement)
 	}
 	prototype.unHighlight = function()
 	{
-		if(!this.isSelected)
-		{
-			this.removeAttribute("class");
-		}
+		this.removeAttribute("class");
 	}
 	prototype.fillFolder = function()
 	{
@@ -461,7 +458,10 @@ function unSelect()
 {
 	var contextMenu = $('contextMenu');
 	var bookmark = contextMenu.selectedBookmark;
-	bookmark.isSelected = false;
+	if(bookmark.isBookmark)
+	{
+		bookmark.onmouseout = bookmark.unHighlight;
+	}
 	bookmark.unHighlight();
 	contextMenu.hide();
 	$('transparentLayer').hide();
@@ -575,7 +575,10 @@ function initBookmarksTree(nodes)
 			case 2: // open context menu
 				if(bookmark.isBookmark || bookmark.isFolder)
 				{
-					bookmark.isSelected = true;
+					if(bookmark.isBookmark)
+					{
+						bookmark.onmouseout = undefined;
+					}
 					bookmark.showContextMenu(ev);
 				}
 				break;
