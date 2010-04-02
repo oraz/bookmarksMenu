@@ -50,7 +50,7 @@
     "twTreeConfig": { "message": "Configuration d'arbre des favoris" },
     "twFontSize": { "message": "Taille des caractères:" },
     "twFaviconSize": { "message": "Largeur et hauteur de favicône:" },
-    "twMaxBookmarkWidth": { "message": "Largeur max pour favori:" },
+    "twMaxBookmarkWidth": { "message": "Largeur maximum pour favori:" },
     "twMaxBookmarkWidthEM": { "message": "'m' symboles" },
     "twMaxBookmarkWidthPX": { "message": "pixels" },
     "twMaxBookmarkWidthIN": { "message": "pouces" },

@@ -10,7 +10,7 @@ zip -r $folder.zip $folder -x \*/.git/\* -x $folder/$(basename $0) -x $folder/_l
 
 # Removing comments from messages.json for each locale
 rm -fr /tmp/$folder
-for loc in en ru
+for loc in en fr ru
 do
     dir=$folder/_locales/$loc
     file=$dir/messages.json

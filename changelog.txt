@@ -1,3 +1,7 @@
+Changelog 2.5.3 (02.04.2010)
+- Added translation to French.
+- Improved handler of context menu.
+
 Changelog 2.5.2 (31.03.2010)
 - Shift+Middle button click opens bookmark in new tab and switches to it
 - Shift+Left button click opens bookmark in new window
