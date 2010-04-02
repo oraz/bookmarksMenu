@@ -282,17 +282,7 @@ with(HTMLLIElement)
 		};
 		XPath('li[@action]', contextMenu, XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE).forEach(function(item)
 		{
-			var action = item.getAttribute('action');
-			if(config[action])
-			{
-				item.className = "enabled";
-				item.setAttribute('onmouseup', "processMenu(event, '" + action + "')");
-			}
-			else
-			{
-				item.className = "disabled";
-				item.removeAttribute("onmouseup");
-			}
+			item.className = config[item.getAttribute('action')] ? 'enabled' : 'disabled';
 		});
 		contextMenu.show();
 
@@ -477,19 +467,22 @@ function unSelect()
 	$('transparentLayer').hide();
 }
 
-function processMenu(ev, action)
+function processMenu(ev, contextMenu)
 {
-	if(ev.button == 0)
+	var item = ev.srcElement;
+	if(item != contextMenu)
 	{
-		var contextMenu = ev.srcElement;
-		while(!(contextMenu instanceof HTMLUListElement))
+		while(!(item instanceof HTMLLIElement))
 		{
-			contextMenu = contextMenu.parentElement;
+			item = item.parentElement;
 		}
-		var bookmark = contextMenu.selectedBookmark;
-		bookmark[action].call(bookmark);
+		if(item.getAttribute('class') == 'enabled')
+		{
+			var bookmark = contextMenu.selectedBookmark;
+			bookmark[item.getAttribute('action')].call(bookmark);
+			unSelect();
+		}
 	}
-	unSelect();
 }
 
 chrome.bookmarks.getTree(function(nodes)
