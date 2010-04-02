@@ -287,15 +287,11 @@ with(HTMLLIElement)
 			{
 				item.className = "enabled";
 				item.setAttribute('onmouseup', "processMenu(event, '" + action + "')");
-				item.setAttribute("onmouseover", "this.className = 'hover'");
-				item.setAttribute("onmouseout", "this.className = 'enabled'");
 			}
 			else
 			{
 				item.className = "disabled";
 				item.removeAttribute("onmouseup");
-				item.removeAttribute("onmouseover");
-				item.removeAttribute("onmouseout");
 			}
 		});
 		contextMenu.show();

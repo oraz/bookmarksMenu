@@ -37,7 +37,7 @@ li span {
 }
 
 li.empty > span {
-    padding: 3px 1em;
+    padding: 3px 0.6em;
     color: gray;
 }
 
@@ -60,7 +60,7 @@ li.separator {
 
 li.hover > ul { display: block; }
 
-li.hover > span {
+li.hover > span, li.enabled:hover > span {
     background-image: -webkit-gradient(linear, left top, left bottom, from(#86abd9), to(#1f5eab));
     color: white;
     padding: 2px 1em 2px 3px;
