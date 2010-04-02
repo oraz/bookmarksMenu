@@ -39,6 +39,12 @@ function getWindowMaxHeight()
 	return maxHeight == undefined ? 600 : maxHeight;
 }
 
+function getFontFamily()
+{
+	var fontFamily = localStorage['fontFamily'];
+	return fontFamily ? fontFamily : "DejaVu Sans";
+}
+
 function getFontSize()
 {
 	var fontSize = localStorage['fontSize'];

@@ -29,6 +29,11 @@ function setBoolProperty(property, value)
 	}
 }
 
+function setFontFamily(fontFamily)
+{
+	localStorage['fontFamily'] = fontFamily.options[fontFamily.selectedIndex].value;
+}
+
 function setMenuMaxWidthMesure(maxWidthMesure)
 {
 	localStorage['maxWidthMesure'] = maxWidthMesure.options[maxWidthMesure.selectedIndex].value;
@@ -71,12 +76,13 @@ function showTab(span)
 
 function resetWindowSettings()
 {
-	delete localStorage['maxWidth'];
-	delete localStorage['maxWidthMesure'];
-	delete localStorage['fontSize'];
 	delete localStorage['winMaxWidth'];
 	delete localStorage['winMaxHeight'];
+	delete localStorage['fontFamily'];
+	delete localStorage['fontSize'];
 	delete localStorage['favIconWidth'];
+	delete localStorage['maxWidth'];
+	delete localStorage['maxWidthMesure'];
 	delete localStorage['showTooltip'];
 	initWindowSettingsTab();
 }
@@ -85,21 +91,22 @@ function initWindowSettingsTab()
 {
 	$('winMaxWidth').value = getWindowMaxWidth();
 	$('winMaxHeight').value = getWindowMaxHeight();
-	$('showTooltip').checked = isShowTooltip();
+
+	var selFontFamily = $('fontFamily');
+	selFontFamily.selectedIndex =
+		XPath('count(option[@value="' + getFontFamily() + '"]/preceding-sibling::option)', selFontFamily,
+				XPathResult.NUMBER_TYPE).numberValue;
+
 	$('fontSize').value = getFontSize();
 	$('favIconWidth').value = getFavIconWidth();
 	$('maxWidth').value = getMaxWidth();
 
-	var mesure = getMaxWidthMesure();
 	var maxWidthMesure = $('maxWidthMesure');
-	for(var idx = 0, len = maxWidthMesure.options.length; idx < len; idx++)
-	{
-		if(maxWidthMesure.options[idx].value == mesure)
-		{
-			maxWidthMesure.selectedIndex = idx;
-			break;
-		}
-	}
+	maxWidthMesure.selectedIndex =
+		XPath('count(option[@value="' + getMaxWidthMesure() + '"]/preceding-sibling::option)', maxWidthMesure,
+				XPathResult.NUMBER_TYPE).numberValue;
+
+	$('showTooltip').checked = isShowTooltip();
 }
 
 document.addEventListener("DOMContentLoaded", function()

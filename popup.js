@@ -502,6 +502,7 @@ chrome.bookmarks.getTree(function(nodes)
 function initBookmarksTree(nodes)
 {
 	var bodyStyle = document.body.style;
+	bodyStyle.fontFamily = '"' + getFontFamily() + '", "Bitstream Vera Sans", sans-serif';
 	bodyStyle.fontSize = getFontSize() + 'px';
 	var styleSheet = document.styleSheets[document.styleSheets.length - 1];
 	var favIconWidth = getFavIconWidth();
