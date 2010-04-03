@@ -42,6 +42,7 @@
     "twMesurePX": { "message": "пикс" },
 
     "twTreeConfig": { "message": "Настройка дерева закладок" },
+    "twFont": { "message": "Шрифт:" },
     "twFontSize": { "message": "Размер шрифта:" },
     "twFaviconSize": { "message": "Ширина и высота иконок:" },
     "twMaxBookmarkWidth": { "message": "Максмальная ширина закладок:" },

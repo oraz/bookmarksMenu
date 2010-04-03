@@ -42,7 +42,7 @@
     "twMesurePX": { "message": "px" },
 
     "twTreeConfig": { "message": "Bookmarks tree configuration" },
-    "twFontFamily": { "message": "Font family:" },
+    "twFont": { "message": "Font:" },
     "twFontSize": { "message": "Font size:" },
     "twFaviconSize": { "message": "Favicon width and height:" },
     "twMaxBookmarkWidth": { "message": "Max width for bookmark:" },
