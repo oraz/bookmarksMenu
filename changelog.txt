@@ -1,3 +1,6 @@
+Changelog 2.5.4 (03.04.2010)
+- Added font family customization on options panel
+
 Changelog 2.5.3 (02.04.2010)
 - Added translation to French.
 - Improved handler of context menu.
