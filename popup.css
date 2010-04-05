@@ -23,7 +23,6 @@ li { position: relative; }
 
 li span {
     display: block;
-    color: black;
     background-color: white;
     cursor: default;
 
