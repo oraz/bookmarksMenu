@@ -504,6 +504,7 @@ function initBookmarksTree(nodes)
 	var bodyStyle = document.body.style;
 	bodyStyle.fontFamily = '"' + getFontFamily() + '", "Bitstream Vera Sans", sans-serif';
 	bodyStyle.fontSize = getFontSize() + 'px';
+	bodyStyle.backgroundColor = getBodyColor();
 	var styleSheet = document.styleSheets[document.styleSheets.length - 1];
 	var favIconWidth = getFavIconWidth();
 	styleSheet.addRule('span > img', 'width: ' + favIconWidth + 'px; height: ' + favIconWidth + 'px;');

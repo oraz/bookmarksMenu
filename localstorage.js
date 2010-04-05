@@ -62,4 +62,15 @@ function isShowTooltip()
 	return localStorage['showTooltip'] == 'true';
 }
 
+function getBodyColor()
+{
+	var color = localStorage['bodyColor'];
+	return color ? color : 'FFFFFF';
+}
+
+function getFontColor()
+{
+	var color = localStorage['fontColor'];
+	return color ? color : '000000';
+}
 // vim:noet ts=4 sw=4

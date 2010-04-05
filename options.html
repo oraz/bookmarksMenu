@@ -4,6 +4,7 @@
         <script type="text/javascript" src="localstorage.js"></script>
         <script type="text/javascript" src="common.js"></script>
         <script type="text/javascript" src="options.js"></script>
+        <script type="text/javascript" src="jscolor/jscolor.js"></script>
         <title i18n="mainHeader"></title>
     </head>
     <body>
@@ -129,6 +130,19 @@
                         <td colspan="2" style="padding-top: 1ex;">
                             <label i18n="twShowTooltip"><input type="checkbox" id="showTooltip" onchange="setBoolProperty('showTooltip', this.checked);">&nbsp;</label>
                         </td>
+                    </tr>
+                </table>
+                <table cellspacing="0" cellpadding="0">
+                    <tr>
+                        <th colspan="2">Color scheme</th>
+                    </tr>
+                    <tr>
+                        <td>Body color:</td>
+                        <td><input type="text" id="bodyColor" class="color" oninput="setColor(this)" onchange="setColor(this)"/></td>
+                    </tr>
+                    <tr>
+                        <td>Font color:</td>
+                        <td><input type="text" id="fontColor" class="color" oninput="setColor(this)" onchange="setColor(this)"/></td>
                     </tr>
                 </table>
                 <hr />

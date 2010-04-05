@@ -51,6 +51,14 @@ function setBookmarkHidden(title, hidden)
 	}
 }
 
+function setColor(el)
+{
+	if(/^[0-9A-F]{6}$/i.test(el.value))
+	{
+		localStorage[el.id] = el.value;
+	}
+}
+
 function showHideElem(id)
 {
 	var elemStyle = $(id).style;
@@ -84,6 +92,8 @@ function resetWindowSettings()
 	delete localStorage['maxWidth'];
 	delete localStorage['maxWidthMesure'];
 	delete localStorage['showTooltip'];
+	delete localStorage['bodyColor'];
+	delete localStorage['fontColor'];
 	initWindowSettingsTab();
 }
 
@@ -103,6 +113,8 @@ function initWindowSettingsTab()
 	$('maxWidth').value = getMaxWidth();
 	$('maxWidthMesure').selectByValue(getMaxWidthMesure());
 	$('showTooltip').checked = isShowTooltip();
+	$('bodyColor').color.fromString(getBodyColor());
+	$('fontColor').color.fromString(getFontColor());
 }
 
 document.addEventListener("DOMContentLoaded", function()
@@ -157,6 +169,7 @@ document.addEventListener("DOMContentLoaded", function()
 			}
 		}
 	});
+	jscolor.init();
 	initWindowSettingsTab();
 }, false);
 
