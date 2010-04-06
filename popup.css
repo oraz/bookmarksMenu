@@ -23,7 +23,6 @@ li { position: relative; }
 
 li span {
     display: block;
-    background-color: white;
     cursor: default;
 
     padding: 3px;
@@ -34,12 +33,7 @@ li span {
     white-space: nowrap;
 }
 
-li.empty > span {
-    padding: 3px 0.6em;
-    color: gray;
-}
-
-li.disabled > span { color: gray; }
+li.empty > span { padding: 3px 0.6em; }
 
 li ul {
     position: absolute;

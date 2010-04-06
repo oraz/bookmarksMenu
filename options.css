@@ -85,6 +85,8 @@ input.error { color: red; }
 
 input[type="checkbox"] { border: 0; }
 
+input.color { width: 6em; }
+
 hr {
     height: 1px;
     border: 0;

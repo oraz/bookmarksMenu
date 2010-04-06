@@ -504,12 +504,16 @@ function initBookmarksTree(nodes)
 	var bodyStyle = document.body.style;
 	bodyStyle.fontFamily = '"' + getFontFamily() + '", "Bitstream Vera Sans", sans-serif';
 	bodyStyle.fontSize = getFontSize() + 'px';
-	bodyStyle.backgroundColor = getBodyColor();
-	bodyStyle.color = getFontColor();
+	bodyStyle.backgroundColor = getColor('bodyColor');
+	bodyStyle.color = getColor('fontColor');
 	var styleSheet = document.styleSheets[document.styleSheets.length - 1];
 	var favIconWidth = getFavIconWidth();
 	styleSheet.addRule('span > img', 'width: ' + favIconWidth + 'px; height: ' + favIconWidth + 'px;');
 	styleSheet.addRule('#bookmarksTree span', 'max-width: ' + getMaxWidth() + getMaxWidthMesure() + ';');
+	var bookmarkBgColor = getColor('bookmarkBgColor');
+	styleSheet.addRule('li span', 'background-color: ' + bookmarkBgColor + ';');
+	styleSheet.addRule('li.separator', 'border-color: ' + bookmarkBgColor + ';');
+	styleSheet.addRule('li.empty > span, li.disabled > span', 'color:' + getColor('disabledItemFontColor') + ';');
 
 	var rootFolder = $('bookmarksTree');
 	rootFolder.isRoot = true;

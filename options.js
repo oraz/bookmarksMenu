@@ -92,8 +92,10 @@ function resetWindowSettings()
 	delete localStorage['maxWidth'];
 	delete localStorage['maxWidthMesure'];
 	delete localStorage['showTooltip'];
-	delete localStorage['bodyColor'];
-	delete localStorage['fontColor'];
+	XPath('//input[@class="color"]', document, XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE).forEach(function(node)
+	{
+		localStorage.removeItem(node.id);
+	});
 	initWindowSettingsTab();
 }
 
@@ -113,8 +115,10 @@ function initWindowSettingsTab()
 	$('maxWidth').value = getMaxWidth();
 	$('maxWidthMesure').selectByValue(getMaxWidthMesure());
 	$('showTooltip').checked = isShowTooltip();
-	$('bodyColor').color.fromString(getBodyColor());
-	$('fontColor').color.fromString(getFontColor());
+	XPath('//input[@class="color"]', document, XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE).forEach(function(node)
+	{
+		node.color.fromString(getColor(node.id));
+	});
 }
 
 document.addEventListener("DOMContentLoaded", function()

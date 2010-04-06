@@ -62,15 +62,13 @@ function isShowTooltip()
 	return localStorage['showTooltip'] == 'true';
 }
 
-function getBodyColor()
+function getColor(name)
 {
-	var color = localStorage['bodyColor'];
-	return color ? color : 'FFFFFF';
+	var color = localStorage[name];
+	return color ? color
+		: name == 'bodyColor' || name == 'bookmarkBgColor' ? 'FFF'
+		: name == 'fontColor' ? '000'
+		: 'BEBEBE'; // disabledItemFontColor - gray
 }
 
-function getFontColor()
-{
-	var color = localStorage['fontColor'];
-	return color ? color : '000000';
-}
 // vim:noet ts=4 sw=4
