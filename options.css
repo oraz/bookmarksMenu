@@ -19,6 +19,8 @@ div.config:nth-of-type(1) { display: block; }
 
 th, td { padding: 2px; }
 
+td:first-child { text-align: right; }
+
 th, div.header {
     font-weight: bold;
     text-align: left;

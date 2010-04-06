@@ -71,8 +71,6 @@
                         <td i18n="twWinMaxHeight"></td>
                         <td i18n="twMesurePX"><input type="number" maxlength="3" id="winMaxHeight" oninput="setIntProperty(this, 600)"/>&nbsp;</td>
                     </tr>
-                </table>
-                <table cellspacing="0" cellpadding="0">
                     <tr>
                         <th i18n="twTreeConfig" colspan="2"></th>
                     </tr>
@@ -131,26 +129,43 @@
                             <label i18n="twShowTooltip"><input type="checkbox" id="showTooltip" onchange="setBoolProperty('showTooltip', this.checked);">&nbsp;</label>
                         </td>
                     </tr>
-                </table>
-                <table cellspacing="0" cellpadding="0">
                     <tr>
                         <th colspan="2">Color scheme</th>
                     </tr>
                     <tr>
                         <td>Body color:</td>
-                        <td><input id="bodyColor" class="color" oninput="setColor(this)" onchange="setColor(this)"/></td>
+                        <td><input id="bodyClr" class="color" oninput="setColor(this)" onchange="setColor(this)"/></td>
                     </tr>
                     <tr>
                         <td>Font color:</td>
-                        <td><input id="fontColor" class="color" oninput="setColor(this)" onchange="setColor(this)"/></td>
+                        <td><input id="fntClr" class="color" oninput="setColor(this)" onchange="setColor(this)"/></td>
                     </tr>
                     <tr>
                         <td>Bookmark background color:</td>
-                        <td><input id="bookmarkBgColor" class="color" oninput="setColor(this)" onchange="setColor(this)"/></td>
+                        <td><input id="bmBgClr" class="color" oninput="setColor(this)" onchange="setColor(this)"/></td>
                     </tr>
                     <tr>
                         <td>Disabled menu item font color:</td>
-                        <td><input id="disabledItemFontColor" class="color" oninput="setColor(this)" onchange="setColor(this)"/></td>
+                        <td><input id="disabledItemFntClr" class="color" oninput="setColor(this)" onchange="setColor(this)"/></td>
+                    </tr>
+                    <tr>
+                        <td>Active bookmark font color:</td>
+                        <td><input id="activeBmFntClr" class="color" oninput="setColor(this)" onchange="setColor(this)"/></td>
+                    </tr>
+                    <tr>
+                        <td>Active bookmark background color:</td>
+                        <td>
+                            <table cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <td>From:</td>
+                                    <td><input id="activeBmBgClrFrom" class="color" oninput="setColor(this)" onchange="setColor(this)"/></td>
+                                </tr>
+                                <tr>
+                                    <td>To:</td>
+                                    <td><input id="activeBmBgClrTo" class="color" oninput="setColor(this)" onchange="setColor(this)"/></td>
+                                </tr>
+                            </table>
+                        </td>
                     </tr>
                 </table>
                 <hr />

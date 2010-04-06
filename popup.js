@@ -504,16 +504,19 @@ function initBookmarksTree(nodes)
 	var bodyStyle = document.body.style;
 	bodyStyle.fontFamily = '"' + getFontFamily() + '", "Bitstream Vera Sans", sans-serif';
 	bodyStyle.fontSize = getFontSize() + 'px';
-	bodyStyle.backgroundColor = getColor('bodyColor');
-	bodyStyle.color = getColor('fontColor');
+	bodyStyle.backgroundColor = getColor('bodyClr');
+	bodyStyle.color = getColor('fntClr');
 	var styleSheet = document.styleSheets[document.styleSheets.length - 1];
 	var favIconWidth = getFavIconWidth();
 	styleSheet.addRule('span > img', 'width: ' + favIconWidth + 'px; height: ' + favIconWidth + 'px;');
 	styleSheet.addRule('#bookmarksTree span', 'max-width: ' + getMaxWidth() + getMaxWidthMesure() + ';');
-	var bookmarkBgColor = getColor('bookmarkBgColor');
+	var bookmarkBgColor = getColor('bmBgClr');
 	styleSheet.addRule('li span', 'background-color: ' + bookmarkBgColor + ';');
 	styleSheet.addRule('li.separator', 'border-color: ' + bookmarkBgColor + ';');
-	styleSheet.addRule('li.empty > span, li.disabled > span', 'color:' + getColor('disabledItemFontColor') + ';');
+	styleSheet.addRule('li.empty > span, li.disabled > span', 'color:' + getColor('disabledItemFntClr') + ';');
+	styleSheet.addRule('li.hover > span, li.enabled:hover > span', 'color:' + getColor('activeBmFntClr') + ';' +
+					'background-image: -webkit-gradient(linear, left top, left bottom, from(' +
+					getColor('activeBmBgClrFrom') + '), to(' + getColor('activeBmBgClrTo') + '));');
 
 	var rootFolder = $('bookmarksTree');
 	rootFolder.isRoot = true;

@@ -46,19 +46,10 @@ li.separator {
     height: 1px;
     background-color: #ccc;
     border-width: 1px 3px;
-    border-color: white;
     border-style: solid;
 }
 
 li.hover > ul { display: block; }
-
-li.hover > span, li.enabled:hover > span {
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#86abd9), to(#1f5eab));
-    color: white;
-    padding: 2px 1em 2px 3px;
-    border-top: 1px solid #689bdb;
-    border-bottom: 1px solid #689bdb;
-}
 
 span > img {
     vertical-align: bottom;

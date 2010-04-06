@@ -84,15 +84,18 @@ function showTab(span)
 
 function resetWindowSettings()
 {
-	delete localStorage['winMaxWidth'];
-	delete localStorage['winMaxHeight'];
-	delete localStorage['fontFamily'];
-	delete localStorage['fontSize'];
-	delete localStorage['favIconWidth'];
-	delete localStorage['maxWidth'];
-	delete localStorage['maxWidthMesure'];
-	delete localStorage['showTooltip'];
-	XPath('//input[@class="color"]', document, XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE).forEach(function(node)
+	with(localStorage)
+	{
+		removeItem('winMaxWidth');
+		removeItem('winMaxHeight');
+		removeItem('fontFamily');
+		removeItem('fontSize');
+		removeItem('favIconWidth');
+		removeItem('maxWidth');
+		removeItem('maxWidthMesure');
+		removeItem('showTooltip');
+	}
+	XPath('//input[@class="color"]', document, XPathResult.UNORDERED_NODE_ITERATOR_TYPE).forEach(function(node)
 	{
 		localStorage.removeItem(node.id);
 	});

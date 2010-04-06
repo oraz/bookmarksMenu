@@ -66,9 +66,11 @@ function getColor(name)
 {
 	var color = localStorage[name];
 	return color ? color
-		: name == 'bodyColor' || name == 'bookmarkBgColor' ? 'FFF'
-		: name == 'fontColor' ? '000'
-		: 'BEBEBE'; // disabledItemFontColor - gray
+		: name == 'bodyClr' || name == 'bmBgClr' || name == 'activeBmFntClr' ? 'FFF'
+		: name == 'fntClr' ? '000'
+		: name == 'activeBmBgClrFrom' ? '86ABD9'
+		: name == 'activeBmBgClrTo' ? '1F5EAB'
+		: 'BEBEBE'; // disabledItemFntClr
 }
 
 // vim:noet ts=4 sw=4
