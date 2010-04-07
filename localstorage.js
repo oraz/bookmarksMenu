@@ -73,4 +73,9 @@ function getColor(name)
 		: 'BEBEBE'; // disabledItemFntClr
 }
 
+function getScrollBarWidth()
+{
+	var width = localStorage['scrollBarWidth'];
+	return width == undefined ? 7 : width;
+}
 // vim:noet ts=4 sw=4

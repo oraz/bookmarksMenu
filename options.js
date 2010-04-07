@@ -93,6 +93,7 @@ function resetWindowSettings()
 		removeItem('favIconWidth');
 		removeItem('maxWidth');
 		removeItem('maxWidthMesure');
+		removeItem('scrollBarWidth');
 		removeItem('showTooltip');
 	}
 	XPath('//input[@class="color"]', document, XPathResult.UNORDERED_NODE_ITERATOR_TYPE).forEach(function(node)
@@ -117,6 +118,7 @@ function initWindowSettingsTab()
 	$('favIconWidth').value = getFavIconWidth();
 	$('maxWidth').value = getMaxWidth();
 	$('maxWidthMesure').selectByValue(getMaxWidthMesure());
+	$('scrollBarWidth').value = getScrollBarWidth();
 	$('showTooltip').checked = isShowTooltip();
 	XPath('//input[@class="color"]', document, XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE).forEach(function(node)
 	{

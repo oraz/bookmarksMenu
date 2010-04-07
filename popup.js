@@ -517,6 +517,8 @@ function initBookmarksTree(nodes)
 	styleSheet.addRule('li.hover > span, li.enabled:hover > span', 'color:' + getColor('activeBmFntClr') + ';' +
 					'background-image: -webkit-gradient(linear, left top, left bottom, from(' +
 					getColor('activeBmBgClrFrom') + '), to(' + getColor('activeBmBgClrTo') + '));');
+	var scrollBarWidth = getScrollBarWidth();
+	styleSheet.addRule('::-webkit-scrollbar', 'width: ' + scrollBarWidth + 'px;');
 
 	var rootFolder = $('bookmarksTree');
 	rootFolder.isRoot = true;
@@ -537,7 +539,7 @@ function initBookmarksTree(nodes)
 	}
 
 	var height = rootFolder.clientHeight + 2;
-	bodyStyle.width = rootFolder.clientWidth + 2 + (height < winMaxHeight ? 0 : 7) + 'px';
+	bodyStyle.width = rootFolder.clientWidth + 2 + (height < winMaxHeight ? 0 : parseInt(scrollBarWidth)) + 'px';
 	document.body.setHeight(height);
 
 	delete rootFolder.hasVisibleBookmarks;
