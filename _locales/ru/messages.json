@@ -51,7 +51,18 @@
     "twMaxBookmarkWidthIN": { "message": "дюймов" },
     "twMaxBookmarkWidthCM": { "message": "сантиметров" },
     "twMaxBookmarkWidthMM": { "message": "милиметров" },
-
+    "twScrollBarWidth": { "message": "Ширина полосы прокрутки:" },
     "twShowTooltip": { "message": "Показывать всплывающую подсказку для длинных названий" },
+
+    "twColorScheme": { "message": "Настройка цветов" },
+    "twBodyColor": { "message": "Цвет фона:" },
+    "twFontColor": { "message": "Цвет шрифта:" },
+    "twBmBgColor": { "message": "Цвет фона закладки:" },
+    "twDisabledItemFntClr": { "message": "Цвет фона запрещённых элементов меню:" },
+    "twActiveBmFntClr": { "message": "Цвет шрифта выделенной закладки:" },
+    "twActiveBmBgClr": { "message": "Цвет фона выделенной закладки:" },
+    "twActiveBmBgClrFrom": { "message": "От:" },
+    "twActiveBmBgClrTo": { "message": "До:" },
+
     "twRestoreDflt": { "message": "Восстановить значения по умолчанию" }
 }
