@@ -55,14 +55,14 @@
     "twShowTooltip": { "message": "Показывать всплывающую подсказку для длинных названий" },
 
     "twColorScheme": { "message": "Настройка цветов" },
-    "twBodyColor": { "message": "Цвет фона:" },
-    "twFontColor": { "message": "Цвет шрифта:" },
+    "twBodyColor": { "message": "Цвет фона окна:" },
+    "twFontColor": { "message": "Цвет текста:" },
     "twBmBgColor": { "message": "Цвет фона закладки:" },
-    "twDisabledItemFntClr": { "message": "Цвет фона запрещённых элементов меню:" },
-    "twActiveBmFntClr": { "message": "Цвет шрифта выделенной закладки:" },
-    "twActiveBmBgClr": { "message": "Цвет фона выделенной закладки:" },
-    "twActiveBmBgClrFrom": { "message": "От:" },
-    "twActiveBmBgClrTo": { "message": "До:" },
+    "twDisabledItemFntClr": { "message": "Цвет текста запрещённых элементов меню:" },
+    "twActiveBmFntClr": { "message": "Цвет текста подсвеченной закладки:" },
+    "twActiveBmBgClr": { "message": "Цвет фона подсвеченной закладки (градиент):" },
+    "twActiveBmBgClrFrom": { "message": "от:" },
+    "twActiveBmBgClrTo": { "message": "до:" },
 
     "twRestoreDflt": { "message": "Восстановить значения по умолчанию" }
 }

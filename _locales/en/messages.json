@@ -55,14 +55,14 @@
     "twShowTooltip": { "message": "Show tooltip for long bookmark name" },
 
     "twColorScheme": { "message": "Color scheme" },
-    "twBodyColor": { "message": "Body color:" },
+    "twBodyColor": { "message": "Window background color:" },
     "twFontColor": { "message": "Font color:" },
     "twBmBgColor": { "message": "Bookmark background color:" },
-    "twDisabledItemFntClr": { "message": "Disabled menu item font color:" },
-    "twActiveBmFntClr": { "message": "Active bookmark font color:" },
-    "twActiveBmBgClr": { "message": "Active bookmark background color:" },
-    "twActiveBmBgClrFrom": { "message": "From:" },
-    "twActiveBmBgClrTo": { "message": "To:" },
+    "twDisabledItemFntClr": { "message": "Font color of disabled menu item:" },
+    "twActiveBmFntClr": { "message": "Font color of highlighted bookmark:" },
+    "twActiveBmBgClr": { "message": "Background color of highlighted bookmark:" },
+    "twActiveBmBgClrFrom": { "message": "gradient from:" },
+    "twActiveBmBgClrTo": { "message": "gradient to:" },
 
     "twRestoreDflt": { "message": "Restore default settings" }
 }
