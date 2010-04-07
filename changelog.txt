@@ -1,3 +1,6 @@
+Changelog 2.6.0 (07.04.2010)
+- Added ability to customize colors of bookmark menu
+
 Changelog 2.5.4 (03.04.2010)
 - Added font family customization on options panel
 
