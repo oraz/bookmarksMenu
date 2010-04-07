@@ -57,7 +57,18 @@
     "twMaxBookmarkWidthIN": { "message": "pouces" },
     "twMaxBookmarkWidthCM": { "message": "centimètres" },
     "twMaxBookmarkWidthMM": { "message": "millimètres" },
-
+    "twScrollBarWidth": { "message": "ScrollBar width:" },
     "twShowTooltip": { "message": "Montrer info-bulle pour noms longs" },
+
+    "twColorScheme": { "message": "Configuration de couleurs" },
+    "twBodyColor": { "message": "Couleur du fond de la fenêtre:" },
+    "twFontColor": { "message": "Couleur du texte:" },
+    "twBmBgColor": { "message": "Couleur du fond du favori:" },
+    "twDisabledItemFntClr": { "message": "Couleur du texte du point interdit:" },
+    "twActiveBmFntClr": { "message": "Couleur du text du favori surligné:" },
+    "twActiveBmBgClr": { "message": "Couleur du fond du favori surligné (gradient):" },
+    "twActiveBmBgClrFrom": { "message": "de:" },
+    "twActiveBmBgClrTo": { "message": "jusqu'à:" },
+
     "twRestoreDflt": { "message": "Restaurer les valeurs par défaut" }
 }
