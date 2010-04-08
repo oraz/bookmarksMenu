@@ -30,13 +30,13 @@ function isSwitchToNewTab()
 function getWindowMaxWidth()
 {
 	var maxWidth = localStorage['winMaxWidth'];
-	return maxWidth == undefined ? 800 : maxWidth;
+	return maxWidth == undefined ? 800 : parseInt(maxWidth);
 }
 
 function getWindowMaxHeight()
 {
 	var maxHeight = localStorage['winMaxHeight'];
-	return maxHeight == undefined ? 600 : maxHeight;
+	return maxHeight == undefined ? 600 : parseInt(maxHeight);
 }
 
 function getFontFamily()
@@ -73,9 +73,10 @@ function getColor(name)
 		: 'BEBEBE'; // disabledItemFntClr
 }
 
-//function getScrollBarWidth()
-//{
-//	var width = localStorage['scrollBarWidth'];
-//	return width == undefined ? 7 : width;
-//}
+function getScrollBarWidth()
+{
+	var width = localStorage['scrollBarWidth'];
+	return width ? width : '7';
+}
+
 // vim:noet ts=4 sw=4

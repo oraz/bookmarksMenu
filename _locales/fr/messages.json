@@ -57,7 +57,7 @@
     "twMaxBookmarkWidthIN": { "message": "pouces" },
     "twMaxBookmarkWidthCM": { "message": "centimètres" },
     "twMaxBookmarkWidthMM": { "message": "millimètres" },
-    "twScrollBarWidth": { "message": "ScrollBar width:" },
+    "twScrollBarWidth": { "message": "Largeur de la ligne de défilement:" },
     "twShowTooltip": { "message": "Montrer info-bulle pour noms longs" },
 
     "twColorScheme": { "message": "Configuration de couleurs" },

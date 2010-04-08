@@ -1,6 +1,6 @@
 {
     "name": "QuickBookmarksTree",
-    "version": "2.6.0",
+    "version": "2.6.0.1",
     "description": "__MSG_extDescription__",
     "default_locale": "en",
     "browser_action":
