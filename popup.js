@@ -506,7 +506,7 @@ function initBookmarksTree(nodes)
 	bodyStyle.fontSize = getFontSize() + 'px';
 	bodyStyle.backgroundColor = getColor('bodyClr');
 	bodyStyle.color = getColor('fntClr');
-	var styleSheet = document.styleSheets[document.styleSheets.length - 1];
+	var styleSheet = document.styleSheets[0];
 	var favIconWidth = getFavIconWidth();
 	styleSheet.addRule('span > img', 'width: ' + favIconWidth + 'px; height: ' + favIconWidth + 'px;');
 	styleSheet.addRule('#bookmarksTree span', 'max-width: ' + getMaxWidth() + getMaxWidthMesure() + ';');
@@ -518,7 +518,7 @@ function initBookmarksTree(nodes)
 					'background-image: -webkit-gradient(linear, left top, left bottom, from(' +
 					getColor('activeBmBgClrFrom') + '), to(' + getColor('activeBmBgClrTo') + '));');
 	var scrollBarWidth = getScrollBarWidth();
-	if(scrollBarWidth != 7)
+	if(scrollBarWidth != '7') // @todo need to remove this check in future
 	{
 		styleSheet.addRule('::-webkit-scrollbar', 'width: ' + scrollBarWidth + 'px;');
 	}
@@ -542,7 +542,7 @@ function initBookmarksTree(nodes)
 	}
 
 	var height = rootFolder.clientHeight + 2;
-	bodyStyle.width = rootFolder.clientWidth + 2 + (height < winMaxHeight ? 0 : scrollBarWidth) + 'px';
+	bodyStyle.width = rootFolder.clientWidth + 2 + (height < winMaxHeight ? 0 : parseInt(scrollBarWidth)) + 'px';
 	document.body.setHeight(height);
 
 	delete rootFolder.hasVisibleBookmarks;
