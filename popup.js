@@ -54,7 +54,7 @@ HTMLBodyElement.prototype.setHeight = function(height)
 
 with(HTMLUListElement)
 {
-	prototype.fillFolderContent = function(childBookmarks, completely)
+	prototype.fillFolderContent = function(childBookmarks)
 	{
 		var len = childBookmarks.length;
 		if(len > 0)
@@ -87,14 +87,14 @@ with(HTMLUListElement)
 					{
 						countBookmarks++;
 					}
-				}
-				if(bookmark.isFolder && completely)
-				{
-					bookmark.parentFolder.hasSubFolders = true;
-					bookmark.fillFolder();
+					else
+					{
+						bookmark.parentFolder.hasSubFolders = true;
+						bookmark.fillFolder();
+					}
 				}
 			}
-			if(!this.isRoot && countBookmarks > 1)
+			if(countBookmarks > 1)
 			{
 				this.addSeparator();
 				var bookmark = document.createElement('li');
@@ -193,7 +193,7 @@ with(HTMLLIElement)
 	{
 		this.folderContent = document.createElement('ul');
 		this.appendChild(this.folderContent);
-		this.folderContent.fillFolderContent(this.childBookmarks, true);
+		this.folderContent.fillFolderContent(this.childBookmarks);
 		this.childBookmarks = undefined;
 		if(!this.hasSubFolders)
 		{
@@ -527,7 +527,7 @@ function initBookmarksTree(nodes)
 	rootFolder.isRoot = true;
 
 	var nodesChildren = nodes[0].children;
-	rootFolder.fillFolderContent(nodesChildren[0].children, false);
+	rootFolder.fillFolderContent(nodesChildren[0].children);
 	rootFolder.addSeparator();
 	var separator = rootFolder.lastChild;
 	if(!rootFolder.hasVisibleBookmarks)
@@ -535,7 +535,7 @@ function initBookmarksTree(nodes)
 		separator.hide();
 	}
 	rootFolder.hasVisibleBookmarks = false;
-	rootFolder.fillFolderContent(nodesChildren[1].children, false);
+	rootFolder.fillFolderContent(nodesChildren[1].children);
 	if(!rootFolder.hasVisibleBookmarks)
 	{
 		separator.hide();
