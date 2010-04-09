@@ -76,7 +76,7 @@ function getColor(name)
 function getScrollBarWidth()
 {
 	var width = localStorage['scrollBarWidth'];
-	return width ? width : '7';
+	return width ? parseInt(width) : 7;
 }
 
 // vim:noet ts=4 sw=4

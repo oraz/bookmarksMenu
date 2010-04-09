@@ -518,7 +518,7 @@ function initBookmarksTree(nodes)
 					'background-image: -webkit-gradient(linear, left top, left bottom, from(' +
 					getColor('activeBmBgClrFrom') + '), to(' + getColor('activeBmBgClrTo') + '));');
 	var scrollBarWidth = getScrollBarWidth();
-	if(scrollBarWidth != '7')
+	if(scrollBarWidth != 7)
 	{
 		styleSheet.addRule('::-webkit-scrollbar', 'width: ' + scrollBarWidth + 'px;');
 	}
@@ -542,7 +542,7 @@ function initBookmarksTree(nodes)
 	}
 
 	var height = rootFolder.clientHeight + 2;
-	bodyStyle.width = rootFolder.clientWidth + 2 + (height < winMaxHeight ? 0 : parseInt(scrollBarWidth)) + 'px';
+	bodyStyle.width = rootFolder.clientWidth + 2 + (height < winMaxHeight ? 0 : scrollBarWidth) + 'px';
 	document.body.setHeight(height);
 
 	delete rootFolder.hasVisibleBookmarks;
