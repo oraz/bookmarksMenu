@@ -35,6 +35,8 @@ li span {
 
 li.empty > span { padding: 3px 0.6em; }
 
+li.disabled img { opacity: 0.5; }
+
 li ul {
     position: absolute;
     right: 100%;
