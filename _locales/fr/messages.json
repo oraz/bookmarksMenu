@@ -1,9 +1,9 @@
 {
     // manifest.json
-    "extDescription": { "message": "Montre l'arbre des favoris" },
+    "extDescription": { "message": "Montre le menu des favoris" },
     "extTitle": { "message": "Favoris" },
 
-    // Tree
+    // Bookmarks menu
     "empty": { "message": "vide" },
     "openAllInTabs": {
         "message": "Tout ouvrir dans des onglets",
@@ -17,13 +17,13 @@
     "remove": { "message": "Supprimer" },
 
     // Options page
-    "mainHeader": { "message": "Configuration de 'QuickBookrmarksTree'" },
+    "mainHeader": { "message": "Configuration de 'Bookmarks Menu'" },
     "changelog": { "message": "Regarder journal des modifications"},
 
     // tabs names
     "tabMouse": { "message": "Souris" },
     "tabBookmarks": { "message": "Favoris" },
-    "tabWindow": { "message": "Fenêtre et arbre" },
+    "tabWindow": { "message": "Fenêtre et menu" },
 
     // Mouse tab
     "tmMouseConfig": { "message": "Configuration de souris" },
@@ -41,13 +41,13 @@
     // Bookmarks tab
     "tbSelectBookmarks": { "message": "Sélectez les favoris pour montrer" },
 
-    // Window & Tree tab
+    // UI Settings tab
     "twPopupConfig": { "message": "Configuration de fenêtre" },
     "twWinMaxWidth": { "message": "Largeur de fenêtre (max 800px):" },
     "twWinMaxHeight": { "message": "Hauteur de fenêtre (max 600px):" },
     "twMesurePX": { "message": "px" },
 
-    "twTreeConfig": { "message": "Configuration d'arbre des favoris" },
+    "twMenuConfig": { "message": "Configuration de menu des favoris" },
     "twFont": { "message": "Police:" },
     "twFontSize": { "message": "Taille de police:" },
     "twFaviconSize": { "message": "Largeur et hauteur de favicône:" },

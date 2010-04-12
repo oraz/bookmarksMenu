@@ -1,9 +1,9 @@
 {
     // manifest.json
-    "extDescription": { "message": "Показывает дерево закладок" },
+    "extDescription": { "message": "Показывает меню закладок" },
     "extTitle": { "message": "Закладки" },
 
-    // Tree
+    // Bookmarks Menu
     "empty": { "message": "пусто" },
     "openAllInTabs": { "message": "Открыть всё во вкладках" },
 
@@ -14,13 +14,13 @@
     "remove": { "message": "Удалить" },
 
     // Options page
-    "mainHeader": { "message": "Настройки QuickBookrmarksTree" },
+    "mainHeader": { "message": "Настройки 'Bookmarks Menu'" },
     "changelog": { "message": "Посмотреть историю изменений"},
 
     // tabs names
     "tabMouse": { "message": "Мышь" },
     "tabBookmarks": { "message": "Закладки" },
-    "tabWindow": { "message": "Окно и дерево закладок" },
+    "tabWindow": { "message": "Настройки интерфейса" },
 
     // Mouse tab
     "tmMouseConfig": { "message": "Настройка жестов мыши" },
@@ -35,13 +35,13 @@
     // Bookmarks tab
     "tbSelectBookmarks": { "message": "Выберите закладки, которые нужно показывать" },
 
-    // Window & Tree tab
+    // UI settings  tab
     "twPopupConfig": { "message": "Настройка окна" },
     "twWinMaxWidth": { "message": "Ширина окна (макс. 800пикс):" },
     "twWinMaxHeight": { "message": "Высота окна (макс. 600пикс):" },
     "twMesurePX": { "message": "пикс" },
 
-    "twTreeConfig": { "message": "Настройка дерева закладок" },
+    "twMenuConfig": { "message": "Настройка меню закладок" },
     "twFont": { "message": "Шрифт:" },
     "twFontSize": { "message": "Размер шрифта:" },
     "twFaviconSize": { "message": "Ширина и высота иконок:" },

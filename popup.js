@@ -490,7 +490,7 @@ chrome.bookmarks.getTree(function(nodes)
 	// waiting for DOM loading
 	if(document.readyState == 'loaded' || document.readyState == 'complete')
 	{
-		initBookmarksTree(nodes);
+		initBookmarksMenu(nodes);
 	}
 	else
 	{
@@ -499,7 +499,7 @@ chrome.bookmarks.getTree(function(nodes)
 	}
 });
 
-function initBookmarksTree(nodes)
+function initBookmarksMenu(nodes)
 {
 	var bodyStyle = document.body.style;
 	bodyStyle.fontFamily = '"' + getFontFamily() + '", "Bitstream Vera Sans", sans-serif';
@@ -509,7 +509,7 @@ function initBookmarksTree(nodes)
 	var styleSheet = document.styleSheets[0];
 	var favIconWidth = getFavIconWidth();
 	styleSheet.addRule('span > img', 'width: ' + favIconWidth + 'px; height: ' + favIconWidth + 'px;');
-	styleSheet.addRule('#bookmarksTree span', 'max-width: ' + getMaxWidth() + getMaxWidthMesure() + ';');
+	styleSheet.addRule('#bookmarksMenu span', 'max-width: ' + getMaxWidth() + getMaxWidthMesure() + ';');
 	var bookmarkBgColor = getColor('bmBgClr');
 	styleSheet.addRule('li span', 'background-color: ' + bookmarkBgColor + ';');
 	styleSheet.addRule('li.separator', 'border-color: ' + bookmarkBgColor + ';');
@@ -523,7 +523,7 @@ function initBookmarksTree(nodes)
 		styleSheet.addRule('::-webkit-scrollbar', 'width: ' + scrollBarWidth + 'px;');
 	}
 
-	var rootFolder = $('bookmarksTree');
+	var rootFolder = $('bookmarksMenu');
 	rootFolder.isRoot = true;
 
 	var nodesChildren = nodes[0].children;

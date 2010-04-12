@@ -1,9 +1,9 @@
 {
     // manifest.json
-    "extDescription": { "message": "Shows bookmarks tree" },
+    "extDescription": { "message": "Shows bookmarks menu" },
     "extTitle": { "message": "Bookmarks" },
 
-    // Tree
+    // Bookmarks Menu
     "empty": { "message": "empty" },
     "openAllInTabs": { "message": "Open All in Tabs" },
 
@@ -14,13 +14,13 @@
     "remove": { "message": "Delete" },
 
     // Options page
-    "mainHeader": { "message": "QuickBookrmarksTree settings" },
+    "mainHeader": { "message": "'Bookmarks Menu' settings" },
     "changelog": { "message": "View changelog"},
 
     // tabs names
     "tabMouse": { "message": "Mouse" },
     "tabBookmarks": { "message": "Bookmarks" },
-    "tabWindow": { "message": "Window & Tree" },
+    "tabWindow": { "message": "UI Settings" },
 
     // Mouse tab
     "tmMouseConfig": { "message": "Mouse configuration" },
@@ -35,13 +35,13 @@
     // Bookmarks tab
     "tbSelectBookmarks": { "message": "Select bookmarks to display" },
 
-    // Window & Tree tab
+    // UI settings  tab
     "twPopupConfig": { "message": "Popup window configuration" },
     "twWinMaxWidth": { "message": "Window width (max 800px):" },
     "twWinMaxHeight": { "message": "Window height (max 600px):" },
     "twMesurePX": { "message": "px" },
 
-    "twTreeConfig": { "message": "Bookmarks tree configuration" },
+    "twMenuConfig": { "message": "Bookmarks menu configuration" },
     "twFont": { "message": "Font:" },
     "twFontSize": { "message": "Font size:" },
     "twFaviconSize": { "message": "Favicon width and height:" },

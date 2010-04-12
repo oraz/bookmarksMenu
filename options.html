@@ -15,7 +15,7 @@
             <ul class="tabs" id="tabs">
                 <li class="fgTab" for="mouseConfig"><span i18n="tabMouse" onclick="showTab(this)"></span></li>
                 <li class="bgTab" for="bookmarksShowHide"><span i18n="tabBookmarks" onclick="showTab(this)"></span></li>
-                <li class="bgTab" for="treeConfig"><span i18n="tabWindow" onclick="showTab(this)"></span></li>
+                <li class="bgTab" for="uiConfig"><span i18n="tabWindow" onclick="showTab(this)"></span></li>
             </ul>
             <div class="config" id="mouseConfig">
                 <table cellspacing="0" cellpadding="0" style="margin-bottom: 1ex;">
@@ -58,7 +58,7 @@
             <div class="config" id="bookmarksShowHide">
                 <div class="header" i18n="tbSelectBookmarks"></div>
             </div>
-            <div class="config" id="treeConfig">
+            <div class="config" id="uiConfig">
                 <table cellpadding="0" cellspacing="0">
                     <tr>
                         <th i18n="twPopupConfig" colspan="2"></th>
@@ -72,7 +72,7 @@
                         <td i18n="twMesurePX"><input type="number" maxlength="3" id="winMaxHeight" oninput="setIntProperty(this, 600)"/>&nbsp;</td>
                     </tr>
                     <tr>
-                        <th i18n="twTreeConfig" colspan="2"></th>
+                        <th i18n="twMenuConfig" colspan="2"></th>
                     </tr>
                     <tr>
                         <td><label for="fontFamily" i18n="twFont"></label></td>
