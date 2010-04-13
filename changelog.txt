@@ -1,3 +1,8 @@
+Changelog 2.7.0 (13.04.2010)
+- The extension has been renamed to 'Bookmarks Menu'. It's more exact name for
+the extension.
+- Some code improvements
+
 Changelog 2.6.1 (09.04.2010)
 - Enabled ability to customize scrollbar width
 - Shaded icon of disabled menu items
