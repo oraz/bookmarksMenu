@@ -103,19 +103,7 @@ with(HTMLUListElement)
 				bookmark.onmouseover = bookmark.highlight;
 				bookmark.onmouseout = bookmark.unHighlight;
 				var span = document.createElement('span');
-				if(bookmark.rootFolder.textPaddingLeft != undefined)
-				{
-					span.style.paddingLeft = bookmark.rootFolder.textPaddingLeft;
-				}
-				else
-				{
-					var favIcon = XPath('li[@type="bookmark" or @type="folder"]', bookmark.rootFolder,
-							XPathResult.FIRST_ORDERED_NODE_TYPE).singleNodeValue.firstChild.firstChild;
-					var iconMarginRight = window.getComputedStyle(favIcon).marginRight; // contains '3px'
-					span.style.paddingLeft =
-						bookmark.rootFolder.textPaddingLeft =
-						favIcon.offsetLeft + favIcon.scrollWidth + parseInt(iconMarginRight);
-				}
+				span.style.paddingLeft = bookmark.rootFolder.getTextPaddingLeft();
 				span.appendChild(document.createTextNode(chrome.i18n.getMessage('openAllInTabs')));
 				bookmark.appendChild(span);
 				bookmark.isOpenAll = true;
@@ -163,6 +151,26 @@ with(HTMLUListElement)
 			arguments.callee.firstCall = false;
 		});
 		window.close();
+	}
+	prototype.openAllInNewWindow = function()
+	{
+		var content = this;
+		var firstBookmark = XPath('li[@type="bookmark"]', this, XPathResult.FIRST_ORDERED_NODE_TYPE).singleNodeValue;
+		chrome.windows.create({ url: firstBookmark.url }, function(win)
+		{
+			XPath('li[@type="bookmark"]', content, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE).forEach(function(bookmark)
+			{
+				if(arguments.callee.firstSkipped)
+				{
+					chrome.tabs.create({ windowId: win.id, url: bookmark.url, selected: false });
+				}
+				else
+				{
+					arguments.callee.firstSkipped = true;
+				}
+			});
+			window.close();
+		});
 	}
 	prototype.getNumberOfBookmarks = function()
 	{
@@ -272,14 +280,35 @@ with(HTMLLIElement)
 		contextMenu.selectedBookmark = this;
 		var config =
 		{
-			openInNewTab: this.isBookmark,
-			openInNewWindow: this.isBookmark,
-			reorder: this.parentElement.childElementCount > 1,
-			remove: this.isBookmark || this.isFolder && this.isEmpty
+			openInNewTab: { hide: this.isFolder, enabled: true },
+			openInNewWindow: { hide: this.isFolder, enabled: true },
+			openAllInTabs: { hide: this.isBookmark },
+			openAllInNewWindow: { hide: this.isBookmark },
+			reorder: { enabled: this.parentElement.childElementCount > 1 },
+			remove: { enabled: this.isBookmark || this.isFolder && this.isEmpty }
 		};
+		if(this.isFolder)
+		{
+			config.openAllInTabs.enabled =
+				config.openAllInNewWindow.enabled = this.lastChild.getNumberOfBookmarks() > 0;
+		}
 		XPath('li[@action]', contextMenu, XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE).forEach(function(item)
 		{
-			item.className = config[item.getAttribute('action')] ? 'enabled' : 'disabled';
+			var action = item.getAttribute('action');
+			var cfg = config[action];
+			if(cfg.hide)
+			{
+				item.hide();
+			}
+			else
+			{
+				if(action == 'openAllInTabs' || action == 'openAllInNewWindow')
+				{
+					item.firstChild.style.paddingLeft = contextMenu.selectedBookmark.rootFolder.getTextPaddingLeft();
+				}
+				item.show();
+				item.className = cfg.enabled ? 'enabled' : 'disabled';
+			}
 		});
 		contextMenu.show();
 
@@ -479,7 +508,12 @@ function processMenu(ev, contextMenu)
 		if(item.getAttribute('class') == 'enabled')
 		{
 			var bookmark = contextMenu.selectedBookmark;
-			bookmark[item.getAttribute('action')].call(bookmark);
+			var action = item.getAttribute('action');
+			if(action == 'openAllInTabs' || action == 'openAllInNewWindow')
+			{
+				bookmark = bookmark.lastChild;
+			}
+			bookmark[action].call(bookmark);
 			unSelect();
 		}
 	}
@@ -598,6 +632,17 @@ function initBookmarksMenu(nodes)
 				}
 				break;
 		}
+	};
+	rootFolder.getTextPaddingLeft = function()
+	{
+		if(this.textPaddingLeft != undefined)
+		{
+			return this.textPaddingLeft;
+		}
+		var favIcon = XPath('li[@type="bookmark" or @type="folder"]', this,
+				XPathResult.FIRST_ORDERED_NODE_TYPE).singleNodeValue.firstChild.firstChild;
+		var iconMarginRight = window.getComputedStyle(favIcon).marginRight; // contains '3px'
+		return this.textPaddingLeft = favIcon.offsetLeft + favIcon.scrollWidth + parseInt(iconMarginRight);
 	};
 
 	chrome.i18n.initElements($('contextMenu'));
