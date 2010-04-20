@@ -103,7 +103,9 @@ with(HTMLUListElement)
 				bookmark.onmouseover = bookmark.highlight;
 				bookmark.onmouseout = bookmark.unHighlight;
 				var span = document.createElement('span');
-				span.style.paddingLeft = bookmark.rootFolder.getTextPaddingLeft();
+				var img = document.createElement('img');
+				img.className = 'transparent';
+				span.appendChild(img);
 				span.appendChild(document.createTextNode(chrome.i18n.getMessage('openAllInTabs')));
 				bookmark.appendChild(span);
 				bookmark.isOpenAll = true;
@@ -126,35 +128,6 @@ with(HTMLUListElement)
 		separator.className = 'separator';
 		separator.isSeparator = true;
 		this.appendChild(separator);
-	}
-	prototype.openAllInTabs = function(firstInCurrentTab)
-	{
-		XPath('li[@type="bookmark"]', this, XPathResult.ORDERED_NODE_ITERATOR_TYPE).forEach(function(bookmark)
-		{
-			var firstCall = arguments.callee.firstCall == undefined;
-			if(firstCall && firstInCurrentTab)
-			{
-				bookmark.open(false);
-			}
-			else if(firstCall && navigator.userAgent.indexOf('Linux x86_64') != -1)
-			{
-				// special fix for Linux x86_64
-				chrome.tabs.create({ url: bookmark.url, selected: false }, function(tab)
-				{
-					chrome.tabs.update(tab.id, { selected: true });
-				});
-			}
-			else
-			{
-				chrome.tabs.create({ url: bookmark.url, selected: firstCall });
-			}
-			arguments.callee.firstCall = false;
-		});
-		window.close();
-	}
-	prototype.openAllInNewWindow = function()
-	{
-		chrome.windows.create({ url: "open_all_in_new_window.html?id=" + this.parentElement.id });
 	}
 	prototype.getNumberOfBookmarks = function()
 	{
@@ -239,6 +212,36 @@ with(HTMLLIElement)
 		chrome.windows.create({ url: this.url });
 		window.close();
 	}
+	prototype.openAllInTabs = function(firstInCurrentTab)
+	{
+		XPath('li[@type="bookmark"]', this.lastChild, XPathResult.ORDERED_NODE_ITERATOR_TYPE).forEach(function(bookmark)
+		{
+			var firstCall = arguments.callee.firstCall == undefined;
+			if(firstCall && firstInCurrentTab)
+			{
+				bookmark.open(false);
+			}
+			else if(firstCall && navigator.userAgent.indexOf('Linux x86_64') != -1)
+			{
+				// special fix for Linux x86_64
+				chrome.tabs.create({ url: bookmark.url, selected: false }, function(tab)
+				{
+					chrome.tabs.update(tab.id, { selected: true });
+				});
+			}
+			else
+			{
+				chrome.tabs.create({ url: bookmark.url, selected: firstCall });
+			}
+			arguments.callee.firstCall = false;
+		});
+		window.close();
+	}
+	prototype.openAllInNewWindow = function()
+	{
+		chrome.windows.create({ url: "open_all_in_new_window.html?id=" + this.id });
+		window.close();
+	}
 	prototype.getY = function()
 	{
 		var body = document.body;
@@ -262,37 +265,23 @@ with(HTMLLIElement)
 	{
 		var contextMenu = $('contextMenu');
 		contextMenu.selectedBookmark = this;
+		contextMenu.setAttribute('for', this.getAttribute('type'));
 		var config =
 		{
-			openInNewTab: { hide: this.isFolder, enabled: true },
-			openInNewWindow: { hide: this.isFolder, enabled: true },
-			openAllInTabs: { hide: this.isBookmark },
-			openAllInNewWindow: { hide: this.isBookmark },
-			reorder: { enabled: this.parentElement.childElementCount > 1 },
-			remove: { enabled: this.isBookmark || this.isFolder && this.isEmpty }
+			reorder: this.parentElement.childElementCount > 1,
+			remove: this.isBookmark || this.isFolder && this.isEmpty
 		};
-		if(this.isFolder)
+		if(this.isBookmark)
 		{
-			config.openAllInTabs.enabled =
-				config.openAllInNewWindow.enabled = this.lastChild.getNumberOfBookmarks() > 0;
+			config.openInNewTab = config.openInNewWindow = true;
+		}
+		else if(this.isFolder)
+		{
+			config.openAllInTabs = config.openAllInNewWindow = this.lastChild.getNumberOfBookmarks() > 0;
 		}
 		XPath('li[@action]', contextMenu, XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE).forEach(function(item)
 		{
-			var action = item.getAttribute('action');
-			var cfg = config[action];
-			if(cfg.hide)
-			{
-				item.hide();
-			}
-			else
-			{
-				if(action == 'openAllInTabs' || action == 'openAllInNewWindow')
-				{
-					item.firstChild.style.paddingLeft = contextMenu.selectedBookmark.rootFolder.getTextPaddingLeft();
-				}
-				item.show();
-				item.className = cfg.enabled ? 'enabled' : 'disabled';
-			}
+			item.className = config[item.getAttribute('action')] ? 'enabled' : 'disabled';
 		});
 		contextMenu.show();
 
@@ -492,12 +481,7 @@ function processMenu(ev, contextMenu)
 		if(item.getAttribute('class') == 'enabled')
 		{
 			var bookmark = contextMenu.selectedBookmark;
-			var action = item.getAttribute('action');
-			if(action == 'openAllInTabs' || action == 'openAllInNewWindow')
-			{
-				bookmark = bookmark.lastChild;
-			}
-			bookmark[action].call(bookmark);
+			bookmark[item.getAttribute('action')].call(bookmark);
 			unSelect();
 		}
 	}
@@ -583,7 +567,7 @@ function initBookmarksMenu(nodes)
 				}
 				else if(bookmark.isOpenAll)
 				{
-					bookmark.parentElement.openAllInTabs(true);
+					bookmark.parentFolder.openAllInTabs(true);
 				}
 				break;
 			case 1: // open in new tab
@@ -594,15 +578,11 @@ function initBookmarksMenu(nodes)
 				}
 				else if(bookmark.isOpenAll)
 				{
-					bookmark.parentElement.openAllInTabs(false);
+					bookmark.parentFolder.openAllInTabs(false);
 				}
-				else if(bookmark.isFolder)
+				else if(bookmark.isFolder && bookmark.lastChild.getNumberOfBookmarks() > 0)
 				{
-					var folderContent = bookmark.lastChild;
-					if(folderContent.getNumberOfBookmarks() > 0)
-					{
-						folderContent.openAllInTabs(false);
-					}
+					bookmark.openAllInTabs(false);
 				}
 				break;
 			case 2: // open context menu
@@ -616,17 +596,6 @@ function initBookmarksMenu(nodes)
 				}
 				break;
 		}
-	};
-	rootFolder.getTextPaddingLeft = function()
-	{
-		if(this.textPaddingLeft != undefined)
-		{
-			return this.textPaddingLeft;
-		}
-		var favIcon = XPath('li[@type="bookmark" or @type="folder"]', this,
-				XPathResult.FIRST_ORDERED_NODE_TYPE).singleNodeValue.firstChild.firstChild;
-		var iconMarginRight = window.getComputedStyle(favIcon).marginRight; // contains '3px'
-		return this.textPaddingLeft = favIcon.offsetLeft + favIcon.scrollWidth + parseInt(iconMarginRight);
 	};
 
 	chrome.i18n.initElements($('contextMenu'));

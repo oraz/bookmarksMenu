@@ -53,6 +53,8 @@ li.separator {
 
 li.hover > ul { display: block; }
 
+li img.transparent { opacity: 0; } /* for openAllInTabs item and for context menu items without icon */
+
 span > img {
     vertical-align: bottom;
     margin-right: 0.3em;
@@ -66,6 +68,9 @@ span > img {
     border-style: outset;
     border-color: #6f5e5e;
 }
+
+#contextMenu[for="bookmark"] > li[for="folder"] { display: none; }
+#contextMenu[for="folder"] > li[for="bookmark"] { display: none; }
 
 #transparentLayer {
     position: fixed;
