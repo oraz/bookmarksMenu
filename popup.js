@@ -102,10 +102,8 @@ with(HTMLUListElement)
 				bookmark.rootFolder = bookmark.parentFolder.rootFolder;
 				bookmark.onmouseover = bookmark.highlight;
 				bookmark.onmouseout = bookmark.unHighlight;
+				bookmark.setAttribute('withoutIcon', 'true');
 				var span = document.createElement('span');
-				var img = document.createElement('img');
-				img.className = 'transparent';
-				span.appendChild(img);
 				span.appendChild(document.createTextNode(chrome.i18n.getMessage('openAllInTabs')));
 				bookmark.appendChild(span);
 				bookmark.isOpenAll = true;
@@ -597,6 +595,12 @@ function initBookmarksMenu(nodes)
 				break;
 		}
 	};
+
+	var favIcon = XPath('li[@type="bookmark" or @type="folder"]', rootFolder,
+			XPathResult.FIRST_ORDERED_NODE_TYPE).singleNodeValue.firstChild.firstChild;
+	var iconMarginRight = window.getComputedStyle(favIcon).marginRight; // contains '3px'
+	var textPaddingLeft = favIcon.offsetLeft + favIcon.scrollWidth + parseInt(iconMarginRight);
+	styleSheet.addRule('li[withoutIcon] > span', 'padding-left:' + textPaddingLeft + 'px;');
 
 	chrome.i18n.initElements($('contextMenu'));
 }
