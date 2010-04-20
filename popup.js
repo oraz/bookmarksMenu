@@ -154,23 +154,7 @@ with(HTMLUListElement)
 	}
 	prototype.openAllInNewWindow = function()
 	{
-		var content = this;
-		var firstBookmark = XPath('li[@type="bookmark"]', this, XPathResult.FIRST_ORDERED_NODE_TYPE).singleNodeValue;
-		chrome.windows.create({ url: firstBookmark.url }, function(win)
-		{
-			XPath('li[@type="bookmark"]', content, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE).forEach(function(bookmark)
-			{
-				if(arguments.callee.firstSkipped)
-				{
-					chrome.tabs.create({ windowId: win.id, url: bookmark.url, selected: false });
-				}
-				else
-				{
-					arguments.callee.firstSkipped = true;
-				}
-			});
-			window.close();
-		});
+		chrome.windows.create({ url: "open_all_in_new_window.html?id=" + this.parentElement.id });
 	}
 	prototype.getNumberOfBookmarks = function()
 	{
