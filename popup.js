@@ -237,7 +237,7 @@ with(HTMLLIElement)
 	}
 	prototype.openAllInNewWindow = function()
 	{
-		chrome.windows.create({ url: "open_all_in_new_window.html?id=" + this.id });
+		chrome.windows.create({ url: "open-all-bookmarks.html?id=" + this.id });
 		window.close();
 	}
 	prototype.getY = function()
@@ -262,6 +262,11 @@ with(HTMLLIElement)
 	prototype.showContextMenu = function(ev)
 	{
 		var contextMenu = $('contextMenu');
+		if(!contextMenu.initialized)
+		{
+			chrome.i18n.initElements(contextMenu);
+			contextMenu.initialized = true;
+		}
 		contextMenu.selectedBookmark = this;
 		contextMenu.setAttribute('for', this.getAttribute('type'));
 		var config =
@@ -502,7 +507,7 @@ chrome.bookmarks.getTree(function(nodes)
 function initBookmarksMenu(nodes)
 {
 	var bodyStyle = document.body.style;
-	bodyStyle.fontFamily = '"' + getFontFamily() + '", "Bitstream Vera Sans", sans-serif';
+	bodyStyle.fontFamily = '"' + getFontFamily() + '"';
 	bodyStyle.fontSize = getFontSize() + 'px';
 	bodyStyle.backgroundColor = getColor('bodyClr');
 	bodyStyle.color = getColor('fntClr');
@@ -601,8 +606,6 @@ function initBookmarksMenu(nodes)
 	var iconMarginRight = window.getComputedStyle(favIcon).marginRight; // contains '3px'
 	var textPaddingLeft = favIcon.offsetLeft + favIcon.scrollWidth + parseInt(iconMarginRight);
 	styleSheet.addRule('li[withoutIcon] > span', 'padding-left:' + textPaddingLeft + 'px;');
-
-	chrome.i18n.initElements($('contextMenu'));
 }
 
 // vim:noet
