@@ -8,76 +8,64 @@ body {
     overflow-y: visible;
 }
 
-#bookmarksMenu {
-    position: absolute;
-    right: 0px;
-    top: 0px;
-}
-
-ul {
-    list-style: none;
-    border: 1px solid #ccc;
+img {
+    margin-right: 0.3em;
+    vertical-align: bottom;
 }
 
 li { position: relative; }
 
-li span {
+li ul {
+    display: none;
+    position: absolute; top: -1px; right: 100%;
+}
+
+span {
     display: block;
     cursor: default;
-
-    padding: 3px;
-    padding-right: 1em;
-
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
+    padding: 3px 1em 3px 3px;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 
-li.empty > span { padding: 3px 0.6em; }
-
-li.disabled img { opacity: 0.5; }
-
-li ul {
-    position: absolute;
-    right: 100%;
-    top: -1px;
-    display: none;
+ul {
+    border: 1px solid #ccc;
+    list-style: none;
 }
 
-li.separator {
-    height: 1px;
+
+.disabled img { opacity: 0.5; }
+
+.empty span { padding: 3px 0.6em; }
+
+.hover > ul { display: block; }
+
+.separator {
     background-color: #ccc;
-    border-width: 1px 3px;
-    border-style: solid;
+    border-width: 1px 3px; border-style: solid;
+    height: 1px;
 }
 
-li.hover > ul { display: block; }
 
-span > img {
-    vertical-align: bottom;
-    margin-right: 0.3em;
-}
+#bookmarksMenu { position: absolute; top: 0px; right: 0px; }
 
 #contextMenu {
     display: none;
+    border-width: 1px 2px 2px 1px; border-style: outset; border-color: #6f5e5e;
     position: absolute;
     z-index: 2;
-    border-width: 1px 2px 2px 1px;
-    border-style: outset;
-    border-color: #6f5e5e;
 }
 
 #contextMenu[for="bookmark"] > li[for="folder"],
 #contextMenu[for="folder"] > li[for="bookmark"] { display: none; }
 
 #transparentLayer {
-    position: fixed;
-    left: 0px; top: 0px; bottom: 0px;
-    background-color: white;
-    opacity: 0.5;
     display: none;
+    background-color: white;
+    position: fixed; top: 0px; bottom: 0px; left: 0px;
+    opacity: 0.5;
     z-index: 1;
 }
+
 
 ::-webkit-scrollbar {
     background-color: #e2dbdb;
@@ -88,4 +76,3 @@ span > img {
 ::-webkit-scrollbar-thumb:vertical {
     background-image: -webkit-gradient(linear, left top, right top, from(#ccc), to(gray));
 }
-
