@@ -10,9 +10,11 @@
         "commentaire": "traduction de Firefox"
     },
 
-    // Popup menu
+    // Context menu
     "openInNewTab": { "message": "Ouvrir dans un nouvel onglet" },
     "openInNewWindow": { "message": "Ouvrir dans une nouvelle fenêtre" },
+    "openAllBookmarks": { "message": "Ouvrir tous les favoris" },
+    "openAllBookmarksInNewWindow": { "message": "Ouvrir tous les favoris dans une nouvelle fenêtre" },
     "reorder": { "message": "Trier par nom" },
     "remove": { "message": "Supprimer" },
 

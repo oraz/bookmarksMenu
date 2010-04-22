@@ -7,7 +7,7 @@
     "empty": { "message": "пусто" },
     "openAllInTabs": { "message": "Открыть всё во вкладках" },
 
-    // Popup menu
+    // Context menu
     "openInNewTab": { "message": "Открыть в новой вкладке" },
     "openInNewWindow": { "message": "Открыть в новом окне" },
     "openAllBookmarks": { "message": "Открыть все закладки" },
