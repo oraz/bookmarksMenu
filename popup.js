@@ -180,7 +180,7 @@ with(HTMLLIElement)
 	prototype.open = function(closeAfterOpen)
 	{
 		var url = this.url;
-		if(isJsURL(url))
+		if(isBookmarklet(url))
 		{
 			chrome.tabs.executeScript(null, { code: unescape(url.substr(11)) });
 			if(closeAfterOpen)

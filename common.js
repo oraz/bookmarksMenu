@@ -34,21 +34,16 @@ chrome.i18n.initElements = function(el)
 	});
 };
 
-function isJsURL(url)
+function isBookmarklet(url)
 {
 	return url.substr(0, 11) == 'javascript:';
-}
-
-function isFileURL(url)
-{
-	return url.substr(0, 5) == 'file:';
 }
 
 function getFavicon(url)
 {
 	return url == undefined ? 'icons/folder.png'
-		: isJsURL(url) ? 'icons/js.png'
-		: isFileURL(url) ? 'icons/html.png'
+		: isBookmarklet(url) ? 'icons/js.png'
+		: url.substr(0, 5) == 'file:' ? 'icons/html.png'
 //		: 'chrome://favicon/' + url;
 		: 'http://getfavicon.appspot.com/' + url;
 }
