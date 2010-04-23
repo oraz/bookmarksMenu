@@ -101,11 +101,11 @@ with(HTMLUListElement)
 				bookmark.rootFolder = bookmark.parentFolder.rootFolder;
 				bookmark.onmouseover = bookmark.highlight;
 				bookmark.setAttribute('type', 'openAllInTabs');
+				bookmark.isOpenAll = true;
 				var span = document.createElement('span');
 				span.className = 'noicon';
 				span.appendChild(document.createTextNode(chrome.i18n.getMessage('openAllInTabs')));
 				bookmark.appendChild(span);
-				bookmark.isOpenAll = true;
 				this.appendChild(bookmark);
 			}
 		}
@@ -116,8 +116,13 @@ with(HTMLUListElement)
 	}
 	prototype.fillAsEmpty = function()
 	{
-		this.innerHTML = '<li><span class="empty">(' + chrome.i18n.getMessage('empty') + ')</span></li>';
 		this.parentElement.isEmpty = true;
+		var li = document.createElement('li');
+		var span = document.createElement('span');
+		span.className = 'empty';
+		span.appendChild(document.createTextNode('(' + chrome.i18n.getMessage('empty') + ')'));
+		li.appendChild(span);
+		this.appendChild(li);
 	}
 	prototype.addSeparator = function()
 	{
