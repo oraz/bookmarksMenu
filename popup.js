@@ -100,9 +100,9 @@ with(HTMLUListElement)
 				bookmark.parentFolder = this.parentElement;
 				bookmark.rootFolder = bookmark.parentFolder.rootFolder;
 				bookmark.onmouseover = bookmark.highlight;
-				bookmark.setAttribute('withoutIcon', 'true');
 				bookmark.setAttribute('type', 'openAllInTabs');
 				var span = document.createElement('span');
+				span.className = 'noicon';
 				span.appendChild(document.createTextNode(chrome.i18n.getMessage('openAllInTabs')));
 				bookmark.appendChild(span);
 				bookmark.isOpenAll = true;
@@ -604,7 +604,7 @@ function initBookmarksMenu(nodes)
 	var favIcon = XPath('li[@type]/span/img', rootFolder, XPathResult.FIRST_ORDERED_NODE_TYPE).singleNodeValue;
 	var iconMarginRight = window.getComputedStyle(favIcon).marginRight; // contains '3px'
 	var textPaddingLeft = favIcon.offsetLeft + favIcon.scrollWidth + parseInt(iconMarginRight);
-	styleSheet.addRule('li[withoutIcon] > span', 'padding-left:' + textPaddingLeft + 'px;');
+	styleSheet.addRule('.noicon', 'padding-left:' + textPaddingLeft + 'px;');
 }
 
 // vim:noet
