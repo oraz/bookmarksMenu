@@ -601,8 +601,7 @@ function initBookmarksMenu(nodes)
 		}
 	};
 
-	var favIcon = XPath('li[@type="bookmark" or @type="folder"]', rootFolder,
-			XPathResult.FIRST_ORDERED_NODE_TYPE).singleNodeValue.firstChild.firstChild;
+	var favIcon = XPath('li[@type]/span/img', rootFolder, XPathResult.FIRST_ORDERED_NODE_TYPE).singleNodeValue;
 	var iconMarginRight = window.getComputedStyle(favIcon).marginRight; // contains '3px'
 	var textPaddingLeft = favIcon.offsetLeft + favIcon.scrollWidth + parseInt(iconMarginRight);
 	styleSheet.addRule('li[withoutIcon] > span', 'padding-left:' + textPaddingLeft + 'px;');
