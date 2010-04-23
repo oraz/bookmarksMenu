@@ -70,7 +70,7 @@ with(HTMLUListElement)
 					{
 						bookmark.hide();
 						bookmark.isBookmarkHidden = true;
-						bookmark.setAttribute("type", "hidden");
+						bookmark.removeAttribute("type");
 					}
 					else
 					{
