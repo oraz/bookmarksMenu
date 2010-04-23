@@ -27,7 +27,6 @@ function Bookmark(bookmarkNode)
 		bookmark.setAttribute("type", "bookmark");
 		bookmark.url = bookmarkNode.url;
 		bookmark.onmouseover = bookmark.highlight;
-		bookmark.onmouseout = bookmark.unHighlight;
 	}
 	return bookmark;
 }
@@ -101,8 +100,8 @@ with(HTMLUListElement)
 				bookmark.parentFolder = this.parentElement;
 				bookmark.rootFolder = bookmark.parentFolder.rootFolder;
 				bookmark.onmouseover = bookmark.highlight;
-				bookmark.onmouseout = bookmark.unHighlight;
 				bookmark.setAttribute('withoutIcon', 'true');
+				bookmark.setAttribute('type', 'openAllInTabs');
 				var span = document.createElement('span');
 				span.appendChild(document.createTextNode(chrome.i18n.getMessage('openAllInTabs')));
 				bookmark.appendChild(span);
@@ -138,7 +137,10 @@ with(HTMLLIElement)
 	prototype.highlight = function()
 	{
 		this.unHighlightActiveFolder();
-		this.setAttribute("class", "hover");
+		if(this.isFolder)
+		{
+			this.setAttribute("class", "hover");
+		}
 		if(showTooltip)
 		{
 			var span = this.firstChild;
@@ -462,12 +464,7 @@ with(HTMLLIElement)
 function unSelect()
 {
 	var contextMenu = $('contextMenu');
-	var bookmark = contextMenu.selectedBookmark;
-	if(bookmark.isBookmark)
-	{
-		bookmark.onmouseout = bookmark.unHighlight;
-	}
-	bookmark.unHighlight();
+	contextMenu.selectedBookmark.unHighlight();
 	contextMenu.hide();
 	$('transparentLayer').hide();
 }
@@ -513,15 +510,18 @@ function initBookmarksMenu(nodes)
 	bodyStyle.color = getColor('fntClr');
 	var styleSheet = document.styleSheets[0];
 	var favIconWidth = getFavIconWidth();
-	styleSheet.addRule('span > img', 'width: ' + favIconWidth + 'px; height: ' + favIconWidth + 'px;');
-	styleSheet.addRule('#bookmarksMenu span', 'max-width: ' + getMaxWidth() + getMaxWidthMesure() + ';');
+	styleSheet.addRule('img', 'width: ' + favIconWidth + 'px; height: ' + favIconWidth + 'px;');
 	var bookmarkBgColor = getColor('bmBgClr');
-	styleSheet.addRule('li span', 'background-color: ' + bookmarkBgColor + ';');
-	styleSheet.addRule('li.separator', 'border-color: ' + bookmarkBgColor + ';');
-	styleSheet.addRule('li.empty > span, li.disabled > span', 'color:' + getColor('disabledItemFntClr') + ';');
-	styleSheet.addRule('li.hover > span, li.enabled:hover > span', 'color:' + getColor('activeBmFntClr') + ';' +
-					'background-image: -webkit-gradient(linear, left top, left bottom, from(' +
+	styleSheet.addRule('span', 'background-color: ' + bookmarkBgColor + ';');
+
+	styleSheet.addRule('.separator', 'border-color: ' + bookmarkBgColor + ';');
+	styleSheet.addRule('.empty > span, li.disabled > span', 'color:' + getColor('disabledItemFntClr') + ';');
+	styleSheet.addRule('li[type="bookmark"]:hover > span, li[type="openAllInTabs"]:hover > span,' +
+			'.hover > span, .enabled:hover > span',
+			'color:' + getColor('activeBmFntClr') + ';' +
+			'background-image: -webkit-gradient(linear, left top, left bottom, from(' +
 					getColor('activeBmBgClrFrom') + '), to(' + getColor('activeBmBgClrTo') + '));');
+	styleSheet.addRule('#bookmarksMenu span', 'max-width: ' + getMaxWidth() + getMaxWidthMesure() + ';');
 	var scrollBarWidth = getScrollBarWidth();
 	if(scrollBarWidth != '7') // @todo need to remove this check in future
 	{
@@ -593,7 +593,7 @@ function initBookmarksMenu(nodes)
 				{
 					if(bookmark.isBookmark)
 					{
-						bookmark.onmouseout = undefined;
+						bookmark.className = 'hover';
 					}
 					bookmark.showContextMenu(ev);
 				}
