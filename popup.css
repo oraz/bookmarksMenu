@@ -35,7 +35,7 @@ ul {
 
 .disabled img { opacity: 0.5; }
 
-.empty span { padding: 3px 0.6em; }
+.empty { padding: 3px 0.6em; }
 
 .hover > ul { display: block; }
 

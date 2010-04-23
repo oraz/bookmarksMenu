@@ -116,7 +116,7 @@ with(HTMLUListElement)
 	}
 	prototype.fillAsEmpty = function()
 	{
-		this.innerHTML = '<li class="empty"><span>(' + chrome.i18n.getMessage('empty') + ')</span></li>';
+		this.innerHTML = '<li><span class="empty">(' + chrome.i18n.getMessage('empty') + ')</span></li>';
 		this.parentElement.isEmpty = true;
 	}
 	prototype.addSeparator = function()
@@ -515,7 +515,7 @@ function initBookmarksMenu(nodes)
 	styleSheet.addRule('span', 'background-color: ' + bookmarkBgColor + ';');
 
 	styleSheet.addRule('.separator', 'border-color: ' + bookmarkBgColor + ';');
-	styleSheet.addRule('.empty > span, li.disabled > span', 'color:' + getColor('disabledItemFntClr') + ';');
+	styleSheet.addRule('.empty, li.disabled > span', 'color:' + getColor('disabledItemFntClr') + ';');
 	styleSheet.addRule('li[type="bookmark"]:hover > span, li[type="openAllInTabs"]:hover > span,' +
 			'.hover > span, .enabled:hover > span',
 			'color:' + getColor('activeBmFntClr') + ';' +
