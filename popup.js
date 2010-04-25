@@ -276,23 +276,15 @@ with(HTMLLIElement)
 		}
 		contextMenu.selectedBookmark = this;
 		contextMenu.setAttribute('for', this.getAttribute('type'));
-		var config =
+		var menuItems = contextMenu.getElementsByTagName('li');
+		if(this.isFolder)
 		{
-			reorder: this.parentElement.childElementCount > 1,
-			remove: this.isBookmark || this.isFolder && this.isEmpty
-		};
-		if(this.isBookmark)
-		{
-			config.openInNewTab = config.openInNewWindow = true;
+			menuItems[2].className = // openAllInTabs
+				menuItems[3].className = // openAllInNewWindow
+				this.lastChild.getNumberOfBookmarks() > 0 ? 'enabled' : 'disabled';
 		}
-		else if(this.isFolder)
-		{
-			config.openAllInTabs = config.openAllInNewWindow = this.lastChild.getNumberOfBookmarks() > 0;
-		}
-		XPath('li[@action]', contextMenu, XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE).forEach(function(item)
-		{
-			item.className = config[item.getAttribute('action')] ? 'enabled' : 'disabled';
-		});
+		menuItems[5].className = this.parentElement.childElementCount > 1 ? 'enabled' : 'disabled'; // reorder
+		menuItems[7].className = this.isBookmark || this.isFolder && this.isEmpty ? 'enabled' : 'disabled'; // remove
 		contextMenu.show();
 
 		var body = document.body;
