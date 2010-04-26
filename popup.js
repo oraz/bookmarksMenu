@@ -19,18 +19,15 @@ function Bookmark(bookmarkNode)
 		bookmark.isFolder = true;
 		bookmark.setAttribute("type", "folder");
 		bookmark.childBookmarks = bookmarkNode.children;
-		bookmark.onmouseover = bookmark.displayFolderContent;
 	}
 	else
 	{
 		bookmark.isBookmark = true;
 		bookmark.setAttribute("type", "bookmark");
 		bookmark.url = bookmarkNode.url;
-		bookmark.onmouseover = bookmark.highlight;
 	}
 	return bookmark;
 }
-
 
 with(HTMLElement)
 {
@@ -99,7 +96,6 @@ with(HTMLUListElement)
 				var bookmark = document.createElement('li');
 				bookmark.parentFolder = this.parentElement;
 				bookmark.rootFolder = bookmark.parentFolder.rootFolder;
-				bookmark.onmouseover = bookmark.highlight;
 				bookmark.setAttribute('type', 'openAllInTabs');
 				bookmark.isOpenAll = true;
 				var span = document.createElement('span');
@@ -595,6 +591,25 @@ function initBookmarksMenu(nodes)
 					bookmark.showContextMenu(ev);
 				}
 				break;
+		}
+	};
+	rootFolder.onmouseover = function(ev)
+	{
+		var bookmark = ev.srcElement;
+		if(!(bookmark instanceof HTMLUListElement))
+		{
+			while(!(bookmark instanceof HTMLLIElement))
+			{
+				bookmark = bookmark.parentElement;
+			}
+			if(bookmark.isBookmark || bookmark.isOpenAll)
+			{
+				bookmark.highlight();
+			}
+			else if(bookmark.isFolder)
+			{
+				bookmark.displayFolderContent();
+			}
 		}
 	};
 
