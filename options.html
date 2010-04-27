@@ -1,180 +1,182 @@
 <html>
-    <head>
-        <link rel="stylesheet" type="text/css" href="options.css">
-        <script type="text/javascript" src="localstorage.js"></script>
-        <script type="text/javascript" src="common.js"></script>
-        <script type="text/javascript" src="options.js"></script>
-        <script type="text/javascript" src="jscolor/jscolor.js"></script>
-        <title i18n="mainHeader"></title>
-    </head>
-    <body>
-        <a href="changelog.txt" style="position:absolute; right: 10px;" i18n="changelog"></a>
-        <h1 i18n="mainHeader"><img src="icons/icon-24.png" /></h1>
-        <br />
-        <div class="tabs">
-            <ul id="tabs">
-                <li class="fgTab" for="mouseConfig"><span i18n="tabMouse" onclick="showTab(this)"></span></li>
-                <li class="bgTab" for="bookmarksShowHide"><span i18n="tabBookmarks" onclick="showTab(this)"></span></li>
-                <li class="bgTab" for="uiConfig"><span i18n="tabWindow" onclick="showTab(this)"></span></li>
-            </ul>
-            <div class="config" id="mouseConfig">
-                <table cellspacing="0" cellpadding="0" style="margin-bottom: 1ex;">
-                    <tr>
-                        <th i18n="tmMouseConfig" colspan="2"></th>
-                    </tr>
-                    <tr>
-                        <td><label for="btn0" i18n="tmLeftBtn"></label></td>
-                        <td align="left">
-                            <select size="1" id="btn0" onchange="setMouseButtonAction(this, 0)">
-                                <option i18n="tmOpenInCurTab"></option>
-                                <option i18n="tmOpenInNewTab"></option>
-                                <option i18n="tmShowContextMenu"></option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><label for="btn1" i18n="tmMiddleBtn"></label></td>
-                        <td align="left">
-                            <select size="1" id="btn1" onchange="setMouseButtonAction(this, 1)">
-                                <option i18n="tmOpenInCurTab"></option>
-                                <option i18n="tmOpenInNewTab"></option>
-                                <option i18n="tmShowContextMenu"></option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><label for="btn2" i18n="tmRightBtn"></label></td>
-                        <td align="left">
-                            <select size="1" id="btn2" onchange="setMouseButtonAction(this, 2)">
-                                <option i18n="tmOpenInCurTab"></option>
-                                <option i18n="tmOpenInNewTab"></option>
-                                <option i18n="tmShowContextMenu"></option>
-                            </select>
-                        </td>
-                    </tr>
-                </table>
-                <label i18n="tmSwitchToNewTab"><input type="checkbox" id="switchToNewTab" onchange="setBoolProperty('switchToNewTab', this.checked);">&nbsp;</label>
-            </div>
-            <div class="config" id="bookmarksShowHide">
-                <div class="header" i18n="tbSelectBookmarks"></div>
-            </div>
-            <div class="config" id="uiConfig">
-                <table cellpadding="0" cellspacing="0">
-                    <tr>
-                        <th i18n="twPopupConfig" colspan="2"></th>
-                    </tr>
-                    <tr>
-                        <td><label for="winMaxWidth" i18n="twWinMaxWidth"></label></td>
-                        <td i18n="twMesurePX"><input type="number" maxlength="3" id="winMaxWidth" oninput="setIntProperty(this, 800)"/>&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td><label for="winMaxHeight" i18n="twWinMaxHeight"></label></td>
-                        <td i18n="twMesurePX"><input type="number" maxlength="3" id="winMaxHeight" oninput="setIntProperty(this, 600)"/>&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <th i18n="twMenuConfig" colspan="2"></th>
-                    </tr>
-                    <tr>
-                        <td><label for="fontFamily" i18n="twFont"></label></td>
-                        <td>
-                            <select size="1" id="fontFamily" onchange="setFontFamily(this)" style="width: 14em;">
-                                <option value="Arial">Arial</option>
-                                <option value="Arial Narrow">Arial Narrow</option>
-                                <option value="Arial Rounded MT Bold">Arial Rounded MT Bold</option>
-                                <option value="Bitstream Vera Sans">Bitstream Vera Sans</option>
-                                <option value="Bookman Old Style">Bookman Old Style</option>
-                                <option value="Century">Century</option>
-                                <option value="Century Gothic">Century Gothic</option>
-                                <option value="Comic Sans MS">Comic Sans MS</option>
-                                <option value="Courier">Courier</option>
-                                <option value="Courier New">Courier New</option>
-                                <option value="cursive">Cursive</option>
-                                <option value="DejaVu Sans">DejaVu Sans</option>
-                                <option value="Lucida Console">Lucida Console</option>
-                                <option value="monospace">Monospace</option>
-                                <option value="Monotype Corsiva">Monotype Corsiva</option>
-                                <option value="sans serif">Sans Serif</option>
-                                <option value="serif">Serif</option>
-                                <option value="Tahoma">Tahoma</option>
-                                <option value="TeX">TeX</option>
-                                <option value="Times">Times</option>
-                                <option value="Times New Roman">Times New Roman</option>
-                                <option value="Verdana">Verdana</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><label for="fontSize" i18n="twFontSize"></label></td>
-                        <td i18n="twMesurePX"><input type="number" maxlength="2" id="fontSize" oninput="setIntProperty(this)"/>&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td><label for="favIconWidth" i18n="twFaviconSize"></label></td>
-                        <td i18n="twMesurePX"><input type="number" maxlength="2" id="favIconWidth" oninput="setIntProperty(this)"/>&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td><label for="maxWidth" i18n="twMaxBookmarkWidth"></label></td>
-                        <td>
-                            <input type="number" id="maxWidth" oninput="setIntProperty(this)"/>
-                            <select size="1" id="maxWidthMesure" onchange="setMenuMaxWidthMesure(this)">
-                                <option i18n="twMaxBookmarkWidthEM" value="em"></option>
-                                <option i18n="twMaxBookmarkWidthPX" value="px"></option>
-                                <option i18n="twMaxBookmarkWidthIN" value="in"></option>
-                                <option i18n="twMaxBookmarkWidthCM" value="cm"></option>
-                                <option i18n="twMaxBookmarkWidthMM" value="mm"></option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><label for="scrollBarWidth" i18n="twScrollBarWidth"></label></td>
-                        <td i18n="twMesurePX"><input type="number" maxlength="2" id="scrollBarWidth" oninput="setIntProperty(this, 25)"/>&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" style="padding-top: 1ex; text-align: left;">
-                            <label i18n="twShowTooltip"><input type="checkbox" id="showTooltip" onchange="setBoolProperty('showTooltip', this.checked);" />&nbsp;</label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th i18n="twColorScheme" colspan="2"></th>
-                    </tr>
-                    <tr>
-                        <td><label i18n="twBodyColor" for="bodyClr"></label></td>
-                        <td><input id="bodyClr" class="color" oninput="setColor(this)" onchange="setColor(this)"/></td>
-                    </tr>
-                    <tr>
-                        <td><label i18n="twFontColor" for="fntClr"></label></td>
-                        <td><input id="fntClr" class="color" oninput="setColor(this)" onchange="setColor(this)"/></td>
-                    </tr>
-                    <tr>
-                        <td><label i18n="twBmBgColor" for="bmBgClr"></label></td>
-                        <td><input id="bmBgClr" class="color" oninput="setColor(this)" onchange="setColor(this)"/></td>
-                    </tr>
-                    <tr>
-                        <td><label i18n="twDisabledItemFntClr" for="disabledItemFntClr"></label></td>
-                        <td><input id="disabledItemFntClr" class="color" oninput="setColor(this)" onchange="setColor(this)"/></td>
-                    </tr>
-                    <tr>
-                        <td><label i18n="twActiveBmFntClr" for="activeBmFntClr"></label></td>
-                        <td><input id="activeBmFntClr" class="color" oninput="setColor(this)" onchange="setColor(this)"/></td>
-                    </tr>
-                    <tr>
-                        <td><label i18n="twActiveBmBgClr" for="activeBmBgClrFrom"></label></td>
-                        <td>
-                            <table cellspacing="0" cellpadding="0">
-                                <tr>
-                                    <td><label i18n="twActiveBmBgClrFrom" for="activeBmBgClrFrom"></label></td>
-                                    <td><input id="activeBmBgClrFrom" class="color" oninput="setColor(this)" onchange="setColor(this)"/></td>
-                                </tr>
-                                <tr>
-                                    <td><label i18n="twActiveBmBgClrTo" for="activeBmBgClrTo"></label></td>
-                                    <td><input id="activeBmBgClrTo" class="color" oninput="setColor(this)" onchange="setColor(this)"/></td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                </table>
-                <hr />
-                <button style="margin-top: 3px;" onclick="resetWindowSettings()" i18n="twRestoreDflt"></button>
-            </div>
-        </div>
-    </body>
+	<head>
+		<link rel="stylesheet" type="text/css" href="options.css">
+		<script type="text/javascript" src="localstorage.js"></script>
+		<script type="text/javascript" src="common.js"></script>
+		<script type="text/javascript" src="options.js"></script>
+		<script type="text/javascript" src="jscolor/jscolor.js"></script>
+		<title i18n="mainHeader"></title>
+	</head>
+	<body>
+		<a href="changelog.txt" style="position:absolute; right: 10px;" i18n="changelog"></a>
+		<h1 i18n="mainHeader"><img src="icons/icon-24.png" /></h1>
+		<br />
+		<div class="tabs">
+			<ul id="tabs">
+				<li class="fgTab" for="mouseConfig"><span i18n="tabMouse" onclick="showTab(this)"></span></li>
+				<li class="bgTab" for="bookmarksShowHide"><span i18n="tabBookmarks" onclick="showTab(this)"></span></li>
+				<li class="bgTab" for="uiConfig"><span i18n="tabWindow" onclick="showTab(this)"></span></li>
+			</ul>
+			<div class="config" id="mouseConfig">
+				<table cellspacing="0" cellpadding="0" style="margin-bottom: 1ex;">
+					<tr>
+						<th i18n="tmMouseConfig" colspan="2"></th>
+					</tr>
+					<tr>
+						<td><label for="btn0" i18n="tmLeftBtn"></label></td>
+						<td align="left">
+							<select size="1" id="btn0" onchange="setMouseButtonAction(this, 0)">
+								<option i18n="tmOpenInCurTab"></option>
+								<option i18n="tmOpenInNewTab"></option>
+								<option i18n="tmShowContextMenu"></option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td><label for="btn1" i18n="tmMiddleBtn"></label></td>
+						<td align="left">
+							<select size="1" id="btn1" onchange="setMouseButtonAction(this, 1)">
+								<option i18n="tmOpenInCurTab"></option>
+								<option i18n="tmOpenInNewTab"></option>
+								<option i18n="tmShowContextMenu"></option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td><label for="btn2" i18n="tmRightBtn"></label></td>
+						<td align="left">
+							<select size="1" id="btn2" onchange="setMouseButtonAction(this, 2)">
+								<option i18n="tmOpenInCurTab"></option>
+								<option i18n="tmOpenInNewTab"></option>
+								<option i18n="tmShowContextMenu"></option>
+							</select>
+						</td>
+					</tr>
+				</table>
+				<label i18n="tmSwitchToNewTab"><input type="checkbox" id="switchToNewTab" onchange="setBoolProperty('switchToNewTab', this.checked);">&nbsp;</label>
+			</div>
+			<div class="config" id="bookmarksShowHide">
+				<div class="header" i18n="tbSelectBookmarks"></div>
+			</div>
+			<div class="config" id="uiConfig">
+				<table cellpadding="0" cellspacing="0">
+					<tr>
+						<th i18n="twPopupConfig" colspan="2"></th>
+					</tr>
+					<tr>
+						<td><label for="winMaxWidth" i18n="twWinMaxWidth"></label></td>
+						<td i18n="twMesurePX"><input type="number" maxlength="3" id="winMaxWidth" oninput="setIntProperty(this, 800)"/>&nbsp;</td>
+					</tr>
+					<tr>
+						<td><label for="winMaxHeight" i18n="twWinMaxHeight"></label></td>
+						<td i18n="twMesurePX"><input type="number" maxlength="3" id="winMaxHeight" oninput="setIntProperty(this, 600)"/>&nbsp;</td>
+					</tr>
+					<tr>
+						<th i18n="twMenuConfig" colspan="2"></th>
+					</tr>
+					<tr>
+						<td><label for="fontFamily" i18n="twFont"></label></td>
+						<td>
+							<select size="1" id="fontFamily" onchange="setFontFamily(this)" style="width: 14em;">
+								<option value="Arial">Arial</option>
+								<option value="Arial Narrow">Arial Narrow</option>
+								<option value="Arial Rounded MT Bold">Arial Rounded MT Bold</option>
+								<option value="Bitstream Vera Sans">Bitstream Vera Sans</option>
+								<option value="Bookman Old Style">Bookman Old Style</option>
+								<option value="Century">Century</option>
+								<option value="Century Gothic">Century Gothic</option>
+								<option value="Comic Sans MS">Comic Sans MS</option>
+								<option value="Courier">Courier</option>
+								<option value="Courier New">Courier New</option>
+								<option value="cursive">Cursive</option>
+								<option value="DejaVu Sans">DejaVu Sans</option>
+								<option value="Lucida Console">Lucida Console</option>
+								<option value="monospace">Monospace</option>
+								<option value="Monotype Corsiva">Monotype Corsiva</option>
+								<option value="sans serif">Sans Serif</option>
+								<option value="serif">Serif</option>
+								<option value="Tahoma">Tahoma</option>
+								<option value="TeX">TeX</option>
+								<option value="Times">Times</option>
+								<option value="Times New Roman">Times New Roman</option>
+								<option value="Verdana">Verdana</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td><label for="fontSize" i18n="twFontSize"></label></td>
+						<td i18n="twMesurePX"><input type="number" maxlength="2" id="fontSize" oninput="setIntProperty(this)"/>&nbsp;</td>
+					</tr>
+					<tr>
+						<td><label for="favIconWidth" i18n="twFaviconSize"></label></td>
+						<td i18n="twMesurePX"><input type="number" maxlength="2" id="favIconWidth" oninput="setIntProperty(this)"/>&nbsp;</td>
+					</tr>
+					<tr>
+						<td><label for="maxWidth" i18n="twMaxBookmarkWidth"></label></td>
+						<td>
+							<input type="number" id="maxWidth" oninput="setIntProperty(this)"/>
+							<select size="1" id="maxWidthMesure" onchange="setMenuMaxWidthMesure(this)">
+								<option i18n="twMaxBookmarkWidthEM" value="em"></option>
+								<option i18n="twMaxBookmarkWidthPX" value="px"></option>
+								<option i18n="twMaxBookmarkWidthIN" value="in"></option>
+								<option i18n="twMaxBookmarkWidthCM" value="cm"></option>
+								<option i18n="twMaxBookmarkWidthMM" value="mm"></option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td><label for="scrollBarWidth" i18n="twScrollBarWidth"></label></td>
+						<td i18n="twMesurePX"><input type="number" maxlength="2" id="scrollBarWidth" oninput="setIntProperty(this, 25)"/>&nbsp;</td>
+					</tr>
+					<tr>
+						<td colspan="2" style="padding-top: 1ex; text-align: left;">
+							<label i18n="twShowTooltip"><input type="checkbox" id="showTooltip" onchange="setBoolProperty('showTooltip', this.checked);" />&nbsp;</label>
+						</td>
+					</tr>
+					<tr>
+						<th i18n="twColorScheme" colspan="2"></th>
+					</tr>
+					<tr>
+						<td><label i18n="twBodyColor" for="bodyClr"></label></td>
+						<td><input id="bodyClr" class="color" oninput="setColor(this)" onchange="setColor(this)"/></td>
+					</tr>
+					<tr>
+						<td><label i18n="twFontColor" for="fntClr"></label></td>
+						<td><input id="fntClr" class="color" oninput="setColor(this)" onchange="setColor(this)"/></td>
+					</tr>
+					<tr>
+						<td><label i18n="twBmBgColor" for="bmBgClr"></label></td>
+						<td><input id="bmBgClr" class="color" oninput="setColor(this)" onchange="setColor(this)"/></td>
+					</tr>
+					<tr>
+						<td><label i18n="twDisabledItemFntClr" for="disabledItemFntClr"></label></td>
+						<td><input id="disabledItemFntClr" class="color" oninput="setColor(this)" onchange="setColor(this)"/></td>
+					</tr>
+					<tr>
+						<td><label i18n="twActiveBmFntClr" for="activeBmFntClr"></label></td>
+						<td><input id="activeBmFntClr" class="color" oninput="setColor(this)" onchange="setColor(this)"/></td>
+					</tr>
+					<tr>
+						<td><label i18n="twActiveBmBgClr" for="activeBmBgClrFrom"></label></td>
+						<td>
+							<table cellspacing="0" cellpadding="0">
+								<tr>
+									<td><label i18n="twActiveBmBgClrFrom" for="activeBmBgClrFrom"></label></td>
+									<td><input id="activeBmBgClrFrom" class="color" oninput="setColor(this)" onchange="setColor(this)"/></td>
+								</tr>
+								<tr>
+									<td><label i18n="twActiveBmBgClrTo" for="activeBmBgClrTo"></label></td>
+									<td><input id="activeBmBgClrTo" class="color" oninput="setColor(this)" onchange="setColor(this)"/></td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+				<hr />
+				<button style="margin-top: 3px;" onclick="resetWindowSettings()" i18n="twRestoreDflt"></button>
+			</div>
+		</div>
+	</body>
 </html>
+
+<!-- vim:se noet: -->
