@@ -96,7 +96,7 @@ function resetWindowSettings()
 		removeItem('scrollBarWidth');
 		removeItem('showTooltip');
 	}
-	XPath('//input[@class="color"]', document, XPathResult.UNORDERED_NODE_ITERATOR_TYPE).forEach(function(node)
+	document.querySelectorAll('input.color').forEach(function(node)
 	{
 		localStorage.removeItem(node.id);
 	});
@@ -105,8 +105,8 @@ function resetWindowSettings()
 
 HTMLSelectElement.prototype.selectByValue = function(value)
 {
-	this.selectedIndex = XPath('count(option[@value="' + value + '"]/preceding-sibling::option)',
-			this, XPathResult.NUMBER_TYPE).numberValue;
+	this.selectedIndex = document.evaluate('count(option[@value="' + value + '"]/preceding-sibling::option)',
+			this, null, XPathResult.NUMBER_TYPE, null).numberValue;
 }
 
 function initWindowSettingsTab()
@@ -120,7 +120,7 @@ function initWindowSettingsTab()
 	$('maxWidthMesure').selectByValue(getMaxWidthMesure());
 	$('scrollBarWidth').value = getScrollBarWidth();
 	$('showTooltip').checked = isShowTooltip();
-	XPath('//input[@class="color"]', document, XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE).forEach(function(node)
+	document.querySelectorAll('input.color').forEach(function(node)
 	{
 		node.color.fromString(getColor(node.id));
 	});

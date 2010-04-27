@@ -55,7 +55,7 @@ with(HTMLUListElement)
 		var len = childBookmarks.length;
 		if(len > 0)
 		{
-			var countBookmarks = 0;
+			this.numberOfBookmarks = 0;
 			for(var i = 0; i < len; i++)
 			{
 				var bookmark = new Bookmark(childBookmarks[i]);
@@ -81,7 +81,7 @@ with(HTMLUListElement)
 					bookmark.rootFolder = bookmark.parentFolder.rootFolder;
 					if(bookmark.isBookmark)
 					{
-						countBookmarks++;
+						this.numberOfBookmarks++;
 					}
 					else
 					{
@@ -90,7 +90,7 @@ with(HTMLUListElement)
 					}
 				}
 			}
-			if(countBookmarks > 1)
+			if(this.numberOfBookmarks > 1)
 			{
 				this.addSeparator();
 				var bookmark = document.createElement('li');
@@ -126,10 +126,6 @@ with(HTMLUListElement)
 		separator.className = 'separator';
 		separator.isSeparator = true;
 		this.appendChild(separator);
-	}
-	prototype.getNumberOfBookmarks = function()
-	{
-		return XPath('count(li[@type="bookmark"])', this, XPathResult.NUMBER_TYPE).numberValue;
 	}
 }
 
@@ -215,7 +211,7 @@ with(HTMLLIElement)
 	}
 	prototype.openAllInTabs = function(firstInCurrentTab)
 	{
-		XPath('li[@type="bookmark"]', this.lastChild, XPathResult.ORDERED_NODE_ITERATOR_TYPE).forEach(function(bookmark)
+		this.querySelectorAll('li[id="' + this.id + '"]>ul>li[type="bookmark"]').forEach(function(bookmark)
 		{
 			var firstCall = arguments.callee.firstCall == undefined;
 			if(firstCall && firstInCurrentTab)
@@ -277,7 +273,7 @@ with(HTMLLIElement)
 		{
 			menuItems[2].className = // openAllInTabs
 				menuItems[3].className = // openAllInNewWindow
-				this.lastChild.getNumberOfBookmarks() > 0 ? 'enabled' : 'disabled';
+				this.lastChild.numberOfBookmarks > 0 ? 'enabled' : 'disabled';
 		}
 		menuItems[5].className = this.parentElement.childElementCount > 1 ? 'enabled' : 'disabled'; // reorder
 		menuItems[7].className = this.isBookmark || this.isFolder && this.isEmpty ? 'enabled' : 'disabled'; // remove
@@ -338,7 +334,7 @@ with(HTMLLIElement)
 		{
 			folderContent.fillAsEmpty();
 		}
-		else if(folderContent.getNumberOfBookmarks() < 2 && folderContent.lastElementChild.isOpenAll)
+		else if(folderContent.numberOfBookmarks-- <= 2 && folderContent.lastElementChild.isOpenAll)
 		{
 			// remove "open all" and separator
 			folderContent.removeChild(folderContent.lastElementChild);
@@ -576,7 +572,7 @@ function initBookmarksMenu(nodes)
 				{
 					bookmark.parentFolder.openAllInTabs(false);
 				}
-				else if(bookmark.isFolder && bookmark.lastChild.getNumberOfBookmarks() > 0)
+				else if(bookmark.isFolder && bookmark.lastChild.numberOfBookmarks > 0)
 				{
 					bookmark.openAllInTabs(false);
 				}
@@ -613,7 +609,7 @@ function initBookmarksMenu(nodes)
 		}
 	};
 
-	var favIcon = XPath('li[@type]/span/img', rootFolder, XPathResult.FIRST_ORDERED_NODE_TYPE).singleNodeValue;
+	var favIcon = rootFolder.querySelector('li[type]>span>img');
 	var iconMarginRight = window.getComputedStyle(favIcon).marginRight; // contains '3px'
 	var textPaddingLeft = favIcon.offsetLeft + favIcon.scrollWidth + parseInt(iconMarginRight);
 	styleSheet.addRule('.noicon', 'padding-left:' + textPaddingLeft + 'px;');
