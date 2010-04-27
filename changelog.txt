@@ -1,3 +1,6 @@
+Changelog 2.7.2 (27.04.2010)
+- Made a lot of changes to improve performance. No new changes in UI.
+
 Changelog 2.7.1 (22.04.2010)
 - Added 'Open All Bookmarks' and 'Open All Bookmarks in New Window' context
 menu items. To open all bookmarks in new window open-all-bookmarks.html is
