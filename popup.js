@@ -500,13 +500,10 @@ function initBookmarksMenu(nodes)
 	var styleSheet = document.styleSheets[0];
 	var favIconWidth = getFavIconWidth();
 	styleSheet.addRule('img', 'width: ' + favIconWidth + 'px; height: ' + favIconWidth + 'px;');
-	var bookmarkBgColor = getColor('bmBgClr');
-	styleSheet.addRule('span', 'background-color: ' + bookmarkBgColor + ';');
+	styleSheet.addRule('ul', 'background-color: ' + getColor('bmBgClr') + ';');
 
-	styleSheet.addRule('.separator', 'border-color: ' + bookmarkBgColor + ';');
-	styleSheet.addRule('.empty, li.disabled > span', 'color:' + getColor('disabledItemFntClr') + ';');
-	styleSheet.addRule('li[type="bookmark"]:hover > span, li[type="openAllInTabs"]:hover > span,' +
-			'.hover > span, .enabled:hover > span',
+	styleSheet.addRule('.empty, .disabled', 'color:' + getColor('disabledItemFntClr') + ';');
+	styleSheet.addRule('li[type]:hover > span, .enabled:hover, .hover > span',
 			'color:' + getColor('activeBmFntClr') + ';' +
 			'background-image: -webkit-gradient(linear, left top, left bottom, from(' +
 					getColor('activeBmBgClrFrom') + '), to(' + getColor('activeBmBgClrTo') + '));');
@@ -609,7 +606,7 @@ function initBookmarksMenu(nodes)
 		}
 	};
 
-	var favIcon = rootFolder.querySelector('li[type]>span>img');
+	var favIcon = rootFolder.querySelector('li[type] img');
 	var iconMarginRight = window.getComputedStyle(favIcon).marginRight; // contains '3px'
 	var textPaddingLeft = favIcon.offsetLeft + favIcon.scrollWidth + parseInt(iconMarginRight);
 	styleSheet.addRule('.noicon', 'padding-left:' + textPaddingLeft + 'px;');
