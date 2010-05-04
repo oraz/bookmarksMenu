@@ -334,6 +334,10 @@ with(HTMLLIElement)
 		transparentLayer.style.right = (scrollBarWidth > 0 ? 1 : 0) + 'px';
 		transparentLayer.show();
 	}
+	/*prototype.copy = function()
+	{
+		chrome.experimental.bookmarkManager.copy(this.id);
+	}*/
 	prototype.remove = function()
 	{
 		chrome.bookmarks.remove(this.id);
