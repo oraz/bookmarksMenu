@@ -204,10 +204,14 @@ with(HTMLLIElement)
 		chrome.tabs.create({ url: this.url, selected: switchToNewTab || isSwitchToNewTab() });
 		window.close();
 	}
-	prototype.openInNewWindow = function()
+	prototype.openInNewWindow = function(incognito)
 	{
-		chrome.windows.create({ url: this.url });
+		chrome.windows.create({ url: this.url, incognito: incognito });
 		window.close();
+	}
+	prototype.openInIncognitoWindow = function()
+	{
+		this.openInNewWindow(true);
 	}
 	prototype.openAllInTabs = function(firstInCurrentTab)
 	{
@@ -239,6 +243,10 @@ with(HTMLLIElement)
 		chrome.windows.create({ url: "open-all-bookmarks.html?id=" + this.id });
 		window.close();
 	}
+	/*prototype.openAllInNewWindowIncognito = function()
+	{
+		this.openAllInNewWindow(true);
+	}*/
 	prototype.getY = function()
 	{
 		var body = document.body;
@@ -271,12 +279,13 @@ with(HTMLLIElement)
 		var menuItems = contextMenu.getElementsByTagName('li');
 		if(this.isFolder)
 		{
-			menuItems[2].className = // openAllInTabs
-				menuItems[3].className = // openAllInNewWindow
+			menuItems[3].className = // openAllInTabs
+				menuItems[4].className = // openAllInNewWindow
+//				menuItems[5].className = // openAllInNewWindowIncognito
 				this.lastChild.numberOfBookmarks > 0 ? 'enabled' : 'disabled';
 		}
-		menuItems[5].className = this.parentElement.childElementCount > 1 ? 'enabled' : 'disabled'; // reorder
-		menuItems[7].className = this.isBookmark || this.isFolder && this.isEmpty ? 'enabled' : 'disabled'; // remove
+		menuItems[6].className = this.parentElement.childElementCount > 1 ? 'enabled' : 'disabled'; // reorder
+		menuItems[8].className = this.isBookmark || this.isFolder && this.isEmpty ? 'enabled' : 'disabled'; // remove
 		contextMenu.show();
 
 		var body = document.body;
@@ -551,7 +560,7 @@ function initBookmarksMenu(nodes)
 				if(bookmark.isBookmark)
 				{
 					ev.ctrlKey ? bookmark.openInNewTab()
-						: ev.shiftKey ? bookmark.openInNewWindow()
+						: ev.shiftKey ? bookmark.openInNewWindow(false)
 						: bookmark.open(true);
 				}
 				else if(bookmark.isOpenAll)

@@ -10,8 +10,10 @@
     // Context menu
     "openInNewTab": { "message": "Открыть в новой вкладке" },
     "openInNewWindow": { "message": "Открыть в новом окне" },
+    "openInIncognitoWindow": { "message": "Открыть в режиме инкогнито" },
     "openAllBookmarks": { "message": "Открыть все закладки" },
     "openAllBookmarksInNewWindow": { "message": "Открыть все закладки в новом окне" },
+    "openAllBookmarksInIncognitoWindow": { "message": "Открыть все закладки в режиме инкогнито" },
     "reorder": { "message": "Упорядочить по заголовкам" },
     "remove": { "message": "Удалить" },
 

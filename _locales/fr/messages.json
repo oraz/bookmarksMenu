@@ -13,8 +13,10 @@
     // Context menu
     "openInNewTab": { "message": "Ouvrir dans un nouvel onglet" },
     "openInNewWindow": { "message": "Ouvrir dans une nouvelle fenêtre" },
+    "openInIncognitoWindow": { "message": "Ouvrir dans une fenêtre de navigation privée" },
     "openAllBookmarks": { "message": "Ouvrir tous les favoris" },
     "openAllBookmarksInNewWindow": { "message": "Ouvrir tous les favoris dans une nouvelle fenêtre" },
+    "openAllBookmarksInIncognitoWindow": { "message": "Ouvrir tous les favoris dans une fenêtre de navigation privée" },
     "reorder": { "message": "Trier par nom" },
     "remove": { "message": "Supprimer" },
 

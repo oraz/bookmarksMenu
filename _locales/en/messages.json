@@ -10,8 +10,10 @@
     // Context menu
     "openInNewTab": { "message": "Open in New Tab" },
     "openInNewWindow": { "message": "Open in New Window" },
+    "openInIncognitoWindow": { "message": "Open in Incognito Window" },
     "openAllBookmarks": { "message": "Open All Bookmarks" },
     "openAllBookmarksInNewWindow": { "message": "Open All Bookmarks in New Window" },
+    "openAllBookmarksInIncognitoWindow": { "message": "Open All Bookmarks in Incognito Window" },
     "reorder": { "message": "Reorder by Title" },
     "remove": { "message": "Delete" },
 
