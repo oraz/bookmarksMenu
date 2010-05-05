@@ -240,10 +240,17 @@ with(HTMLLIElement)
 	}
 	prototype.openAllInNewWindow = function()
 	{
-		chrome.windows.create({ url: "open-all-bookmarks.html?id=" + this.id });
+		if(this.numberOfBookmarks == 1)
+		{
+			this.querySelector('li[type="bookmark"]').openInNewWindow();
+		}
+		else
+		{
+			chrome.windows.create({ url: "open-all-bookmarks.html?id=" + this.id });
+		}
 		window.close();
 	}
-	/*prototype.openAllInNewWindowIncognito = function()
+	/*prototype.openAllInIncognitoWindow = function()
 	{
 		this.openAllInNewWindow(true);
 	}*/
@@ -564,7 +571,7 @@ function initBookmarksMenu(nodes)
 				if(bookmark.isBookmark)
 				{
 					ev.ctrlKey ? bookmark.openInNewTab()
-						: ev.shiftKey ? bookmark.openInNewWindow(false)
+						: ev.shiftKey ? bookmark.openInNewWindow()
 						: bookmark.open(true);
 				}
 				else if(bookmark.isOpenAll)
