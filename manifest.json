@@ -16,6 +16,7 @@
         "128": "icons/icon-128.png"
     },
     "options_page": "options.html",
+    "minimum_chrome_version": "5.0.375.29",
     "permissions":
     [
         "bookmarks",
