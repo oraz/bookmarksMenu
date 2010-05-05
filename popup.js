@@ -238,22 +238,15 @@ with(HTMLLIElement)
 		});
 		window.close();
 	}
-	prototype.openAllInNewWindow = function()
+	prototype.openAllInNewWindow = function(incognito)
 	{
-		if(this.numberOfBookmarks == 1)
-		{
-			this.querySelector('li[type="bookmark"]').openInNewWindow();
-		}
-		else
-		{
-			chrome.windows.create({ url: "open-all-bookmarks.html?id=" + this.id });
-		}
+		chrome.extension.getBackgroundPage().openAllInNewWindow(this.id, incognito);
 		window.close();
 	}
-	/*prototype.openAllInIncognitoWindow = function()
+	prototype.openAllInIncognitoWindow = function()
 	{
 		this.openAllInNewWindow(true);
-	}*/
+	}
 	prototype.getY = function()
 	{
 		var body = document.body;
@@ -288,11 +281,11 @@ with(HTMLLIElement)
 		{
 			menuItems[3].className = // openAllInTabs
 				menuItems[4].className = // openAllInNewWindow
-//				menuItems[5].className = // openAllInNewWindowIncognito
+				menuItems[5].className = // openAllInIncognitoWindow
 				this.lastChild.numberOfBookmarks > 0 ? 'enabled' : 'disabled';
 		}
-		menuItems[6].className = this.parentElement.childElementCount > 1 ? 'enabled' : 'disabled'; // reorder
-		menuItems[8].className = this.isBookmark || this.isFolder && this.isEmpty ? 'enabled' : 'disabled'; // remove
+		menuItems[7].className = this.parentElement.childElementCount > 1 ? 'enabled' : 'disabled'; // reorder
+		menuItems[9].className = this.isBookmark || this.isFolder && this.isEmpty ? 'enabled' : 'disabled'; // remove
 		contextMenu.show();
 
 		var body = document.body;

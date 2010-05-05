@@ -1,6 +1,6 @@
 {
     "name": "Bookmarks Menu",
-    "version": "2.7.2.5",
+    "version": "2.7.2.6",
     "description": "__MSG_extDescription__",
     "default_locale": "en",
     "browser_action":
@@ -15,6 +15,7 @@
         "48": "icons/icon-48.png",
         "128": "icons/icon-128.png"
     },
+    "background_page": "background.html",
     "options_page": "options.html",
     "minimum_chrome_version": "5.0.375.29",
     "permissions":
