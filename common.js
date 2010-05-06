@@ -5,7 +5,7 @@ NodeList.prototype.forEach = function(func)
 {
 	for(var idx = 0, len = this.length; idx < len; idx++)
 	{
-		func(this[idx]);
+		func(this[idx], idx);
 	}
 }
 

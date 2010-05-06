@@ -176,10 +176,28 @@ with(HTMLLIElement)
 			}
 		}
 	}
-	prototype.open = function()
+	prototype.open = function(closeAfterOpen)
 	{
-		chrome.extension.getBackgroundPage().openUrlInCurrentTab(this.url);
-		window.close();
+		var url = this.url;
+		if(isBookmarklet(url))
+		{
+			chrome.tabs.executeScript(null, { code: unescape(url.substr(11)) });
+			if(closeAfterOpen)
+			{
+				window.close();
+			}
+		}
+		else
+		{
+			chrome.tabs.getSelected(null, function(tab)
+			{
+				chrome.tabs.update(tab.id, { url: url });
+				if(closeAfterOpen)
+				{
+					window.close();
+				}
+			});
+		}
 	}
 	prototype.openInNewTab = function(switchToNewTab)
 	{
@@ -197,26 +215,44 @@ with(HTMLLIElement)
 	}
 	prototype.openAllInTabs = function(firstInCurrentTab)
 	{
-		chrome.extension.getBackgroundPage().openAllInTabs(this.getBookmarksURLsInFolder(), firstInCurrentTab);
+		this.getBookmarksInFolder().forEach(function(bookmark, idx)
+		{
+			if(idx == 0 && firstInCurrentTab)
+			{
+				bookmark.open();
+			}
+			else if(idx == 0 && navigator.userAgent.indexOf('Linux x86_64') != -1)
+			{
+				// special fix for Linux x86_64
+				chrome.tabs.create({ url: bookmark.url, selected: false }, function(tab)
+				{
+					chrome.tabs.update(tab.id, { selected: true });
+				});
+			}
+			else
+			{
+				chrome.tabs.create({ url: bookmark.url, selected: idx == 0 });
+			}
+		});
 		window.close();
 	}
 	prototype.openAllInNewWindow = function(incognito)
 	{
-		chrome.extension.getBackgroundPage().openAllInNewWindow(this.getBookmarksURLsInFolder(), incognito);
+		var urls = new Array();
+		this.getBookmarksInFolder().forEach(function(bookmark)
+		{
+			urls.push(bookmark.url);
+		});
+		chrome.extension.getBackgroundPage().openUrlsInNewWindow(urls, incognito);
 		window.close();
 	}
 	prototype.openAllInIncognitoWindow = function()
 	{
 		this.openAllInNewWindow(true);
 	}
-	prototype.getBookmarksURLsInFolder = function()
+	prototype.getBookmarksInFolder = function()
 	{
-		var urls = new Array();
-		this.querySelectorAll('li[id="' + this.id + '"]>ul>li[type="bookmark"]').forEach(function(bookmark)
-		{
-			urls.push(bookmark.url);
-		});
-		return urls;
+		return this.querySelectorAll('li[id="' + this.id + '"]>ul>li[type="bookmark"]');
 	}
 	prototype.getY = function()
 	{
@@ -532,7 +568,7 @@ function initBookmarksMenu(nodes)
 				{
 					ev.ctrlKey ? bookmark.openInNewTab()
 						: ev.shiftKey ? bookmark.openInNewWindow()
-						: bookmark.open();
+						: bookmark.open(true);
 				}
 				else if(bookmark.isOpenAll)
 				{
