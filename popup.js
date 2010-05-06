@@ -3,6 +3,8 @@ var winMaxWidth = getWindowMaxWidth();
 var winMaxHeight = getWindowMaxHeight();
 var showTooltip = isShowTooltip();
 
+chrome.stable = navigator.appVersion.substr(navigator.appVersion.indexOf("Chrome") + 7).indexOf('4') == 0;
+
 function Bookmark(bookmarkNode)
 {
 	var bookmark = document.createElement('li');
@@ -206,7 +208,12 @@ with(HTMLLIElement)
 	}
 	prototype.openInNewWindow = function(incognito)
 	{
-		chrome.windows.create({ url: this.url, incognito: incognito });
+		var windowData = { url: this.url };
+		if(incognito && !chrome.stable)
+		{
+			windowData.incognito = true;
+		}
+		chrome.windows.create(windowData);
 		window.close();
 	}
 	prototype.openInIncognitoWindow = function()
@@ -626,6 +633,11 @@ function initBookmarksMenu(nodes)
 	var iconMarginRight = window.getComputedStyle(favIcon).marginRight; // contains '3px'
 	var textPaddingLeft = favIcon.offsetLeft + favIcon.scrollWidth + parseInt(iconMarginRight);
 	styleSheet.addRule('.noicon', 'padding-left:' + textPaddingLeft + 'px;');
+
+	if(chrome.stable)
+	{
+		styleSheet.addRule('#contextMenu li[action*="Incognito"]', 'display:none;');
+	}
 }
 
 // vim:noet
