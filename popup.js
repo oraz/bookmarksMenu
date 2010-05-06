@@ -286,6 +286,11 @@ with(HTMLLIElement)
 		if(!contextMenu.initialized)
 		{
 			chrome.i18n.initElements(contextMenu);
+			if(chrome.stable)
+			{
+				contextMenu.querySelector('li:nth-of-type(3)').hide(); // openInIncognitoWindow
+				contextMenu.querySelector('li:nth-of-type(6)').hide(); // openAllInIncognitoWindow
+			}
 			contextMenu.initialized = true;
 		}
 		contextMenu.selectedBookmark = this;
@@ -633,11 +638,6 @@ function initBookmarksMenu(nodes)
 	var iconMarginRight = window.getComputedStyle(favIcon).marginRight; // contains '3px'
 	var textPaddingLeft = favIcon.offsetLeft + favIcon.scrollWidth + parseInt(iconMarginRight);
 	styleSheet.addRule('.noicon', 'padding-left:' + textPaddingLeft + 'px;');
-
-	if(chrome.stable)
-	{
-		styleSheet.addRule('#contextMenu li[action*="Incognito"]', 'display:none;');
-	}
 }
 
 // vim:noet
