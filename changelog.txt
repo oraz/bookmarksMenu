@@ -1,3 +1,10 @@
+Changelog 2.8.0 (11.05.2010)
+- Added menu items 'Open in Incognito Window' for bookmark and 'Open All
+Bookmarks in Incognito Window' for folder. These items are not visible on
+Chrome stable version.
+- Removed open-all-bookmarks.html. To open all bookmarks in new window
+background page is used
+
 Changelog 2.7.2 (27.04.2010)
 - Made a lot of changes to improve performance. No new changes in UI.
 
