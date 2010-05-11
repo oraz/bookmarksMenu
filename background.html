@@ -11,6 +11,11 @@
 				}
 				chrome.windows.create(windowData, function(win)
 				{
+					if(windowData.incognito && !win && urls.length > 1)
+					{
+						alert("You need to allow 'Bookmarks menu' to run in incognito! You can do it on extensions page.");
+						return;
+					}
 					for(var idx = 1, len = urls.length; idx < len; idx++)
 					{
 						chrome.tabs.create({ url: urls[idx], windowId: win.id, selected: false });
