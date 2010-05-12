@@ -545,7 +545,9 @@ function initBookmarksMenu(nodes)
 	var rootFolder = $('bookmarksMenu');
 	rootFolder.isRoot = true;
 
-	var nodesChildren = nodes[0].children;
+	var bookmarksTree = chrome.extension.getBackgroundPage().GBookmarksTree;
+	rootFolder.fillFolderContent(bookmarksTree.children);
+	/*var nodesChildren = nodes[0].children;
 	rootFolder.fillFolderContent(nodesChildren[0].children);
 	rootFolder.addSeparator();
 	var separator = rootFolder.lastChild;
@@ -558,7 +560,7 @@ function initBookmarksMenu(nodes)
 	if(!rootFolder.hasVisibleBookmarks)
 	{
 		separator.hide();
-	}
+	}*/
 
 	var height = rootFolder.clientHeight + 2;
 	bodyStyle.width = rootFolder.clientWidth + 2 + (height < winMaxHeight ? 0 : parseInt(scrollBarWidth)) + 'px';
