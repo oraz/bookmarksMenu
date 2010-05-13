@@ -99,6 +99,32 @@ function handleStateChange()
 			}
 		});
 	}
+	sortFolder(GBookmarksTree);
+}
+
+function sortFolder(folder)
+{
+	var children = folder.children;
+	if(children)
+	{
+		children.sort(sorting);
+		for(var idx = 0, len = children.length; idx < len; idx++)
+		{
+			var child = children[idx];
+			if(child.children)
+			{
+				sortFolder(child);
+			}
+		}
+	}
+}
+
+function sorting(b1, b2)
+{
+	if(b1.children && b2.url) { return -1; }
+	if(b2.children && b1.url) { return 1; }
+	var t1 = b1.title, t2 = b2.title;
+	return t1 > t2 ? 1 : t1 < t2 ? -1 : 0;
 }
 
 var xhr = new XMLHttpRequest();
