@@ -115,7 +115,7 @@ function setBookmarksMode(useGBookmarks)
 	}
 	else
 	{
-		chrome.browserAction.setBadgeText({ text: null });
+		chrome.browserAction.setBadgeText({ text: "" });
 	}
 }
 function loadGBookmakrs()
@@ -126,5 +126,5 @@ function loadGBookmakrs()
 	xhr.send();
 }
 
-setBookmarksMode(true);
+setBookmarksMode(isGoogleBookmarksMode());
 // vim: noet

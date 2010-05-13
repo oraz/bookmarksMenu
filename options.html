@@ -56,6 +56,8 @@
 				<label i18n="tmSwitchToNewTab"><input type="checkbox" id="switchToNewTab" onchange="setBoolProperty('switchToNewTab', this.checked);">&nbsp;</label>
 			</div>
 			<div class="config" id="bookmarksShowHide">
+				<label><input type="radio" name="useGoolgeMode" onclick="setGoogleBookmarksMode(false)"/>&nbsp;Use Chrome bookmarks</label>
+				<label><input type="radio" name="useGoolgeMode" onclick="setGoogleBookmarksMode(true)"/>&nbsp;Use Google bookmarks</label>
 				<div class="header" i18n="tbSelectBookmarks"></div>
 			</div>
 			<div class="config" id="uiConfig">

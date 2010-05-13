@@ -65,6 +65,12 @@ function showHideElem(id)
 	elemStyle.display = elemStyle.display == 'none' ? 'inline' : 'none';
 }
 
+function setGoogleBookmarksMode(useGoogleBM)
+{
+	localStorage['isGoogleBM'] = useGoogleBM;
+	chrome.extension.getBackgroundPage().setBookmarksMode(useGoogleBM);
+}
+
 function showTab(span)
 {
 	var currentTab = span.parentNode;
