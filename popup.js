@@ -2,6 +2,7 @@
 var winMaxWidth = getWindowMaxWidth();
 var winMaxHeight = getWindowMaxHeight();
 var showTooltip = isShowTooltip();
+var useGoogleBookmarks = isUseGoogleBookmarks();
 
 chrome.stable = navigator.appVersion.substr(navigator.appVersion.indexOf("Chrome") + 7).indexOf('4') == 0;
 
@@ -504,19 +505,26 @@ function processMenu(ev, contextMenu)
 	}
 }
 
-chrome.bookmarks.getTree(function(nodes)
+if(useGoogleBookmarks)
 {
-	// waiting for DOM loading
-	if(document.readyState == 'loaded' || document.readyState == 'complete')
+	document.addEventListener("DOMContentLoaded", initBookmarksMenu);
+}
+else
+{
+	chrome.bookmarks.getTree(function(nodes)
 	{
-		initBookmarksMenu(nodes);
-	}
-	else
-	{
-		var f = arguments.callee;
-		setTimeout(function() { f(nodes); }, 5);
-	}
-});
+		// waiting for DOM loading
+		if(document.readyState == 'loaded' || document.readyState == 'complete')
+		{
+			initBookmarksMenu(nodes);
+		}
+		else
+		{
+			var f = arguments.callee;
+			setTimeout(function() { f(nodes); }, 5);
+		}
+	});
+}
 
 function initBookmarksMenu(nodes)
 {
@@ -546,21 +554,27 @@ function initBookmarksMenu(nodes)
 	rootFolder.isRoot = true;
 
 	var bookmarksTree = chrome.extension.getBackgroundPage().GBookmarksTree;
-	rootFolder.fillFolderContent(bookmarksTree.children);
-	/*var nodesChildren = nodes[0].children;
-	rootFolder.fillFolderContent(nodesChildren[0].children);
-	rootFolder.addSeparator();
-	var separator = rootFolder.lastChild;
-	if(!rootFolder.hasVisibleBookmarks)
+	if(useGoogleBookmarks)
 	{
-		separator.hide();
+		rootFolder.fillFolderContent(bookmarksTree.children);
 	}
-	rootFolder.hasVisibleBookmarks = false;
-	rootFolder.fillFolderContent(nodesChildren[1].children);
-	if(!rootFolder.hasVisibleBookmarks)
+	else
 	{
-		separator.hide();
-	}*/
+		var nodesChildren = nodes[0].children;
+		rootFolder.fillFolderContent(nodesChildren[0].children);
+		rootFolder.addSeparator();
+		var separator = rootFolder.lastChild;
+		if(!rootFolder.hasVisibleBookmarks)
+		{
+			separator.hide();
+		}
+		rootFolder.hasVisibleBookmarks = false;
+		rootFolder.fillFolderContent(nodesChildren[1].children);
+		if(!rootFolder.hasVisibleBookmarks)
+		{
+			separator.hide();
+		}
+	}
 
 	var height = rootFolder.clientHeight + 2;
 	bodyStyle.width = rootFolder.clientWidth + 2 + (height < winMaxHeight ? 0 : parseInt(scrollBarWidth)) + 'px';

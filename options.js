@@ -65,10 +65,10 @@ function showHideElem(id)
 	elemStyle.display = elemStyle.display == 'none' ? 'inline' : 'none';
 }
 
-function setGoogleBookmarksMode(useGoogleBM)
+function setUseGoogleBookmarks(useGoogleBookmarks)
 {
-	localStorage['isGoogleBM'] = useGoogleBM;
-	chrome.extension.getBackgroundPage().setBookmarksMode(useGoogleBM);
+	localStorage['useGoogleBookmarks'] = useGoogleBookmarks;
+	chrome.extension.getBackgroundPage().setUseGoogleBookmarks(useGoogleBookmarks);
 }
 
 function showTab(span)
@@ -145,6 +145,7 @@ document.addEventListener("DOMContentLoaded", function()
 		$('switchToNewTab').checked = true;
 	}
 
+	$(isUseGoogleBookmarks() ? 'useGoogleBookmarks' : 'useChromeBookmarks').checked = true;
 	chrome.bookmarks.getTree(function(nodes)
 	{
 		var bookmarksShowHide = $('bookmarksShowHide');

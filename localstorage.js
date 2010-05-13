@@ -79,10 +79,9 @@ function getScrollBarWidth()
 	return width ? width : '7';
 }
 
-function isGoogleBookmarksMode()
+function isUseGoogleBookmarks()
 {
-	var isGoogle = localStorage['isGoogleBM'];
-	return isGoogle == 'true';
+	return localStorage['useGoogleBookmarks'] == 'true';
 }
 
 function getGSeparator()

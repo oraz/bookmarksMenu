@@ -105,13 +105,15 @@ function sorting(b1, b2)
 	return t1 > t2 ? 1 : t1 < t2 ? -1 : 0;
 }
 
-function setBookmarksMode(useGBookmarks)
+function setUseGoogleBookmarks(useGoogleBookmarks)
 {
-	chrome.useGBookmarks = useGBookmarks;
-	if(useGBookmarks)
+	if(useGoogleBookmarks)
 	{
 		chrome.browserAction.setBadgeText({ text: "G" });
-		loadGBookmakrs();
+		if(!GBookmarksTree)
+		{
+			loadGBookmakrs();
+		}
 	}
 	else
 	{
@@ -126,5 +128,5 @@ function loadGBookmakrs()
 	xhr.send();
 }
 
-setBookmarksMode(isGoogleBookmarksMode());
+setBookmarksMode(isUseGoogleBookmarks());
 // vim: noet
