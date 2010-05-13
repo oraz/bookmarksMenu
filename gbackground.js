@@ -1,5 +1,4 @@
 
-var xmlDoc;
 var SEPARATOR = '>';
 var GBookmarksTree = null;
 
@@ -16,26 +15,18 @@ function createFolder(parentFolder, fullName)
 {
 	var names = fullName.split(SEPARATOR, 2);
 	var folder;
-	if(parentFolder.children == undefined)
+	for(var idx = 0, len = parentFolder.children.length; idx < len; idx++)
 	{
-		folder = { title: names[0], id: names[0] };
-		parentFolder.children = [ folder ];
+		if(parentFolder.children[idx].title == names[0])
+		{
+			folder = parentFolder.children[idx];
+			break;
+		}
 	}
-	else
+	if(!folder)
 	{
-		for(var idx = 0, len = parentFolder.children.length; idx < len; idx++)
-		{
-			if(parentFolder.children[idx].title == names[0])
-			{
-				folder = parentFolder.children[idx];
-				break;
-			}
-		}
-		if(!folder)
-		{
-			folder = { title: names[0], id: names[0] };
-			parentFolder.children.push(folder);
-		}
+		folder = { title: names[0], id: names[0], children: new Array() };
+		parentFolder.children.push(folder);
 	}
 	if(names[1])
 	{
@@ -61,8 +52,8 @@ function handleStateChange()
 	if(this.readyState == 4)
 	{
 		var parser = new DOMParser();
-		xmlDoc = parser.parseFromString(this.responseText, 'text/xml');
 		GBookmarksTree = { children: new Array() };
+		var xmlDoc = parser.parseFromString(this.responseText, 'text/xml');
 		xmlDoc.querySelectorAll('label').forEach(function(node)
 		{
 			createFolder(GBookmarksTree, node.textContent);
@@ -78,20 +69,7 @@ function handleStateChange()
 			var label = node.querySelector('label');
 			if(label)
 			{
-				var folder = findFolder(GBookmarksTree, label.textContent);
-				if(!folder)
-				{
-					GBookmarksTree.children.push(bm);
-					return;
-				}
-				if(folder.children == undefined)
-				{
-					folder.children = [ bm ];
-				}
-				else
-				{
-					folder.children.push(bm);
-				}
+				findFolder(GBookmarksTree, label.textContent).children.push(bm);
 			}
 			else
 			{
