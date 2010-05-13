@@ -1,8 +1,7 @@
 
-var SEPARATOR = '>';
+var GSeparator;
 var GBookmarksTree = null;
 
-chrome.browserAction.setBadgeText({ text: "G" });
 NodeList.prototype.forEach = function(func)
 {
 	for(var idx = 0, len = this.length; idx < len; idx++)
@@ -13,7 +12,7 @@ NodeList.prototype.forEach = function(func)
 
 function createFolder(parentFolder, fullName)
 {
-	var names = fullName.split(SEPARATOR, 2);
+	var names = fullName.split(GSeparator, 2);
 	var folder;
 	for(var idx = 0, len = parentFolder.children.length; idx < len; idx++)
 	{
@@ -36,7 +35,7 @@ function createFolder(parentFolder, fullName)
 
 function findFolder(parentFolder, fullName)
 {
-	var names = fullName.split(SEPARATOR, 2);
+	var names = fullName.split(GSeparator, 2);
 	for(var idx = 0, len = parentFolder.children.length; idx < len; idx++)
 	{
 		var child = parentFolder.children[idx];
@@ -51,6 +50,7 @@ function handleStateChange()
 {
 	if(this.readyState == 4)
 	{
+		GSeparator = getGSeparator();
 		var parser = new DOMParser();
 		GBookmarksTree = { children: new Array() };
 		var xmlDoc = parser.parseFromString(this.responseText, 'text/xml');
@@ -76,8 +76,8 @@ function handleStateChange()
 				GBookmarksTree.children.push(bm);
 			}
 		});
+		sortFolder(GBookmarksTree);
 	}
-	sortFolder(GBookmarksTree);
 }
 
 function sortFolder(folder)
@@ -105,9 +105,26 @@ function sorting(b1, b2)
 	return t1 > t2 ? 1 : t1 < t2 ? -1 : 0;
 }
 
-var xhr = new XMLHttpRequest();
-xhr.onreadystatechange = handleStateChange;
-xhr.open("GET", 'http://www.google.com/bookmarks/?output=xml&num=10000', true);
-xhr.send();
+function setBookmarksMode(useGBookmarks)
+{
+	chrome.useGBookmarks = useGBookmarks;
+	if(useGBookmarks)
+	{
+		chrome.browserAction.setBadgeText({ text: "G" });
+		loadGBookmakrs();
+	}
+	else
+	{
+		chrome.browserAction.setBadgeText({ text: null });
+	}
+}
+function loadGBookmakrs()
+{
+	var xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = handleStateChange;
+	xhr.open("GET", 'http://www.google.com/bookmarks/?output=xml&num=10000', true);
+	xhr.send();
+}
 
+setBookmarksMode(true);
 // vim: noet

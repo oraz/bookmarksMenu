@@ -79,4 +79,10 @@ function getScrollBarWidth()
 	return width ? width : '7';
 }
 
+function getGSeparator()
+{
+	var gSeparator = localStorage['GSeparator'];
+	return gSeparator ? gSeparator : '>';
+}
+
 // vim:noet ts=4 sw=4
