@@ -65,7 +65,7 @@ with(HTMLUListElement)
 				this.appendChild(bookmark);
 				if(this.isRoot)
 				{
-					if(isBookmarkHidden(childBookmarks[i].title))
+					if(isBookmarkHidden(childBookmarks[i].title, useGoogleBookmarks))
 					{
 						bookmark.hide();
 						bookmark.isBookmarkHidden = true;
@@ -291,6 +291,11 @@ with(HTMLLIElement)
 			{
 				contextMenu.querySelector('li:nth-of-type(3)').hide(); // openInIncognitoWindow
 				contextMenu.querySelector('li:nth-of-type(6)').hide(); // openAllInIncognitoWindow
+			}
+			if(useGoogleBookmarks)
+			{
+				contextMenu.querySelector('li:nth-of-type(7)').hide(); // separator
+				contextMenu.querySelector('li:nth-of-type(8)').hide(); // reorder
 			}
 			contextMenu.initialized = true;
 		}

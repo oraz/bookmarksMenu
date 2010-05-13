@@ -39,15 +39,16 @@ function setMenuMaxWidthMesure(maxWidthMesure)
 	localStorage['maxWidthMesure'] = maxWidthMesure.options[maxWidthMesure.selectedIndex].value;
 }
 
-function setBookmarkHidden(title, hidden)
+function setBookmarkHidden(title, useGoogleBookmarks, hidden)
 {
+	var key = (useGoogleBookmarks ? 'g_' : '') + 'bookmark_' + title;
 	if(hidden == true)
 	{
-		localStorage['bookmark_' + title] = true;
+		localStorage[key] = true;
 	}
 	else
 	{
-		delete localStorage['bookmark_' + title];
+		delete localStorage[key];
 	}
 }
 
@@ -69,6 +70,12 @@ function setUseGoogleBookmarks(useGoogleBookmarks)
 {
 	localStorage['useGoogleBookmarks'] = useGoogleBookmarks;
 	chrome.extension.getBackgroundPage().setUseGoogleBookmarks(useGoogleBookmarks);
+}
+
+function setGSeparator(gseparator)
+{
+	localStorage['GSeparator'] = gseparator.value;
+	chrome.extension.getBackgroundPage().loadGBookmakrs();
 }
 
 function showTab(span)
@@ -146,6 +153,7 @@ document.addEventListener("DOMContentLoaded", function()
 	}
 
 	$(isUseGoogleBookmarks() ? 'useGoogleBookmarks' : 'useChromeBookmarks').checked = true;
+	$('gseparator').value = getGSeparator();
 	chrome.bookmarks.getTree(function(nodes)
 	{
 		var bookmarksShowHide = $('bookmarksShowHide');
@@ -167,7 +175,7 @@ document.addEventListener("DOMContentLoaded", function()
 					{
 						checkbox.setAttribute('checked', 'checked');
 					}
-					checkbox.setAttribute('onchange', 'setBookmarkHidden("' + child.title + '", !this.checked)');
+					checkbox.setAttribute('onchange', 'setBookmarkHidden("' + child.title + '", false, !this.checked)');
 
 					var label = document.createElement('label');
 					label.appendChild(checkbox);

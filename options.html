@@ -58,6 +58,8 @@
 			<div class="config" id="bookmarksShowHide">
 				<label><input type="radio" id="useChromeBookmarks" name="useGoolgeBookmarks" onclick="setUseGoogleBookmarks(false)"/>&nbsp;Use Chrome bookmarks</label>
 				<label><input type="radio" id="useGoogleBookmarks" name="useGoolgeBookmarks" onclick="setUseGoogleBookmarks(true)"/>&nbsp;Use Google bookmarks</label>
+				<br />
+				<label>Bookmarks separator</label><input type="text" maxlength="1" id="gseparator" oninput="setGSeparator(this)"/>
 				<div class="header" i18n="tbSelectBookmarks"></div>
 			</div>
 			<div class="config" id="uiConfig">

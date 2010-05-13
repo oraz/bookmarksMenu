@@ -128,5 +128,5 @@ function loadGBookmakrs()
 	xhr.send();
 }
 
-setBookmarksMode(isUseGoogleBookmarks());
+setUseGoogleBookmarks(isUseGoogleBookmarks());
 // vim: noet

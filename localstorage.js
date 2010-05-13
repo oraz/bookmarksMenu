@@ -17,9 +17,9 @@ function getMaxWidthMesure()
 	return mesure != undefined ? mesure : 'em';
 }
 
-function isBookmarkHidden(title)
+function isBookmarkHidden(title, useGoogleBookmarks)
 {
-	return localStorage['bookmark_' + title] == 'true';
+	return localStorage[(useGoogleBookmarks ? 'g_' : '') + 'bookmark_' + title] == 'true';
 }
 
 function isSwitchToNewTab()
