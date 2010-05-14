@@ -124,7 +124,7 @@ function setUseGoogleBookmarks(useGoogleBookmarks, isFromOptionsPage)
 		}
 		else
 		{
-			loadGBookmakrs();
+			loadGoogleBookmakrs(isFromOptionsPage);
 		}
 	}
 	else
@@ -135,17 +135,21 @@ function setUseGoogleBookmarks(useGoogleBookmarks, isFromOptionsPage)
 
 function notifyOptionsPage()
 {
-	chrome.extension.sendRequest('GoogleBookmarksIsReady');
 	needNotifyOptionsPage = false;
+	chrome.extension.sendRequest('GoogleBookmarksIsReady');
 }
 
-function loadGBookmakrs()
+function loadGoogleBookmakrs(isFromOptionsPage)
 {
+	needNotifyOptionsPage = isFromOptionsPage;
 	var xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = handleStateChange;
 	xhr.open("GET", 'http://www.google.com/bookmarks/?output=xml&num=10000', true);
 	xhr.send();
 }
 
-setUseGoogleBookmarks(isUseGoogleBookmarks());
+document.addEventListener("DOMContentLoaded", function()
+{
+	setUseGoogleBookmarks(isUseGoogleBookmarks());
+});
 // vim: noet

@@ -69,50 +69,70 @@ function showHideElem(id)
 function setUseGoogleBookmarks(useGoogleBookmarks)
 {
 	localStorage['useGoogleBookmarks'] = useGoogleBookmarks;
-	var bookmarksShowHide = $('bookmarksShowHide');
-	bookmarksShowHide.querySelector('.googleBookmarksSettings').style.display = useGoogleBookmarks ? 'block' : 'none';
-	bookmarksShowHide.querySelector('.chromeBookmarksSettings').style.display = useGoogleBookmarks ? 'none' : 'block';
+	document.querySelector('.chromeBookmarksSettings').style.display = useGoogleBookmarks ? 'none' : 'block';
+	document.querySelector('.googleBookmarksSettings').style.display = useGoogleBookmarks ? 'block' : 'none';
+	if(useGoogleBookmarks)
+	{
+		clearGoogleBookmarksDiv();
+	}
 	chrome.extension.getBackgroundPage().setUseGoogleBookmarks(useGoogleBookmarks, true);
+}
+
+function clearGoogleBookmarksDiv()
+{
+	var gbookmarks = document.querySelectorAll('.googleBookmarksSettings > .gbookmark');
+	if(gbookmarks)
+	{
+		gbookmarks.forEach(function(node)
+		{
+			node.parentElement.removeChild(node);
+		});
+	}
+	showHideLoadingIndicator(true);
+}
+
+function showHideLoadingIndicator(show)
+{
+	document.querySelector('.googleBookmarksSettings > .loading').style.display = show ? 'block' : 'none';
+}
+
+function addBookmark(divSettings, bookmark, useGoogleBookmarks)
+{
+	var div = document.createElement('div');
+	div.setAttribute('class', useGoogleBookmarks ? 'gbookmark' : 'bookmark');
+
+	var checkbox = document.createElement('input');
+	checkbox.setAttribute('type', 'checkbox');
+	if(!isBookmarkHidden(bookmark.title, useGoogleBookmarks))
+	{
+		checkbox.setAttribute('checked', 'checked');
+	}
+	checkbox.setAttribute('onchange',
+			'setBookmarkHidden("' + bookmark.title + '", ' + useGoogleBookmarks + ', !this.checked)');
+
+	var label = document.createElement('label');
+	label.appendChild(checkbox);
+
+	var img = document.createElement('img');
+	img.setAttribute('class', 'favicon');
+	img.setAttribute('src', getFavicon(bookmark.url));
+	label.appendChild(img);
+	label.appendChild(document.createTextNode(bookmark.title));
+	div.appendChild(label);
+	divSettings.appendChild(div);
 }
 
 chrome.extension.onRequest.addListener(function(request)
 {
 	if(request == 'GoogleBookmarksIsReady')
 	{
+		showHideLoadingIndicator(false);
 		var GBookmarksTree = chrome.extension.getBackgroundPage().GBookmarksTree;
-		var googleBookmarksSettings = $('bookmarksShowHide').querySelector('.googleBookmarksSettings');
-		googleBookmarksSettings.querySelectorAll('.gbookmark').forEach(function(node)
+		var googleBookmarksSettings = document.querySelector('.googleBookmarksSettings');
+		GBookmarksTree.children.forEach(function(bookmark)
 		{
-			node.parentElement.removeChild(node);
+			addBookmark(googleBookmarksSettings, bookmark, true);
 		});
-		var children = GBookmarksTree.children;
-		for(var i = 0, len = children.length; i < len; i++)
-		{
-			var child = children[i];
-			var div = document.createElement('div');
-			div.setAttribute('class', 'gbookmark');
-
-			var checkbox = document.createElement('input');
-			checkbox.setAttribute('type', 'checkbox');
-			if(!isBookmarkHidden(child.title, true))
-			{
-				checkbox.setAttribute('checked', 'checked');
-			}
-			checkbox.setAttribute('onchange', 'setBookmarkHidden("' + child.title + '", true, !this.checked)');
-
-			var label = document.createElement('label');
-			label.appendChild(checkbox);
-
-			var img = document.createElement('img');
-			img.setAttribute('class', 'favicon');
-			img.setAttribute('src', getFavicon(child.url));
-			label.appendChild(img);
-			label.appendChild(document.createTextNode(child.title));
-
-			div.appendChild(label);
-
-			googleBookmarksSettings.appendChild(div);
-		}
 	}
 });
 
@@ -129,7 +149,8 @@ function setFolderSeparator(folderSeparator)
 		if(newFolderSeparator != getFolderSeparator())
 		{
 			localStorage['folderSeparator'] = newFolderSeparator;
-			chrome.extension.getBackgroundPage().loadGBookmakrs();
+			clearGoogleBookmarksDiv();
+			chrome.extension.getBackgroundPage().loadGoogleBookmakrs(true);
 		}
 	}
 }
@@ -214,42 +235,17 @@ document.addEventListener("DOMContentLoaded", function()
 	$('folderSeparator').value = getFolderSeparator();
 	chrome.bookmarks.getTree(function(nodes)
 	{
-		var chromeBookmarksSettings = $('bookmarksShowHide').querySelector('.chromeBookmarksSettings');
-		for(var i = 0, nodesLength = nodes.length; i < nodesLength; i++)
+		var chromeBookmarksSettings = document.querySelector('.chromeBookmarksSettings');
+		nodes.forEach(function(node)
 		{
-			var children = nodes[i].children;
-			for(var j = 0, childrenLength = children.length; j < childrenLength; j++)
+			node.children.forEach(function(child)
 			{
-				var children2 = children[j].children;
-				for(var k = 0, children2Length = children2.length; k < children2Length; k++)
+				child.children.forEach(function(bookmark)
 				{
-					var child = children2[k];
-					var div = document.createElement('div');
-					div.setAttribute('class', 'bookmark');
-
-					var checkbox = document.createElement('input');
-					checkbox.setAttribute('type', 'checkbox');
-					if(!isBookmarkHidden(child.title))
-					{
-						checkbox.setAttribute('checked', 'checked');
-					}
-					checkbox.setAttribute('onchange', 'setBookmarkHidden("' + child.title + '", false, !this.checked)');
-
-					var label = document.createElement('label');
-					label.appendChild(checkbox);
-
-					var img = document.createElement('img');
-					img.setAttribute('class', 'favicon');
-					img.setAttribute('src', getFavicon(child.url));
-					label.appendChild(img);
-					label.appendChild(document.createTextNode(child.title));
-
-					div.appendChild(label);
-
-					chromeBookmarksSettings.appendChild(div);
-				}
-			}
-		}
+					addBookmark(chromeBookmarksSettings, bookmark, false);
+				});
+			});
+		})
 	});
 
 	jscolor.init();
