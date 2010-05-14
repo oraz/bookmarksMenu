@@ -361,12 +361,35 @@ with(HTMLLIElement)
 	}
 	prototype.remove = function()
 	{
-		chrome.bookmarks.remove(this.id);
+		if(!useGoogleBookmarks)
+		{
+			chrome.bookmarks.remove(this.id);
+		}
+		else
+		{
+			chrome.extension.getBackgroundPage().remove(this.id);
+		}
 		var folderContent = this.parentElement;
 		folderContent.removeChild(this);
 		if(folderContent.childElementCount == 0)
 		{
-			folderContent.fillAsEmpty();
+			if(!useGoogleBookmarks)
+			{
+				folderContent.fillAsEmpty();
+			}
+			else
+			{
+				// remove folder if it's empty
+				do
+				{
+					var folder = folderContent.parentElement;
+					folderContent = folder.parentElement;
+					chrome.extension.getBackgroundPage().remove(folder.id);
+					folderContent.removeChild(folder);
+				}
+				while(folderContent.childElementCount == 0);
+
+			}
 		}
 		else if(folderContent.numberOfBookmarks-- <= 2 && folderContent.lastElementChild.isOpenAll)
 		{
