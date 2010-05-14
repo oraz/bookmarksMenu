@@ -69,13 +69,69 @@ function showHideElem(id)
 function setUseGoogleBookmarks(useGoogleBookmarks)
 {
 	localStorage['useGoogleBookmarks'] = useGoogleBookmarks;
-	chrome.extension.getBackgroundPage().setUseGoogleBookmarks(useGoogleBookmarks);
+	var bookmarksShowHide = $('bookmarksShowHide');
+	bookmarksShowHide.querySelector('.googleBookmarksSettings').style.display = useGoogleBookmarks ? 'block' : 'none';
+	bookmarksShowHide.querySelector('.chromeBookmarksSettings').style.display = useGoogleBookmarks ? 'none' : 'block';
+	chrome.extension.getBackgroundPage().setUseGoogleBookmarks(useGoogleBookmarks, true);
 }
 
-function setGSeparator(gseparator)
+chrome.extension.onRequest.addListener(function(request)
 {
-	localStorage['GSeparator'] = gseparator.value;
-	chrome.extension.getBackgroundPage().loadGBookmakrs();
+	if(request == 'GoogleBookmarksIsReady')
+	{
+		var GBookmarksTree = chrome.extension.getBackgroundPage().GBookmarksTree;
+		var googleBookmarksSettings = $('bookmarksShowHide').querySelector('.googleBookmarksSettings');
+		googleBookmarksSettings.querySelectorAll('.gbookmark').forEach(function(node)
+		{
+			node.parentElement.removeChild(node);
+		});
+		var children = GBookmarksTree.children;
+		for(var i = 0, len = children.length; i < len; i++)
+		{
+			var child = children[i];
+			var div = document.createElement('div');
+			div.setAttribute('class', 'gbookmark');
+
+			var checkbox = document.createElement('input');
+			checkbox.setAttribute('type', 'checkbox');
+			if(!isBookmarkHidden(child.title, true))
+			{
+				checkbox.setAttribute('checked', 'checked');
+			}
+			checkbox.setAttribute('onchange', 'setBookmarkHidden("' + child.title + '", true, !this.checked)');
+
+			var label = document.createElement('label');
+			label.appendChild(checkbox);
+
+			var img = document.createElement('img');
+			img.setAttribute('class', 'favicon');
+			img.setAttribute('src', getFavicon(child.url));
+			label.appendChild(img);
+			label.appendChild(document.createTextNode(child.title));
+
+			div.appendChild(label);
+
+			googleBookmarksSettings.appendChild(div);
+		}
+	}
+});
+
+function setFolderSeparator(folderSeparator)
+{
+	var newFolderSeparator = folderSeparator.value;
+	if(newFolderSeparator == '')
+	{
+		folderSeparator.setAttribute('class', 'error');
+	}
+	else
+	{
+		folderSeparator.removeAttribute('class');
+		if(newFolderSeparator != getFolderSeparator())
+		{
+			localStorage['folderSeparator'] = newFolderSeparator;
+			chrome.extension.getBackgroundPage().loadGBookmakrs();
+		}
+	}
 }
 
 function showTab(span)
@@ -152,11 +208,13 @@ document.addEventListener("DOMContentLoaded", function()
 		$('switchToNewTab').checked = true;
 	}
 
-	$(isUseGoogleBookmarks() ? 'useGoogleBookmarks' : 'useChromeBookmarks').checked = true;
-	$('gseparator').value = getGSeparator();
+	var useGoogleBookmarks = isUseGoogleBookmarks();
+	$(useGoogleBookmarks ? 'useGoogleBookmarks' : 'useChromeBookmarks').checked = true;
+	setUseGoogleBookmarks(useGoogleBookmarks);
+	$('folderSeparator').value = getFolderSeparator();
 	chrome.bookmarks.getTree(function(nodes)
 	{
-		var bookmarksShowHide = $('bookmarksShowHide');
+		var chromeBookmarksSettings = $('bookmarksShowHide').querySelector('.chromeBookmarksSettings');
 		for(var i = 0, nodesLength = nodes.length; i < nodesLength; i++)
 		{
 			var children = nodes[i].children;
@@ -188,11 +246,12 @@ document.addEventListener("DOMContentLoaded", function()
 
 					div.appendChild(label);
 
-					bookmarksShowHide.appendChild(div);
+					chromeBookmarksSettings.appendChild(div);
 				}
 			}
 		}
 	});
+
 	jscolor.init();
 	initWindowSettingsTab();
 }, false);

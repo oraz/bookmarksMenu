@@ -1,6 +1,6 @@
 
-var GSeparator;
 var GBookmarksTree = null;
+var needNotifyOptionsPage;
 
 NodeList.prototype.forEach = function(func)
 {
@@ -10,9 +10,9 @@ NodeList.prototype.forEach = function(func)
 	}
 }
 
-function createFolder(parentFolder, fullName)
+function createFolder(parentFolder, fullName, folderSeparator)
 {
-	var names = fullName.split(GSeparator, 2);
+	var names = fullName.split(folderSeparator, 2);
 	var folder;
 	for(var idx = 0, len = parentFolder.children.length; idx < len; idx++)
 	{
@@ -29,19 +29,19 @@ function createFolder(parentFolder, fullName)
 	}
 	if(names[1])
 	{
-		createFolder(folder, names[1]);
+		createFolder(folder, names[1], folderSeparator);
 	}
 }
 
-function findFolder(parentFolder, fullName)
+function findFolder(parentFolder, fullName, folderSeparator)
 {
-	var names = fullName.split(GSeparator, 2);
+	var names = fullName.split(folderSeparator, 2);
 	for(var idx = 0, len = parentFolder.children.length; idx < len; idx++)
 	{
 		var child = parentFolder.children[idx];
 		if(child.url == undefined && child.title == names[0])
 		{
-			return names[1] ? findFolder(child, names[1]) : child;
+			return names[1] ? findFolder(child, names[1], folderSeparator) : child;
 		}
 	}
 }
@@ -50,13 +50,13 @@ function handleStateChange()
 {
 	if(this.readyState == 4)
 	{
-		GSeparator = getGSeparator();
+		var folderSeparator = getFolderSeparator();
 		var parser = new DOMParser();
 		GBookmarksTree = { children: new Array() };
 		var xmlDoc = parser.parseFromString(this.responseText, 'text/xml');
 		xmlDoc.querySelectorAll('label').forEach(function(node)
 		{
-			createFolder(GBookmarksTree, node.textContent);
+			createFolder(GBookmarksTree, node.textContent, folderSeparator);
 		});
 		xmlDoc.querySelectorAll('bookmark').forEach(function(node)
 		{
@@ -69,7 +69,7 @@ function handleStateChange()
 			var label = node.querySelector('label');
 			if(label)
 			{
-				findFolder(GBookmarksTree, label.textContent).children.push(bm);
+				findFolder(GBookmarksTree, label.textContent, folderSeparator).children.push(bm);
 			}
 			else
 			{
@@ -77,6 +77,10 @@ function handleStateChange()
 			}
 		});
 		sortFolder(GBookmarksTree);
+		if(needNotifyOptionsPage)
+		{
+			notifyOptionsPage();
+		}
 	}
 }
 
@@ -105,12 +109,20 @@ function sorting(b1, b2)
 	return t1 > t2 ? 1 : t1 < t2 ? -1 : 0;
 }
 
-function setUseGoogleBookmarks(useGoogleBookmarks)
+function setUseGoogleBookmarks(useGoogleBookmarks, isFromOptionsPage)
 {
 	if(useGoogleBookmarks)
 	{
 		chrome.browserAction.setBadgeText({ text: "G" });
-		if(!GBookmarksTree)
+		needNotifyOptionsPage = isFromOptionsPage;
+		if(GBookmarksTree)
+		{
+			if(needNotifyOptionsPage)
+			{
+				notifyOptionsPage();
+			}
+		}
+		else
 		{
 			loadGBookmakrs();
 		}
@@ -120,6 +132,13 @@ function setUseGoogleBookmarks(useGoogleBookmarks)
 		chrome.browserAction.setBadgeText({ text: "" });
 	}
 }
+
+function notifyOptionsPage()
+{
+	chrome.extension.sendRequest('GoogleBookmarksIsReady');
+	needNotifyOptionsPage = false;
+}
+
 function loadGBookmakrs()
 {
 	var xhr = new XMLHttpRequest();

@@ -60,7 +60,7 @@ ul {
 }
 
 
-div.bookmark {
+div.bookmark, div.gbookmark {
     max-width: 40em;
     padding-top: 1px; padding-bottom: 1px;
     text-overflow: ellipsis; overflow: hidden; white-space: nowrap;
@@ -107,4 +107,3 @@ li.fgTab > span {
     border-color: #6f5e5e; border-bottom-color: white;
     cursor: default;
 }
-

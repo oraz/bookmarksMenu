@@ -84,10 +84,10 @@ function isUseGoogleBookmarks()
 	return localStorage['useGoogleBookmarks'] == 'true';
 }
 
-function getGSeparator()
+function getFolderSeparator()
 {
-	var gSeparator = localStorage['GSeparator'];
-	return gSeparator ? gSeparator : '>';
+	var folderSeparator = localStorage['folderSeparator'];
+	return folderSeparator ? folderSeparator : '>';
 }
 
 // vim:noet ts=4 sw=4
