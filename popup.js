@@ -377,7 +377,7 @@ with(HTMLLIElement)
 			{
 				folderContent.fillAsEmpty();
 			}
-			/*else
+			else
 			{
 				// remove folder if it's empty
 				do
@@ -389,7 +389,7 @@ with(HTMLLIElement)
 				}
 				while(folderContent.childElementCount == 0);
 
-			}*/
+			}
 		}
 		else if(folderContent.numberOfBookmarks-- <= 2 && folderContent.lastElementChild.isOpenAll)
 		{
