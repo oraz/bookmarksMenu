@@ -2,7 +2,7 @@
 var GBookmarksTree = null;
 var needNotifyOptionsPage;
 
-var GBookmarkUrl = 'http://www.google.com/bookmarks/';
+var GBookmarkUrl = 'https://www.google.com/bookmarks/';
 
 NodeList.prototype.forEach = function(func)
 {
@@ -26,8 +26,15 @@ function createFolder(parentFolder, fullName, folderSeparator)
 	}
 	if(!folder)
 	{
-		folder = { title: names[0], id: names[0], children: new Array() };
-		parentFolder.children.push(folder);
+		folder = { title: names[0], parentFolder: parentFolder, children: new Array() };
+		var ids = [ names[0] ];
+		while(parentFolder.parentFolder)
+		{
+			ids.unshift(parentFolder.id);
+			parentFolder = parentFolder.parentFolder;
+		}
+		folder.id = ids.join(folderSeparator);
+		folder.parentFolder.children.push(folder);
 	}
 	if(names[1])
 	{
@@ -61,9 +68,14 @@ function removeGBookmark(folder, id)
 		}
 		if(child.children)
 		{
-			return removeGBookmark(child, id);
+			var bookmark = removeGBookmark(child, id);
+			if(bookmark)
+			{
+				return bookmark;
+			}
 		}
 	}
+	return null;
 }
 
 function handleStateChange()
@@ -164,14 +176,28 @@ function loadGoogleBookmakrs(isFromOptionsPage)
 	needNotifyOptionsPage = isFromOptionsPage;
 	var xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = handleStateChange;
-	xhr.open("GET", GBookmarkUrl + '?output=xml&num=10000', true);
+	xhr.open("GET", GBookmarkUrl + '?' + stringify({ output: 'xml', num: 10000 }), true);
 	xhr.send();
 }
 
 function remove(id)
 {
 	var child = removeGBookmark(GBookmarksTree, id);
+	var xhr = new XMLHttpRequest();
+	xhr.open("GET", GBookmarkUrl + 'mark?' + stringify({ dlq: id }));
+	xhr.send();
 }
+
+function stringify(parameters)
+{
+	var params = [];
+	for(var p in parameters)
+	{
+		params.push(encodeURIComponent(p) + '=' + encodeURIComponent(parameters[p]));
+	}
+	return params.join('&');
+};
+
 
 document.addEventListener("DOMContentLoaded", function()
 {
