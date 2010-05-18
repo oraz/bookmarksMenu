@@ -1,42 +1,51 @@
 
 var GBookmarksTree = null;
 var needNotifyOptionsPage;
-var signature;
 
 var GBookmarkUrl = 'https://www.google.com/bookmarks/';
 
-function createFolder(parentFolder, names)
+function GBookmarkFolder(names, parentFolder)
 {
-	var title = names.shift();
-	var folder =
+	this.children = new Array();
+	if(parentFolder)
 	{
-		id: parentFolder.id != undefined ? parentFolder.id + GBookmarksTree.folderSeparator + title : title,
-		title: title,
-		children: new Array()
-	};
-	parentFolder.children.push(folder);
-	return names.length > 0 ? createFolder(folder, names) : folder;
+		this.title = names.shift();
+		this.id = !parentFolder.isRoot ? parentFolder.id + GBookmarksTree.folderSeparator + this.title : this.title;
+		parentFolder.addChild(this);
+	}
+	else
+	{
+		this.isRoot = true;
+		this.folderSeparator = getFolderSeparator();
+		return this;
+	}
+	return names.length > 0 ? new GBookmarkFolder(names, this) : this;
 }
 
-function findFolder(parentFolder, fullName)
+GBookmarkFolder.prototype.addChild = function(child)
+{
+	this.children.push(child);
+}
+
+GBookmarkFolder.prototype.findFolder = function(fullName)
 {
 	var names = typeof fullName == 'string' ? fullName.split(GBookmarksTree.folderSeparator) : fullName;
 	var name = names.shift();
-	for(var idx = 0, len = parentFolder.children.length; idx < len; idx++)
+	for(var idx = 0, len = this.children.length; idx < len; idx++)
 	{
-		var child = parentFolder.children[idx];
+		var child = this.children[idx];
 		if(child.url == undefined && child.title == name)
 		{
-			return names.length > 0 ? findFolder(child, names) : child;
+			return names.length > 0 ? child.findFolder(names) : child;
 		}
 	}
 	names.unshift(name);
-	return createFolder(parentFolder, names);
+	return new GBookmarkFolder(names, this);
 }
 
-function removeGBookmark(folder, id)
+GBookmarkFolder.prototype.removeBookmark = function(id)
 {
-	var children = folder.children;
+	var children = this.children;
 	for(var idx = 0, len = children.length; idx < len; idx++)
 	{
 		var child = children[idx];
@@ -47,7 +56,7 @@ function removeGBookmark(folder, id)
 		}
 		if(child.children)
 		{
-			var bookmark = removeGBookmark(child, id);
+			var bookmark = child.removeBookmark(id);
 			if(bookmark)
 			{
 				return bookmark;
@@ -55,6 +64,23 @@ function removeGBookmark(folder, id)
 		}
 	}
 	return null;
+}
+
+GBookmarkFolder.prototype.sort = function()
+{
+	var children = this.children;
+	if(children)
+	{
+		children.sort(sorting);
+		for(var idx = 0, len = children.length; idx < len; idx++)
+		{
+			var child = children[idx];
+			if(child.children)
+			{
+				child.sort();
+			}
+		}
+	}
 }
 
 function createBookmark(node)
@@ -68,11 +94,11 @@ function createBookmark(node)
 	var label = node.querySelector('bkmk_label');
 	if(label)
 	{
-		findFolder(GBookmarksTree, label.textContent).children.push(bm);
+		GBookmarksTree.findFolder(label.textContent).addChild(bm);
 	}
 	else
 	{
-		GBookmarksTree.children.push(bm);
+		GBookmarksTree.addChild(bm);
 	}
 }
 
@@ -80,34 +106,16 @@ XMLHttpRequest.prototype.processBookmarks = function()
 {
 	if(this.readyState == this.DONE)
 	{
-		var folderSeparator = getFolderSeparator();
 		var parser = new DOMParser();
-		GBookmarksTree = { children: new Array(), folderSeparator: folderSeparator };
 		var xmlDoc = parser.parseFromString(this.responseText, 'text/xml');
-		signature = xmlDoc.querySelector('channel > signature').textContent;
+		GBookmarksTree = new GBookmarkFolder();
+		GBookmarksTree.signature = xmlDoc.querySelector('channel > signature').textContent;
 
 		xmlDoc.querySelectorAll('channel > item').forEach(createBookmark);
-		sortFolder(GBookmarksTree);
+		GBookmarksTree.sort();
 		if(needNotifyOptionsPage)
 		{
 			notifyOptionsPage();
-		}
-	}
-}
-
-function sortFolder(folder)
-{
-	var children = folder.children;
-	if(children)
-	{
-		children.sort(sorting);
-		for(var idx = 0, len = children.length; idx < len; idx++)
-		{
-			var child = children[idx];
-			if(child.children)
-			{
-				sortFolder(child);
-			}
 		}
 	}
 }
@@ -161,11 +169,11 @@ function loadGoogleBookmakrs(isFromOptionsPage)
 
 function remove(id)
 {
-	var child = removeGBookmark(GBookmarksTree, id);
+	var child = GBookmarksTree.removeBookmark(id);
 	if(child && child.url) // it's bookmark
 	{
 		var xhr = new XMLHttpRequest();
-		xhr.open("GET", GBookmarkUrl + 'mark?' + stringify({ dlq: id, sig: signature }));
+		xhr.open("GET", GBookmarkUrl + 'mark?' + stringify({ dlq: id, sig: GBookmarksTree.signature }));
 		xhr.send();
 	}
 }
@@ -185,4 +193,5 @@ document.addEventListener("DOMContentLoaded", function()
 {
 	setUseGoogleBookmarks(isUseGoogleBookmarks());
 });
+
 // vim: noet
