@@ -387,7 +387,7 @@ with(HTMLLIElement)
 					chrome.extension.getBackgroundPage().remove(folder.id);
 					folderContent.removeChild(folder);
 				}
-				while(folderContent.childElementCount == 0);
+				while(!folderContent.isRoot && folderContent.childElementCount == 0);
 
 			}
 		}
