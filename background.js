@@ -5,33 +5,33 @@ var signature;
 
 var GBookmarkUrl = 'https://www.google.com/bookmarks/';
 
-function createFolder(parentFolder, names, folderSeparator)
+function createFolder(parentFolder, names)
 {
 	var title = names.shift();
 	var folder =
 	{
-		id: parentFolder.id != undefined ? parentFolder.id + folderSeparator + title : title,
+		id: parentFolder.id != undefined ? parentFolder.id + GBookmarksTree.folderSeparator + title : title,
 		title: title,
 		children: new Array()
 	};
 	parentFolder.children.push(folder);
-	return names.length > 0 ? createFolder(folder, names, folderSeparator) : folder;
+	return names.length > 0 ? createFolder(folder, names) : folder;
 }
 
-function findFolder(parentFolder, fullName, folderSeparator)
+function findFolder(parentFolder, fullName)
 {
-	var names = typeof fullName == 'string' ? fullName.split(folderSeparator) : fullName;
+	var names = typeof fullName == 'string' ? fullName.split(GBookmarksTree.folderSeparator) : fullName;
 	var name = names.shift();
 	for(var idx = 0, len = parentFolder.children.length; idx < len; idx++)
 	{
 		var child = parentFolder.children[idx];
 		if(child.url == undefined && child.title == name)
 		{
-			return names.length > 0 ? findFolder(child, names, folderSeparator) : child;
+			return names.length > 0 ? findFolder(child, names) : child;
 		}
 	}
 	names.unshift(name);
-	return createFolder(parentFolder, names, folderSeparator);
+	return createFolder(parentFolder, names);
 }
 
 function removeGBookmark(folder, id)
@@ -57,34 +57,36 @@ function removeGBookmark(folder, id)
 	return null;
 }
 
-function handleStateChange()
+function createBookmark(node)
 {
-	if(this.readyState == 4)
+	var bm =
+	{
+		title: node.querySelector('title').textContent,
+		url: node.querySelector('link').textContent,
+		id: node.querySelector('bkmk_id').textContent
+	};
+	var label = node.querySelector('bkmk_label');
+	if(label)
+	{
+		findFolder(GBookmarksTree, label.textContent).children.push(bm);
+	}
+	else
+	{
+		GBookmarksTree.children.push(bm);
+	}
+}
+
+XMLHttpRequest.prototype.processBookmarks = function()
+{
+	if(this.readyState == this.DONE)
 	{
 		var folderSeparator = getFolderSeparator();
 		var parser = new DOMParser();
-		GBookmarksTree = { children: new Array() };
+		GBookmarksTree = { children: new Array(), folderSeparator: folderSeparator };
 		var xmlDoc = parser.parseFromString(this.responseText, 'text/xml');
 		signature = xmlDoc.querySelector('channel > signature').textContent;
 
-		xmlDoc.querySelectorAll('channel > item').forEach(function(node)
-		{
-			var bm =
-			{
-				title: node.querySelector('title').textContent,
-				url: node.querySelector('link').textContent,
-				id: node.querySelector('bkmk_id').textContent
-			};
-			var label = node.querySelector('bkmk_label');
-			if(label)
-			{
-				findFolder(GBookmarksTree, label.textContent, folderSeparator).children.push(bm);
-			}
-			else
-			{
-				GBookmarksTree.children.push(bm);
-			}
-		});
+		xmlDoc.querySelectorAll('channel > item').forEach(createBookmark);
 		sortFolder(GBookmarksTree);
 		if(needNotifyOptionsPage)
 		{
@@ -152,7 +154,7 @@ function loadGoogleBookmakrs(isFromOptionsPage)
 {
 	needNotifyOptionsPage = isFromOptionsPage;
 	var xhr = new XMLHttpRequest();
-	xhr.onreadystatechange = handleStateChange;
+	xhr.onreadystatechange = xhr.processBookmarks;
 	xhr.open("GET", GBookmarkUrl + '?output=rss&num=10000', true);
 	xhr.send();
 }
