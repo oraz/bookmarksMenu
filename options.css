@@ -115,3 +115,8 @@ li.fgTab > span {
     border-color: #6f5e5e; border-bottom-color: white;
     cursor: default;
 }
+
+#folderSeparator {
+    width: 5em;
+    margin-left: 3px;
+}

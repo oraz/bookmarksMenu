@@ -37,7 +37,11 @@
     "tmSwitchToNewTab": { "message": "When I open a bookmark in new tab, switch to it immediately"},
 
     // Bookmarks tab
+    "tbUseChrome": { "message": "Use Chrome bookmarks" },
+    "tbUseGoogle": { "message": "Use Google bookmarks" },
+    "tbLabelSeparator": { "message": "Label separator:" },
     "tbSelectBookmarks": { "message": "Select bookmarks to display" },
+    "tbLoading": { "message": "Loading..." },
 
     // UI settings  tab
     "twPopupConfig": { "message": "Popup window configuration" },
