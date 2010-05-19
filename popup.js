@@ -538,19 +538,24 @@ if(useGoogleBookmarks)
 	document.addEventListener("DOMContentLoaded", function()
 	{
 		var loading = $('loading');
-		loading.show();
 		var port = chrome.extension.connect();
-		port.postMessage({ msg: 'LoadGBookmarks' });
+		port.postMessage({ msg: 'GetTreeStatus' });
 		port.onMessage.addListener(function(msg)
 		{
-			loading.hide();
-			if(msg == 'Ok')
+			if(msg == 'TreeIsReady' || msg == 'Ok')
 			{
+				loading.hide();
 				initBookmarksMenu();
+			}
+			else if(msg == 'NeedToLoad')
+			{
+				loading.show();
+				port.postMessage({ msg: 'LoadGBookmarks' });
 			}
 			else
 			{
-				alert("Failed to retrieve Google Bookmarks");
+				loading.style.color = 'red';
+				loading.innerHTML = "Failed to retrieve Google Bookmarks";
 			}
 		});
 	});

@@ -174,6 +174,10 @@ function onConnect(port)
 				loadGoogleBookmarks(port);
 			}
 		}
+		else if(msg.msg == 'GetTreeStatus')
+		{
+			port.postMessage(GBookmarksTree ? 'TreeIsReady' : 'NeedToLoad');
+		}
 	});
 }
 
