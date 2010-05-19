@@ -535,7 +535,25 @@ function processMenu(ev, contextMenu)
 
 if(useGoogleBookmarks)
 {
-	document.addEventListener("DOMContentLoaded", initBookmarksMenu);
+	document.addEventListener("DOMContentLoaded", function()
+	{
+		var loading = $('loading');
+		loading.show();
+		var port = chrome.extension.connect();
+		port.postMessage({ msg: 'LoadGBookmarks' });
+		port.onMessage.addListener(function(msg)
+		{
+			loading.hide();
+			if(msg == 'Ok')
+			{
+				initBookmarksMenu();
+			}
+			else
+			{
+				alert("Failed to retrieve Google Bookmarks");
+			}
+		});
+	});
 }
 else
 {
@@ -581,10 +599,9 @@ function initBookmarksMenu(nodes)
 	var rootFolder = $('bookmarksMenu');
 	rootFolder.isRoot = true;
 
-	var bookmarksTree = chrome.extension.getBackgroundPage().GBookmarksTree;
 	if(useGoogleBookmarks)
 	{
-		rootFolder.fillFolderContent(bookmarksTree.children);
+		rootFolder.fillFolderContent(chrome.extension.getBackgroundPage().GBookmarksTree.children);
 	}
 	else
 	{

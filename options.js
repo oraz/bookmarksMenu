@@ -71,11 +71,14 @@ function setUseGoogleBookmarks(useGoogleBookmarks)
 	localStorage['useGoogleBookmarks'] = useGoogleBookmarks;
 	document.querySelector('.chromeBookmarksSettings').style.display = useGoogleBookmarks ? 'none' : 'block';
 	document.querySelector('.googleBookmarksSettings').style.display = useGoogleBookmarks ? 'block' : 'none';
+	chrome.extension.getBackgroundPage().setUseGoogleBookmarks(useGoogleBookmarks);
 	if(useGoogleBookmarks)
 	{
 		clearGoogleBookmarksDiv();
+		var port = chrome.extension.connect();
+		port.postMessage({ msg: 'LoadGBookmarks' });
+		port.onMessage.addListener(processResponse);
 	}
-	chrome.extension.getBackgroundPage().setUseGoogleBookmarks(useGoogleBookmarks, true);
 }
 
 function clearGoogleBookmarksDiv()
@@ -122,11 +125,11 @@ function addBookmark(divSettings, bookmark, useGoogleBookmarks)
 	divSettings.appendChild(div);
 }
 
-chrome.extension.onRequest.addListener(function(request)
+function processResponse(response)
 {
-	if(request == 'GoogleBookmarksIsReady')
+	showHideLoadingIndicator(false);
+	if(response == 'Ok')
 	{
-		showHideLoadingIndicator(false);
 		var GBookmarksTree = chrome.extension.getBackgroundPage().GBookmarksTree;
 		var googleBookmarksSettings = document.querySelector('.googleBookmarksSettings');
 		GBookmarksTree.children.forEach(function(bookmark)
@@ -134,7 +137,11 @@ chrome.extension.onRequest.addListener(function(request)
 			addBookmark(googleBookmarksSettings, bookmark, true);
 		});
 	}
-});
+	else if(response == 'Failed')
+	{
+		alert('Failed to retrieve Google Bookmarks');
+	}
+}
 
 function setFolderSeparator(folderSeparator)
 {
@@ -150,7 +157,9 @@ function setFolderSeparator(folderSeparator)
 		{
 			localStorage['folderSeparator'] = newFolderSeparator;
 			clearGoogleBookmarksDiv();
-			chrome.extension.getBackgroundPage().loadGoogleBookmakrs(true);
+			var port = chrome.extension.connect();
+			port.postMessage({ msg: 'LoadGBookmarks', reload: true });
+			port.onMessage.addListener(processResponse);
 		}
 	}
 }

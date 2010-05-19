@@ -1,6 +1,5 @@
 
 var GBookmarksTree = null;
-var needNotifyOptionsPage;
 
 var GBookmarkUrl = 'https://www.google.com/bookmarks/';
 
@@ -83,6 +82,14 @@ GBookmarkFolder.prototype.sort = function()
 	}
 }
 
+function sorting(b1, b2)
+{
+	if(b1.children && b2.url) { return -1; }
+	if(b2.children && b1.url) { return 1; }
+	var t1 = b1.title, t2 = b2.title;
+	return t1 > t2 ? 1 : t1 < t2 ? -1 : 0;
+}
+
 function createBookmark(node)
 {
 	var bm =
@@ -102,68 +109,41 @@ function createBookmark(node)
 	}
 }
 
+function setUseGoogleBookmarks(useGoogleBookmarks)
+{
+	chrome.browserAction.setBadgeText({ text: useGoogleBookmarks ? "G" : "" });
+}
+
 XMLHttpRequest.prototype.processBookmarks = function()
 {
-	if(this.readyState == this.DONE)
+	if(this.readyState == 4 && this.status == 200)
 	{
-		var parser = new DOMParser();
-		var xmlDoc = parser.parseFromString(this.responseText, 'text/xml');
+		if(this.timeout)
+		{
+			clearTimeout(this.timeout);
+		}
 		GBookmarksTree = new GBookmarkFolder();
-		GBookmarksTree.signature = xmlDoc.querySelector('channel > signature').textContent;
-
-		xmlDoc.querySelectorAll('channel > item').forEach(createBookmark);
+		GBookmarksTree.signature = this.responseXML.querySelector('channel > signature').textContent;
+		this.responseXML.querySelectorAll('channel > item').forEach(createBookmark);
 		GBookmarksTree.sort();
-		if(needNotifyOptionsPage)
-		{
-			notifyOptionsPage();
-		}
+		this.port.postMessage('Ok');
 	}
 }
 
-function sorting(b1, b2)
+XMLHttpRequest.prototype.processAbort = function()
 {
-	if(b1.children && b2.url) { return -1; }
-	if(b2.children && b1.url) { return 1; }
-	var t1 = b1.title, t2 = b2.title;
-	return t1 > t2 ? 1 : t1 < t2 ? -1 : 0;
+	this.port.postMessage("Failed");
+	console.error('xhr has been aborted');
 }
 
-function setUseGoogleBookmarks(useGoogleBookmarks, isFromOptionsPage)
+function loadGoogleBookmarks(port)
 {
-	if(useGoogleBookmarks)
-	{
-		chrome.browserAction.setBadgeText({ text: "G" });
-		needNotifyOptionsPage = isFromOptionsPage;
-		if(GBookmarksTree)
-		{
-			if(needNotifyOptionsPage)
-			{
-				notifyOptionsPage();
-			}
-		}
-		else
-		{
-			loadGoogleBookmakrs(isFromOptionsPage);
-		}
-	}
-	else
-	{
-		chrome.browserAction.setBadgeText({ text: "" });
-	}
-}
-
-function notifyOptionsPage()
-{
-	needNotifyOptionsPage = false;
-	chrome.extension.sendRequest('GoogleBookmarksIsReady');
-}
-
-function loadGoogleBookmakrs(isFromOptionsPage)
-{
-	needNotifyOptionsPage = isFromOptionsPage;
 	var xhr = new XMLHttpRequest();
+	xhr.port = port;
 	xhr.onreadystatechange = xhr.processBookmarks;
+	xhr.onabort = xhr.processAbort;
 	xhr.open("GET", GBookmarkUrl + '?output=rss&num=10000', true);
+	xhr.timeout = setTimeout(function() { xhr.abort(); }, 10 * 1000);
 	xhr.send();
 }
 
@@ -173,25 +153,35 @@ function remove(id)
 	if(child && child.url) // it's bookmark
 	{
 		var xhr = new XMLHttpRequest();
-		xhr.open("GET", GBookmarkUrl + 'mark?' + stringify({ dlq: id, sig: GBookmarksTree.signature }), true);
+		xhr.open("GET", GBookmarkUrl + 'mark?dlq=' + encodeURIComponent(id) +
+				'&sig=' + encodeURIComponent(GBookmarksTree.signature), true);
 		xhr.send();
 	}
 }
 
-function stringify(parameters)
+function onConnect(port)
 {
-	var params = [];
-	for(var p in parameters)
+	port.onMessage.addListener(function(msg)
 	{
-		params.push(p + '=' + encodeURIComponent(parameters[p]));
-	}
-	return params.join('&');
+		if(msg.msg == 'LoadGBookmarks')
+		{
+			if(GBookmarksTree && !msg.reload)
+			{
+				port.postMessage('Ok');
+			}
+			else
+			{
+				loadGoogleBookmarks(port);
+			}
+		}
+	});
 }
-
 
 document.addEventListener("DOMContentLoaded", function()
 {
+	chrome.browserAction.setBadgeBackgroundColor({ color: [ 31, 94, 171, 255 ] });
 	setUseGoogleBookmarks(isUseGoogleBookmarks());
+	chrome.extension.onConnect.addListener(onConnect);
 });
 
 // vim: noet

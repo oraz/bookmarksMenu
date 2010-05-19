@@ -58,6 +58,11 @@ ul {
 #contextMenu[for="bookmark"] > li[for="folder"],
 #contextMenu[for="folder"] > li[for="bookmark"] { display: none; }
 
+#loading {
+    display: none;
+    margin: 2ex 0.3em;
+    text-align: center;
+}
 #transparentLayer {
     display: none;
     background-color: white;
