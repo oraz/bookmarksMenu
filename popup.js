@@ -311,13 +311,15 @@ with(HTMLLIElement)
 		}
 		menuItems[7].className = this.parentElement.childElementCount > 1 ? 'enabled' : 'disabled'; // reorder
 		menuItems[9].className = this.isBookmark || this.isFolder && this.isEmpty ? 'enabled' : 'disabled'; // remove
-		contextMenu.show();
 
 		var body = document.body;
+		var scrollBarWidth = body.offsetWidth - body.clientWidth;
+		var transparentLayer = $('transparentLayer');
+		transparentLayer.style.right = (scrollBarWidth > 0 ? 1 : 0) + 'px';
+		transparentLayer.show();
 		var bodyWidth = body.clientWidth;
 		var contextMenuStyle = contextMenu.style;
 		var contextMenuWidth = contextMenu.clientWidth + 3; // 3 is a border size
-		var scrollBarWidth = body.offsetWidth - body.clientWidth;
 		if(ev.clientX + contextMenuWidth >= body.clientWidth)
 		{
 			if(ev.clientX > contextMenuWidth)
@@ -354,10 +356,6 @@ with(HTMLLIElement)
 		{
 			contextMenuStyle.top = ev.clientY + body.scrollTop + 'px';
 		}
-
-		var transparentLayer = $('transparentLayer');
-		transparentLayer.style.right = (scrollBarWidth > 0 ? 1 : 0) + 'px';
-		transparentLayer.show();
 	}
 	prototype.remove = function()
 	{
@@ -509,9 +507,7 @@ with(HTMLLIElement)
 
 function unSelect()
 {
-	var contextMenu = $('contextMenu');
-	contextMenu.selectedBookmark.unHighlight();
-	contextMenu.hide();
+	$('contextMenu').selectedBookmark.unHighlight();
 	$('transparentLayer').hide();
 }
 
