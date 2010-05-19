@@ -173,7 +173,7 @@ function remove(id)
 	if(child && child.url) // it's bookmark
 	{
 		var xhr = new XMLHttpRequest();
-		xhr.open("GET", GBookmarkUrl + 'mark?' + stringify({ dlq: id, sig: GBookmarksTree.signature }));
+		xhr.open("GET", GBookmarkUrl + 'mark?' + stringify({ dlq: id, sig: GBookmarksTree.signature }), true);
 		xhr.send();
 	}
 }
