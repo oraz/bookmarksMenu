@@ -6,6 +6,7 @@
     // Bookmarks Menu
     "empty": { "message": "пусто" },
     "openAllInTabs": { "message": "Открыть всё во вкладках" },
+    "loadingIndicator": { "message": "Загрузка..." },
 
     // Context menu
     "openInNewTab": { "message": "Открыть в новой вкладке" },

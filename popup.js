@@ -549,6 +549,7 @@ if(useGoogleBookmarks)
 			}
 			else if(msg == 'NeedToLoad')
 			{
+				chrome.i18n.initElements();
 				loading.show();
 				port.postMessage({ msg: 'LoadGBookmarks' });
 			}

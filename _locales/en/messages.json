@@ -6,6 +6,7 @@
     // Bookmarks Menu
     "empty": { "message": "empty" },
     "openAllInTabs": { "message": "Open All in Tabs" },
+    "loadingIndicator": { "message": "Loading..." },
 
     // Context menu
     "openInNewTab": { "message": "Open in New Tab" },
@@ -41,7 +42,6 @@
     "tbUseGoogle": { "message": "Use Google bookmarks" },
     "tbLabelSeparator": { "message": "Label separator:" },
     "tbSelectBookmarks": { "message": "Select bookmarks to display" },
-    "tbLoading": { "message": "Loading..." },
 
     // UI settings  tab
     "twPopupConfig": { "message": "Popup window configuration" },
