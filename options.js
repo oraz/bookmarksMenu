@@ -172,12 +172,12 @@ function showTab(span)
 		if(tabs[idx].getAttribute('class') == 'fgTab')
 		{
 			tabs[idx].setAttribute('class', 'bgTab');
-			$(tabs[idx].getAttribute('for')).style.display = 'none';
+			$(tabs[idx].getAttribute('for')).hide();
 			break;
 		}
 	}
 	currentTab.setAttribute('class', 'fgTab');
-	$(currentTab.getAttribute('for')).style.display = 'block';
+	$(currentTab.getAttribute('for')).show();
 }
 
 function resetWindowSettings()
