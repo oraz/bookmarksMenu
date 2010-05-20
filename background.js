@@ -200,7 +200,7 @@ function openUrlsInNewWindow(urls, incognito)
 
 document.addEventListener("DOMContentLoaded", function()
 {
-	chrome.browserAction.setBadgeBackgroundColor({ color: [ 31, 94, 171, 255 ] });
+	chrome.browserAction.setBadgeBackgroundColor({ color: [ 24, 135, 185, 255 ] });
 	if(isUseGoogleBookmarks())
 	{
 		chrome.browserAction.setBadgeText({ text: "G" });
