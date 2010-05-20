@@ -181,11 +181,33 @@ function onConnect(port)
 	});
 }
 
+function openUrlsInNewWindow(urls, incognito)
+{
+	var windowData = { url: urls[0] };
+	if(!chrome.stable && incognito)
+	{
+		windowData.incognito = true;
+	}
+	chrome.windows.create(windowData, function(win)
+	{
+		if(windowData.incognito && !win && urls.length > 1)
+		{
+			alert("You need to allow 'Bookmarks menu' to run in incognito! You can do it on extensions page.");
+			return;
+		}
+		for(var idx = 1, len = urls.length; idx < len; idx++)
+		{
+			chrome.tabs.create({ url: urls[idx], windowId: win.id, selected: false });
+		}
+	});
+}
+
 document.addEventListener("DOMContentLoaded", function()
 {
 	chrome.browserAction.setBadgeBackgroundColor({ color: [ 31, 94, 171, 255 ] });
 	setUseGoogleBookmarks(isUseGoogleBookmarks());
 	chrome.extension.onConnect.addListener(onConnect);
+	chrome.stable = navigator.appVersion.substr(navigator.appVersion.indexOf("Chrome") + 7).indexOf('4') == 0;
 });
 
 // vim: noet
