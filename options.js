@@ -228,16 +228,9 @@ function initWindowSettingsTab()
 document.addEventListener("DOMContentLoaded", function()
 {
 	chrome.i18n.initElements();
-	for(var idx = 0; idx < 3; idx++)
-	{
-		$('btn' + idx).selectedIndex = getButtonAction(idx);
-	}
+	showTab(document.body.querySelector('li.fgTab span'));
 
-	if(isSwitchToNewTab())
-	{
-		$('switchToNewTab').checked = true;
-	}
-
+	// init Bookmarks tab
 	var useGoogleBookmarks = isUseGoogleBookmarks();
 	$(useGoogleBookmarks ? 'useGoogleBookmarks' : 'useChromeBookmarks').checked = true;
 	setUseGoogleBookmarks(useGoogleBookmarks);
@@ -257,8 +250,21 @@ document.addEventListener("DOMContentLoaded", function()
 		})
 	});
 
+	// init UI tab
 	jscolor.init();
 	initWindowSettingsTab();
+
+	// init Mouse tab
+	for(var idx = 0; idx < 3; idx++)
+	{
+		$('btn' + idx).selectedIndex = getButtonAction(idx);
+	}
+
+	if(isSwitchToNewTab())
+	{
+		$('switchToNewTab').checked = true;
+	}
+
 }, false);
 
 // vim:noet

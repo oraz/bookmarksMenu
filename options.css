@@ -74,8 +74,6 @@ div.config {
     z-index: 0;
 }
 
-div.config:first-of-type { display: block; }
-
 div.header {
     font-weight: bold;
     text-align: left;
