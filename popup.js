@@ -550,7 +550,7 @@ if(useGoogleBookmarks)
 			else
 			{
 				loading.style.color = 'red';
-				loading.innerHTML = "Failed to retrieve Google Bookmarks";
+				loading.innerHTML = chrome.i18n.getMessage('failedRetrieveGBookmakrs');
 			}
 		});
 	});

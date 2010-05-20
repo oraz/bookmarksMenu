@@ -7,6 +7,7 @@
     "empty": { "message": "empty" },
     "openAllInTabs": { "message": "Open All in Tabs" },
     "loadingIndicator": { "message": "Loading..." },
+    "failedRetrieveGBookmakrs": { "message": "Failed to retrieve Google Bookmarks" },
 
     // Context menu
     "openInNewTab": { "message": "Open in New Tab" },

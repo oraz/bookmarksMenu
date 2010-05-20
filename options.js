@@ -128,7 +128,7 @@ function processResponse(response)
 	}
 	else if(response == 'Failed')
 	{
-		alert('Failed to retrieve Google Bookmarks');
+		alert(chrome.i18n.getMessage('failedRetrieveGBookmakrs'));
 	}
 }
 
