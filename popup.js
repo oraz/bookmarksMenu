@@ -32,12 +32,6 @@ function Bookmark(bookmarkNode)
 	return bookmark;
 }
 
-with(HTMLElement)
-{
-	prototype.show = function() { this.style.display = 'block'; }
-	prototype.hide = function() { this.style.display = 'none'; }
-}
-
 HTMLBodyElement.prototype.setHeight = function(height)
 {
 	if(height > winMaxHeight)
@@ -286,7 +280,7 @@ with(HTMLLIElement)
 		var contextMenu = $('contextMenu');
 		if(!contextMenu.initialized)
 		{
-			chrome.i18n.initElements(contextMenu);
+			chrome.i18n.initAll(contextMenu);
 			if(chrome.stable)
 			{
 				contextMenu.querySelector('li:nth-of-type(3)').hide(); // openInIncognitoWindow
@@ -549,7 +543,7 @@ if(useGoogleBookmarks)
 			}
 			else if(msg == 'NeedToLoad')
 			{
-				chrome.i18n.initElements();
+				chrome.i18n.initElement(loading);
 				loading.show();
 				port.postMessage({ msg: 'LoadGBookmarks' });
 			}

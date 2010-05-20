@@ -3,20 +3,38 @@ function $(id) { return document.getElementById(id); }
 
 NodeList.prototype.forEach = function(func)
 {
+	var isString = typeof func == 'string';
 	for(var idx = 0, len = this.length; idx < len; idx++)
 	{
-		func(this[idx], idx);
+		if(isString)
+		{
+			var node = this[idx];
+			eval(func);
+		}
+		else
+		{
+			func(this[idx], idx);
+		}
 	}
 }
 
-chrome.i18n.initElements = function(el)
+with(HTMLElement)
 {
-	(el ? el : document).querySelectorAll('[i18n]').forEach(function(node)
-	{
-		node.appendChild(document.createTextNode(chrome.i18n.getMessage(node.getAttribute('i18n'))));
-		node.removeAttribute('i18n');
-	});
-};
+	prototype.show = function() { this.style.display = 'block'; }
+	prototype.hide = function() { this.style.display = 'none'; }
+}
+
+chrome.i18n.initElement = function(el)
+{
+	el.appendChild(document.createTextNode(chrome.i18n.getMessage(el.getAttribute('i18n'))));
+	el.removeAttribute('i18n');
+}
+
+chrome.i18n.initAll = function(el)
+{
+	var initElement = chrome.i18n.initElement;
+	(el ? el : document).querySelectorAll('[i18n]').forEach('chrome.i18n.initElement(node)');
+}
 
 function isBookmarklet(url)
 {

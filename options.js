@@ -60,12 +60,6 @@ function setColor(el)
 	}
 }
 
-function showHideElem(id)
-{
-	var elemStyle = $(id).style;
-	elemStyle.display = elemStyle.display == 'none' ? 'inline' : 'none';
-}
-
 function setUseGoogleBookmarks(useGoogleBookmarks)
 {
 	localStorage['useGoogleBookmarks'] = useGoogleBookmarks;
@@ -91,12 +85,7 @@ function clearGoogleBookmarksDiv()
 			node.parentElement.removeChild(node);
 		});
 	}
-	showHideLoadingIndicator(true);
-}
-
-function showHideLoadingIndicator(show)
-{
-	document.querySelector('.googleBookmarksSettings > .loading').style.display = show ? 'block' : 'none';
+	$('loading').show();
 }
 
 function addBookmark(divSettings, bookmark, useGoogleBookmarks)
@@ -127,7 +116,7 @@ function addBookmark(divSettings, bookmark, useGoogleBookmarks)
 
 function processResponse(response)
 {
-	showHideLoadingIndicator(false);
+	$('loading').hide();
 	if(response == 'Ok')
 	{
 		var GBookmarksTree = chrome.extension.getBackgroundPage().GBookmarksTree;
@@ -143,19 +132,19 @@ function processResponse(response)
 	}
 }
 
-function setFolderSeparator(folderSeparator)
+function setLabelSeparator(labelSeparator)
 {
-	var newFolderSeparator = folderSeparator.value;
-	if(newFolderSeparator == '')
+	var newLabelSeparator = labelSeparator.value;
+	if(newLabelSeparator == '')
 	{
-		folderSeparator.setAttribute('class', 'error');
+		labelSeparator.setAttribute('class', 'error');
 	}
 	else
 	{
-		folderSeparator.removeAttribute('class');
-		if(newFolderSeparator != getFolderSeparator())
+		labelSeparator.removeAttribute('class');
+		if(newLabelSeparator != getLabelSeparator())
 		{
-			localStorage['folderSeparator'] = newFolderSeparator;
+			localStorage['labelSeparator'] = newLabelSeparator;
 			clearGoogleBookmarksDiv();
 			var port = chrome.extension.connect();
 			port.postMessage({ msg: 'LoadGBookmarks', reload: true });
@@ -195,10 +184,7 @@ function resetWindowSettings()
 		removeItem('scrollBarWidth');
 		removeItem('showTooltip');
 	}
-	document.querySelectorAll('input.color').forEach(function(node)
-	{
-		localStorage.removeItem(node.id);
-	});
+	document.querySelectorAll('input.color').forEach('localStorage.removeItem(node.id)');
 	initWindowSettingsTab();
 }
 
@@ -219,22 +205,19 @@ function initWindowSettingsTab()
 	$('maxWidthMesure').selectByValue(getMaxWidthMesure());
 	$('scrollBarWidth').value = getScrollBarWidth();
 	$('showTooltip').checked = isShowTooltip();
-	document.querySelectorAll('input.color').forEach(function(node)
-	{
-		node.color.fromString(getColor(node.id));
-	});
+	document.querySelectorAll('input.color').forEach('node.color.fromString(getColor(node.id))');
 }
 
 document.addEventListener("DOMContentLoaded", function()
 {
-	chrome.i18n.initElements();
-	showTab(document.body.querySelector('li.fgTab span'));
+	chrome.i18n.initAll();
+	showTab(document.querySelector('li.fgTab span'));
 
 	// init Bookmarks tab
 	var useGoogleBookmarks = isUseGoogleBookmarks();
 	$(useGoogleBookmarks ? 'useGoogleBookmarks' : 'useChromeBookmarks').checked = true;
 	setUseGoogleBookmarks(useGoogleBookmarks);
-	$('folderSeparator').value = getFolderSeparator();
+	$('labelSeparator').value = getLabelSeparator();
 	chrome.bookmarks.getTree(function(nodes)
 	{
 		var chromeBookmarksSettings = document.querySelector('.chromeBookmarksSettings');

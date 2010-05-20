@@ -9,13 +9,13 @@ function GBookmarkFolder(names, parentFolder)
 	if(parentFolder)
 	{
 		this.title = names.shift();
-		this.id = !parentFolder.isRoot ? parentFolder.id + GBookmarksTree.folderSeparator + this.title : this.title;
+		this.id = !parentFolder.isRoot ? parentFolder.id + GBookmarksTree.labelSeparator + this.title : this.title;
 		parentFolder.addChild(this);
 	}
 	else
 	{
 		this.isRoot = true;
-		this.folderSeparator = getFolderSeparator();
+		this.labelSeparator = getLabelSeparator();
 		return this;
 	}
 	return names.length > 0 ? new GBookmarkFolder(names, this) : this;
@@ -28,7 +28,7 @@ GBookmarkFolder.prototype.addChild = function(child)
 
 GBookmarkFolder.prototype.findFolder = function(fullName)
 {
-	var names = typeof fullName == 'string' ? fullName.split(GBookmarksTree.folderSeparator) : fullName;
+	var names = typeof fullName == 'string' ? fullName.split(GBookmarksTree.labelSeparator) : fullName;
 	var name = names.shift();
 	for(var idx = 0, len = this.children.length; idx < len; idx++)
 	{
