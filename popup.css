@@ -49,8 +49,10 @@ ul {
 #bookmarksMenu { position: absolute; top: 0px; right: 0px; }
 
 #contextMenu {
+    display: none;
     border-width: 1px 2px 2px 1px; border-style: outset; border-color: #6f5e5e;
     position: absolute;
+    z-index: 2;
 }
 
 #contextMenu[for="bookmark"] > li[for="folder"],
@@ -63,7 +65,7 @@ ul {
 }
 #transparentLayer {
     display: none;
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(255,255,255,0.5);
     position: fixed; top: 0px; bottom: 0px; left: 0px;
     z-index: 1;
 }
