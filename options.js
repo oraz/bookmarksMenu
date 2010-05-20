@@ -75,6 +75,7 @@ function setUseGoogleBookmarks(useGoogleBookmarks)
 		{
 			if(msg == 'NeedToLoad')
 			{
+				$('loadingError').hide();
 				$('loading').show();
 				port.postMessage({ msg: 'LoadGBookmarks' });
 			}
@@ -135,7 +136,7 @@ function processResponse(response)
 	}
 	else if(response == 'Failed')
 	{
-		alert(chrome.i18n.getMessage('failedRetrieveGBookmakrs'));
+		$('loadingError').show();
 	}
 }
 
@@ -153,6 +154,7 @@ function setLabelSeparator(labelSeparator)
 		{
 			localStorage['labelSeparator'] = newLabelSeparator;
 			clearGoogleBookmarksDiv();
+			$('loadingError').hide();
 			$('loading').show();
 			var port = chrome.extension.connect();
 			port.postMessage({ msg: 'LoadGBookmarks', reload: true });

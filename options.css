@@ -111,10 +111,12 @@ li.fgTab > span {
     margin-left: 3px;
 }
 
-#loading {
+#loading, #loadingError {
     display: none;
     width: 100%;
     margin: 8ex 0;
     font-size: 20px;
     text-align: center;
 }
+
+#loadingError { color: red; }

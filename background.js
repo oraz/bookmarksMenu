@@ -138,6 +138,7 @@ XMLHttpRequest.prototype.processAbort = function()
 
 function loadGoogleBookmarks(port)
 {
+	GBookmarksTree = null;
 	var xhr = new XMLHttpRequest();
 	xhr.port = port;
 	xhr.onreadystatechange = xhr.processBookmarks;
