@@ -43,6 +43,9 @@
     },
 
     // Bookmarks tab
+    "tbUseChrome": { "message": "Utiliser les favoris de Chrome" },
+    "tbUseGoogle": { "message": "Utiliser les favoris de Google" },
+    "tbLabelSeparator": { "message": "Séparateur des libellés:" },
     "tbSelectBookmarks": { "message": "Sélectez les favoris pour montrer" },
 
     // UI Settings tab

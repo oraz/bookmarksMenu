@@ -38,6 +38,9 @@
     "tmSwitchToNewTab": { "message": "Переключаться на открываемую вкладку"},
 
     // Bookmarks tab
+    "tbUseChrome": { "message": "Использовать закладки Chrome" },
+    "tbUseGoogle": { "message": "Использовать закладки Google" },
+    "tbLabelSeparator": { "message": "Разделитель меток:" },
     "tbSelectBookmarks": { "message": "Выберите закладки, которые нужно показывать" },
 
     // UI settings  tab
