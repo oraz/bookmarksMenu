@@ -70,8 +70,19 @@ function setUseGoogleBookmarks(useGoogleBookmarks)
 	{
 		clearGoogleBookmarksDiv();
 		var port = chrome.extension.connect();
-		port.postMessage({ msg: 'LoadGBookmarks' });
-		port.onMessage.addListener(processResponse);
+		port.postMessage({ msg: 'GetTreeStatus' });
+		port.onMessage.addListener(function(msg)
+		{
+			if(msg == 'NeedToLoad')
+			{
+				$('loading').show();
+				port.postMessage({ msg: 'LoadGBookmarks' });
+			}
+			else
+			{
+				processResponse(msg);
+			}
+		});
 	}
 }
 
@@ -80,12 +91,8 @@ function clearGoogleBookmarksDiv()
 	var gbookmarks = document.querySelectorAll('.googleBookmarksSettings > .gbookmark');
 	if(gbookmarks)
 	{
-		gbookmarks.forEach(function(node)
-		{
-			node.parentElement.removeChild(node);
-		});
+		gbookmarks.forEach('node.parentElement.removeChild(node)');
 	}
-	$('loading').show();
 }
 
 function addBookmark(divSettings, bookmark, useGoogleBookmarks)
@@ -117,7 +124,7 @@ function addBookmark(divSettings, bookmark, useGoogleBookmarks)
 function processResponse(response)
 {
 	$('loading').hide();
-	if(response == 'Ok')
+	if(response == 'Ok' || response == 'TreeIsReady')
 	{
 		var GBookmarksTree = chrome.extension.getBackgroundPage().GBookmarksTree;
 		var googleBookmarksSettings = document.querySelector('.googleBookmarksSettings');
@@ -146,6 +153,7 @@ function setLabelSeparator(labelSeparator)
 		{
 			localStorage['labelSeparator'] = newLabelSeparator;
 			clearGoogleBookmarksDiv();
+			$('loading').show();
 			var port = chrome.extension.connect();
 			port.postMessage({ msg: 'LoadGBookmarks', reload: true });
 			port.onMessage.addListener(processResponse);
