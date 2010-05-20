@@ -65,7 +65,7 @@ function setUseGoogleBookmarks(useGoogleBookmarks)
 	localStorage['useGoogleBookmarks'] = useGoogleBookmarks;
 	$('chromeBookmarksSettings').style.display = useGoogleBookmarks ? 'none' : 'block';
 	$('googleBookmarksSettings').style.display = useGoogleBookmarks ? 'block' : 'none';
-	chrome.extension.getBackgroundPage().setUseGoogleBookmarks(useGoogleBookmarks);
+	chrome.browserAction.setBadgeText({ text: useGoogleBookmarks ? "G" : "" });
 	if(useGoogleBookmarks)
 	{
 		clearGoogleBookmarksDiv();

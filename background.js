@@ -109,11 +109,6 @@ function createBookmark(node)
 	}
 }
 
-function setUseGoogleBookmarks(useGoogleBookmarks)
-{
-	chrome.browserAction.setBadgeText({ text: useGoogleBookmarks ? "G" : "" });
-}
-
 XMLHttpRequest.prototype.processBookmarks = function()
 {
 	if(this.readyState == 4 && this.status == 200)
@@ -206,7 +201,10 @@ function openUrlsInNewWindow(urls, incognito)
 document.addEventListener("DOMContentLoaded", function()
 {
 	chrome.browserAction.setBadgeBackgroundColor({ color: [ 31, 94, 171, 255 ] });
-	setUseGoogleBookmarks(isUseGoogleBookmarks());
+	if(isUseGoogleBookmarks())
+	{
+		chrome.browserAction.setBadgeText({ text: "G" });
+	}
 	chrome.extension.onConnect.addListener(onConnect);
 	chrome.stable = navigator.appVersion.substr(navigator.appVersion.indexOf("Chrome") + 7).indexOf('4') == 0;
 });
