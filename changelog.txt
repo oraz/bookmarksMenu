@@ -1,3 +1,8 @@
+Changelog 3.0.0 (20.05.2010)
+- Extension can work with two bookmark types: Chrome bookmarks and Google
+bookmarks.
+- Changed order of tabs on options page.
+
 Changelog 2.8.0 (11.05.2010)
 - Added menu items 'Open in Incognito Window' for bookmark and 'Open All
 Bookmarks in Incognito Window' for folder. These items are not visible on
