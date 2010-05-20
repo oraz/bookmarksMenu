@@ -63,8 +63,8 @@ function setColor(el)
 function setUseGoogleBookmarks(useGoogleBookmarks)
 {
 	localStorage['useGoogleBookmarks'] = useGoogleBookmarks;
-	document.querySelector('.chromeBookmarksSettings').style.display = useGoogleBookmarks ? 'none' : 'block';
-	document.querySelector('.googleBookmarksSettings').style.display = useGoogleBookmarks ? 'block' : 'none';
+	$('chromeBookmarksSettings').style.display = useGoogleBookmarks ? 'none' : 'block';
+	$('googleBookmarksSettings').style.display = useGoogleBookmarks ? 'block' : 'none';
 	chrome.extension.getBackgroundPage().setUseGoogleBookmarks(useGoogleBookmarks);
 	if(useGoogleBookmarks)
 	{
@@ -89,7 +89,7 @@ function setUseGoogleBookmarks(useGoogleBookmarks)
 
 function clearGoogleBookmarksDiv()
 {
-	var gbookmarks = document.querySelectorAll('.googleBookmarksSettings > .gbookmark');
+	var gbookmarks = document.querySelectorAll('#googleBookmarksSettings > .gbookmark');
 	if(gbookmarks)
 	{
 		gbookmarks.forEach('node.parentElement.removeChild(node)');
@@ -128,7 +128,7 @@ function processResponse(response)
 	if(response == 'Ok' || response == 'TreeIsReady')
 	{
 		var GBookmarksTree = chrome.extension.getBackgroundPage().GBookmarksTree;
-		var googleBookmarksSettings = document.querySelector('.googleBookmarksSettings');
+		var googleBookmarksSettings = $('googleBookmarksSettings');
 		GBookmarksTree.children.forEach(function(bookmark)
 		{
 			addBookmark(googleBookmarksSettings, bookmark, true);
@@ -230,7 +230,7 @@ document.addEventListener("DOMContentLoaded", function()
 	$('labelSeparator').value = getLabelSeparator();
 	chrome.bookmarks.getTree(function(nodes)
 	{
-		var chromeBookmarksSettings = document.querySelector('.chromeBookmarksSettings');
+		var chromeBookmarksSettings = $('chromeBookmarksSettings');
 		nodes.forEach(function(node)
 		{
 			node.children.forEach(function(child)
