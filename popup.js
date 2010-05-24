@@ -536,7 +536,7 @@ if(useGoogleBookmarks)
 		port.postMessage({ msg: 'GetTreeStatus' });
 		port.onMessage.addListener(function(msg)
 		{
-			if(msg == 'TreeIsReady' || msg == 'Ok')
+			if(msg == 'TreeIsReady')
 			{
 				loading.hide();
 				initBookmarksMenu();

@@ -113,22 +113,29 @@ XMLHttpRequest.prototype.processBookmarks = function()
 {
 	if(this.readyState == 4 && this.status == 200)
 	{
-		if(this.timeout)
-		{
-			clearTimeout(this.timeout);
-		}
+		clearTimeout(this.timeout);
+		delete this.timeout;
 		GBookmarksTree = new GBookmarkFolder();
 		GBookmarksTree.signature = this.responseXML.querySelector('channel > signature').textContent;
 		this.responseXML.querySelectorAll('channel > item').forEach(createBookmark);
 		GBookmarksTree.sort();
-		this.port.postMessage('Ok');
+		this.port.postMessage('TreeIsReady');
+		this.port.disconnect();
 	}
 }
 
 XMLHttpRequest.prototype.processAbort = function()
 {
-	this.port.postMessage("Failed");
-	console.error('xhr has been aborted');
+	if(this.port.disconnected)
+	{
+		clearTimeout(this.timeout);
+	}
+	else
+	{
+		this.port.postMessage("Failed");
+		this.port.disconnect();
+		console.error('xhr has been aborted');
+	}
 }
 
 function loadGoogleBookmarks(port)
@@ -136,6 +143,12 @@ function loadGoogleBookmarks(port)
 	GBookmarksTree = null;
 	var xhr = new XMLHttpRequest();
 	xhr.port = port;
+	port.onDisconnect.addListener(function()
+	{
+		// fired when user closes popup window or options window
+		port.disconnected = true;
+		xhr.abort();
+	});
 	xhr.onreadystatechange = xhr.processBookmarks;
 	xhr.onabort = xhr.processAbort;
 	xhr.open("GET", GBookmarkUrl + '?output=rss&num=10000', true);
@@ -163,7 +176,8 @@ function onConnect(port)
 		{
 			if(GBookmarksTree && !msg.reload)
 			{
-				port.postMessage('Ok');
+				port.postMessage('TreeIsReady');
+				port.disconnect();
 			}
 			else
 			{
@@ -173,6 +187,10 @@ function onConnect(port)
 		else if(msg.msg == 'GetTreeStatus')
 		{
 			port.postMessage(GBookmarksTree ? 'TreeIsReady' : 'NeedToLoad');
+			if(GBookmarksTree)
+			{
+				port.disconnect();
+			}
 		}
 	});
 }

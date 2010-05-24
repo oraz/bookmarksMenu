@@ -125,7 +125,7 @@ function addBookmark(divSettings, bookmark, useGoogleBookmarks)
 function processResponse(response)
 {
 	$('loading').hide();
-	if(response == 'Ok' || response == 'TreeIsReady')
+	if(response == 'TreeIsReady')
 	{
 		var GBookmarksTree = chrome.extension.getBackgroundPage().GBookmarksTree;
 		var googleBookmarksSettings = $('googleBookmarksSettings');
