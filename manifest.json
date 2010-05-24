@@ -1,6 +1,6 @@
 {
     "name": "Bookmarks Menu",
-    "version": "3.0.0.2",
+    "version": "3.0.1",
     "description": "__MSG_extDescription__",
     "default_locale": "en",
     "browser_action":
