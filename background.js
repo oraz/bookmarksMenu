@@ -206,7 +206,7 @@ function openUrlsInNewWindow(urls, incognito)
 	{
 		if(windowData.incognito && !win && urls.length > 1)
 		{
-			alert("You need to allow 'Bookmarks menu' to run in incognito! You can do it on extensions page.");
+			alert(chrome.i18n.getMessage('needAllowIncognito'));
 			return;
 		}
 		for(var idx = 1, len = urls.length; idx < len; idx++)

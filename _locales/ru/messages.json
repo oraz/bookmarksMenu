@@ -73,5 +73,8 @@
     "twActiveBmBgClrFrom": { "message": "от:" },
     "twActiveBmBgClrTo": { "message": "до:" },
 
-    "twRestoreDflt": { "message": "Восстановить значения по умолчанию" }
+    "twRestoreDflt": { "message": "Восстановить значения по умолчанию" },
+
+    // Background page
+    "needAllowIncognito": { "message": "Вам необходимо разрешить расширению 'Bookmarks menu' работать в анонимном режиме! Вы можете сделать это на странице расширений." }
 }

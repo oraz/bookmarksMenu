@@ -73,5 +73,8 @@
     "twActiveBmBgClrFrom": { "message": "gradient from:" },
     "twActiveBmBgClrTo": { "message": "gradient to:" },
 
-    "twRestoreDflt": { "message": "Restore default settings" }
+    "twRestoreDflt": { "message": "Restore default settings" },
+
+    // Background page
+    "needAllowIncognito": { "message": "You need to allow 'Bookmarks menu' to run in incognito! You can do it on extensions page." }
 }
