@@ -4,8 +4,6 @@ var winMaxHeight = getWindowMaxHeight();
 var showTooltip = isShowTooltip();
 var useGoogleBookmarks = isUseGoogleBookmarks();
 
-chrome.stable = navigator.appVersion.substr(navigator.appVersion.indexOf("Chrome") + 7).indexOf('4') == 0;
-
 function Bookmark(bookmarkNode)
 {
 	var bookmark = document.createElement('li');
@@ -203,12 +201,7 @@ with(HTMLLIElement)
 	}
 	prototype.openInNewWindow = function(incognito)
 	{
-		var windowData = { url: this.url };
-		if(incognito && !chrome.stable)
-		{
-			windowData.incognito = true;
-		}
-		chrome.windows.create(windowData);
+		chrome.windows.create({ url: this.url, incognito: incognito });
 		window.close();
 	}
 	prototype.openInIncognitoWindow = function()
@@ -281,11 +274,6 @@ with(HTMLLIElement)
 		if(!contextMenu.initialized)
 		{
 			chrome.i18n.initAll(contextMenu);
-			if(chrome.stable)
-			{
-				contextMenu.querySelector('li:nth-of-type(3)').hide(); // openInIncognitoWindow
-				contextMenu.querySelector('li:nth-of-type(6)').hide(); // openAllInIncognitoWindow
-			}
 			if(useGoogleBookmarks)
 			{
 				contextMenu.querySelector('li:nth-of-type(7)').hide(); // separator

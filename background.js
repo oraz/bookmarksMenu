@@ -197,14 +197,9 @@ function onConnect(port)
 
 function openUrlsInNewWindow(urls, incognito)
 {
-	var windowData = { url: urls[0] };
-	if(!chrome.stable && incognito)
+	chrome.windows.create({ url: urls[0], incognito: incognito }, function(win)
 	{
-		windowData.incognito = true;
-	}
-	chrome.windows.create(windowData, function(win)
-	{
-		if(windowData.incognito && !win && urls.length > 1)
+		if(incognito && !win && urls.length > 1)
 		{
 			alert(chrome.i18n.getMessage('needAllowIncognito'));
 			return;
@@ -224,7 +219,6 @@ document.addEventListener("DOMContentLoaded", function()
 		chrome.browserAction.setBadgeText({ text: "G" });
 	}
 	chrome.extension.onConnect.addListener(onConnect);
-	chrome.stable = navigator.appVersion.substr(navigator.appVersion.indexOf("Chrome") + 7).indexOf('4') == 0;
 });
 
 // vim: noet
