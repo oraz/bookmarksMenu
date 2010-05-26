@@ -1,3 +1,7 @@
+Changelog 3.0.2 (26.05.2010)
+- chrome://favicon/ is used to get favicon for url.
+- Allowed 'Open in Incognito Window' menu items on windows version.
+
 Changelog 3.0.1 (24.05.2010)
 - Added icon for 'Open in Incognito Window' menu item. The icon has been downloaded
 from chrome://theme/otr_icon_standalone
