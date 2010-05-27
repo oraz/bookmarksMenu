@@ -119,7 +119,7 @@ XMLHttpRequest.prototype.processBookmarks = function()
 		GBookmarksTree.signature = this.responseXML.querySelector('channel > signature').textContent;
 		this.responseXML.querySelectorAll('channel > item').forEach(createBookmark);
 		GBookmarksTree.sort();
-		this.port.postMessage('TreeIsReady');
+		this.port.postMessage(MESSAGES.RESP_TREE_IS_READY);
 		this.port.disconnect();
 	}
 }
@@ -132,7 +132,7 @@ XMLHttpRequest.prototype.processAbort = function()
 	}
 	else
 	{
-		this.port.postMessage("Failed");
+		this.port.postMessage(MESSAGES.RESP_FAILED);
 		this.port.disconnect();
 		console.error('xhr has been aborted');
 	}
@@ -157,32 +157,30 @@ function onDisconnect(port)
 	port.xhr.abort();
 }
 
-function onIncomingMessage(msg, port)
+function onIncomingMessage(req, port)
 {
-	if(msg.msg == 'LoadGBookmarks')
+	console.log(port);
+	if(req == MESSAGES.REQ_LOAD_BOOKMARKS && GBookmarksTree)
 	{
-		if(GBookmarksTree && !msg.reload)
-		{
-			port.postMessage('TreeIsReady');
-			port.disconnect();
-		}
-		else
-		{
-			GBookmarksTree = null;
-			var xhr = new XMLHttpRequest();
-			xhr.port = port;
-			port.xhr = xhr;
-			port.onDisconnect.addListener(onDisconnect);
-			xhr.onreadystatechange = xhr.processBookmarks;
-			xhr.onabort = xhr.processAbort;
-			xhr.timeout = setTimeout(function() { xhr.abort(); }, 10 * 1000);
-			xhr.open("GET", GBookmarkUrl + '?output=rss&num=10000', true);
-			xhr.send();
-		}
+		port.postMessage(MESSAGES.RESP_TREE_IS_READY);
+		port.disconnect();
 	}
-	else if(msg.msg == 'GetTreeStatus')
+	else if(req == MESSAGES.REQ_LOAD_BOOKMARKS && !GBookmarksTree || req == MESSAGES.REQ_FORCE_LOAD_BOOKMARKS)
 	{
-		port.postMessage(GBookmarksTree ? 'TreeIsReady' : 'NeedToLoad');
+		GBookmarksTree = null;
+		var xhr = new XMLHttpRequest();
+		xhr.port = port;
+		port.xhr = xhr;
+		port.onDisconnect.addListener(onDisconnect);
+		xhr.onreadystatechange = xhr.processBookmarks;
+		xhr.onabort = xhr.processAbort;
+		xhr.timeout = setTimeout(function() { xhr.abort(); }, 3 * 1000);
+		xhr.open("GET", GBookmarkUrl + '?output=rss&num=10000', true);
+		xhr.send();
+	}
+	else if(req == MESSAGES.REQ_GET_TREE_STATUS)
+	{
+		port.postMessage(GBookmarksTree ? MESSAGES.RESP_TREE_IS_READY : MESSAGES.RESP_NEED_TO_LOAD);
 		if(GBookmarksTree)
 		{
 			port.disconnect();

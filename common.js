@@ -36,6 +36,16 @@ chrome.i18n.initAll = function(el)
 	(el ? el : document).querySelectorAll('[i18n]').forEach('chrome.i18n.initElement(node)');
 }
 
+var MESSAGES = 
+{
+	REQ_LOAD_BOOKMARKS: 1,
+	REQ_FORCE_LOAD_BOOKMARKS: 2,
+	REQ_GET_TREE_STATUS: 3,
+	RESP_TREE_IS_READY: 200,
+	RESP_NEED_TO_LOAD: 201,
+	RESP_FAILED: 400
+};
+
 function isBookmarklet(url)
 {
 	return url.substr(0, 11) == 'javascript:';

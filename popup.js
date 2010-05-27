@@ -521,19 +521,18 @@ if(useGoogleBookmarks)
 	{
 		var loading = $('loading');
 		var port = chrome.extension.connect();
-		port.postMessage({ msg: 'GetTreeStatus' });
-		port.onMessage.addListener(function(msg)
+		port.onMessage.addListener(function(response)
 		{
-			if(msg == 'TreeIsReady')
+			if(response == MESSAGES.RESP_TREE_IS_READY)
 			{
 				loading.hide();
 				initBookmarksMenu();
 			}
-			else if(msg == 'NeedToLoad')
+			else if(response == MESSAGES.RESP_NEED_TO_LOAD)
 			{
 				chrome.i18n.initElement(loading);
 				loading.show();
-				port.postMessage({ msg: 'LoadGBookmarks' });
+				port.postMessage(MESSAGES.REQ_LOAD_BOOKMARKS)
 			}
 			else
 			{
@@ -541,6 +540,7 @@ if(useGoogleBookmarks)
 				loading.innerHTML = chrome.i18n.getMessage('failedRetrieveGBookmakrs');
 			}
 		});
+		port.postMessage(MESSAGES.REQ_GET_TREE_STATUS);
 	});
 }
 else
