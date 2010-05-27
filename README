@@ -1,3 +1,5 @@
+Chrome extension which shows bookmarks menu. Works with Chrome and Google bookmarks.
+
 By default the extension works with Chrome bookmarks.
 
 To use Google bookmars open options page and select 'Use Google bookmarks'. Don't forget to login on https://www.google.com/bookmarks
