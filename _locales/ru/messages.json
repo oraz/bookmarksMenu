@@ -2,6 +2,7 @@
     // manifest.json
     "extDescription": { "message": "Показывает меню закладок. Работает с закладками Chrome и Google." },
     "extTitle": { "message": "Закладки" },
+    "extTitleGoogle": { "message": "Закладки Google" },
 
     // Bookmarks Menu
     "empty": { "message": "пусто" },

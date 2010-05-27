@@ -2,6 +2,7 @@
     // manifest.json
     "extDescription": { "message": "Shows bookmarks menu. Works with Chrome and Google bookmarks." },
     "extTitle": { "message": "Bookmarks" },
+    "extTitleGoogle": { "message": "Google Bookmarks" },
 
     // Bookmarks Menu
     "empty": { "message": "empty" },

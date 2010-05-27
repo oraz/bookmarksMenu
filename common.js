@@ -46,6 +46,23 @@ const MESSAGES =
 	RESP_FAILED: 400
 };
 
+function changeBookmarkMode(useGoogleBookmarks)
+{
+	var title, badge;
+	if(useGoogleBookmarks)
+	{
+		title = 'extTitleGoogle';
+		badge = 'G';
+	}
+	else
+	{
+		title = 'extTitle';
+		badge = '';
+	}
+	chrome.browserAction.setTitle({ title: chrome.i18n.getMessage(title) });
+	chrome.browserAction.setBadgeText({ text: badge });
+}
+
 function isBookmarklet(url)
 {
 	return url.substr(0, 11) == 'javascript:';

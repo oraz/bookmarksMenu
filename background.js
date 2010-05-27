@@ -207,10 +207,7 @@ function openUrlsInNewWindow(urls, incognito)
 document.addEventListener("DOMContentLoaded", function()
 {
 	chrome.browserAction.setBadgeBackgroundColor({ color: [ 24, 135, 185, 255 ] });
-	if(isUseGoogleBookmarks())
-	{
-		chrome.browserAction.setBadgeText({ text: "G" });
-	}
+	changeBookmarkMode(isUseGoogleBookmarks());
 	chrome.extension.onConnect.addListener(function(port)
 	{
 		port.onMessage.addListener(onIncomingMessage);

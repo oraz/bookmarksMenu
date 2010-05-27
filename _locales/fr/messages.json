@@ -1,7 +1,8 @@
 {
     // manifest.json
-    "extDescription": { "message": "Montre le menu des favoris de Chrome ou de Google." },
+    "extDescription": { "message": "Montre le menu des favoris de Chrome et de Google." },
     "extTitle": { "message": "Favoris" },
+    "extTitleGoogle": { "message": "Favoris de Google" },
 
     // Bookmarks menu
     "empty": { "message": "vide" },

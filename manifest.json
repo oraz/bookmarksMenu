@@ -1,12 +1,11 @@
 {
     "name": "Bookmarks Menu",
-    "version": "3.0.2.2",
+    "version": "3.0.2.3",
     "description": "__MSG_extDescription__",
     "default_locale": "en",
     "browser_action":
     {
         "default_icon": "icons/icon-24.png",
-        "default_title": "__MSG_extTitle__",
         "popup": "popup.html"
     },
     "icons":
