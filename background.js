@@ -138,24 +138,6 @@ XMLHttpRequest.prototype.processAbort = function()
 	}
 }
 
-function loadGoogleBookmarks(port)
-{
-	GBookmarksTree = null;
-	var xhr = new XMLHttpRequest();
-	xhr.port = port;
-	port.onDisconnect.addListener(function()
-	{
-		// fired when user closes popup window or options window
-		port.disconnected = true;
-		xhr.abort();
-	});
-	xhr.onreadystatechange = xhr.processBookmarks;
-	xhr.onabort = xhr.processAbort;
-	xhr.open("GET", GBookmarkUrl + '?output=rss&num=10000', true);
-	xhr.timeout = setTimeout(function() { xhr.abort(); }, 10 * 1000);
-	xhr.send();
-}
-
 function remove(id)
 {
 	var child = GBookmarksTree.removeBookmark(id);
@@ -168,31 +150,44 @@ function remove(id)
 	}
 }
 
-function onConnect(port)
+function onDisconnect(port)
 {
-	port.onMessage.addListener(function(msg)
+	// fired when user closes popup window or options window
+	port.disconnected = true;
+	port.xhr.abort();
+}
+
+function onIncomingMessage(msg, port)
+{
+	if(msg.msg == 'LoadGBookmarks')
 	{
-		if(msg.msg == 'LoadGBookmarks')
+		if(GBookmarksTree && !msg.reload)
 		{
-			if(GBookmarksTree && !msg.reload)
-			{
-				port.postMessage('TreeIsReady');
-				port.disconnect();
-			}
-			else
-			{
-				loadGoogleBookmarks(port);
-			}
+			port.postMessage('TreeIsReady');
+			port.disconnect();
 		}
-		else if(msg.msg == 'GetTreeStatus')
+		else
 		{
-			port.postMessage(GBookmarksTree ? 'TreeIsReady' : 'NeedToLoad');
-			if(GBookmarksTree)
-			{
-				port.disconnect();
-			}
+			GBookmarksTree = null;
+			var xhr = new XMLHttpRequest();
+			xhr.port = port;
+			port.xhr = xhr;
+			port.onDisconnect.addListener(onDisconnect);
+			xhr.onreadystatechange = xhr.processBookmarks;
+			xhr.onabort = xhr.processAbort;
+			xhr.timeout = setTimeout(function() { xhr.abort(); }, 10 * 1000);
+			xhr.open("GET", GBookmarkUrl + '?output=rss&num=10000', true);
+			xhr.send();
 		}
-	});
+	}
+	else if(msg.msg == 'GetTreeStatus')
+	{
+		port.postMessage(GBookmarksTree ? 'TreeIsReady' : 'NeedToLoad');
+		if(GBookmarksTree)
+		{
+			port.disconnect();
+		}
+	}
 }
 
 function openUrlsInNewWindow(urls, incognito)
@@ -218,7 +213,10 @@ document.addEventListener("DOMContentLoaded", function()
 	{
 		chrome.browserAction.setBadgeText({ text: "G" });
 	}
-	chrome.extension.onConnect.addListener(onConnect);
+	chrome.extension.onConnect.addListener(function(port)
+	{
+		port.onMessage.addListener(onIncomingMessage);
+	});
 });
 
 // vim: noet
