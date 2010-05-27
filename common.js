@@ -36,7 +36,7 @@ chrome.i18n.initAll = function(el)
 	(el ? el : document).querySelectorAll('[i18n]').forEach('chrome.i18n.initElement(node)');
 }
 
-var MESSAGES = 
+const MESSAGES = 
 {
 	REQ_LOAD_BOOKMARKS: 1,
 	REQ_FORCE_LOAD_BOOKMARKS: 2,
