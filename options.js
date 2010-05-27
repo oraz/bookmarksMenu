@@ -71,19 +71,7 @@ function setUseGoogleBookmarks(useGoogleBookmarks)
 		clearGoogleBookmarksDiv();
 		var port = chrome.extension.connect();
 		port.postMessage({ msg: 'GetTreeStatus' });
-		port.onMessage.addListener(function(msg)
-		{
-			if(msg == 'NeedToLoad')
-			{
-				$('loadingError').hide();
-				$('loading').show();
-				port.postMessage({ msg: 'LoadGBookmarks' });
-			}
-			else
-			{
-				processResponse(msg);
-			}
-		});
+		port.onMessage.addListener(processResponse);
 	}
 }
 
@@ -122,11 +110,17 @@ function addBookmark(divSettings, bookmark, useGoogleBookmarks)
 	divSettings.appendChild(div);
 }
 
-function processResponse(response)
+function processResponse(response, port)
 {
-	$('loading').hide();
-	if(response == 'TreeIsReady')
+	if(response == 'NeedToLoad')
 	{
+		$('loadingError').hide();
+		$('loading').show();
+		port.postMessage({ msg: 'LoadGBookmarks' });
+	}
+	else if(response == 'TreeIsReady')
+	{
+		$('loading').hide();
 		var GBookmarksTree = chrome.extension.getBackgroundPage().GBookmarksTree;
 		var googleBookmarksSettings = $('googleBookmarksSettings');
 		GBookmarksTree.children.forEach(function(bookmark)
@@ -136,6 +130,7 @@ function processResponse(response)
 	}
 	else if(response == 'Failed')
 	{
+		$('loading').hide();
 		$('loadingError').show();
 	}
 }
