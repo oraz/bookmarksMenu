@@ -1,6 +1,6 @@
 {
     // manifest.json
-    "extDescription": { "message": "Montre le menu des favoris de Chrome et de Google." },
+    "extDescription": { "message": "Montre le menu des favoris. Fonctionne avec les favoris de Chrome et les favoris de Google." },
     "extTitle": { "message": "Favoris" },
     "extTitleGoogle": { "message": "Favoris de Google" },
 
@@ -78,5 +78,8 @@
     "twActiveBmBgClrFrom": { "message": "de:" },
     "twActiveBmBgClrTo": { "message": "jusqu'à:" },
 
-    "twRestoreDflt": { "message": "Restaurer les valeurs par défaut" }
+    "twRestoreDflt": { "message": "Restaurer les valeurs par défaut" },
+
+    // Background page
+    "needAllowIncognito": { "message": "Il est nécessaire de permettre à 'Bookmarks menu' de s'exécuter en mode de navigation privée! Vous pouvez le faire sur la page des extensions." }
 }
