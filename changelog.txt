@@ -1,6 +1,6 @@
-Changelog 3.0.3 (XX.05.2010)
+Changelog 3.0.3 (28.05.2010)
 - DOMContentLoaded event handler is used to initialyze bookmarks menu
-- Added a few changes in French locale
+- A few changes in French locale
 - Another badge label is used in case of working with Google bookmarks.
 
 Changelog 3.0.2 (26.05.2010)
