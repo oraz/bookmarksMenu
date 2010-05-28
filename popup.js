@@ -1,8 +1,8 @@
 
-var winMaxWidth = getWindowMaxWidth();
-var winMaxHeight = getWindowMaxHeight();
-var showTooltip = isShowTooltip();
-var useGoogleBookmarks = isUseGoogleBookmarks();
+var winMaxWidth;
+var winMaxHeight;
+var showTooltip;
+var useGoogleBookmarks;
 
 function Bookmark(bookmarkNode)
 {
@@ -515,9 +515,13 @@ function processMenu(ev, contextMenu)
 	}
 }
 
-if(useGoogleBookmarks)
+document.addEventListener("DOMContentLoaded", function()
 {
-	document.addEventListener("DOMContentLoaded", function()
+	winMaxWidth = getWindowMaxWidth();
+	winMaxHeight = getWindowMaxHeight();
+	showTooltip = isShowTooltip();
+	useGoogleBookmarks = isUseGoogleBookmarks();
+	if(useGoogleBookmarks)
 	{
 		var loading = $('loading');
 		var port = chrome.extension.connect();
@@ -541,24 +545,12 @@ if(useGoogleBookmarks)
 			}
 		});
 		port.postMessage(MESSAGES.REQ_GET_TREE_STATUS);
-	});
-}
-else
-{
-	chrome.bookmarks.getTree(function(nodes)
+	}
+	else
 	{
-		// waiting for DOM loading
-		if(document.readyState == 'loaded' || document.readyState == 'complete')
-		{
-			initBookmarksMenu(nodes);
-		}
-		else
-		{
-			var f = arguments.callee;
-			setTimeout(function() { f(nodes); }, 5);
-		}
-	});
-}
+		chrome.bookmarks.getTree(initBookmarksMenu);
+	}
+});
 
 function initBookmarksMenu(nodes)
 {
