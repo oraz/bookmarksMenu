@@ -420,10 +420,10 @@ with(HTMLLIElement)
 		} while(!tmp.isRoot);
 		if(width < winMaxWidth && this.treeDepth > 1)
 		{
-			var offset = (winMaxWidth - width) / this.treeDepth;
-			if(offset < this.folderContent.clientWidth)
+			var contentWidth = (winMaxWidth - width) / this.treeDepth;
+			if(contentWidth < this.folderContent.clientWidth)
 			{
-				this.folderContent.style.left = '-' + offset + 'px';
+				this.folderContent.style.width = contentWidth + 'px';
 			}
 		}
 		// vscrollBar width = offsetWidth - clientWidth
@@ -435,7 +435,7 @@ with(HTMLLIElement)
 		else if(width > winMaxWidth)
 		{
 			bodyStyle.width = winMaxWidth + 'px';
-			this.folderContent.style.left = '-' + (this.folderContent.clientWidth - (width - winMaxWidth)) + 'px';
+			this.folderContent.style.width = (this.folderContent.clientWidth - (width - winMaxWidth)) + 'px';
 		}
 	}
 	prototype.reorder = function(beforeSeparator)
