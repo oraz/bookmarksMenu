@@ -6,7 +6,11 @@ cd ..
 rm -f "$folder.zip"
 export ZIPOPT="-D"
 
-zip -r $folder.zip $folder -x \*/.git/\* -x $folder/$(basename $0) -x $folder/_locales/\*/messages.json
+zip -r $folder.zip $folder \
+    -x $folder/.\* \
+    -x $folder/$(basename $0) \
+    -x $folder/_locales/\* \
+    -x $folder/README
 
 # Removing comments from messages.json for each locale
 rm -fr /tmp/$folder
