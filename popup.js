@@ -571,10 +571,7 @@ function initBookmarksMenu(nodes)
 					getColor('activeBmBgClrFrom') + '), to(' + getColor('activeBmBgClrTo') + '));');
 	styleSheet.addRule('#bookmarksMenu span', 'max-width: ' + getMaxWidth() + getMaxWidthMesure() + ';');
 	var scrollBarWidth = getScrollBarWidth();
-	if(scrollBarWidth != '7') // @todo need to remove this check in future
-	{
-		styleSheet.addRule('::-webkit-scrollbar', 'width: ' + scrollBarWidth + 'px;');
-	}
+	styleSheet.addRule('::-webkit-scrollbar', 'width: ' + scrollBarWidth + 'px;');
 
 	var rootFolder = $('bookmarksMenu');
 	rootFolder.isRoot = true;

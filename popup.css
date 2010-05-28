@@ -63,6 +63,7 @@ ul {
     margin: 2ex 0.3em;
     text-align: center;
 }
+
 #transparentLayer {
     display: none;
     background-color: rgba(255,255,255,0.5);
@@ -70,11 +71,10 @@ ul {
     z-index: 1;
 }
 
-
 ::-webkit-scrollbar {
     background-color: #e2dbdb;
     border: 1px solid #ccc;
-    width: 7px;
+    width: 7px; /* will be replaced in initBookmarksMenu */
 }
 
 ::-webkit-scrollbar-thumb:vertical {
