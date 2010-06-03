@@ -18,6 +18,7 @@
     "openAllBookmarksInNewWindow": { "message": "Open All Bookmarks in New Window" },
     "openAllBookmarksInIncognitoWindow": { "message": "Open All Bookmarks in Incognito Window" },
     "reorder": { "message": "Reorder by Title" },
+    "reloadGBookmarks": { "message": "Reload Google Bookmarks" },
     "remove": { "message": "Delete" },
 
     // Options page

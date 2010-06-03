@@ -274,11 +274,8 @@ with(HTMLLIElement)
 		if(!contextMenu.initialized)
 		{
 			chrome.i18n.initAll(contextMenu);
-			if(useGoogleBookmarks)
-			{
-				contextMenu.querySelector('li:nth-of-type(7)').hide(); // separator
-				contextMenu.querySelector('li:nth-of-type(8)').hide(); // reorder
-			}
+			contextMenu.querySelector('li:nth-of-type(' +
+						(useGoogleBookmarks ? 8 : 9) + ')').hide(); // reorder or addGBookmark
 			contextMenu.initialized = true;
 		}
 		contextMenu.selectedBookmark = this;
@@ -292,7 +289,7 @@ with(HTMLLIElement)
 				this.lastChild.numberOfBookmarks > 0 ? 'enabled' : 'disabled';
 		}
 		menuItems[7].className = this.parentElement.childElementCount > 1 ? 'enabled' : 'disabled'; // reorder
-		menuItems[9].className = this.isBookmark || this.isFolder && this.isEmpty ? 'enabled' : 'disabled'; // remove
+		menuItems[10].className = this.isBookmark || this.isFolder && this.isEmpty ? 'enabled' : 'disabled'; // remove
 		contextMenu.show();
 
 		var body = document.body;
@@ -508,11 +505,48 @@ function processMenu(ev, contextMenu)
 		}
 		if(item.getAttribute('class') == 'enabled')
 		{
-			var bookmark = contextMenu.selectedBookmark;
-			bookmark[item.getAttribute('action')].call(bookmark);
-			unSelect();
+			if(item.getAttribute('action') == 'reload')
+			{
+				unSelect();
+				reloadGBookmarks();
+			}
+			else
+			{
+				var bookmark = contextMenu.selectedBookmark;
+				bookmark[item.getAttribute('action')].call(bookmark);
+				unSelect();
+			}
 		}
 	}
+}
+
+function reloadGBookmarks()
+{
+	document.querySelectorAll('#bookmarksMenu > *').forEach('node.parentElement.removeChild(node)');
+	var loading = $('loading');
+//	loading.style.position = 'absolute';
+//	loading.style.zIndex = 1;
+	loading.show();
+	var port = chrome.extension.connect();
+	port.onMessage.addListener(function(response)
+	{
+		if(response == MESSAGES.RESP_TREE_IS_READY)
+		{
+			loading.hide();
+			var rootFolder = $('bookmarksMenu');
+			rootFolder.fillFolderContent(chrome.extension.getBackgroundPage().GBookmarksTree.children);
+			var height = rootFolder.clientHeight + 2;
+			document.body.style.width = rootFolder.clientWidth + 2 +
+					(height < winMaxHeight ? 0 : parseInt(getScrollBarWidth())) + 'px';
+			document.body.setHeight(height);
+		}
+		else
+		{
+			loading.style.color = 'red';
+			loading.innerHTML = chrome.i18n.getMessage('failedRetrieveGBookmakrs');
+		}
+	});
+	port.postMessage(MESSAGES.REQ_FORCE_LOAD_BOOKMARKS);
 }
 
 document.addEventListener("DOMContentLoaded", function()
