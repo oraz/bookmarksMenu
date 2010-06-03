@@ -42,6 +42,12 @@ HTMLBodyElement.prototype.setHeight = function(height)
 		this.style.height = height + 'px';
 	}
 }
+HTMLBodyElement.prototype.pack = function(bookmarksMenu)
+{
+	var height = bookmarksMenu.clientHeight + 2;
+	this.style.width = bookmarksMenu.clientWidth + 2 + (height < winMaxHeight ? 0 : parseInt(getScrollBarWidth())) + 'px';
+	this.setHeight(height);
+};
 
 with(HTMLUListElement)
 {
@@ -549,10 +555,7 @@ function reloadGBookmarks()
 			loading.hide();
 			var rootFolder = $('bookmarksMenu');
 			rootFolder.fillFolderContent(chrome.extension.getBackgroundPage().GBookmarksTree.children);
-			var height = rootFolder.clientHeight + 2;
-			body.style.width = rootFolder.clientWidth + 2 +
-					(height < winMaxHeight ? 0 : parseInt(getScrollBarWidth())) + 'px';
-			body.setHeight(height);
+			body.pack(rootFolder);
 		}
 		else
 		{
@@ -569,6 +572,23 @@ document.addEventListener("DOMContentLoaded", function()
 	winMaxHeight = getWindowMaxHeight();
 	showTooltip = isShowTooltip();
 	useGoogleBookmarks = isUseGoogleBookmarks();
+
+	var styleSheet = document.styleSheets[0];
+	var favIconWidth = getFavIconWidth();
+	styleSheet.addRule('body', 'background-color: ' + getColor('bodyClr') + ';');
+	styleSheet.addRule('img', 'width: ' + favIconWidth + 'px; height: ' + favIconWidth + 'px;');
+	styleSheet.addRule('span, #loading', 'font: ' + getFontSize() + 'px "' + getFontFamily() + '";' +
+			'color: ' + getColor('fntClr') + ';');
+	styleSheet.addRule('ul', 'background-color: ' + getColor('bmBgClr') + ';');
+
+	styleSheet.addRule('.empty, .disabled', 'color:' + getColor('disabledItemFntClr') + ';');
+	styleSheet.addRule('li[type]:hover > span, .enabled:hover, .hover > span',
+			'color:' + getColor('activeBmFntClr') + ';' +
+			'background-image: -webkit-gradient(linear, left top, left bottom, from(' +
+					getColor('activeBmBgClrFrom') + '), to(' + getColor('activeBmBgClrTo') + '));');
+	styleSheet.addRule('#bookmarksMenu span', 'max-width: ' + getMaxWidth() + getMaxWidthMesure() + ';');
+	styleSheet.addRule('::-webkit-scrollbar', 'width: ' + getScrollBarWidth() + 'px;');
+
 	if(useGoogleBookmarks)
 	{
 		var loading = $('loading');
@@ -602,25 +622,6 @@ document.addEventListener("DOMContentLoaded", function()
 
 function initBookmarksMenu(nodes)
 {
-	var bodyStyle = document.body.style;
-	bodyStyle.fontFamily = '"' + getFontFamily() + '"';
-	bodyStyle.fontSize = getFontSize() + 'px';
-	bodyStyle.backgroundColor = getColor('bodyClr');
-	bodyStyle.color = getColor('fntClr');
-	var styleSheet = document.styleSheets[0];
-	var favIconWidth = getFavIconWidth();
-	styleSheet.addRule('img', 'width: ' + favIconWidth + 'px; height: ' + favIconWidth + 'px;');
-	styleSheet.addRule('ul', 'background-color: ' + getColor('bmBgClr') + ';');
-
-	styleSheet.addRule('.empty, .disabled', 'color:' + getColor('disabledItemFntClr') + ';');
-	styleSheet.addRule('li[type]:hover > span, .enabled:hover, .hover > span',
-			'color:' + getColor('activeBmFntClr') + ';' +
-			'background-image: -webkit-gradient(linear, left top, left bottom, from(' +
-					getColor('activeBmBgClrFrom') + '), to(' + getColor('activeBmBgClrTo') + '));');
-	styleSheet.addRule('#bookmarksMenu span', 'max-width: ' + getMaxWidth() + getMaxWidthMesure() + ';');
-	var scrollBarWidth = getScrollBarWidth();
-	styleSheet.addRule('::-webkit-scrollbar', 'width: ' + scrollBarWidth + 'px;');
-
 	var rootFolder = $('bookmarksMenu');
 	rootFolder.isRoot = true;
 
@@ -645,10 +646,7 @@ function initBookmarksMenu(nodes)
 			separator.hide();
 		}
 	}
-
-	var height = rootFolder.clientHeight + 2;
-	bodyStyle.width = rootFolder.clientWidth + 2 + (height < winMaxHeight ? 0 : parseInt(scrollBarWidth)) + 'px';
-	document.body.setHeight(height);
+	document.body.pack(rootFolder);
 
 	delete rootFolder.hasVisibleBookmarks;
 	rootFolder.onmouseup = function(ev)
@@ -723,7 +721,7 @@ function initBookmarksMenu(nodes)
 	var favIcon = rootFolder.querySelector('li[type] img');
 	var iconMarginRight = window.getComputedStyle(favIcon).marginRight; // contains '3px'
 	var textPaddingLeft = favIcon.offsetLeft + favIcon.scrollWidth + parseInt(iconMarginRight);
-	styleSheet.addRule('.noicon', 'padding-left:' + textPaddingLeft + 'px;');
+	document.styleSheets[0].addRule('.noicon', 'padding-left:' + textPaddingLeft + 'px;');
 }
 
 // vim:noet
