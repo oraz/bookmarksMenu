@@ -19,6 +19,7 @@
     "openAllBookmarksInNewWindow": { "message": "Ouvrir tous les favoris dans une nouvelle fenêtre" },
     "openAllBookmarksInIncognitoWindow": { "message": "Ouvrir tous les favoris dans une fenêtre de navigation privée" },
     "reorder": { "message": "Trier par nom" },
+    "reloadGBookmarks": { "message": "Recharger les favoris de Google" },
     "remove": { "message": "Supprimer" },
 
     // Options page

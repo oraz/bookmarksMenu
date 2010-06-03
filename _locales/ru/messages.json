@@ -18,6 +18,7 @@
     "openAllBookmarksInNewWindow": { "message": "Открыть все закладки в новом окне" },
     "openAllBookmarksInIncognitoWindow": { "message": "Открыть все закладки в режиме инкогнито" },
     "reorder": { "message": "Упорядочить по заголовкам" },
+    "reloadGBookmarks": { "message": "Перезагрузить закладки Google" },
     "remove": { "message": "Удалить" },
 
     // Options page
