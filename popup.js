@@ -524,9 +524,23 @@ function reloadGBookmarks()
 {
 	document.querySelectorAll('#bookmarksMenu > *').forEach('node.parentElement.removeChild(node)');
 	var loading = $('loading');
-//	loading.style.position = 'absolute';
-//	loading.style.zIndex = 1;
+	if(loading.hasAttribute('i18n'))
+	{
+		chrome.i18n.initElement(loading);
+	}
+	loading.style.position = 'fixed';
 	loading.show();
+	var body = document.body;
+	var loadingWidth = loading.clientWidth, bodyWidth = body.clientWidth;
+	if(bodyWidth <= loadingWidth + 10)
+	{
+		loading.style.left = '0px';
+		body.style.width = loadingWidth + 10 + 'px';
+	}
+	else
+	{
+		loading.style.left = bodyWidth / 2 - loadingWidth / 2 + 'px';
+	}
 	var port = chrome.extension.connect();
 	port.onMessage.addListener(function(response)
 	{
@@ -536,9 +550,9 @@ function reloadGBookmarks()
 			var rootFolder = $('bookmarksMenu');
 			rootFolder.fillFolderContent(chrome.extension.getBackgroundPage().GBookmarksTree.children);
 			var height = rootFolder.clientHeight + 2;
-			document.body.style.width = rootFolder.clientWidth + 2 +
+			body.style.width = rootFolder.clientWidth + 2 +
 					(height < winMaxHeight ? 0 : parseInt(getScrollBarWidth())) + 'px';
-			document.body.setHeight(height);
+			body.setHeight(height);
 		}
 		else
 		{
