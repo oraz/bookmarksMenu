@@ -42,10 +42,12 @@ HTMLBodyElement.prototype.setHeight = function(height)
 		this.style.height = height + 'px';
 	}
 }
+
 HTMLBodyElement.prototype.pack = function(bookmarksMenu)
 {
 	var height = bookmarksMenu.clientHeight + 2;
-	this.style.width = bookmarksMenu.clientWidth + 2 + (height < winMaxHeight ? 0 : parseInt(getScrollBarWidth())) + 'px';
+	this.style.width = bookmarksMenu.clientWidth + 2 +
+		(height < winMaxHeight ? 0 : parseInt(getScrollBarWidth())) + 'px';
 	this.setHeight(height);
 };
 
@@ -581,7 +583,7 @@ document.addEventListener("DOMContentLoaded", function()
 			'color: ' + getColor('fntClr') + ';');
 	styleSheet.addRule('ul', 'background-color: ' + getColor('bmBgClr') + ';');
 
-	styleSheet.addRule('.empty, .disabled', 'color:' + getColor('disabledItemFntClr') + ';');
+	styleSheet.addRule('.empty, .disabled > span', 'color:' + getColor('disabledItemFntClr') + ';');
 	styleSheet.addRule('li[type]:hover > span, .enabled:hover, .hover > span',
 			'color:' + getColor('activeBmFntClr') + ';' +
 			'background-image: -webkit-gradient(linear, left top, left bottom, from(' +
