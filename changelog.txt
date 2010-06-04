@@ -1,5 +1,5 @@
-Changelog 3.1.0 (XX.06.2010)
-- Added context menu item 'Reload Google Bookmarks'. Menu item icon is from
+Changelog 3.1.0 (04.06.2010)
+- Added context menu item 'Reload Google Bookmarks'. Used icon from
 Debian package tango-icon-theme.
 
 Changelog 3.0.4 (01.06.2010)
