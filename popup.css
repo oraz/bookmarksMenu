@@ -56,6 +56,14 @@ ul {
 #contextMenu[for="bookmark"] > li[for="folder"],
 #contextMenu[for="folder"] > li[for="bookmark"] { display: none; }
 
+#gwindow {
+    border: 1px solid gray;
+    border-radius: 3px;
+    display: none;
+    position: fixed;
+    z-index: 2;
+}
+
 #loading {
     display: none;
     margin: 2ex 0.3em;

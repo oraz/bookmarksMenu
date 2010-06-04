@@ -282,8 +282,15 @@ with(HTMLLIElement)
 		if(!contextMenu.initialized)
 		{
 			chrome.i18n.initAll(contextMenu);
-			contextMenu.querySelector('li:nth-of-type(' +
-						(useGoogleBookmarks ? 8 : 9) + ')').hide(); // reorder or addGBookmark
+			if(useGoogleBookmarks)
+			{
+				contextMenu.querySelector('li:nth-of-type(8)').hide(); // reorder
+			}
+			else
+			{
+				// hide reload and addGBookmark
+				contextMenu.querySelectorAll('li:nth-of-type(9), li:nth-of-type(10)').forEach('node.hide()');
+			}
 			contextMenu.initialized = true;
 		}
 		contextMenu.selectedBookmark = this;
@@ -297,7 +304,7 @@ with(HTMLLIElement)
 				this.lastChild.numberOfBookmarks > 0 ? 'enabled' : 'disabled';
 		}
 		menuItems[7].className = this.parentElement.childElementCount > 1 ? 'enabled' : 'disabled'; // reorder
-		menuItems[10].className = this.isBookmark || this.isFolder && this.isEmpty ? 'enabled' : 'disabled'; // remove
+		menuItems[11].className = this.isBookmark || this.isFolder && this.isEmpty ? 'enabled' : 'disabled'; // remove
 		contextMenu.show();
 
 		var body = document.body;
@@ -500,6 +507,7 @@ function unSelect()
 	contextMenu.selectedBookmark.unHighlight();
 	contextMenu.hide();
 	$('transparentLayer').hide();
+	$('gwindow').hide();
 }
 
 function processMenu(ev, contextMenu)
@@ -513,19 +521,71 @@ function processMenu(ev, contextMenu)
 		}
 		if(item.getAttribute('class') == 'enabled')
 		{
-			if(item.getAttribute('action') == 'reload')
+			var action = item.getAttribute('action');
+			if(action == 'reload')
 			{
 				unSelect();
 				reloadGBookmarks();
 			}
+			else if(action == 'addGBookmark')
+			{
+				unSelect();
+				showGoogleBookmarkDialog();
+			}
 			else
 			{
 				var bookmark = contextMenu.selectedBookmark;
-				bookmark[item.getAttribute('action')].call(bookmark);
+				bookmark[action].call(bookmark);
 				unSelect();
 			}
 		}
 	}
+}
+
+function showGoogleBookmarkDialog()
+{
+	chrome.tabs.getSelected(null, function(tab)
+	{
+		$('gbTitle').value = tab.title;
+		$('gbURL').value = tab.url;
+	});
+	$('transparentLayer').show();
+	var win = $('gwindow');
+	win.show();
+	var body = document.body;
+	var winWidth = win.clientWidth, bodyWidth = body.clientWidth;
+	if(bodyWidth <= winWidth + 10)
+	{
+		win.style.left = '3px';
+		body.style.width = winWidth + 10 + 'px';
+	}
+	else
+	{
+		win.style.left = bodyWidth / 2 - winWidth / 2 + 'px';
+	}
+	var winHeight = win.clientHeight, bodyHeight = body.clientHeight;
+	if(bodyHeight <= winHeight + 10)
+	{
+		win.style.top = '3px';
+		body.style.height = winHeight + 10 + 'px';
+	}
+	else
+	{
+		win.style.top = bodyHeight / 2 - winHeight / 2 + 'px';
+	}
+	win.querySelector('#gbLabel').focus();
+}
+
+function addGoogleBookmark()
+{
+	unSelect();
+	var port = chrome.extension.connect();
+	port.postMessage({
+		msg: MESSAGES.REQ_ADD_GOOGLE_BOOKMARK,
+		title: $('gbTitle').value,
+		url: $('gbURL').value,
+		label: $('gbLabel').value
+	});
 }
 
 function reloadGBookmarks()

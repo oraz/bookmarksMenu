@@ -18,10 +18,31 @@
             <li class="separator"></li>
             <li action="reorder"><span i18n="reorder"><img src="icons/reorder.png"></span></li>
             <li action="reload" class="enabled"><span i18n="reloadGBookmarks"><img src="icons/refresh.png"></span></li>
+            <li action="addGBookmark" class="enabled"><span class="noicon">Add Bookmark</span></li>
             <li class="separator"></li>
             <li action="remove"><span i18n="remove"><img src="icons/icon_delete.png"></span></li>
         </ul>
         <ul id="bookmarksMenu"></ul>
         <div id="loading" i18n="loadingIndicator"></div>
+        <table id="gwindow">
+            <tr>
+                <td align="right"><label for="gbTitle">Title: </label></td>
+                <td><input type="text" id="gbTitle" /></td>
+            </tr>
+            <tr>
+                <td align="right"><label for="gbURL">URL: </label></td>
+                <td><input type="text" id="gbURL" /></td>
+            </tr>
+            <tr>
+                <td align="right"><label for="gbLabel">Label: </label></td>
+                <td><input type="text" id="gbLabel" /></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <button onclick="addGoogleBookmark()">Add</button>
+                    <button onclick="unSelect()">Cancel</button>
+                </td>
+            </tr>
+        </table>
     </body>
 </html>

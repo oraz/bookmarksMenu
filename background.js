@@ -159,7 +159,6 @@ function onDisconnect(port)
 
 function onIncomingMessage(req, port)
 {
-	console.log(port);
 	if(req == MESSAGES.REQ_LOAD_BOOKMARKS && GBookmarksTree)
 	{
 		port.postMessage(MESSAGES.RESP_TREE_IS_READY);
@@ -185,6 +184,16 @@ function onIncomingMessage(req, port)
 		{
 			port.disconnect();
 		}
+	}
+	else if(req.msg == MESSAGES.REQ_ADD_GOOGLE_BOOKMARK)
+	{
+		var xhr = new XMLHttpRequest();
+		xhr.open('POST', GBookmarkUrl + 'mark', true);
+		xhr.send('bkmk=' + encodeURIComponent(req.url) +
+				'&title=' + encodeURIComponent(req.title) +
+				'&labels=' + encodeURIComponent(req.label) +
+				'&sig=' + encodeURIComponent(GBookmarksTree.signature));
+		port.disconnect();
 	}
 }
 
