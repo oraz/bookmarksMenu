@@ -639,9 +639,9 @@ document.addEventListener("DOMContentLoaded", function()
 	var favIconWidth = getFavIconWidth();
 	styleSheet.addRule('body', 'background-color: ' + getColor('bodyClr') + ';');
 	styleSheet.addRule('img', 'width: ' + favIconWidth + 'px; height: ' + favIconWidth + 'px;');
-	styleSheet.addRule('span, #loading', 'font: ' + getFontSize() + 'px "' + getFontFamily() + '";' +
+	styleSheet.addRule('label, span, #loading', 'font: ' + getFontSize() + 'px "' + getFontFamily() + '";' +
 			'color: ' + getColor('fntClr') + ';');
-	styleSheet.addRule('ul', 'background-color: ' + getColor('bmBgClr') + ';');
+	styleSheet.addRule('ul, #gwindow', 'background-color: ' + getColor('bmBgClr') + ';');
 
 	styleSheet.addRule('.empty, .disabled > span', 'color:' + getColor('disabledItemFntClr') + ';');
 	styleSheet.addRule('li[type]:hover > span, .enabled:hover > span, .hover > span',
