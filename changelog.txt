@@ -1,3 +1,8 @@
+Changelog 3.1.1 (05.06.2010)
+- Removed unnecessary logging from background page.
+- Set text color for hovered menu items correctly.
+- POST method is used in procedure of removing Google Bookmark
+
 Changelog 3.1.0 (04.06.2010)
 - Added context menu item 'Reload Google Bookmarks'. Used icon from
 Debian package tango-icon-theme.
