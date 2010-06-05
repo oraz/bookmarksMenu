@@ -141,12 +141,11 @@ XMLHttpRequest.prototype.processAbort = function()
 function remove(id)
 {
 	var child = GBookmarksTree.removeBookmark(id);
-	if(child && child.url) // it's bookmark
+	if(child)
 	{
 		var xhr = new XMLHttpRequest();
-		xhr.open("GET", GBookmarkUrl + 'mark?dlq=' + encodeURIComponent(id) +
-				'&sig=' + encodeURIComponent(GBookmarksTree.signature), true);
-		xhr.send();
+		xhr.open('POST', GBookmarkUrl + 'mark', true);
+		xhr.send('dlq=' + encodeURIComponent(id) + '&sig=' + encodeURIComponent(GBookmarksTree.signature));
 	}
 }
 

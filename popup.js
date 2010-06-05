@@ -644,7 +644,7 @@ document.addEventListener("DOMContentLoaded", function()
 	styleSheet.addRule('ul', 'background-color: ' + getColor('bmBgClr') + ';');
 
 	styleSheet.addRule('.empty, .disabled > span', 'color:' + getColor('disabledItemFntClr') + ';');
-	styleSheet.addRule('li[type]:hover > span, .enabled:hover, .hover > span',
+	styleSheet.addRule('li[type]:hover > span, .enabled:hover > span, .hover > span',
 			'color:' + getColor('activeBmFntClr') + ';' +
 			'background-image: -webkit-gradient(linear, left top, left bottom, from(' +
 					getColor('activeBmBgClrFrom') + '), to(' + getColor('activeBmBgClrTo') + '));');
