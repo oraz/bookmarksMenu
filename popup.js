@@ -542,6 +542,51 @@ function processMenu(ev, contextMenu)
 	}
 }
 
+function suggestLabel(label)
+{
+	var suggestDiv = $('suggest');
+	if(label.value == '')
+	{
+		suggestDiv.hide();
+		return;
+	}
+	var mustBeShown = false;
+	suggestDiv.querySelectorAll('div > div').forEach(function(node)
+	{
+		if(node.textContent.toLocaleLowerCase().indexOf(label.value.toLocaleLowerCase()) == 0)
+		{
+			mustBeShown = true;
+			node.show();
+		}
+		else
+		{
+			node.hide();
+		}
+	});
+	if(mustBeShown)
+	{
+		suggestDiv.show();
+	}
+	else
+	{
+		suggestDiv.hide();
+	}
+}
+
+function onSuggestMouseOver(div)
+{
+	if(div.className == 'currentSuggest')
+	{
+		return;
+	}
+	var currentSuggest = div.parentElement.querySelector('.currentSuggest');
+	if(currentSuggest)
+	{
+		currentSuggest.removeAttribute('class');
+	}
+	div.className = 'currentSuggest';
+}
+
 function showGoogleBookmarkDialog()
 {
 	chrome.tabs.getSelected(null, function(tab)
@@ -573,7 +618,27 @@ function showGoogleBookmarkDialog()
 	{
 		win.style.top = bodyHeight / 2 - winHeight / 2 + 'px';
 	}
-	win.querySelector('#gbLabel').focus();
+	var gbLabel = win.querySelector('#gbLabel');
+	gbLabel.value = '';
+	gbLabel.focus();
+	var suggest = win.querySelector('#suggest');
+	suggest.style.width = suggest.style.maxWidth = gbLabel.clientWidth + 'px';
+	suggest.hide();
+	var folderNames = new Array();
+	var labels = chrome.extension.getBackgroundPage().GBookmarksTree.labels;
+	labels.sort();
+	var suggestDiv = $('suggest');
+	suggestDiv.querySelectorAll('div > *').forEach('node.parentElement.removeChild(node)');
+	var gbLabelStyles = window.getComputedStyle(gbLabel);
+	suggestDiv.style.marginLeft = parseInt(gbLabelStyles.marginLeft) + parseInt(gbLabelStyles.borderLeftWidth) - 1 + 'px';
+	for(var idx = 0, len = labels.length; idx < len; idx++)
+	{
+		var div = document.createElement('div');
+		div.appendChild(document.createTextNode(labels[idx]));
+		div.setAttribute('onmouseover', 'onSuggestMouseOver(this)');
+//		div.onmouseover = onSuggestMouseOver;
+		suggestDiv.appendChild(div);
+	}
 }
 
 function addGoogleBookmark()

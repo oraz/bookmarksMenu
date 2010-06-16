@@ -11,6 +11,11 @@ function GBookmarkFolder(names, parentFolder)
 		this.title = names.shift();
 		this.id = !parentFolder.isRoot ? parentFolder.id + GBookmarksTree.labelSeparator + this.title : this.title;
 		parentFolder.addChild(this);
+		if(!GBookmarksTree.labels)
+		{
+			GBookmarksTree.labels = new Array();
+		}
+		GBookmarksTree.labels.push(this.id);
 	}
 	else
 	{

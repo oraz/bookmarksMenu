@@ -70,6 +70,20 @@ ul {
     text-align: center;
 }
 
+#suggest {
+    background-color: white;
+    border: 1px solid gray;
+    cursor: default;
+    display: none;
+    position: fixed;
+    z-index: 2;
+    overflow: auto;
+}
+
+#suggest > div.currentSuggest {
+    background-color: #e2dbdb;
+}
+
 #transparentLayer {
     display: none;
     background-color: rgba(255,255,255,0.5);

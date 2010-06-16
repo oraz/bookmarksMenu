@@ -35,7 +35,10 @@
             </tr>
             <tr>
                 <td align="right"><label for="gbLabel">Label: </label></td>
-                <td><input type="text" id="gbLabel" /></td>
+                <td>
+                    <input type="text" id="gbLabel" oninput="suggestLabel(this)"/>
+                    <div id="suggest"/>
+                </td>
             </tr>
             <tr>
                 <td colspan="2">
