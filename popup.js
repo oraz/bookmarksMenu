@@ -296,7 +296,7 @@ with(HTMLLIElement)
 				menuItems[5].className = // openAllInIncognitoWindow
 				this.lastChild.numberOfBookmarks > 0 ? 'enabled' : 'disabled';
 		}
-		menuItems[7].className = this.parentElement.childElementCount > 1 ? 'enabled' : 'disabled'; // reorder
+		menuItems[7].className = this.parentElement.childElementCount > 1 && this.id.indexOf('r') == -1 ? 'enabled' : 'disabled'; // reorder
 		menuItems[10].className = this.isBookmark || this.isFolder && this.isEmpty ? 'enabled' : 'disabled'; // remove
 		contextMenu.show();
 
@@ -350,7 +350,56 @@ with(HTMLLIElement)
 	{
 		if(!useGoogleBookmarks)
 		{
-			chrome.bookmarks.remove(this.id);
+			if(this.id.indexOf('r') == 0)
+			{
+				// it's bookmark from 'Recent Added' folder
+				if(!this.targetAllReadyDeleted)
+				{
+					var bookmark = $(this.id.substr(1));
+					if(!bookmark)
+					{
+						var allFolders = this.rootFolder.querySelectorAll('#bookmarksMenu>li[type="folder"]');
+						for(var idx = allFolders.length - 1; idx >= 0; idx--)
+						{
+							var folder = allFolders[idx];
+							if(folder.childBookmarks != undefined)
+							{
+								folder.fillFolder();
+								bookmark = folder.querySelector('li[id="' + folder.id + '"] li[id="' + this.id.substr(1) + '"]');
+								if(bookmark)
+								{
+									break;
+								}
+							}
+						}
+					}
+					bookmark.recentAllReadyDeleted = true;
+					bookmark.remove();
+				}
+				// Now need to update recently added bookmarks
+				chrome.bookmarks.getRecent(10, function(recentBookmarks)
+				{
+					var folder = $('RecentlyAdded');
+					folder.removeChild(folder.lastChild);
+					recentBookmarks.forEach(function(el)
+					{
+						el.id = 'r' + el.id;
+					});
+					folder.childBookmarks = recentBookmarks;
+					folder.fillFolder();
+				});
+				return;
+			}
+			else
+			{   
+				//chrome.bookmarks.remove(this.id);    
+				var recentBookmark = $('r' + this.id);
+				if(!this.recentAllReadyDeleted && recentBookmark)
+				{
+					recentBookmark.targetAllReadyDeleted = true;
+					recentBookmark.remove();
+				}
+			}
 		}
 		else
 		{
@@ -618,11 +667,17 @@ document.addEventListener("DOMContentLoaded", function()
 	}
 	else
 	{
-		chrome.bookmarks.getTree(initBookmarksMenu);
+		chrome.bookmarks.getRecent(10, function(recentBookmarks)
+		{
+			chrome.bookmarks.getTree(function(nodes)
+			{
+				initBookmarksMenu(nodes, recentBookmarks);
+			});
+		});
 	}
 });
 
-function initBookmarksMenu(nodes)
+function initBookmarksMenu(nodes, recentBookmarks)
 {
 	var rootFolder = $('bookmarksMenu');
 	rootFolder.isRoot = true;
@@ -641,6 +696,17 @@ function initBookmarksMenu(nodes)
 		{
 			separator.hide();
 		}
+		if(recentBookmarks.length > 0)
+		{
+			recentBookmarks.forEach(function(el)
+			{
+				el.id = 'r' + el.id;
+			});
+			rootFolder.fillFolderContent([{ id: 'RecentlyAdded', title: 'Recently Added Bookmarks', children: recentBookmarks }]);
+			rootFolder.addSeparator();
+			separator = rootFolder.lastChild;
+		}
+		
 		rootFolder.hasVisibleBookmarks = false;
 		rootFolder.fillFolderContent(nodesChildren[1].children);
 		if(!rootFolder.hasVisibleBookmarks)
