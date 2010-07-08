@@ -36,7 +36,7 @@
             <tr>
                 <td align="right"><label for="gbLabel">Label: </label></td>
                 <td>
-                    <input type="text" id="gbLabel" oninput="suggestLabel(this)"/>
+                    <input type="text" id="gbLabel" oninput="suggestLabel(this)" onkeyup="selectSuggestion(this)"/>
                     <div id="suggest"/>
                 </td>
             </tr>

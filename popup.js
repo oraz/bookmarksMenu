@@ -587,6 +587,15 @@ function onSuggestMouseOver(div)
 	div.className = 'currentSuggest';
 }
 
+function selectSuggestion(label)
+{
+	var suggestDiv = $('suggest');
+	if(suggestDiv.style.display == 'block')
+	{
+
+	}
+}
+
 function showGoogleBookmarkDialog()
 {
 	chrome.tabs.getSelected(null, function(tab)
