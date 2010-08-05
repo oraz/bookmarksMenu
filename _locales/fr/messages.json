@@ -10,6 +10,8 @@
         "message": "Tout ouvrir dans des onglets",
         "commentaire": "traduction de Firefox"
     },
+    "loadingIndicator": { "message": "Chargement..." },
+    "failedRetrieveGBookmakrs": { "message": "N'a pas arriver à télécharger les favoris de Google" },
 
     // Context menu
     "openInNewTab": { "message": "Ouvrir dans un nouvel onglet" },
@@ -37,7 +39,7 @@
     "tmMiddleBtn": { "message": "Buoton moyen" },
     "tmRightBtn": { "message": "Buoton droit" },
     "tmOpenInCurTab": { "message": "Ouvrir dans l'onglet courant" },
-    "tmOpenInNewTab": { "message": "Ouvrir dans une nouvelle fenêtre" },
+    "tmOpenInNewTab": { "message": "Ouvrir dans un nouvel onglet" },
     "tmShowContextMenu": { "message": "Montrer menu contextuel" },
     "tmSwitchToNewTab": {
         "message": "Lors de l'ouverture d'un lien dans un nouvel onglet, basculer vers celui-ci immédiatement",
