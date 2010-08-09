@@ -3,6 +3,7 @@ var winMaxWidth;
 var winMaxHeight;
 var showTooltip;
 var useGoogleBookmarks;
+var faviconService;
 
 function Bookmark(bookmarkNode)
 {
@@ -10,7 +11,7 @@ function Bookmark(bookmarkNode)
 	bookmark.id = bookmarkNode.id;
 	var span = document.createElement('span');
 	var favicon = document.createElement('img');
-	favicon.src = getFavicon(bookmarkNode.url);
+	favicon.src = getFavicon(bookmarkNode.url, faviconService);
 	span.appendChild(favicon);
 	span.appendChild(document.createTextNode(bookmarkNode.title));
 	bookmark.appendChild(span);
@@ -708,6 +709,7 @@ document.addEventListener("DOMContentLoaded", function()
 	winMaxHeight = getWindowMaxHeight();
 	showTooltip = isShowTooltip();
 	useGoogleBookmarks = isUseGoogleBookmarks();
+	faviconService = useGoogleBookmarks ? getFaviconServiceForGoogle() : getFaviconServiceForChrome();
 
 	var styleSheet = document.styleSheets[0];
 	var favIconWidth = getFavIconWidth();

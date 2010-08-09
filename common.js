@@ -69,13 +69,13 @@ function isBookmarklet(url)
 	return url.substr(0, 11) == 'javascript:';
 }
 
-function getFavicon(url)
+function getFavicon(url, serviceId)
 {
 	return url == undefined ? 'icons/folder.png'
 		: isBookmarklet(url) ? 'icons/js.png'
 		: url.substr(0, 5) == 'file:' ? 'icons/html.png'
+		: serviceId == 2 ? 'http://getfavicon.appspot.com/' + url
 		: 'chrome://favicon/' + url;
-//		: 'http://getfavicon.appspot.com/' + url;
 }
 
 // vim:noet

@@ -31,12 +31,12 @@ function setBoolProperty(property, value)
 
 function setFontFamily(fontFamily)
 {
-	localStorage['fontFamily'] = fontFamily.options[fontFamily.selectedIndex].value;
+	localStorage['fontFamily'] = fontFamily.value;
 }
 
 function setMenuMaxWidthMesure(maxWidthMesure)
 {
-	localStorage['maxWidthMesure'] = maxWidthMesure.options[maxWidthMesure.selectedIndex].value;
+	localStorage['maxWidthMesure'] = maxWidthMesure.value;
 }
 
 function setBookmarkHidden(title, useGoogleBookmarks, hidden)
@@ -103,7 +103,7 @@ function addBookmark(divSettings, bookmark, useGoogleBookmarks)
 
 	var img = document.createElement('img');
 	img.setAttribute('class', 'favicon');
-	img.setAttribute('src', getFavicon(bookmark.url));
+	img.setAttribute('src', getFavicon(bookmark.url, useGoogleBookmarks ? getFaviconServiceForGoogle() : getFaviconServiceForChrome()));
 	label.appendChild(img);
 	label.appendChild(document.createTextNode(bookmark.title));
 	div.appendChild(label);
@@ -175,6 +175,11 @@ function showTab(span)
 	$(currentTab.getAttribute('for')).show();
 }
 
+function setFaviconService(obj)
+{
+	localStorage[obj.id] = obj.value;
+}
+
 function resetWindowSettings()
 {
 	with(localStorage)
@@ -223,6 +228,8 @@ document.addEventListener("DOMContentLoaded", function()
 	$(useGoogleBookmarks ? 'useGoogleBookmarks' : 'useChromeBookmarks').checked = true;
 	setUseGoogleBookmarks(useGoogleBookmarks);
 	$('labelSeparator').value = getLabelSeparator();
+	$('chbFaviconService').selectByValue(getFaviconServiceForChrome());
+	$('gbFaviconService').selectByValue(getFaviconServiceForGoogle());
 	chrome.bookmarks.getTree(function(nodes)
 	{
 		var chromeBookmarksSettings = $('chromeBookmarksSettings');

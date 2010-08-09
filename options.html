@@ -68,11 +68,25 @@
 						<label for="labelSeparator" i18n="tbLabelSeparator"></label>
 						<input type="text" maxlength="1" id="labelSeparator" oninput="setLabelSeparator(this)"/>
 					</div>
+					<div class="header" style="padding-bottom: 0;">
+						<label for="gbFaviconService" i18n="tbSelectFaviconService"></label>
+						<select size="1" id="gbFaviconService" onchange="setFaviconService(this)">
+							<option value="1">chrome://favicon/</option>
+							<option value="2">http://getfavicon.appspot.com/</option>
+						</select>
+					</div>
 					<div class="header" i18n="tbSelectBookmarks"></div>
 					<div id="loading" i18n="loadingIndicator"></div>
 					<div id="loadingError" i18n="failedRetrieveGBookmakrs"></div>
 				</div>
 				<div id="chromeBookmarksSettings">
+					<div class="header" style="padding-bottom: 0;">
+						<label for="chbFaviconService" i18n="tbSelectFaviconService"></label>
+						<select size="1" id="chbFaviconService" onchange="setFaviconService(this)">
+							<option value="1">chrome://favicon/</option>
+							<option value="2">http://getfavicon.appspot.com/</option>
+						</select>
+					</div>
 					<div class="header" i18n="tbSelectBookmarks"></div>
 				</div>
 			</div>
