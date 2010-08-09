@@ -31,12 +31,12 @@ function setBoolProperty(property, value)
 
 function setFontFamily(fontFamily)
 {
-	localStorage['fontFamily'] = fontFamily.options[fontFamily.selectedIndex].value;
+	localStorage['fontFamily'] = fontFamily.value;
 }
 
 function setMenuMaxWidthMesure(maxWidthMesure)
 {
-	localStorage['maxWidthMesure'] = maxWidthMesure.options[maxWidthMesure.selectedIndex].value;
+	localStorage['maxWidthMesure'] = maxWidthMesure.value;
 }
 
 function setBookmarkHidden(title, useGoogleBookmarks, hidden)
