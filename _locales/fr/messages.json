@@ -50,6 +50,7 @@
     "tbUseChrome": { "message": "Utiliser les favoris de Chrome" },
     "tbUseGoogle": { "message": "Utiliser les favoris de Google" },
     "tbLabelSeparator": { "message": "Séparateur des libellés:" },
+    "tbSelectFaviconService": { "message": "Sélectez un service pour recevoir des favicône:" },
     "tbSelectBookmarks": { "message": "Sélectez les favoris pour montrer" },
 
     // UI Settings tab
