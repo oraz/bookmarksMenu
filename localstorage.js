@@ -90,4 +90,16 @@ function getLabelSeparator()
 	return labelSeparator ? labelSeparator : '>';
 }
 
+function getFaviconServiceForChrome()
+{
+	var service = localStorage['chbFaviconService'];
+	return service == undefined ? 1 : service;
+}
+
+function getFaviconServiceForGoogle()
+{
+	var service = localStorage['gbFaviconService'];
+	return service == undefined ? 2 : service;
+}
+
 // vim:noet ts=4 sw=4
