@@ -434,7 +434,7 @@ with(HTMLLIElement)
 		}
 		// vscrollBar width = offsetWidth - clientWidth
 		width += this.folderContent.clientWidth + 2 + (body.offsetWidth - body.clientWidth);
-		if(width < winMaxWidth && body.clientWidth < width)
+		if(width <= winMaxWidth && body.clientWidth < width)
 		{
 			bodyStyle.width = width + 'px';
 		}
