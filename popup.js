@@ -2,6 +2,7 @@
 var winMaxWidth;
 var winMaxHeight;
 var showTooltip;
+var showURL;
 var useGoogleBookmarks;
 var faviconService;
 
@@ -142,12 +143,16 @@ with(HTMLLIElement)
 		{
 			this.setAttribute("class", "hover");
 		}
-		if(showTooltip)
+		var span = this.firstChild;
+		if((showTooltip || showURL) && span.title == "")
 		{
-			var span = this.firstChild;
-			if(span.offsetWidth < span.scrollWidth && span.title == "")
+			if(showTooltip && span.offsetWidth < span.scrollWidth)
 			{
 				span.title = span.innerText;
+			}
+			if(showURL && !this.isFolder && !this.isOpenAll && span.className != 'empty')
+			{
+				span.title += (span.title == '' ? '' : '\n') + this.url;
 			}
 		}
 	}
@@ -574,6 +579,7 @@ document.addEventListener("DOMContentLoaded", function()
 	winMaxWidth = getWindowMaxWidth();
 	winMaxHeight = getWindowMaxHeight();
 	showTooltip = isShowTooltip();
+	showURL = isShowURL();
 	useGoogleBookmarks = isUseGoogleBookmarks();
 	faviconService = useGoogleBookmarks ? getFaviconServiceForGoogle() : getFaviconServiceForChrome();
 

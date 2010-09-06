@@ -65,6 +65,7 @@
     "twMaxBookmarkWidthMM": { "message": "millimeters" },
     "twScrollBarWidth": { "message": "Scrollbar width:" },
     "twShowTooltip": { "message": "Show tooltip for long bookmark names" },
+    "twShowURL": { "message": "Show tooltip with bookmark location" },
 
     "twColorScheme": { "message": "Color scheme" },
     "twBodyColor": { "message": "Window background color:" },
