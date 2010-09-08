@@ -65,6 +65,7 @@
     "twMaxBookmarkWidthMM": { "message": "милиметров" },
     "twScrollBarWidth": { "message": "Ширина полосы прокрутки:" },
     "twShowTooltip": { "message": "Показывать всплывающую подсказку для длинных названий" },
+    "twShowURL": { "message": "Показывать всплывающую подсказку c адресом закладки" },
 
     "twColorScheme": { "message": "Настройка цветов" },
     "twBodyColor": { "message": "Цвет фона окна:" },

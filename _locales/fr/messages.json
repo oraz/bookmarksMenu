@@ -71,6 +71,7 @@
     "twMaxBookmarkWidthMM": { "message": "millimètres" },
     "twScrollBarWidth": { "message": "Largeur de la ligne de défilement:" },
     "twShowTooltip": { "message": "Montrer info-bulle pour noms longs" },
+    "twShowURL": { "message": "Montrer info-bulle avec l'adresse de favori" },
 
     "twColorScheme": { "message": "Configuration de couleurs" },
     "twBodyColor": { "message": "Couleur du fond de la fenêtre:" },

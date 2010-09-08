@@ -62,6 +62,11 @@ function isShowTooltip()
 	return localStorage['showTooltip'] == 'true';
 }
 
+function isShowURL()
+{
+	return localStorage['showURL'] == 'true';
+}
+
 function getColor(name)
 {
 	var color = localStorage[name];

@@ -193,6 +193,7 @@ function resetWindowSettings()
 		removeItem('maxWidthMesure');
 		removeItem('scrollBarWidth');
 		removeItem('showTooltip');
+		removeItem('showURL');
 	}
 	document.querySelectorAll('input.color').forEach('localStorage.removeItem(node.id)');
 	initWindowSettingsTab();
@@ -215,6 +216,7 @@ function initWindowSettingsTab()
 	$('maxWidthMesure').selectByValue(getMaxWidthMesure());
 	$('scrollBarWidth').value = getScrollBarWidth();
 	$('showTooltip').checked = isShowTooltip();
+	$('showURL').checked = isShowURL();
 	document.querySelectorAll('input.color').forEach('node.color.fromString(getColor(node.id))');
 }
 
