@@ -567,6 +567,7 @@ function suggestLabel(label)
 		else
 		{
 			node.hide();
+			node.removeAttribute('class');
 		}
 	});
 	if(mustBeShown)
@@ -593,13 +594,60 @@ function onSuggestMouseOver(div)
 	div.className = 'currentSuggest';
 }
 
-function selectSuggestion(label)
+function selectSuggestion(e)
 {
 	var suggestDiv = $('suggest');
 	if(suggestDiv.style.display == 'block')
 	{
-
+		var keyCode = e.keyCode;
+		if(keyCode == 40 || keyCode == 38)
+		{
+			var offset = keyCode == 40 ? 1 : -1;
+			var currentSuggest = suggestDiv.querySelector('.currentSuggest');
+			var divs = suggestDiv.querySelectorAll('div > div[style*="block"]');
+			if(!currentSuggest)
+			{
+				onSuggestMouseOver(divs[offset == 1 ? 0 : divs.length - 1]);
+			}
+			else
+			{
+				for(var idx = 0, len = divs.length; idx < len; idx++)
+				{
+					if(divs[idx].className == 'currentSuggest')
+					{
+						idx += offset;
+						if(idx < 0)
+						{
+							idx = len - 1;
+						}
+						else if(idx >= len)
+						{
+							idx = 0;
+						}
+						onSuggestMouseOver(divs[idx]);
+						break;
+					}
+				}
+			}
+			e.preventDefault();
+		}
+		else if(keyCode == 13)
+		{
+			var currentSuggest = suggestDiv.querySelector('.currentSuggest');
+			if(currentSuggest)
+			{
+				fillFolderBySuggest(currentSuggest);
+			}
+		}
 	}
+}
+
+function fillFolderBySuggest(div)
+{
+	var label = $('gbLabel');
+	label.value = div.textContent;
+	div.removeAttribute('class');
+	$('suggest').hide();
 }
 
 function showGoogleBookmarkDialog()
@@ -651,7 +699,7 @@ function showGoogleBookmarkDialog()
 		var div = document.createElement('div');
 		div.appendChild(document.createTextNode(labels[idx]));
 		div.setAttribute('onmouseover', 'onSuggestMouseOver(this)');
-//		div.onmouseover = onSuggestMouseOver;
+		div.setAttribute('onclick', 'fillFolderBySuggest(this)');
 		suggestDiv.appendChild(div);
 	}
 }
