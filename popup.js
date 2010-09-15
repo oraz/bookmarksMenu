@@ -706,8 +706,23 @@ function showGoogleBookmarkDialog()
 
 function addGoogleBookmark()
 {
-	unSelect();
 	var port = chrome.extension.connect();
+	port.onMessage.addListener(function(response)
+	{
+		if(response == MESSAGES.RESP_TREE_IS_READY)
+		{
+			unSelect();
+			document.querySelectorAll('#bookmarksMenu > *').forEach('node.parentElement.removeChild(node)');
+			var rootFolder = $('bookmarksMenu');
+			rootFolder.fillFolderContent(chrome.extension.getBackgroundPage().GBookmarksTree.children);
+			document.body.pack(rootFolder);
+		}
+		else
+		{
+			// todo some error
+			unSelect();
+		}
+	});
 	port.postMessage({
 		msg: MESSAGES.REQ_ADD_GOOGLE_BOOKMARK,
 		title: $('gbTitle').value,

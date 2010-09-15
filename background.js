@@ -192,12 +192,33 @@ function onIncomingMessage(req, port)
 	else if(req.msg == MESSAGES.REQ_ADD_GOOGLE_BOOKMARK)
 	{
 		var xhr = new XMLHttpRequest();
+		port.onDisconnect.addListener(function()
+		{
+			port.disconnected = true;
+		});
+		xhr.onreadystatechange = function()
+		{
+			if(xhr.readyState == 4 && xhr.status == 200)
+			{
+				var folder = req.label != "" ? GBookmarksTree.findFolder(req.label) : GBookmarksTree;
+				folder.addChild({
+					title: req.title,
+					url: req.url,
+					id: xhr.responseText
+				});
+				folder.sort();
+				if(!port.disconnected)
+				{
+					port.postMessage(MESSAGES.RESP_TREE_IS_READY);
+					port.disconnect();
+				}
+			}
+		};
 		xhr.open('POST', GBookmarkUrl + 'mark', true);
 		xhr.send('bkmk=' + encodeURIComponent(req.url) +
 				'&title=' + encodeURIComponent(req.title) +
 				'&labels=' + encodeURIComponent(req.label) +
 				'&sig=' + encodeURIComponent(GBookmarksTree.signature));
-		port.disconnect();
 	}
 }
 
