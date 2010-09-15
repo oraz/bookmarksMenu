@@ -103,10 +103,13 @@ function createBookmark(node)
 		url: node.querySelector('link').textContent,
 		id: node.querySelector('bkmk_id').textContent
 	};
-	var label = node.querySelector('bkmk_label');
-	if(label)
+	var labels = node.querySelectorAll('bkmk_label');
+	if(labels.length > 0)
 	{
-		GBookmarksTree.findFolder(label.textContent).addChild(bm);
+		for(var idx = labels.length - 1; idx >= 0; idx--)
+		{
+			GBookmarksTree.findFolder(labels[idx].textContent).addChild(bm);
+		}
 	}
 	else
 	{
