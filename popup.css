@@ -64,6 +64,8 @@ ul {
     z-index: 2;
 }
 
+#gwindow input { width: 20em; }
+
 #loading {
     display: none;
     margin: 2ex 0.3em;
