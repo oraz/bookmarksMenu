@@ -399,7 +399,7 @@ with(HTMLLIElement)
 				{
 					var folder = folderContent.parentElement;
 					folderContent = folder.parentElement;
-					chrome.extension.getBackgroundPage().remove(folder.id);
+					chrome.extension.getBackgroundPage().remove(folder.getAttribute('gid'));
 					folderContent.removeChild(folder);
 				}
 				while(!folderContent.isRoot && folderContent.childElementCount == 0);

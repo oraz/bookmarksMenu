@@ -11,7 +11,6 @@ function GBookmarkFolder(names, parentFolder)
 		this.title = names.shift();
 		this.id = !parentFolder.isRoot ? parentFolder.id + GBookmarksTree.labelSeparator + this.title : this.title;
 		parentFolder.addChild(this);
-		this.parentFolder = parentFolder;
 		if(!GBookmarksTree.labels)
 		{
 			GBookmarksTree.labels = new Array();
@@ -57,23 +56,6 @@ GBookmarkFolder.prototype.removeBookmark = function(id)
 		if(child.id == id)
 		{
 			children.splice(idx, 1);
-			// remove current folder if it's empty
-			var curFolder = this.parentFolder;
-			var emptyFolderId = this.id;
-			while(children.length == 0)
-			{
-				children = curFolder.children;
-				for(var idx = children.length - 1; idx >= 0; idx--)
-				{
-					if(children[idx].id == emptyFolderId)
-					{
-						children.splice(idx, 1);
-						emptyFolderId = curFolder.id;
-						curFolder = curFolder.parentFolder;
-						break;
-					}
-				}
-			}
 			// remove bookmark from other folders if it's multilabeled
 			GBookmarksTree.removeBookmark(id);
 			return child;
