@@ -1,4 +1,7 @@
-Changelog 3.1.4 (06.09.2010)
+Changelog 3.2.0 (XX.XX.2010)
+- Support multilabeled google bookmarks.
+
+Changelog 3.1.5 (06.09.2010)
 - Added option to show tooltip with bookmark location
 
 Changelog 3.1.4 (20.08.2010)

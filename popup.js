@@ -5,11 +5,20 @@ var showTooltip;
 var showURL;
 var useGoogleBookmarks;
 var faviconService;
+var autoId = 1; // id for google bookmarks
 
 function Bookmark(bookmarkNode)
 {
 	var bookmark = document.createElement('li');
-	bookmark.id = bookmarkNode.id;
+	if(useGoogleBookmarks)
+	{
+		bookmark.id = autoId++;
+		bookmark.setAttribute('gid', bookmarkNode.id);
+	}
+	else
+	{
+		bookmark.id = bookmarkNode.id;
+	}
 	var span = document.createElement('span');
 	var favicon = document.createElement('img');
 	favicon.src = getFavicon(bookmarkNode.url, faviconService);
@@ -364,11 +373,17 @@ with(HTMLLIElement)
 		if(!useGoogleBookmarks)
 		{
 			chrome.bookmarks.remove(this.id);
+			this.removeFromUI();
 		}
 		else
 		{
-			chrome.extension.getBackgroundPage().remove(this.id);
+			var gid = this.getAttribute('gid');
+			chrome.extension.getBackgroundPage().remove(gid);
+			document.querySelectorAll('li[gid="' + gid + '"]').forEach('node.removeFromUI()');
 		}
+	}
+	prototype.removeFromUI = function()
+	{
 		var folderContent = this.parentElement;
 		folderContent.removeChild(this);
 		if(folderContent.childElementCount == 0)

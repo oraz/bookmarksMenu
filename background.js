@@ -56,6 +56,7 @@ GBookmarkFolder.prototype.removeBookmark = function(id)
 		if(child.id == id)
 		{
 			children.splice(idx, 1);
+			GBookmarksTree.removeBookmark(id);
 			return child;
 		}
 		if(child.children)
