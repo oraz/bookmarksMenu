@@ -219,7 +219,7 @@ function onIncomingMessage(req, port)
 		{
 			port.disconnected = true;
 		});
-		var label = req.label.replace(/(^\s+)|(\s+$)/g, '').replace(/\s*,\s*/g, ',');
+		var label = req.label.replace(/(^\s+)|(\s+$)/g, '').replace(/\s*,\s*/g, ',').replace(/,{2,}/g, ',').replace(/(^,)|(,$)/g, '');
 		xhr.onreadystatechange = function()
 		{
 			if(xhr.readyState == 4 && xhr.status == 200)
@@ -229,7 +229,7 @@ function onIncomingMessage(req, port)
 					url: req.url,
 					id: xhr.responseText
 				};
-				if(req.label == '')
+				if(label == '')
 				{
 					GBookmarksTree.addChild(bm);
 				}
