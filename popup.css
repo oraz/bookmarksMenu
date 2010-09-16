@@ -82,8 +82,8 @@ ul {
     overflow: auto;
 }
 
-#suggest > div.currentSuggest {
-    background-color: #e2dbdb;
+#suggest > .currentSuggest {
+    background-color: #86abd9;
 }
 
 #transparentLayer {
