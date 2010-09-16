@@ -236,9 +236,23 @@ function onIncomingMessage(req, port)
 				else
 				{
 					var labels = label.split(',');
+					var proceededLabels = [];
 					for(var idx = labels.length - 1; idx >= 0; idx--)
 					{
-						GBookmarksTree.findFolder(labels[idx]).addChild(bm);
+						var proceeded = false;
+						for(var pIdx = proceededLabels.length - 1; pIdx >= 0; pIdx--)
+						{
+							if(proceededLabels[pIdx] == labels[idx])
+							{
+								proceeded = true;
+								break;
+							}
+						}
+						if(!proceeded)
+						{
+							GBookmarksTree.findFolder(labels[idx]).addChild(bm);
+							proceededLabels.push(labels[idx]);
+						}
 					}
 				}
 				GBookmarksTree.sort();
