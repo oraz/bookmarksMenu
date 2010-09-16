@@ -19,7 +19,15 @@
     "openAllBookmarksInIncognitoWindow": { "message": "Открыть все закладки в режиме инкогнито" },
     "reorder": { "message": "Упорядочить по заголовкам" },
     "reloadGBookmarks": { "message": "Перезагрузить закладки Google" },
+    "addBookmark": { "message": "Добавить страницу в закладки" },
     "remove": { "message": "Удалить" },
+
+    // Add Google bookmark dialog
+    "lblTitle": { "message": "Заголовок:" },
+    "lblURL": { "message": "Ссылка:" },
+    "lblLabel": { "message": "Метка:" },
+    "btnAdd": { "message": "Готово" },
+    "btnCancel": { "message": "Отменить" },
 
     // Options page
     "mainHeader": { "message": "Настройки 'Bookmarks Menu'" },

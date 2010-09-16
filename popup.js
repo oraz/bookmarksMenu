@@ -304,7 +304,7 @@ with(HTMLLIElement)
 			else
 			{
 				// hide reload and addGBookmark
-				contextMenu.querySelectorAll('li:nth-of-type(9), li:nth-of-type(10)').forEach('node.hide()');
+				contextMenu.querySelectorAll('li:nth-of-type(9), li:nth-of-type(11)').forEach('node.hide()');
 			}
 			contextMenu.initialized = true;
 		}
@@ -674,6 +674,11 @@ function showGoogleBookmarkDialog()
 	});
 	$('transparentLayer').show();
 	var win = $('gwindow');
+	if(!win.initialized)
+	{
+		chrome.i18n.initAll(win);
+		win.initialized = true;
+	}
 	win.show();
 	var body = document.body;
 	var winWidth = win.clientWidth, bodyWidth = body.clientWidth;

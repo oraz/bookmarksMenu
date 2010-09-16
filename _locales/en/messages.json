@@ -19,7 +19,15 @@
     "openAllBookmarksInIncognitoWindow": { "message": "Open All Bookmarks in Incognito Window" },
     "reorder": { "message": "Reorder by Title" },
     "reloadGBookmarks": { "message": "Reload Google Bookmarks" },
+    "addBookmark": { "message": "Bookmark This Page" },
     "remove": { "message": "Delete" },
+    
+    // Add Google bookmark dialog
+    "lblTitle": { "message": "Title:" },
+    "lblURL": { "message": "URL:" },
+    "lblLabel": { "message": "Label:" },
+    "btnAdd": { "message": "Add" },
+    "btnCancel": { "message": "Cancel" },
 
     // Options page
     "mainHeader": { "message": "'Bookmarks Menu' settings" },
