@@ -219,17 +219,29 @@ function onIncomingMessage(req, port)
 		{
 			port.disconnected = true;
 		});
+		var label = req.label.replace(/(^\s+)|(\s+$)/g, '').replace(/\s*,\s*/g, ',');
 		xhr.onreadystatechange = function()
 		{
 			if(xhr.readyState == 4 && xhr.status == 200)
 			{
-				var folder = req.label != "" ? GBookmarksTree.findFolder(req.label) : GBookmarksTree;
-				folder.addChild({
+				var bm = {
 					title: req.title,
 					url: req.url,
 					id: xhr.responseText
-				});
-				folder.sort();
+				};
+				if(req.label == '')
+				{
+					GBookmarksTree.addChild(bm);
+				}
+				else
+				{
+					var labels = label.split(',');
+					for(var idx = labels.length - 1; idx >= 0; idx--)
+					{
+						GBookmarksTree.findFolder(labels[idx]).addChild(bm);
+					}
+				}
+				GBookmarksTree.sort();
 				if(!port.disconnected)
 				{
 					port.postMessage(MESSAGES.RESP_TREE_IS_READY);
@@ -240,7 +252,7 @@ function onIncomingMessage(req, port)
 		xhr.open('POST', GBookmarkUrl + 'mark', true);
 		xhr.send('bkmk=' + encodeURIComponent(req.url) +
 				'&title=' + encodeURIComponent(req.title) +
-				'&labels=' + encodeURIComponent(req.label) +
+				'&labels=' + encodeURIComponent(label) +
 				'&sig=' + encodeURIComponent(GBookmarksTree.signature));
 	}
 }
