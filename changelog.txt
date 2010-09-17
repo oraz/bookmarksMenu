@@ -1,5 +1,6 @@
-Changelog 3.2.0 (XX.XX.2010)
-- Support multilabeled google bookmarks.
+Changelog 3.2.0 (17.09.2010)
+- Added context menu item "Bookmark This Page" for Google bookmarks.
+- Changes to correctly display (and remove) Google bookmarks with multiple labels
 
 Changelog 3.1.5 (06.09.2010)
 - Added option to show tooltip with bookmark location
