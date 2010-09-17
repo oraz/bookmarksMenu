@@ -851,6 +851,7 @@ document.addEventListener("DOMContentLoaded", function()
 	{
 		chrome.bookmarks.getTree(initBookmarksMenu);
 	}
+	addButtonCSS();
 });
 
 function initBookmarksMenu(nodes)

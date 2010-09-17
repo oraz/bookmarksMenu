@@ -222,6 +222,7 @@ function initWindowSettingsTab()
 
 document.addEventListener("DOMContentLoaded", function()
 {
+	addButtonCSS();
 	chrome.i18n.initAll();
 	showTab(document.querySelector('li.fgTab span'));
 

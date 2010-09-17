@@ -78,4 +78,17 @@ function getFavicon(url, serviceId)
 		: 'chrome://favicon/' + url;
 }
 
+function addButtonCSS()
+{
+	var platform = navigator.platform;
+	if(platform && platform.indexOf('Win') == 0)
+	{
+		var link = document.createElement('link');
+		link.setAttribute('rel', 'stylesheet');
+		link.setAttribute('type', 'text/css');
+		link.setAttribute('href', 'button.css');
+		document.querySelector('html > head').appendChild(link);
+	}
+}
+
 // vim:noet

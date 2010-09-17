@@ -6,18 +6,6 @@
 
 body { padding: 10px; }
 
-button {
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#ece9e9), to(#d8d8d8));
-    border: 1px solid #a39e9e; border-radius: 3px;
-    padding: 1px 7px;
-}
-
-button:active {
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#dadada), to(#ece9e9));
-}
-
-button:hover { border-color: #746a6a; }
-
 h1 { font-size: 18px; font-weight: bold; }
 
 h1 > img {
