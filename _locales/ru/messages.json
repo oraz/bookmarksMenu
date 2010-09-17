@@ -23,10 +23,10 @@
     "remove": { "message": "Удалить" },
 
     // Add Google bookmark dialog
-    "lblTitle": { "message": "Заголовок:" },
+    "lblTitle": { "message": "Название:" },
     "lblURL": { "message": "Ссылка:" },
     "lblLabel": { "message": "Метка:" },
-    "btnAdd": { "message": "Готово" },
+    "btnAdd": { "message": "Добавить" },
     "btnCancel": { "message": "Отменить" },
 
     // Options page
