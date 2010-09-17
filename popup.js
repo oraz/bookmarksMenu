@@ -563,6 +563,12 @@ function processMenu(ev, contextMenu)
 	}
 }
 
+function isGBookmarkDataReady()
+{
+	var regexp = /^\s*$/;
+	$('btnAdd').disabled = regexp.test($('gbTitle').value) || regexp.test($('gbURL').value);
+}
+
 function suggestLabel(label)
 {
 	var suggestDiv = $('suggest');

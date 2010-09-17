@@ -27,11 +27,11 @@
         <table id="gwindow">
             <tr>
                 <td align="right"><label for="gbTitle" i18n="lblTitle"></label></td>
-                <td><input type="text" id="gbTitle"/></td>
+                <td><input type="text" id="gbTitle" oninput="isGBookmarkDataReady()"/></td>
             </tr>
             <tr>
                 <td align="right"><label for="gbURL" i18n="lblURL"></label></td>
-                <td><input type="url" id="gbURL"/></td>
+                <td><input type="url" id="gbURL" oninput="isGBookmarkDataReady()"/></td>
             </tr>
             <tr>
                 <td align="right"><label for="gbLabel" i18n="lblLabel"></label></td>
@@ -43,7 +43,7 @@
             <tr>
                 <td>&nbsp;</td>
                 <td>
-                    <button onclick="addGoogleBookmark()" i18n="btnAdd" style="margin-right: .3em;"></button>
+                    <button id="btnAdd" onclick="addGoogleBookmark()" i18n="btnAdd" style="margin-right: .3em;"></button>
                     <button onclick="unSelect()" i18n="btnCancel"></button>
                 </td>
             </tr>
