@@ -26,7 +26,7 @@
     "lblTitle": { "message": "Title:" },
     "lblURL": { "message": "URL:" },
     "lblLabel": { "message": "Label:" },
-    "btnAdd": { "message": "Add" },
+    "btnAdd": { "message": "Ok" },
     "btnCancel": { "message": "Cancel" },
 
     // Options page

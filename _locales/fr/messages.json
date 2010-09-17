@@ -29,7 +29,7 @@
     "lblTitle": { "message": "Nom:" },
     "lblURL": { "message": "Lien:" },
     "lblLabel": { "message": "Dossier:" },
-    "btnAdd": { "message": "Terminer" },
+    "btnAdd": { "message": "Ok" },
     "btnCancel": { "message": "Annuler" },
 
     // Options page
