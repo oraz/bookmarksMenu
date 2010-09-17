@@ -4,8 +4,8 @@ button {
     padding: 1px 7px;
 }
 
-button:active {
+button:enabled:active {
     background-image: -webkit-gradient(linear, left top, left bottom, from(#dadada), to(#ece9e9));
 }
 
-button:hover { border-color: #746a6a; }
+button:enabled:hover { border-color: #746a6a; }
