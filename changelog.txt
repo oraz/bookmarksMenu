@@ -1,3 +1,7 @@
+Changelog 3.2.1 (17.09.2010)
+- Use 'text' fields on options page instead of 'number' fields because of bugs
+in Chrome
+
 Changelog 3.2.0 (17.09.2010)
 - Added context menu item "Bookmark This Page" for Google bookmarks.
 - Changes to correctly display (and remove) Google bookmarks with multiple labels
