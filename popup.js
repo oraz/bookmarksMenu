@@ -677,6 +677,7 @@ function showGoogleBookmarkDialog()
 	{
 		$('gbTitle').value = tab.title;
 		$('gbURL').value = tab.url;
+		isGBookmarkDataReady();
 	});
 	$('transparentLayer').show();
 	var win = $('gwindow');
