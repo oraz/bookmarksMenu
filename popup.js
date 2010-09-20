@@ -1,16 +1,11 @@
 
-var winMaxWidth;
-var winMaxHeight;
-var showTooltip;
-var showURL;
-var useGoogleBookmarks;
-var faviconService;
+var config; // will be initialized in DOMContentLoaded handler
 var autoId = 1; // id for google bookmarks
 
 function Bookmark(bookmarkNode)
 {
 	var bookmark = document.createElement('li');
-	if(useGoogleBookmarks)
+	if(config.useGoogleBookmarks)
 	{
 		bookmark.id = autoId++;
 		bookmark.setAttribute('gid', bookmarkNode.id);
@@ -20,7 +15,7 @@ function Bookmark(bookmarkNode)
 		bookmark.id = bookmarkNode.id;
 	}
 	var span = document.createElement('span');
-	span.appendChild(createElement('img', { src: getFavicon(bookmarkNode.url, faviconService) }));
+	span.appendChild(createElement('img', { src: getFavicon(bookmarkNode.url, config.faviconService) }));
 	span.appendChild(document.createTextNode(bookmarkNode.title));
 	bookmark.appendChild(span);
 
@@ -41,9 +36,9 @@ function Bookmark(bookmarkNode)
 
 HTMLBodyElement.prototype.setHeight = function(height)
 {
-	if(height > winMaxHeight)
+	if(height > config.winMaxHeight)
 	{
-		this.style.height = winMaxHeight + 'px';
+		this.style.height = config.winMaxHeight + 'px';
 		this.style.overflowY = 'scroll';
 	}
 	else
@@ -56,7 +51,7 @@ HTMLBodyElement.prototype.pack = function(bookmarksMenu)
 {
 	var height = bookmarksMenu.clientHeight + 2;
 	this.style.width = bookmarksMenu.clientWidth + 2 +
-		(height < winMaxHeight ? 0 : parseInt(getScrollBarWidth())) + 'px';
+		(height < config.winMaxHeight ? 0 : parseInt(getScrollBarWidth())) + 'px';
 	this.setHeight(height);
 };
 
@@ -74,7 +69,7 @@ with(HTMLUListElement)
 				this.appendChild(bookmark);
 				if(this.isRoot)
 				{
-					if(isBookmarkHidden(childBookmarks[i].title, useGoogleBookmarks))
+					if(isBookmarkHidden(childBookmarks[i].title, config.useGoogleBookmarks))
 					{
 						bookmark.hide();
 						bookmark.isBookmarkHidden = true;
@@ -146,13 +141,13 @@ with(HTMLLIElement)
 			this.setAttribute("class", "hover");
 		}
 		var span = this.firstChild;
-		if((showTooltip || showURL) && span.title == "")
+		if((config.showTooltip || config.showURL) && span.title == "")
 		{
-			if(showTooltip && span.offsetWidth < span.scrollWidth)
+			if(config.showTooltip && span.offsetWidth < span.scrollWidth)
 			{
 				span.title = span.innerText;
 			}
-			if(showURL && !this.isFolder && !this.isOpenAll && span.className != 'empty')
+			if(config.showURL && !this.isFolder && !this.isOpenAll && span.className != 'empty')
 			{
 				span.title += (span.title == '' ? '' : '\n') + this.url;
 			}
@@ -290,7 +285,7 @@ with(HTMLLIElement)
 		if(!contextMenu.initialized)
 		{
 			chrome.i18n.initAll(contextMenu);
-			if(useGoogleBookmarks)
+			if(config.useGoogleBookmarks)
 			{
 				contextMenu.querySelector('li[action="reorder"]').hide();
 			}
@@ -363,7 +358,7 @@ with(HTMLLIElement)
 	}
 	prototype.remove = function()
 	{
-		if(!useGoogleBookmarks)
+		if(!config.useGoogleBookmarks)
 		{
 			chrome.bookmarks.remove(this.id);
 			this.removeFromUI();
@@ -381,7 +376,7 @@ with(HTMLLIElement)
 		folderContent.removeChild(this);
 		if(folderContent.childElementCount == 0)
 		{
-			if(!useGoogleBookmarks)
+			if(!config.useGoogleBookmarks)
 			{
 				folderContent.fillAsEmpty();
 			}
@@ -444,9 +439,9 @@ with(HTMLLIElement)
 			width += tmp.clientWidth + 1;
 			tmp = tmp.parentFolder;
 		} while(!tmp.isRoot);
-		if(width < winMaxWidth && this.treeDepth > 1)
+		if(width < config.winMaxWidth && this.treeDepth > 1)
 		{
-			var contentWidth = (winMaxWidth - width) / this.treeDepth;
+			var contentWidth = (config.winMaxWidth - width) / this.treeDepth;
 			if(contentWidth < this.folderContent.clientWidth)
 			{
 				this.folderContent.style.width = contentWidth + 'px';
@@ -454,14 +449,14 @@ with(HTMLLIElement)
 		}
 		// vscrollBar width = offsetWidth - clientWidth
 		width += this.folderContent.clientWidth + 2 + (body.offsetWidth - body.clientWidth);
-		if(width <= winMaxWidth && body.clientWidth < width)
+		if(width <= config.winMaxWidth && body.clientWidth < width)
 		{
 			bodyStyle.width = width + 'px';
 		}
-		else if(width > winMaxWidth)
+		else if(width > config.winMaxWidth)
 		{
-			bodyStyle.width = winMaxWidth + 'px';
-			this.folderContent.style.width = (this.folderContent.clientWidth - (width - winMaxWidth)) + 'px';
+			bodyStyle.width = config.winMaxWidth + 'px';
+			this.folderContent.style.width = (this.folderContent.clientWidth - (width - config.winMaxWidth)) + 'px';
 		}
 	}
 	prototype.reorder = function(beforeSeparator)
@@ -794,12 +789,15 @@ function reloadGBookmarks()
 
 document.addEventListener("DOMContentLoaded", function()
 {
-	winMaxWidth = getWindowMaxWidth();
-	winMaxHeight = getWindowMaxHeight();
-	showTooltip = isShowTooltip();
-	showURL = isShowURL();
-	useGoogleBookmarks = isUseGoogleBookmarks();
-	faviconService = useGoogleBookmarks ? getFaviconServiceForGoogle() : getFaviconServiceForChrome();
+	config = 
+	{
+		winMaxWidth: getWindowMaxWidth(),
+		winMaxHeight: getWindowMaxHeight(),
+		showTooltip: isShowTooltip(),
+		showURL: isShowURL(),
+		useGoogleBookmarks: isUseGoogleBookmarks(),
+		faviconService: isUseGoogleBookmarks() ? getFaviconServiceForGoogle() : getFaviconServiceForChrome()
+	};
 
 	var styleSheet = document.styleSheets[0];
 	var favIconWidth = getFavIconWidth();
@@ -817,7 +815,7 @@ document.addEventListener("DOMContentLoaded", function()
 	styleSheet.addRule('#bookmarksMenu span', 'max-width: ' + getMaxWidth() + getMaxWidthMesure() + ';');
 	styleSheet.addRule('::-webkit-scrollbar', 'width: ' + getScrollBarWidth() + 'px;');
 
-	if(useGoogleBookmarks)
+	if(config.useGoogleBookmarks)
 	{
 		var loading = $('loading');
 		var port = chrome.extension.connect();
@@ -854,7 +852,7 @@ function initBookmarksMenu(nodes)
 	var rootFolder = $('bookmarksMenu');
 	rootFolder.isRoot = true;
 
-	if(useGoogleBookmarks)
+	if(config.useGoogleBookmarks)
 	{
 		rootFolder.fillFolderContent(chrome.extension.getBackgroundPage().GBookmarksTree.children);
 	}
