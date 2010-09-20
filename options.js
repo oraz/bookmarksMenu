@@ -86,24 +86,24 @@ function clearGoogleBookmarksDiv()
 
 function addBookmark(divSettings, bookmark, useGoogleBookmarks)
 {
-	var div = document.createElement('div');
-	div.setAttribute('class', useGoogleBookmarks ? 'gbookmark' : 'bookmark');
+	var div = createElement('div', { class: useGoogleBookmarks ? 'gbookmark' : 'bookmark' });
 
-	var checkbox = document.createElement('input');
-	checkbox.setAttribute('type', 'checkbox');
+	var checkbox = createElement('input', {
+		type: 'checkbox',
+		onchange: 'setBookmarkHidden("' + bookmark.title + '", ' + useGoogleBookmarks + ', !this.checked)',
+	});
 	if(!isBookmarkHidden(bookmark.title, useGoogleBookmarks))
 	{
 		checkbox.setAttribute('checked', 'checked');
 	}
-	checkbox.setAttribute('onchange',
-			'setBookmarkHidden("' + bookmark.title + '", ' + useGoogleBookmarks + ', !this.checked)');
 
 	var label = document.createElement('label');
 	label.appendChild(checkbox);
 
-	var img = document.createElement('img');
-	img.setAttribute('class', 'favicon');
-	img.setAttribute('src', getFavicon(bookmark.url, useGoogleBookmarks ? getFaviconServiceForGoogle() : getFaviconServiceForChrome()));
+	var img = createElement('img', {
+		class: 'favicon',
+		src: getFavicon(bookmark.url, useGoogleBookmarks ? getFaviconServiceForGoogle() : getFaviconServiceForChrome())
+	});
 	label.appendChild(img);
 	label.appendChild(document.createTextNode(bookmark.title));
 	div.appendChild(label);
