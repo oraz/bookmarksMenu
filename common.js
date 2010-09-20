@@ -71,7 +71,7 @@ function isBookmarklet(url)
 
 function getFavicon(url, serviceId)
 {
-	return url == undefined ? 'icons/folder.png'
+	return url == undefined ? 'icons/' + (navigator.isWindows ? 'folder-win.png' : 'folder.png')
 		: isBookmarklet(url) ? 'icons/js.png'
 		: url.substr(0, 5) == 'file:' ? 'icons/html.png'
 		: serviceId == 2 ? 'http://getfavicon.appspot.com/' + url
@@ -80,8 +80,7 @@ function getFavicon(url, serviceId)
 
 function addButtonCSS()
 {
-	var platform = navigator.platform;
-	if(platform && platform.indexOf('Win') == 0)
+	if(navigator.isWindows)
 	{
 		var link = document.createElement('link');
 		link.setAttribute('rel', 'stylesheet');
@@ -91,4 +90,5 @@ function addButtonCSS()
 	}
 }
 
+navigator.isWindows = navigator.platform && navigator.platform.indexOf('Win') == 0;
 // vim:noet
