@@ -285,14 +285,10 @@ with(HTMLLIElement)
 		if(!contextMenu.initialized)
 		{
 			chrome.i18n.initAll(contextMenu);
-			if(config.useGoogleBookmarks)
-			{
-				contextMenu.querySelector('li[action="reorder"]').hide();
-			}
-			else
-			{
-				contextMenu.querySelectorAll('li[action="reload"], li[action="addGBookmark"]').forEach('node.hide()');
-			}
+			contextMenu.querySelectorAll(config.useGoogleBookmarks ?
+				'li[action="reorder"], li[action="useGoogleBookmarks"]' :
+				'li[action="addGBookmark"], li[action="reload"], li[action="useChromeBookmarks"]').
+					forEach('node.hide()');
 			contextMenu.initialized = true;
 		}
 		contextMenu.selectedBookmark = this;
