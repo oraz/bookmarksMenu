@@ -1,4 +1,6 @@
 
+navigator.isWindows = navigator.platform && navigator.platform.indexOf('Win') == 0;
+
 function $(id) { return document.getElementById(id); }
 
 NodeList.prototype.forEach = function(func)
@@ -32,8 +34,7 @@ chrome.i18n.initElement = function(el)
 
 chrome.i18n.initAll = function(el)
 {
-	var initElement = chrome.i18n.initElement;
-	(el ? el : document).querySelectorAll('[i18n]').forEach('chrome.i18n.initElement(node)');
+	(el ? el : document).querySelectorAll('[i18n]').forEach(this.initElement);
 }
 
 const MESSAGES = 
@@ -90,8 +91,6 @@ function addButtonCSS()
 		document.querySelector('html > head').appendChild(link);
 	}
 }
-
-navigator.isWindows = navigator.platform && navigator.platform.indexOf('Win') == 0;
 
 function createElement(nodeName, htmlAttrs, jsAttrs)
 {
