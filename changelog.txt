@@ -1,4 +1,4 @@
-Changelog 3.3.0 (XX.09.2010)
+Changelog 3.3.0 (21.09.2010)
 - New context menu item to switch between Google and Chrome bookmarks
 - Added Windows styled icon for folder (just on MS systems)
 
