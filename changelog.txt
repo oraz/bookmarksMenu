@@ -1,4 +1,8 @@
-Changelog 3.2.1 (18.09.2010)
+Changelog 3.3.0 (XX.09.2010)
+- New context menu item to switch between Google and Chrome bookmarks
+- Added Windows styled icon for folder (just on MS systems)
+
+Changelog 3.2.2 (18.09.2010)
 - Fixed error: "OK" button is disabled in "Add bookmark" dialog.
 
 Changelog 3.2.1 (17.09.2010)
