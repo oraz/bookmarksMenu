@@ -554,7 +554,7 @@ function processMenu(ev, contextMenu)
 				delete contextMenu.initialized;
 				contextMenu.querySelectorAll('li[action]:not([for])').forEach('node.show()');
 
-				document.querySelectorAll('#bookmarksMenu > *').forEach('node.parentElement.removeChild(node)');
+				$('bookmarksMenu').clear();
 				unSelect();
 				
 				document.body.style.overflowY = 'visible';
@@ -746,8 +746,8 @@ function addGoogleBookmark()
 		if(response == MESSAGES.RESP_TREE_IS_READY)
 		{
 			unSelect();
-			document.querySelectorAll('#bookmarksMenu > *').forEach('node.parentElement.removeChild(node)');
 			var rootFolder = $('bookmarksMenu');
+			rootFolder.clear();
 			rootFolder.fillFolderContent(chrome.extension.getBackgroundPage().GBookmarksTree.children);
 			document.body.pack(rootFolder);
 		}
@@ -767,7 +767,7 @@ function addGoogleBookmark()
 
 function reloadGBookmarks()
 {
-	document.querySelectorAll('#bookmarksMenu > *').forEach('node.parentElement.removeChild(node)');
+	$('bookmarksMenu').clear();
 	var loading = $('loading');
 	if(loading.hasAttribute('i18n'))
 	{
@@ -904,7 +904,10 @@ document.addEventListener("DOMContentLoaded", function()
 			}
 		}
 	};
-
+	rootFolder.clear = function()
+	{
+		this.querySelectorAll('#bookmarksMenu > *').forEach('node.parentElement.removeChild(node)');
+	}
 	addButtonCSS();
 });
 
