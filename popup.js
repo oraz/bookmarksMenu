@@ -544,6 +544,22 @@ function processMenu(ev, contextMenu)
 				unSelect();
 				showGoogleBookmarkDialog();
 			}
+			else if(action == 'useGoogleBookmarks' || action == 'useChromeBookmarks')
+			{
+				config.useGoogleBookmarks = action == 'useGoogleBookmarks';
+				changeBookmarkMode(config.useGoogleBookmarks);
+				localStorage['useGoogleBookmarks'] = config.useGoogleBookmarks;
+
+				var contextMenu = $('contextMenu');
+				delete contextMenu.initialized;
+				contextMenu.querySelectorAll('li[action]:not([for])').forEach('node.show()');
+
+				document.querySelectorAll('#bookmarksMenu > *').forEach('node.parentElement.removeChild(node)');
+				unSelect();
+				
+				document.body.style.overflowY = 'visible';
+				loadBookmarks();
+			}
 			else
 			{
 				var bookmark = contextMenu.selectedBookmark;
@@ -817,67 +833,9 @@ document.addEventListener("DOMContentLoaded", function()
 	styleSheet.addRule('#bookmarksMenu span', 'max-width: ' + getMaxWidth() + getMaxWidthMesure() + ';');
 	styleSheet.addRule('::-webkit-scrollbar', 'width: ' + getScrollBarWidth() + 'px;');
 
-	if(config.useGoogleBookmarks)
-	{
-		var loading = $('loading');
-		var port = chrome.extension.connect();
-		port.onMessage.addListener(function(response)
-		{
-			if(response == MESSAGES.RESP_TREE_IS_READY)
-			{
-				loading.hide();
-				initBookmarksMenu();
-			}
-			else if(response == MESSAGES.RESP_NEED_TO_LOAD)
-			{
-				chrome.i18n.initElement(loading);
-				loading.show();
-				port.postMessage(MESSAGES.REQ_LOAD_BOOKMARKS)
-			}
-			else
-			{
-				loading.style.color = 'red';
-				loading.innerHTML = chrome.i18n.getMessage('failedRetrieveGBookmakrs');
-			}
-		});
-		port.postMessage(MESSAGES.REQ_GET_TREE_STATUS);
-	}
-	else
-	{
-		chrome.bookmarks.getTree(initBookmarksMenu);
-	}
-	addButtonCSS();
-});
-
-function initBookmarksMenu(nodes)
-{
+	loadBookmarks();
+	
 	var rootFolder = $('bookmarksMenu');
-	rootFolder.isRoot = true;
-
-	if(config.useGoogleBookmarks)
-	{
-		rootFolder.fillFolderContent(chrome.extension.getBackgroundPage().GBookmarksTree.children);
-	}
-	else
-	{
-		var nodesChildren = nodes[0].children;
-		rootFolder.fillFolderContent(nodesChildren[0].children);
-		rootFolder.addSeparator();
-		var separator = rootFolder.lastChild;
-		if(!rootFolder.hasVisibleBookmarks)
-		{
-			separator.hide();
-		}
-		rootFolder.hasVisibleBookmarks = false;
-		rootFolder.fillFolderContent(nodesChildren[1].children);
-		if(!rootFolder.hasVisibleBookmarks)
-		{
-			separator.hide();
-		}
-	}
-	document.body.pack(rootFolder);
-
-	delete rootFolder.hasVisibleBookmarks;
 	rootFolder.onmouseup = function(ev)
 	{
 		var bookmark = ev.srcElement;
@@ -947,6 +905,70 @@ function initBookmarksMenu(nodes)
 		}
 	};
 
+	addButtonCSS();
+});
+
+function loadBookmarks()
+{
+	if(config.useGoogleBookmarks)
+	{
+		var loading = $('loading');
+		var port = chrome.extension.connect();
+		port.onMessage.addListener(function(response)
+		{
+			if(response == MESSAGES.RESP_TREE_IS_READY)
+			{
+				loading.hide();
+				initBookmarksMenu();
+			}
+			else if(response == MESSAGES.RESP_NEED_TO_LOAD)
+			{
+				chrome.i18n.initElement(loading);
+				loading.show();
+				port.postMessage(MESSAGES.REQ_LOAD_BOOKMARKS)
+			}
+			else
+			{
+				loading.style.color = 'red';
+				loading.innerHTML = chrome.i18n.getMessage('failedRetrieveGBookmakrs');
+			}
+		});
+		port.postMessage(MESSAGES.REQ_GET_TREE_STATUS);
+	}
+	else
+	{
+		chrome.bookmarks.getTree(initBookmarksMenu);
+	}
+}
+
+function initBookmarksMenu(nodes)
+{
+	var rootFolder = $('bookmarksMenu');
+	rootFolder.isRoot = true;
+	if(config.useGoogleBookmarks)
+	{
+		rootFolder.fillFolderContent(chrome.extension.getBackgroundPage().GBookmarksTree.children);
+	}
+	else
+	{
+		var nodesChildren = nodes[0].children;
+		rootFolder.fillFolderContent(nodesChildren[0].children);
+		rootFolder.addSeparator();
+		var separator = rootFolder.lastChild;
+		if(!rootFolder.hasVisibleBookmarks)
+		{
+			separator.hide();
+		}
+		rootFolder.hasVisibleBookmarks = false;
+		rootFolder.fillFolderContent(nodesChildren[1].children);
+		if(!rootFolder.hasVisibleBookmarks)
+		{
+			separator.hide();
+		}
+	}
+	document.body.pack(rootFolder);
+	delete rootFolder.hasVisibleBookmarks;
+	
 	var favIcon = rootFolder.querySelector('li[type] img');
 	var iconMarginRight = window.getComputedStyle(favIcon).marginRight; // contains '3px'
 	var textPaddingLeft = favIcon.offsetLeft + favIcon.scrollWidth + parseInt(iconMarginRight);
