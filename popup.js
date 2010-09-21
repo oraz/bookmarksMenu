@@ -450,8 +450,8 @@ with(HTMLLIElement)
 				this.folderContent.style.width = contentWidth + 'px';
 			}
 		}
-		// vscrollBar width = offsetWidth - clientWidth
-		width += this.folderContent.clientWidth + 2 + (body.offsetWidth - body.clientWidth);
+		// Since using html5 doctype we retreive the width of vscrollbar from computed styles
+		width += this.folderContent.clientWidth + 2 - parseInt(window.getComputedStyle(body).marginRight);
 		if(width <= config.winMaxWidth && body.clientWidth < width)
 		{
 			bodyStyle.width = width + 'px';
