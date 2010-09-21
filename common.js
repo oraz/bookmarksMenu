@@ -83,26 +83,12 @@ function addButtonCSS()
 {
 	if(navigator.isWindows)
 	{
-		var link = createElement('link', {
-			rel: 'stylesheet',
-			type: 'text/css',
-			href: 'button.css'
-		});
+		var link = document.createElement('link');
+		link.setAttribute('rel', 'stylesheet');
+		link.setAttribute('type', 'text/css');
+		link.setAttribute('href', 'button.css');
 		document.querySelector('html > head').appendChild(link);
 	}
 }
 
-function createElement(nodeName, htmlAttrs, jsAttrs)
-{
-	var elem = document.createElement(nodeName);
-	for(var attr in htmlAttrs)
-	{
-		elem.setAttribute(attr, htmlAttrs[attr]);
-	}
-	for(var attr in jsAttrs)
-	{
-		elem[attr] = jsAttrs[attr];
-	}
-	return elem;
-}
 // vim:noet

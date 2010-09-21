@@ -15,7 +15,9 @@ function Bookmark(bookmarkNode)
 		bookmark.id = bookmarkNode.id;
 	}
 	var span = document.createElement('span');
-	span.appendChild(createElement('img', { src: getFavicon(bookmarkNode.url, config.faviconService) }));
+	var favicon = document.createElement('img');
+	favicon.src = getFavicon(bookmarkNode.url, config.faviconService);
+	span.appendChild(favicon);
 	span.appendChild(document.createTextNode(bookmarkNode.title));
 	bookmark.appendChild(span);
 
@@ -100,12 +102,13 @@ with(HTMLUListElement)
 			if(this.numberOfBookmarks > 1)
 			{
 				this.addSeparator();
-				var bookmark = createElement('li', { type: 'openAllInTabs' }, {
-					parentFolder: this.parentElement,
-					rootFolder: bookmark.parentFolder.rootFolder,
-					isOpenAll: true
-				});
-				var span = createElement('span', { class: 'noicon' });
+				var bookmark = document.createElement('li');
+				bookmark.parentFolder = this.parentElement;
+				bookmark.rootFolder = bookmark.parentFolder.rootFolder;
+				bookmark.setAttribute('type', 'openAllInTabs');
+				bookmark.isOpenAll = true;
+				var span = document.createElement('span');
+				span.className = 'noicon';
 				span.appendChild(document.createTextNode(chrome.i18n.getMessage('openAllInTabs')));
 				bookmark.appendChild(span);
 				this.appendChild(bookmark);
@@ -120,14 +123,18 @@ with(HTMLUListElement)
 	{
 		this.parentElement.isEmpty = true;
 		var li = document.createElement('li');
-		var span = createElement('span', { class: 'empty' });
+		var span = document.createElement('span');
+		span.className = 'empty';
 		span.appendChild(document.createTextNode('(' + chrome.i18n.getMessage('empty') + ')'));
 		li.appendChild(span);
 		this.appendChild(li);
 	}
 	prototype.addSeparator = function()
 	{
-		this.appendChild(createElement('li', { class: 'separator' }, { isSeparator: true }));
+		var separator = document.createElement('li');
+		separator.className = 'separator';
+		separator.isSeparator = true;
+		this.appendChild(separator);
 	}
 }
 
@@ -707,11 +714,10 @@ function showGoogleBookmarkDialog()
 	suggestDiv.style.marginLeft = parseInt(gbLabelStyles.marginLeft) + parseInt(gbLabelStyles.borderLeftWidth) - 1 + 'px';
 	for(var idx = 0, len = labels.length; idx < len; idx++)
 	{
-		var div = createElement('div', {
-			onmouseover: 'onSuggestMouseOver(this)',
-			onclick: 'fillFolderBySuggest(this)'
-		});
+		var div = document.createElement('div');
 		div.appendChild(document.createTextNode(labels[idx]));
+		div.setAttribute('onmouseover', 'onSuggestMouseOver(this)');
+		div.setAttribute('onclick', 'fillFolderBySuggest(this)');
 		suggestDiv.appendChild(div);
 	}
 }
