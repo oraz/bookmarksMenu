@@ -832,7 +832,8 @@ document.addEventListener("DOMContentLoaded", function()
 					getColor('activeBmBgClrFrom') + '), to(' + getColor('activeBmBgClrTo') + '));');
 	styleSheet.addRule('#bookmarksMenu span', 'max-width: ' + getMaxWidth() + getMaxWidthMesure() + ';');
 	styleSheet.addRule('::-webkit-scrollbar', 'width: ' + getScrollBarWidth() + 'px;');
-
+	addButtonCSS();
+	
 	loadBookmarks();
 	
 	var rootFolder = $('bookmarksMenu');
@@ -908,7 +909,6 @@ document.addEventListener("DOMContentLoaded", function()
 	{
 		this.querySelectorAll('#bookmarksMenu > *').forEach('node.parentElement.removeChild(node)');
 	}
-	addButtonCSS();
 });
 
 function loadBookmarks()
