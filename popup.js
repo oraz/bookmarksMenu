@@ -819,17 +819,17 @@ document.addEventListener("DOMContentLoaded", function()
 
 	var styleSheet = document.styleSheets[0];
 	var favIconWidth = getFavIconWidth();
-	styleSheet.addRule('body', 'background-color: ' + getColor('bodyClr') + ';');
+	styleSheet.addRule('body', 'background-color: #' + getColor('bodyClr') + ';');
 	styleSheet.addRule('img', 'width: ' + favIconWidth + 'px; height: ' + favIconWidth + 'px;');
 	styleSheet.addRule('label, span, #loading', 'font: ' + getFontSize() + 'px "' + getFontFamily() + '";' +
-			'color: ' + getColor('fntClr') + ';');
-	styleSheet.addRule('ul, #gwindow', 'background-color: ' + getColor('bmBgClr') + ';');
+			'color: #' + getColor('fntClr') + ';');
+	styleSheet.addRule('ul, #gwindow', 'background-color: #' + getColor('bmBgClr') + ';');
 
-	styleSheet.addRule('.empty, .disabled > span', 'color:' + getColor('disabledItemFntClr') + ';');
+	styleSheet.addRule('.empty, .disabled > span', 'color: #' + getColor('disabledItemFntClr') + ';');
 	styleSheet.addRule('li[type]:hover > span, .enabled:hover > span, .hover > span',
-			'color:' + getColor('activeBmFntClr') + ';' +
-			'background-image: -webkit-gradient(linear, left top, left bottom, from(' +
-					getColor('activeBmBgClrFrom') + '), to(' + getColor('activeBmBgClrTo') + '));');
+			'color: #' + getColor('activeBmFntClr') + ';' +
+			'background-image: -webkit-gradient(linear, left top, left bottom, from(#' +
+					getColor('activeBmBgClrFrom') + '), to(#' + getColor('activeBmBgClrTo') + '));');
 	styleSheet.addRule('#bookmarksMenu span', 'max-width: ' + getMaxWidth() + getMaxWidthMesure() + ';');
 	styleSheet.addRule('::-webkit-scrollbar', 'width: ' + getScrollBarWidth() + 'px;');
 	addButtonCSS();
