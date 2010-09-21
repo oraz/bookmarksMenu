@@ -972,10 +972,14 @@ function initBookmarksMenu(nodes)
 	document.body.pack(rootFolder);
 	delete rootFolder.hasVisibleBookmarks;
 	
-	var favIcon = rootFolder.querySelector('li[type] img');
-	var iconMarginRight = window.getComputedStyle(favIcon).marginRight; // contains '3px'
-	var textPaddingLeft = favIcon.offsetLeft + favIcon.scrollWidth + parseInt(iconMarginRight);
-	document.styleSheets[0].addRule('.noicon', 'padding-left:' + textPaddingLeft + 'px;');
+	if(!rootFolder.noIconCSSAdded)
+	{
+		var favIcon = rootFolder.querySelector('li[type] img');
+		var iconMarginRight = window.getComputedStyle(favIcon).marginRight; // contains '3px'
+		var textPaddingLeft = favIcon.offsetLeft + favIcon.scrollWidth + parseInt(iconMarginRight);
+		document.styleSheets[0].addRule('.noicon', 'padding-left:' + textPaddingLeft + 'px;');
+		rootFolder.noIconCSSAdded = true;
+	}
 }
 
 // vim:noet
