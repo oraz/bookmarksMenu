@@ -1,13 +1,12 @@
 
 var config; // will be initialized in DOMContentLoaded handler
-var autoId = 1; // id for google bookmarks
 
 function Bookmark(bookmarkNode)
 {
 	var bookmark = document.createElement('li');
 	if(config.useGoogleBookmarks)
 	{
-		bookmark.id = autoId++;
+		bookmark.id = Bookmark.autoId++;
 		bookmark.setAttribute('gid', bookmarkNode.id);
 	}
 	else
@@ -35,6 +34,8 @@ function Bookmark(bookmarkNode)
 	}
 	return bookmark;
 }
+
+Bookmark.autoId = 1; // id for google bookmarks
 
 HTMLBodyElement.prototype.setHeight = function(height)
 {
