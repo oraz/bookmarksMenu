@@ -372,6 +372,13 @@ with(HTMLLIElement)
 			chrome.extension.getBackgroundPage().remove(gid);
 			document.querySelectorAll('li[gid="' + gid + '"]').forEach('node.removeFromUI()');
 		}
+		// replace folder content after removing bookmark
+		var parentFolder = this.parentFolder;
+		if(!parentFolder.isRoot && parentFolder.exists !== false)
+		{
+			parentFolder.unHighlight();
+			parentFolder.displayFolderContent();
+		}
 	}
 	prototype.removeFromUI = function()
 	{
@@ -394,7 +401,12 @@ with(HTMLLIElement)
 					folderContent.removeChild(folder);
 				}
 				while(!folderContent.isRoot && folderContent.childElementCount == 0);
-
+				this.parentFolder.exists = false;
+				if(!folderContent.isRoot)
+				{
+					folderContent.parentElement.unHighlight();
+					folderContent.parentElement.displayFolderContent();
+				}
 			}
 		}
 		else if(folderContent.numberOfBookmarks-- <= 2 && folderContent.lastElementChild.isOpenAll)
