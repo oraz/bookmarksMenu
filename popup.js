@@ -339,7 +339,7 @@ with(HTMLLIElement)
 		var bodyHeight = body.scrollHeight;
 		if(ev.clientY + contextMenu.clientHeight > body.clientHeight)
 		{
-			if(contextMenu.clientHeight > body.clientHeight)
+			if(contextMenu.clientHeight > body.clientHeight || ev.clientY < contextMenu.clientHeight)
 			{
 				bodyHeight = ev.clientY + contextMenu.clientHeight + 5;
 				body.style.height = bodyHeight + 'px';
