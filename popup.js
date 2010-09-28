@@ -554,8 +554,11 @@ function processMenu(ev, contextMenu)
 			}
 			else if(action == 'addGBookmark')
 			{
+				var bookmark = contextMenu.selectedBookmark;
+				var label = bookmark.isBookmark && bookmark.parentFolder.isRoot ? '' : 
+						(bookmark.isFolder ? bookmark : bookmark.parentFolder).getAttribute('gid');
 				unSelect();
-				showGoogleBookmarkDialog();
+				showGoogleBookmarkDialog(label);
 			}
 			else if(action == 'useGoogleBookmarks' || action == 'useChromeBookmarks')
 			{
@@ -691,7 +694,7 @@ function fillFolderBySuggest(div)
 	$('suggest').hide();
 }
 
-function showGoogleBookmarkDialog()
+function showGoogleBookmarkDialog(initalLabel)
 {
 	chrome.tabs.getSelected(null, function(tab)
 	{
@@ -728,8 +731,8 @@ function showGoogleBookmarkDialog()
 	{
 		win.style.top = bodyHeight / 2 - winHeight / 2 + 'px';
 	}
-	var gbLabel = win.querySelector('#gbLabel');
-	gbLabel.value = '';
+	var gbLabel = $('gbLabel');
+	gbLabel.value = initalLabel;
 	gbLabel.focus();
 	var suggest = win.querySelector('#suggest');
 	suggest.style.width = suggest.style.maxWidth = gbLabel.clientWidth + 'px';
