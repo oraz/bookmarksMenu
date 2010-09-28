@@ -1,3 +1,7 @@
+Changelog 3.3.3 (28.09.2010)
+- Pre load currently selected label when adding new bookmark.
+- Suggest labels when adding multilabeled bookmark.
+
 Changelog 3.3.2 (23.09.2010)
 - Fixed errors in context menu positioning
 - Fixed errors in folder content positioning after removing bookmark

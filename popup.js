@@ -605,6 +605,7 @@ function suggestLabel(label)
 	if(newLabel == '')
 	{
 		suggestDiv.hide();
+		suggestDiv.querySelectorAll('div > div[class]').forEach('node.removeAttribute("class");');
 		return;
 	}
 	var mustBeShown = false;
