@@ -595,7 +595,13 @@ function isGBookmarkDataReady()
 function suggestLabel(label)
 {
 	var suggestDiv = $('suggest');
-	if(label.value == '')
+	var cursorPos = label.selectionStart;
+	var precededComma = label.value.lastIndexOf(',', cursorPos);
+	var nextComma = label.value.indexOf(',', cursorPos);
+	var newLabel = label.value.substring(precededComma + 1, nextComma == -1 ? undefined : nextComma)
+					.replace(/(^\s+)|(\s+$)/g, '')
+					.toLocaleLowerCase();
+	if(newLabel == '')
 	{
 		suggestDiv.hide();
 		return;
@@ -603,7 +609,7 @@ function suggestLabel(label)
 	var mustBeShown = false;
 	suggestDiv.querySelectorAll('div > div').forEach(function(node)
 	{
-		if(node.textContent.toLocaleLowerCase().indexOf(label.value.toLocaleLowerCase()) == 0)
+		if(node.textContent.toLocaleLowerCase().indexOf(newLabel) == 0)
 		{
 			mustBeShown = true;
 			node.show();
@@ -689,7 +695,13 @@ function selectSuggestion(e)
 function fillFolderBySuggest(div)
 {
 	var label = $('gbLabel');
-	label.value = div.textContent;
+	var value = label.value;
+	var cursorPos = label.selectionStart;
+	var precededComma = value.lastIndexOf(',', value.charAt(cursorPos) == ',' && cursorPos > 0 ? cursorPos - 1 : cursorPos);
+	var nextComma = value.indexOf(',', cursorPos);
+	label.value = value.substr(0, precededComma + 1) + div.textContent +
+					(nextComma == -1 ? '' : value.substr(nextComma)) +
+					(value.search(/,\s*$/) == -1 ? ', ' : '');
 	div.removeAttribute('class');
 	$('suggest').hide();
 }
@@ -732,7 +744,7 @@ function showGoogleBookmarkDialog(initalLabel)
 		win.style.top = bodyHeight / 2 - winHeight / 2 + 'px';
 	}
 	var gbLabel = $('gbLabel');
-	gbLabel.value = initalLabel;
+	gbLabel.value = initalLabel + ', ';
 	gbLabel.focus();
 	var suggest = win.querySelector('#suggest');
 	suggest.style.width = suggest.style.maxWidth = gbLabel.clientWidth + 'px';
