@@ -719,6 +719,13 @@ function showGoogleBookmarkDialog(initalLabel)
 	if(!win.initialized)
 	{
 		chrome.i18n.initAll(win);
+		$('gbLabel').onkeyup = function(e)
+		{
+			if(e.keyCode == 37 || e.keyCode == 39)
+			{
+				suggestLabel(this);
+			}
+		};
 		win.initialized = true;
 	}
 	win.show();
