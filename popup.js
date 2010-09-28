@@ -596,9 +596,10 @@ function suggestLabel(label)
 {
 	var suggestDiv = $('suggest');
 	var cursorPos = label.selectionStart;
-	var precededComma = label.value.lastIndexOf(',', cursorPos);
-	var nextComma = label.value.indexOf(',', cursorPos);
-	var newLabel = label.value.substring(precededComma + 1, nextComma == -1 ? undefined : nextComma)
+	var labelValue = label.value;
+	var precededComma = labelValue.lastIndexOf(',', labelValue.charAt(cursorPos) == ',' && cursorPos > 0 ? cursorPos - 1 : cursorPos);
+	var nextComma = labelValue.indexOf(',', cursorPos);
+	var newLabel = labelValue.substring(precededComma + 1, nextComma == -1 ? undefined : nextComma)
 					.replace(/(^\s+)|(\s+$)/g, '')
 					.toLocaleLowerCase();
 	if(newLabel == '')
@@ -699,7 +700,8 @@ function fillFolderBySuggest(div)
 	var cursorPos = label.selectionStart;
 	var precededComma = value.lastIndexOf(',', value.charAt(cursorPos) == ',' && cursorPos > 0 ? cursorPos - 1 : cursorPos);
 	var nextComma = value.indexOf(',', cursorPos);
-	label.value = value.substr(0, precededComma + 1) + div.textContent +
+	label.value = value.substr(0, precededComma + 1) + 
+					(precededComma == -1 ? '' : ' ') + div.textContent +
 					(nextComma == -1 ? '' : value.substr(nextComma)) +
 					(value.search(/,\s*$/) == -1 ? ', ' : '');
 	div.removeAttribute('class');
