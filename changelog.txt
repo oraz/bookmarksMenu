@@ -1,3 +1,7 @@
+Changelog 3.3.4 (10.10.2010)
+- Use appropriate favicon service after switching between Chrome and
+Google bookmarks using context menu
+
 Changelog 3.3.3 (28.09.2010)
 - Pre load currently selected label when adding new bookmark.
 - Suggest labels when adding multilabeled bookmark.

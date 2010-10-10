@@ -562,9 +562,12 @@ function processMenu(ev, contextMenu)
 			}
 			else if(action == 'useGoogleBookmarks' || action == 'useChromeBookmarks')
 			{
-				config.useGoogleBookmarks = action == 'useGoogleBookmarks';
-				changeBookmarkMode(config.useGoogleBookmarks);
-				localStorage['useGoogleBookmarks'] = config.useGoogleBookmarks;
+				var useGoogleBookmarks = action == 'useGoogleBookmarks';
+				changeBookmarkMode(useGoogleBookmarks);
+				config.faviconService = useGoogleBookmarks ?
+					getFaviconServiceForGoogle() : getFaviconServiceForChrome();
+				localStorage['useGoogleBookmarks'] =
+					config.useGoogleBookmarks = useGoogleBookmarks;
 
 				var contextMenu = $('contextMenu');
 				delete contextMenu.initialized;
