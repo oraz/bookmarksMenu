@@ -562,7 +562,7 @@ function processMenu(ev, contextMenu)
 			}
 			else if(action == 'useGoogleBookmarks' || action == 'useChromeBookmarks')
 			{
-				var useGoogleBookmarks = action == 'useGoogleBookmarks';
+				var useGoogleBookmarks = !config.useGoogleBookmarks;
 				changeBookmarkMode(useGoogleBookmarks);
 				config.faviconService = useGoogleBookmarks ?
 					getFaviconServiceForGoogle() : getFaviconServiceForChrome();
