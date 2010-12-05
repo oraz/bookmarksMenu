@@ -97,11 +97,11 @@
 					</tr>
 					<tr>
 						<td><label for="winMaxWidth" i18n="twWinMaxWidth"></label></td>
-						<td i18n="twMesurePX"><input type="text" maxlength="3" id="winMaxWidth" max="800" oninput="setIntProperty(this, 800)"/>&nbsp;</td>
+						<td i18n="twMesurePX"><input type="number" id="winMaxWidth" min="1" max="800" oninput="setIntProperty(this)"/>&nbsp;</td>
 					</tr>
 					<tr>
 						<td><label for="winMaxHeight" i18n="twWinMaxHeight"></label></td>
-						<td i18n="twMesurePX"><input type="text" maxlength="3" id="winMaxHeight" max="600" oninput="setIntProperty(this, 600)"/>&nbsp;</td>
+						<td i18n="twMesurePX"><input type="number" id="winMaxHeight" min="1" max="600" oninput="setIntProperty(this)"/>&nbsp;</td>
 					</tr>
 					<tr>
 						<th i18n="twMenuConfig" colspan="2"></th>
@@ -137,16 +137,16 @@
 					</tr>
 					<tr>
 						<td><label for="fontSize" i18n="twFontSize"></label></td>
-						<td i18n="twMesurePX"><input type="text" maxlength="2" id="fontSize" oninput="setIntProperty(this)"/>&nbsp;</td>
+						<td i18n="twMesurePX"><input type="number" id="fontSize" min="3" max="99" oninput="setIntProperty(this)"/>&nbsp;</td>
 					</tr>
 					<tr>
 						<td><label for="favIconWidth" i18n="twFaviconSize"></label></td>
-						<td i18n="twMesurePX"><input type="text" maxlength="2" id="favIconWidth" oninput="setIntProperty(this)"/>&nbsp;</td>
+						<td i18n="twMesurePX"><input type="number" id="favIconWidth" min="3" max="40" oninput="setIntProperty(this)"/>&nbsp;</td>
 					</tr>
 					<tr>
 						<td><label for="maxWidth" i18n="twMaxBookmarkWidth"></label></td>
 						<td>
-							<input type="text" id="maxWidth" oninput="setIntProperty(this)"/>
+							<input type="number" id="maxWidth" min="1" max="800" oninput="setIntProperty(this)"/>
 							<select size="1" id="maxWidthMesure" onchange="setMenuMaxWidthMesure(this)">
 								<option i18n="twMaxBookmarkWidthEM" value="em"></option>
 								<option i18n="twMaxBookmarkWidthPX" value="px"></option>
@@ -158,7 +158,7 @@
 					</tr>
 					<tr>
 						<td><label for="scrollBarWidth" i18n="twScrollBarWidth"></label></td>
-						<td i18n="twMesurePX"><input type="text" maxlength="2" id="scrollBarWidth" max="25" oninput="setIntProperty(this, 25)"/>&nbsp;</td>
+						<td i18n="twMesurePX"><input type="number" id="scrollBarWidth" min="1" max="25" oninput="setIntProperty(this)"/>&nbsp;</td>
 					</tr>
 					<tr>
 						<td colspan="2" style="padding-top: 1ex; text-align: left;">

@@ -78,6 +78,8 @@ div.tabs { display: table; }
 
 input.error { color: red; }
 
+input[type=number] { width: 5em; }
+
 input.color { width: 6em; }
 
 li.bgTab > span {

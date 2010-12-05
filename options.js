@@ -4,11 +4,12 @@ function setMouseButtonAction(select, button)
 	localStorage[button] = select.selectedIndex;
 }
 
-function setIntProperty(input, maxLimit)
+function setIntProperty(input)
 {
-	var value = input.value;
-	var re = /^\d+$/;
-	if(!re.test(value) || (maxLimit != undefined && value > maxLimit))
+	var value = parseInt(input.value);
+    var maxLimit = parseInt(input.getAttribute('max'));
+    var minLimit = parseInt(input.getAttribute('min'));
+	if(minLimit != undefined && value < minLimit || maxLimit != undefined && value > maxLimit)
 	{
 		input.setAttribute('class', 'error');
 		return;
