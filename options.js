@@ -4,18 +4,21 @@ function setMouseButtonAction(select, button)
 	localStorage[button] = select.selectedIndex;
 }
 
-function setIntProperty(input)
+function setIntProperty(inputField)
 {
-	var value = parseInt(input.value);
-    var maxLimit = parseInt(input.getAttribute('max'));
-    var minLimit = parseInt(input.getAttribute('min'));
-	if(minLimit != undefined && value < minLimit || maxLimit != undefined && value > maxLimit)
+	var value = parseInt(inputField.value);
+    var maxLimit = parseInt(inputField.getAttribute('max'));
+    var minLimit = parseInt(inputField.getAttribute('min'));
+	if(isNaN(inputField.value) || isNaN(value) ||
+		(!isNaN(minLimit) && value < minLimit) ||
+		(!isNaN(maxLimit) && value > maxLimit))
 	{
-		input.setAttribute('class', 'error');
+		
+		inputField.setAttribute('class', 'error');
 		return;
 	}
-	input.removeAttribute('class');
-	localStorage[input.id] = value;
+	inputField.removeAttribute('class');
+	localStorage[inputField.id] = value;
 }
 
 function setBoolProperty(property, value)
@@ -223,6 +226,14 @@ function initWindowSettingsTab()
 
 document.addEventListener("DOMContentLoaded", function()
 {
+	var appVersion = navigator.appVersion;
+	var ChromeVersion = 5;
+	if(appVersion.indexOf("Chrome/") >= 0) {
+		ChromeVersion = parseInt(appVersion.substr(appVersion.indexOf("Chrome/") + 7));
+	}
+	if(ChromeVersion < 8) {
+		document.querySelectorAll('input[type="number"]').forEach('node.setAttribute("type", "text")');
+	}
 	addButtonCSS();
 	chrome.i18n.initAll();
 	showTab(document.querySelector('li.fgTab span'));
