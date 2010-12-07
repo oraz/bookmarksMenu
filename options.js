@@ -290,5 +290,3 @@ document.addEventListener("DOMContentLoaded", function()
 	}
 
 }, false);
-
-// vim:noet

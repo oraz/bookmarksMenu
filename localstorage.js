@@ -106,5 +106,3 @@ function getFaviconServiceForGoogle()
 	var service = localStorage['gbFaviconService'];
 	return service == undefined ? 2 : service;
 }
-
-// vim:noet ts=4 sw=4

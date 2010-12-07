@@ -278,5 +278,3 @@ document.addEventListener("DOMContentLoaded", function()
 		port.onMessage.addListener(onIncomingMessage);
 	});
 });
-
-// vim: noet
