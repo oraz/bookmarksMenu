@@ -106,3 +106,8 @@ function getFaviconServiceForGoogle()
 	var service = localStorage['gbFaviconService'];
 	return service == undefined ? 2 : service;
 }
+
+function isShowSwitcherInCM()
+{
+	return localStorage['showSwitcherInCM'] != 'false';
+}

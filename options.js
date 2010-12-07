@@ -23,14 +23,7 @@ function setIntProperty(inputField)
 
 function setBoolProperty(property, value)
 {
-	if(value)
-	{
-		localStorage[property] = true;
-	}
-	else
-	{
-		delete localStorage[property];
-	}
+	localStorage[property] = value;
 }
 
 function setFontFamily(fontFamily)
@@ -201,6 +194,7 @@ function resetWindowSettings()
 		removeItem('scrollBarWidth');
 		removeItem('showTooltip');
 		removeItem('showURL');
+		removeItem('showSwitcherInCM');
 	}
 	document.querySelectorAll('input.color').forEach(function()
 	{
@@ -227,6 +221,7 @@ function initWindowSettingsTab()
 	$('scrollBarWidth').value = getScrollBarWidth();
 	$('showTooltip').checked = isShowTooltip();
 	$('showURL').checked = isShowURL();
+	$('twShowSwitcherInCM').checked = isShowSwitcherInCM();
 	document.querySelectorAll('input.color').forEach(function()
 	{
 		this.color.fromString(getColor(this.id));

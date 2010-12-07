@@ -80,6 +80,9 @@
     "twScrollBarWidth": { "message": "Largeur de la ligne de défilement:" },
     "twShowTooltip": { "message": "Montrer info-bulle pour noms longs" },
     "twShowURL": { "message": "Montrer info-bulle avec l'adresse de favori" },
+    
+    "twContextMenu": { "message": "Configuration de menu contextuel" },
+    "twShowSwitcherInCM": { "message": "Montrer point 'Utiliser les favoris de Chrome/Google'" },
 
     "twColorScheme": { "message": "Configuration de couleurs" },
     "twBodyColor": { "message": "Couleur du fond de la fenêtre:" },

@@ -308,11 +308,23 @@ HTMLLIElement.prototype.showContextMenu = function(ev)
 			'li[action="reorder"], li[action="useGoogleBookmarks"]' :
 			'li[action="addGBookmark"], li[action="reload"], li[action="useChromeBookmarks"]').
 				forEach(function() { this.hide(); });
+		
+		if(!isShowSwitcherInCM())
+		{
+			if(!config.useGoogleBookmarks)
+			{
+				contextMenu.querySelector('li[action="useGoogleBookmarks"]').hide();
+				contextMenu.querySelectorAll('li.separator')[1].hide();
+			}
+			else
+			{
+				contextMenu.querySelector('li[action="useChromeBookmarks"]').hide();
+			}
+		}
 		contextMenu.initialized = true;
 	}
 	contextMenu.selectedBookmark = this;
 	contextMenu.setAttribute('for', this.getAttribute('type'));
-	var menuItems = contextMenu.getElementsByTagName('li');
 	if(this.isFolder)
 	{
 		var className = this.lastChild.numberOfBookmarks > 0 ? 'enabled' : 'disabled';

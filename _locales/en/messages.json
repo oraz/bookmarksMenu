@@ -74,6 +74,9 @@
     "twScrollBarWidth": { "message": "Scrollbar width:" },
     "twShowTooltip": { "message": "Show tooltip for long bookmark names" },
     "twShowURL": { "message": "Show tooltip with bookmark location" },
+    
+    "twContextMenu": { "message": "Context menu settings" },
+    "twShowSwitcherInCM": { "message": "Show menu item 'Use Chrome/Google bookmarks'" },
 
     "twColorScheme": { "message": "Color scheme" },
     "twBodyColor": { "message": "Window background color:" },
