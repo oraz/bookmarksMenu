@@ -84,7 +84,10 @@ function clearGoogleBookmarksDiv()
 	var gbookmarks = document.querySelectorAll('#googleBookmarksSettings > .gbookmark');
 	if(gbookmarks)
 	{
-		gbookmarks.forEach('node.parentElement.removeChild(node)');
+		gbookmarks.forEach(function()
+		{
+			this.parentElement.removeChild(this);
+		});
 	}
 }
 
@@ -199,7 +202,10 @@ function resetWindowSettings()
 		removeItem('showTooltip');
 		removeItem('showURL');
 	}
-	document.querySelectorAll('input.color').forEach('localStorage.removeItem(node.id)');
+	document.querySelectorAll('input.color').forEach(function()
+	{
+		localStorage.removeItem(this.id);
+	});
 	initWindowSettingsTab();
 }
 
@@ -221,18 +227,26 @@ function initWindowSettingsTab()
 	$('scrollBarWidth').value = getScrollBarWidth();
 	$('showTooltip').checked = isShowTooltip();
 	$('showURL').checked = isShowURL();
-	document.querySelectorAll('input.color').forEach('node.color.fromString(getColor(node.id))');
+	document.querySelectorAll('input.color').forEach(function()
+	{
+		this.color.fromString(getColor(this.id));
+	});
 }
 
 document.addEventListener("DOMContentLoaded", function()
 {
 	var appVersion = navigator.appVersion;
 	var ChromeVersion = 5;
-	if(appVersion.indexOf("Chrome/") >= 0) {
+	if(appVersion.indexOf("Chrome/") >= 0)
+	{
 		ChromeVersion = parseInt(appVersion.substr(appVersion.indexOf("Chrome/") + 7));
 	}
-	if(ChromeVersion < 8) {
-		document.querySelectorAll('input[type="number"]').forEach('node.setAttribute("type", "text")');
+	if(ChromeVersion < 8)
+	{
+		document.querySelectorAll('input[type="number"]').forEach(function()
+		{
+			this.setAttribute('type', 'text');
+		});
 	}
 	addButtonCSS();
 	chrome.i18n.initAll();

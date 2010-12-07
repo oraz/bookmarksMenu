@@ -3,28 +3,16 @@ navigator.isWindows = navigator.platform && navigator.platform.indexOf('Win') ==
 
 function $(id) { return document.getElementById(id); }
 
-NodeList.prototype.forEach = function(func)
+NodeList.prototype.forEach = function(func, scope)
 {
-	var isString = typeof func == 'string';
 	for(var idx = 0, len = this.length; idx < len; idx++)
 	{
-		if(isString)
-		{
-			var node = this[idx];
-			eval(func);
-		}
-		else
-		{
-			func(this[idx], idx);
-		}
+        func.call(scope || this[idx], this[idx], idx);
 	}
 }
 
-with(HTMLElement)
-{
-	prototype.show = function() { this.style.display = 'block'; }
-	prototype.hide = function() { this.style.display = 'none'; }
-}
+HTMLElement.prototype.show = function() { this.style.display = 'block'; }
+HTMLElement.prototype.hide = function() { this.style.display = 'none'; }
 
 chrome.i18n.initElement = function(el)
 {
@@ -90,5 +78,3 @@ function addButtonCSS()
 		document.querySelector('html > head').appendChild(link);
 	}
 }
-
-// vim:noet
