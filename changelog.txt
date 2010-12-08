@@ -1,3 +1,7 @@
+Changelog 3.4.0 (XX.12.2010)
+- Added a couple of options for customizing context menu
+- A few code changes
+
 Changelog 3.3.5 (06.12.2010)
 - Use HTML5 number fields on options page (requires Chrome version 8 or later).
 
