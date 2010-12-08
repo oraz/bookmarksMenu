@@ -90,6 +90,16 @@
     "twActiveBmBgClrTo": { "message": "до:" },
 
     "twRestoreDflt": { "message": "Восстановить значения по умолчанию" },
+    
+    "donateHeader": { "message": "Если Вам нравится это расширение и Вы хотели бы проспонсировать автора,<br/>то Вы можете это сделать, используя систему <a href=\"http://webmoney.ru\" target=\"_blank\">WebMoney</a> или <a href=\"https://money.yandex.ru\" target=\"_blank\">Яндекс.Деньги</a>" },
+    "donateWMHeader": { "message": "Реквизиты для платежа в системе WebMoney" },
+    "donateWMPurseZ": { "message": "Кошелёк для долларов" },
+    "donateWMPurseE": { "message": "Кошелёк для евро" },
+    "donateWMPurseR": { "message": "Кошелёк для рублей" },
+    "donateYM": { "message": "Яндекс.Деньги" },
+    "donateYaMHeader": { "message": "Реквизиты для платежа в системе Яндекс.Деньги" },
+    "donateYaMBill": { "message": "Номер счёта" },
+    "donateYaMMail": { "message": "e-mail получателя" },
 
     // Background page
     "needAllowIncognito": { "message": "Вам необходимо разрешить расширению 'Bookmarks menu' работать в анонимном режиме! Вы можете сделать это на странице расширений." }

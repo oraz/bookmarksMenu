@@ -6,6 +6,24 @@
 
 body { padding: 10px; }
 
+fieldset {
+	display: block;
+	padding: 1ex 1em;
+	margin: 1ex 1em 1ex 0;
+}
+
+fieldset td { text-align: left; }
+
+fieldset ul {
+	list-style: none;
+	margin-top: 1ex;
+	padding-left: 0.5em;
+}
+
+fieldset li {
+	padding: 0.2ex 0;
+}
+
 h1 { font-size: 18px; font-weight: bold; }
 
 h1 > img {
@@ -22,9 +40,9 @@ hr {
 
 input[type="text"], input[type="number"] { width: 5em; }
 
-li { display: inline-block; }
+#tabs > li { display: inline-block; }
 
-li > span {
+#tabs > li > span {
     display: block;
     font-size: 14px;
     border-width: 1px; border-style: solid; border-top-left-radius: 3px; border-top-right-radius: 3px;
@@ -41,7 +59,7 @@ th {
 
 td { padding: 2px; }
 
-ul {
+div.tabs > ul {
     list-style: none;
     position: relative;
     z-index: 1;
@@ -93,6 +111,8 @@ li.fgTab > span {
     border-color: #6f5e5e; border-bottom-color: white;
     cursor: default;
 }
+
+span.purse { font-weight: bold; }
 
 #labelSeparator {
     width: 5em;

@@ -247,6 +247,7 @@ document.addEventListener("DOMContentLoaded", function()
 	}
 	addButtonCSS();
 	chrome.i18n.initAll();
+	$('donateHeader').innerHTML = chrome.i18n.getMessage('donateHeader');
 	showTab(document.querySelector('li.fgTab span'));
 
 	// init Bookmarks tab

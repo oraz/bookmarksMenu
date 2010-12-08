@@ -90,6 +90,16 @@
     "twActiveBmBgClrTo": { "message": "gradient to:" },
 
     "twRestoreDflt": { "message": "Restore default settings" },
+    
+    "donateHeader": { "message": "If you like this extension and you'd like donating a little money to the author,<br/>you can do it using the system <a href=\"http://webmoney.ru\" target=\"_blank\">WebMoney</a> or <a href=\"https://money.yandex.ru\" target=\"_blank\">Yandex.Money</a>" },
+    "donateWMHeader": { "message": "Payment properties in WebMoney system" },
+    "donateWMPurseZ": { "message": "Purse for dollars" },
+    "donateWMPurseE": { "message": "Purse for euros" },
+    "donateWMPurseR": { "message": "Purse for roubles" },
+    "donateYM": { "message": "Yandex.Money" },
+    "donateYaMHeader": { "message": "Payment properties in Yandex.Money system" },
+    "donateYaMBill": { "message": "Bill number" },
+    "donateYaMMail": { "message": "e-mail" },
 
     // Background page
     "needAllowIncognito": { "message": "You need to allow 'Bookmarks menu' to run in incognito! You can do it on extensions page." }

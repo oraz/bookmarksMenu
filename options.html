@@ -17,7 +17,30 @@
 				<li class="fgTab" for="bookmarksShowHide"><span i18n="tabBookmarks" onclick="showTab(this)"></span></li>
 				<li class="bgTab" for="uiConfig"><span i18n="tabWindow" onclick="showTab(this)"></span></li>
 				<li class="bgTab" for="mouseConfig"><span i18n="tabMouse" onclick="showTab(this)"></span></li>
+				<li class="bgTab" for="donate"><span onclick="showTab(this)">Donate</span></li>
 			</ul>
+			<div class="config" id="donate">
+				<p style="margin: 1ex 0.2em 0 0;" id="donateHeader"><!-- The body will be filled up in DOMContentLoaded handler --></p>
+				<div style="display: inline-block;">
+					<fieldset>
+						<legend>WebMoney</legend>
+						<span i18n="donateWMHeader"></span>
+						<ul>
+							<li><span i18n="donateWMPurseZ"></span>&nbsp;(WMZ):&nbsp;<span class="purse">Z148904597332</span></li>
+							<li><span i18n="donateWMPurseE"></span>&nbsp;(WME):&nbsp;<span class="purse">E428587694353</span></li>
+							<li><span i18n="donateWMPurseR"></span>&nbsp;(WMR):&nbsp;<span class="purse">R737243906282</span></li>
+						</ul>
+					</fieldset>
+					<fieldset>
+						<legend i18n="donateYM"></legend>
+						<span i18n="donateYaMHeader"></span>
+						<ul>
+							<li><span i18n="donateYaMBill"></span>:&nbsp;<span class="purse">41001801616317</span></li>
+							<li><span i18n="donateYaMMail"></span>:&nbsp;<span class="purse">oraz.ra@yandex.ru</span></li>
+						</ul>
+					</fieldset>
+				</div>
+			</div>
 			<div class="config" id="mouseConfig">
 				<table cellspacing="0" cellpadding="0" style="margin-bottom: 1ex;">
 					<tr>
