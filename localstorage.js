@@ -111,3 +111,8 @@ function isHideCMModeSwitcher()
 {
 	return localStorage['hideCMModeSwitcher'] == 'true';
 }
+
+function isHideCMOpenIncognito()
+{
+	return localStorage['hideCMOpenIncognito'] == 'true';
+}

@@ -309,6 +309,12 @@ HTMLLIElement.prototype.showContextMenu = function(ev)
 			'li[action="addGBookmark"], li[action="reload"], li[action="useChromeBookmarks"]').
 				forEach(function() { this.hide(); });
 		
+		if(isHideCMOpenIncognito())
+		{
+			contextMenu.
+				querySelectorAll('li[action="openInIncognitoWindow"], li[action="openAllInIncognitoWindow"]').
+				forEach(function() { this.hide(); });
+		}
 		if(isHideCMModeSwitcher())
 		{
 			if(!config.useGoogleBookmarks)

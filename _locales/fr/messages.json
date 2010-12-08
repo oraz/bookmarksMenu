@@ -82,6 +82,7 @@
     "twShowURL": { "message": "Montrer info-bulle avec l'adresse de favori" },
     
     "twContextMenu": { "message": "Configuration de menu contextuel" },
+    "twHideCMOpenIncognito": { "message": "Cacher le point 'Ouvrir dans une fenêtre de navigation privée'" },
     "twHideCMModeSwitcher": { "message": "Cacher le point 'Utiliser les favoris de Chrome/Google'" },
 
     "twColorScheme": { "message": "Configuration de couleurs" },

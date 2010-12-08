@@ -76,6 +76,7 @@
     "twShowURL": { "message": "Show tooltip with bookmark location" },
     
     "twContextMenu": { "message": "Context menu settings" },
+    "twHideCMOpenIncognito": { "message": "Hide menu item 'Open in Incognito Window'" },
     "twHideCMModeSwitcher": { "message": "Hide menu item 'Use Chrome/Google bookmarks'" },
 
     "twColorScheme": { "message": "Color scheme" },

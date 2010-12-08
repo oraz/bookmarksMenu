@@ -76,6 +76,7 @@
     "twShowURL": { "message": "Показывать всплывающую подсказку c адресом закладки" },
     
     "twContextMenu": { "message": "Настройки контекстного меню" },
+    "twHideCMOpenIncognito": { "message": "Скрыть пункт 'Открыть в режиме инкогнито'" },
     "twHideCMModeSwitcher": { "message": "Скрыть пункт 'Использовать закладки Chrome/Google'" },
 
     "twColorScheme": { "message": "Настройка цветов" },

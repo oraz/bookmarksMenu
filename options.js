@@ -193,8 +193,9 @@ function resetWindowSettings()
 		removeItem('maxWidthMesure');
 		removeItem('scrollBarWidth');
 		removeItem('showTooltip');
-		removeItem('showURL');
+		removeItem('hideCMOpenIncognito');
 		removeItem('hideCMModeSwitcher');
+		removeItem('showURL');
 	}
 	document.querySelectorAll('input.color').forEach(function()
 	{
@@ -220,8 +221,9 @@ function initWindowSettingsTab()
 	$('maxWidthMesure').selectByValue(getMaxWidthMesure());
 	$('scrollBarWidth').value = getScrollBarWidth();
 	$('showTooltip').checked = isShowTooltip();
-	$('showURL').checked = isShowURL();
+	$('hideCMOpenIncognito').checked = isHideCMOpenIncognito();
 	$('hideCMModeSwitcher').checked = isHideCMModeSwitcher();
+	$('showURL').checked = isShowURL();
 	document.querySelectorAll('input.color').forEach(function()
 	{
 		this.color.fromString(getColor(this.id));
