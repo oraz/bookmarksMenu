@@ -106,6 +106,7 @@
     "donateYaMHeader": { "message": "Payement dans le système Yandex.Money" },
     "donateYaMBill": { "message": "Le numéro du compte" },
     "donateYaMMail": { "message": "Émail" },
+    "donateThanks": { "message": "Merci beaucoup!" },
 
     // Background page
     "needAllowIncognito": { "message": "Il est nécessaire de permettre à 'Bookmarks menu' de s'exécuter en mode de navigation privée! Vous pouvez le faire sur la page des extensions." }

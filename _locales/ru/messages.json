@@ -100,6 +100,7 @@
     "donateYaMHeader": { "message": "Реквизиты для платежа в системе Яндекс.Деньги" },
     "donateYaMBill": { "message": "Номер счёта" },
     "donateYaMMail": { "message": "e-mail получателя" },
+    "donateThanks": { "message": "Спасибо!" },
 
     // Background page
     "needAllowIncognito": { "message": "Вам необходимо разрешить расширению 'Bookmarks menu' работать в анонимном режиме! Вы можете сделать это на странице расширений." }
