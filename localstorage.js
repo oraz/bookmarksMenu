@@ -107,7 +107,7 @@ function getFaviconServiceForGoogle()
 	return service == undefined ? 2 : service;
 }
 
-function isShowSwitcherInCM()
+function isHideCMModeSwitcher()
 {
-	return localStorage['showSwitcherInCM'] != 'false';
+	return localStorage['hideCMModeSwitcher'] == 'true';
 }

@@ -76,7 +76,7 @@
     "twShowURL": { "message": "Показывать всплывающую подсказку c адресом закладки" },
     
     "twContextMenu": { "message": "Настройки контекстного меню" },
-    "twShowSwitcherInCM": { "message": "Показывать пункт 'Использовать закладки Chrome/Google'" },
+    "twHideCMModeSwitcher": { "message": "Скрыть пункт 'Использовать закладки Chrome/Google'" },
 
     "twColorScheme": { "message": "Настройка цветов" },
     "twBodyColor": { "message": "Цвет фона окна:" },

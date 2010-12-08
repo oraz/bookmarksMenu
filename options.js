@@ -194,7 +194,7 @@ function resetWindowSettings()
 		removeItem('scrollBarWidth');
 		removeItem('showTooltip');
 		removeItem('showURL');
-		removeItem('showSwitcherInCM');
+		removeItem('hideCMModeSwitcher');
 	}
 	document.querySelectorAll('input.color').forEach(function()
 	{
@@ -221,7 +221,7 @@ function initWindowSettingsTab()
 	$('scrollBarWidth').value = getScrollBarWidth();
 	$('showTooltip').checked = isShowTooltip();
 	$('showURL').checked = isShowURL();
-	$('twShowSwitcherInCM').checked = isShowSwitcherInCM();
+	$('hideCMModeSwitcher').checked = isHideCMModeSwitcher();
 	document.querySelectorAll('input.color').forEach(function()
 	{
 		this.color.fromString(getColor(this.id));

@@ -309,7 +309,7 @@ HTMLLIElement.prototype.showContextMenu = function(ev)
 			'li[action="addGBookmark"], li[action="reload"], li[action="useChromeBookmarks"]').
 				forEach(function() { this.hide(); });
 		
-		if(!isShowSwitcherInCM())
+		if(isHideCMModeSwitcher())
 		{
 			if(!config.useGoogleBookmarks)
 			{
