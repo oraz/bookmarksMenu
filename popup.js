@@ -240,14 +240,6 @@ HTMLLIElement.prototype.openAllInTabs = function(firstInCurrentTab)
 		{
 			bookmark.open();
 		}
-		else if(idx == 0 && navigator.userAgent.indexOf('Linux x86_64') != -1)
-		{
-			// special fix for Linux x86_64
-			chrome.tabs.create({ url: bookmark.url, selected: false }, function(tab)
-			{
-				chrome.tabs.update(tab.id, { selected: true });
-			});
-		}
 		else
 		{
 			chrome.tabs.create({ url: bookmark.url, selected: idx == 0 });
