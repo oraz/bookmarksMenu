@@ -277,22 +277,4 @@ document.addEventListener("DOMContentLoaded", function()
 	{
 		port.onMessage.addListener(onIncomingMessage);
 	});
-	var xhr = new XMLHttpRequest();
-	xhr.onreadystatechange = function()
-	{
-		if(this.readyState == 4)
-		{
-			var perms = JSON.parse(this.responseText).permissions;
-			for(var idx = 0, len = perms.length; idx < len; idx++)
-			{
-				if(perms[idx] == 'experimental')
-				{
-					alert("Ok");
-					break;
-				}
-			}
-		}
-	};
-	xhr.open("GET", chrome.extension.getURL('manifest.json'), true);
-	xhr.send();
 });

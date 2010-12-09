@@ -1,6 +1,6 @@
 {
 	"name": "Bookmarks Menu",
-	"version": "3.4.0.2",
+	"version": "3.4.0.1",
 	"description": "__MSG_extDescription__",
 	"default_locale": "en",
 	"browser_action":
@@ -20,7 +20,6 @@
 	"minimum_chrome_version": "5",
 	"permissions":
 	[
-		"experimental",
 		"bookmarks",
 		"chrome://favicon/",
 		"http://*/*",
