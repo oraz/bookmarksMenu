@@ -248,6 +248,11 @@ HTMLLIElement.prototype.openAllInTabs = function(firstInCurrentTab)
 	window.close();
 }
 
+HTMLLIElement.prototype.copyURL = function()
+{
+	chrome.experimental.bookmarkManager.copy([this.id.toString()]);
+}
+
 HTMLLIElement.prototype.openAllInNewWindow = function(incognito)
 {
 	var urls = new Array();
@@ -300,7 +305,10 @@ HTMLLIElement.prototype.showContextMenu = function(ev)
 			'li[action="reorder"], li[action="useGoogleBookmarks"]' :
 			'li[action="addGBookmark"], li[action="reload"], li[action="useChromeBookmarks"]').
 				forEach(function() { this.hide(); });
-		
+		if(config.useGoogleBookmarks)
+		{
+			contextMenu.querySelector('li[action="copyURL"]').hide();
+		}
 		if(isHideCMOpenIncognito())
 		{
 			contextMenu.
@@ -334,6 +342,10 @@ HTMLLIElement.prototype.showContextMenu = function(ev)
 		this.parentElement.childElementCount > 1 ? 'enabled' : 'disabled';
 	contextMenu.querySelector('li[action="remove"]').className =
 		this.isBookmark || this.isFolder && this.isEmpty ? 'enabled' : 'disabled';
+	if(!config.useGoogleBookmarks)
+	{
+		contextMenu.querySelector('li[action="copyURL"]')[this.isFolder ? 'hide' : 'show']();
+	}
 	contextMenu.show();
 
 	var body = document.body;
