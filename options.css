@@ -10,6 +10,8 @@ fieldset {
 	display: block;
 	padding: 1ex 1em;
 	margin: 1ex 1em 1ex 0;
+	border: 1px solid black;
+	border-radius: 3px;
 }
 
 fieldset td { text-align: left; }
@@ -20,9 +22,7 @@ fieldset ul {
 	padding-left: 0.5em;
 }
 
-fieldset li {
-	padding: 0.2ex 0;
-}
+fieldset li { padding: 0.2ex 0; }
 
 h1 { font-size: 18px; font-weight: bold; }
 
