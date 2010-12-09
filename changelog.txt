@@ -1,3 +1,6 @@
+Changelog 3.4.1 (09.12.2010)
+- A few CSS changes
+
 Changelog 3.4.0 (08.12.2010)
 - Added a couple of options for customizing context menu
 - A few code changes
