@@ -91,7 +91,7 @@
 
     "twRestoreDflt": { "message": "Восстановить значения по умолчанию" },
     
-    "donateHeader": { "message": "Если Вам нравится это расширение и Вы хотели бы проспонсировать автора,<br/>то Вы можете это сделать, используя систему <a href=\"http://webmoney.ru\" target=\"_blank\">WebMoney</a> или <a href=\"https://money.yandex.ru\" target=\"_blank\">Яндекс.Деньги</a>" },
+    "donateHeader": { "message": "Если Вам нравится это расширение и Вы бы хотели меня проспонсировать,<br/>то Вы можете это сделать, используя систему <a href=\"http://webmoney.ru\" target=\"_blank\">WebMoney</a> или <a href=\"https://money.yandex.ru\" target=\"_blank\">Яндекс.Деньги</a>" },
     "donateWMHeader": { "message": "Реквизиты для платежа в системе WebMoney" },
     "donateWMPurseZ": { "message": "Кошелёк для долларов" },
     "donateWMPurseE": { "message": "Кошелёк для евро" },

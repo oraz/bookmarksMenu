@@ -97,7 +97,7 @@
 
     "twRestoreDflt": { "message": "Restaurer les valeurs par défaut" },
     
-    "donateHeader": { "message": "Si l'extension vous plait et vous voudriez donner un peu d'argent à l'auteur,<br/>vous pouvez le faire en utilisant le système <a href=\"http://webmoney.ru\" target=\"_blank\">WebMoney</a> ou <a href=\"https://money.yandex.ru\" target=\"_blank\">Yandex.Money</a>" },
+    "donateHeader": { "message": "Si l'extension vous plait et vous voudriez me donner un peu d'argent,<br/>vous pouvez le faire en utilisant le système <a href=\"http://webmoney.ru\" target=\"_blank\">WebMoney</a> ou <a href=\"https://money.yandex.ru\" target=\"_blank\">Yandex.Money</a>" },
     "donateWMHeader": { "message": "Payement dans le système WebMoney" },
     "donateWMPurseZ": { "message": "Bourse pour dollars" },
     "donateWMPurseE": { "message": "Bourse pour euros" },

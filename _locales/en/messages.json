@@ -91,7 +91,7 @@
 
     "twRestoreDflt": { "message": "Restore default settings" },
     
-    "donateHeader": { "message": "If you like this extension and you'd like to donate a little money to the author,<br/>you can do it using the system <a href=\"http://webmoney.ru\" target=\"_blank\">WebMoney</a> or <a href=\"https://money.yandex.ru\" target=\"_blank\">Yandex.Money</a>" },
+    "donateHeader": { "message": "If you like this extension and you'd like to donate a little money to me,<br/>you can do it using the system <a href=\"http://webmoney.ru\" target=\"_blank\">WebMoney</a> or <a href=\"https://money.yandex.ru\" target=\"_blank\">Yandex.Money</a>" },
     "donateWMHeader": { "message": "Payment properties in WebMoney system" },
     "donateWMPurseZ": { "message": "Purse for dollars" },
     "donateWMPurseE": { "message": "Purse for euros" },
