@@ -42,7 +42,7 @@ function getWindowMaxHeight()
 function getFontFamily()
 {
 	var fontFamily = localStorage['fontFamily'];
-	return fontFamily ? fontFamily : "DejaVu Sans";
+	return fontFamily ? fontFamily : "Verdana";
 }
 
 function getFontSize()
