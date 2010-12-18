@@ -69,7 +69,7 @@ function getFavicon(url, serviceId)
 
 function addButtonCSS()
 {
-	if(navigator.isWindows)
+	//if(navigator.isWindows)
 	{
 		var link = document.createElement('link');
 		link.setAttribute('rel', 'stylesheet');

@@ -16,13 +16,16 @@ fieldset {
 
 fieldset td { text-align: left; }
 
-fieldset ul {
-	list-style: none;
-	margin-top: 1ex;
-	padding-left: 0.5em;
+#donate ul {
+    list-style: none;
+    padding-top: 1.5ex;
 }
 
-fieldset li { padding: 0.2ex 0; }
+#donate p {  font-weight: bold; }
+
+#donate li { padding: 0.5ex 0; }
+
+#donate button { margin: 0.5ex 0 1.5ex; }
 
 h1 { font-size: 18px; font-weight: bold; }
 
@@ -76,7 +79,7 @@ div.config {
     display: none;
     border: 1px solid #6f5e5e;
     position: relative; top: -1px;
-    padding: 2px;
+    padding: 0.5ex 0.5em;
     z-index: 0;
 }
 

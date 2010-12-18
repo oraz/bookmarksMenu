@@ -91,16 +91,8 @@
 
     "twRestoreDflt": { "message": "Restore default settings" },
     
-    "donateHeader": { "message": "If you like this extension and you'd like to donate a little money to me,<br/>you can do it using the system <a href=\"http://webmoney.ru\" target=\"_blank\">WebMoney</a> or <a href=\"https://money.yandex.ru\" target=\"_blank\">Yandex.Money</a>" },
-    "donateWMHeader": { "message": "Payment properties in WebMoney system" },
-    "donateWMPurseZ": { "message": "Purse for dollars" },
-    "donateWMPurseE": { "message": "Purse for euros" },
-    "donateWMPurseR": { "message": "Purse for roubles" },
-    "donateYM": { "message": "Yandex.Money" },
-    "donateYaMHeader": { "message": "Payment properties in Yandex.Money system" },
-    "donateYaMBill": { "message": "Bill number" },
-    "donateYaMMail": { "message": "e-mail" },
-    "donateThanks": { "message": "Thank you!" },
+    "donateHeader": { "message": "I'm glad that you use this extension.<br/>If you like it very much, you can sponsor me.<br/>Thank you!" },
+    "btnDonate": { "message": "Send via PayPal" },
 
     // Background page
     "needAllowIncognito": { "message": "You need to allow 'Bookmarks menu' to run in incognito! You can do it on extensions page." }
