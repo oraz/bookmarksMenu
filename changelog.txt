@@ -1,5 +1,10 @@
+Changelog 3.4.3 (18.12.2010)
+- A little changes in options page
+- Changed info in Donate tab
+
 Changelog 3.4.2 (12.12.2010)
 - A little changes in options page
+- Set default font to Verdana
 
 Changelog 3.4.1 (09.12.2010)
 - A few CSS changes
