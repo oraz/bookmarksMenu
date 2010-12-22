@@ -96,13 +96,13 @@ input.error { color: red; }
 input.color { width: 6em; }
 
 li.bgTab {
-    background-color: #dadada;
+    background-color: #ece9e9;
     border-color: #a39e9e; border-bottom-color: #6f5e5e;
     cursor: pointer;
     z-index: 0;
 }
 
-li.bgTab:hover { background-color: #ece9e9; }
+li.bgTab:hover { background-color: #dadada; }
 
 li.fgTab {
     background-color: white;
