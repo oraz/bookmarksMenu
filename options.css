@@ -1,20 +1,10 @@
 * {
-    font: 13px "DejaVu Sans", "Bitstream Vera Sans", sans-serif;
+    font: 13px "Verdana";
     margin: 0;
     padding: 0;
 }
 
-body { padding: 10px; }
-
-fieldset {
-	display: block;
-	padding: 1ex 1em;
-	margin: 1ex 1em 1ex 0;
-	border: 1px solid black;
-	border-radius: 3px;
-}
-
-fieldset td { text-align: left; }
+body { padding: 1ex 1em; }
 
 #donate ul {
     list-style: none;
