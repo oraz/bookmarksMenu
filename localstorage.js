@@ -1,20 +1,17 @@
 
 function getButtonAction(btn)
 {
-	var action = localStorage[btn];
-	return action != undefined ? action : btn;
+	return localStorage[btn] || btn;
 }
 
 function getMaxWidth()
 {
-	var maxWidth = localStorage['maxWidth'];
-	return maxWidth != undefined ? maxWidth : 30;
+	return localStorage['maxWidth'] || 30;
 }
 
 function getMaxWidthMesure()
 {
-	var mesure = localStorage['maxWidthMesure'];
-	return mesure != undefined ? mesure : 'em';
+	return localStorage['maxWidthMesure'] || 'em';
 }
 
 function isBookmarkHidden(title, useGoogleBookmarks)
@@ -41,20 +38,17 @@ function getWindowMaxHeight()
 
 function getFontFamily()
 {
-	var fontFamily = localStorage['fontFamily'];
-	return fontFamily ? fontFamily : "Verdana";
+	return localStorage['fontFamily'] || 'Verdana';
 }
 
 function getFontSize()
 {
-	var fontSize = localStorage['fontSize'];
-	return fontSize == undefined ? 13 : fontSize;
+	return localStorage['fontSize'] || 13;
 }
 
 function getFavIconWidth()
 {
-	var favIconWidth = localStorage['favIconWidth'];
-	return favIconWidth == undefined ? 16 : favIconWidth;
+	return localStorage['favIconWidth'] || 16;
 }
 
 function isShowTooltip()
@@ -80,8 +74,7 @@ function getColor(name)
 
 function getScrollBarWidth()
 {
-	var width = localStorage['scrollBarWidth'];
-	return width ? width : '7';
+	return localStorage['scrollBarWidth'] || '7';
 }
 
 function isUseGoogleBookmarks()
@@ -91,8 +84,7 @@ function isUseGoogleBookmarks()
 
 function getLabelSeparator()
 {
-	var labelSeparator = localStorage['labelSeparator'];
-	return labelSeparator ? labelSeparator : '>';
+	return localStorage['labelSeparator'] || '>';
 }
 
 function getFaviconServiceForChrome()
@@ -103,8 +95,7 @@ function getFaviconServiceForChrome()
 
 function getFaviconServiceForGoogle()
 {
-	var service = localStorage['gbFaviconService'];
-	return service == undefined ? 2 : service;
+	return localStorage['gbFaviconService'] || 2;
 }
 
 function isHideCMModeSwitcher()
