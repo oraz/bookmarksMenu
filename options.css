@@ -47,8 +47,8 @@ input[type="text"], input[type="number"] { width: 5em; }
     display: inline;
     float: left;
     font-size: 14px;
-    border-width: 1px; border-style: solid; border-top-left-radius: 0.6em; border-top-right-radius: 0.6em;
-    padding: 3px 6px;
+    border-width: 1px; border-style: solid; border-radius: .6em .6em 0 0;
+    padding: .4ex .6em;
     margin-left: -1px;
     position: relative;
     left: 1px;
