@@ -43,13 +43,15 @@ hr {
 
 input[type="text"], input[type="number"] { width: 5em; }
 
-#tabs > li { display: inline-block; }
-
-#tabs > li > span {
-    display: block;
+#tabs > li {
+    display: inline;
+    float: left;
     font-size: 14px;
-    border-width: 1px; border-style: solid; border-top-left-radius: 3px; border-top-right-radius: 3px;
+    border-width: 1px; border-style: solid; border-top-left-radius: 0.6em; border-top-right-radius: 0.6em;
     padding: 3px 6px;
+    margin-left: -1px;
+    position: relative;
+    left: 1px;
 }
 
 td:first-child { text-align: right; }
@@ -76,6 +78,7 @@ div.bookmark, div.gbookmark {
 }
 
 div.config {
+    clear: left;
     display: none;
     border: 1px solid #6f5e5e;
     position: relative; top: -1px;
@@ -101,21 +104,19 @@ input.error { color: red; }
 
 input.color { width: 6em; }
 
-li.bgTab > span {
+li.bgTab {
     background-color: #dadada;
     border-color: #a39e9e; border-bottom-color: #6f5e5e;
     cursor: pointer;
 }
 
-li.bgTab > span:hover { background-color: #ece9e9; }
+li.bgTab:hover { background-color: #ece9e9; }
 
-li.fgTab > span {
+li.fgTab {
     background-color: white;
     border-color: #6f5e5e; border-bottom-color: white;
     cursor: default;
 }
-
-span.purse { font-weight: bold; }
 
 #labelSeparator {
     width: 5em;

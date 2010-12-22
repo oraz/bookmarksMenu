@@ -174,21 +174,14 @@ function setLabelSeparator(labelSeparator)
 	}
 }
 
-function showTab(span)
+function showTab(newTab)
 {
-	var currentTab = span.parentNode;
-	var tabs = currentTab.parentNode.getElementsByTagName('li');
-	for(var idx = tabs.length - 1; idx >= 0; idx--)
-	{
-		if(tabs[idx].getAttribute('class') == 'fgTab')
-		{
-			tabs[idx].setAttribute('class', 'bgTab');
-			$(tabs[idx].getAttribute('for')).hide();
-			break;
-		}
-	}
-	currentTab.setAttribute('class', 'fgTab');
-	$(currentTab.getAttribute('for')).show();
+	var currentTab = newTab.parentNode.querySelector('li.fgTab');
+	currentTab.setAttribute('class', 'bgTab');
+	$(currentTab.getAttribute('for')).hide();
+	
+	newTab.setAttribute('class', 'fgTab');
+	$(newTab.getAttribute('for')).show();
 }
 
 function setFaviconService(obj)
@@ -264,7 +257,7 @@ document.addEventListener("DOMContentLoaded", function()
 	addButtonCSS();
 	chrome.i18n.initAll();
 	$('donateHeader').innerHTML = chrome.i18n.getMessage('donateHeader');
-	showTab(document.querySelector('li.fgTab span'));
+	showTab(document.querySelector('li.fgTab'));
 
 	// init Bookmarks tab
 	var useGoogleBookmarks = isUseGoogleBookmarks();
