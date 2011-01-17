@@ -54,6 +54,7 @@
     "tbLabelSeparator": { "message": "Разделитель меток:" },
     "tbSelectFaviconService": { "message": "Выберите сервис для получения иконок:" },
     "tbSelectBookmarks": { "message": "Выберите закладки, которые нужно показывать" },
+    "tbSelectAllBookmarks": { "message": "Выбрать все закладки"},
 
     // UI settings  tab
     "twPopupConfig": { "message": "Настройка окна" },

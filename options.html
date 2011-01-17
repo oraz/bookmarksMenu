@@ -97,6 +97,10 @@
 					<div class="header" i18n="tbSelectBookmarks"></div>
 					<div id="loading" i18n="loadingIndicator"></div>
 					<div id="loadingError" i18n="failedRetrieveGBookmakrs"></div>
+					<div class="bookmark">
+						<label i18n="tbSelectAllBookmarks"><input type="checkbox" style="margin-right: 3px;"
+							onchange="selectAllBookmarks(this, this.checked)"></label>
+					</div>
 				</div>
 				<div id="chromeBookmarksSettings">
 					<div class="header" style="padding-bottom: 0;">
@@ -107,6 +111,10 @@
 						</select>
 					</div>
 					<div class="header" i18n="tbSelectBookmarks"></div>
+					<div class="bookmark">
+						<label i18n="tbSelectAllBookmarks"><input type="checkbox" style="margin-right: 3px;"
+							onchange="selectAllBookmarks(this, this.checked)"></label>
+					</div>
 				</div>
 			</div>
 			<div class="config" id="uiConfig">

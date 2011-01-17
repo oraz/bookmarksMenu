@@ -53,7 +53,8 @@
     "tbUseGoogle": { "message": "Use Google bookmarks" },
     "tbLabelSeparator": { "message": "Label separator:" },
     "tbSelectFaviconService": { "message": "Select service to retrieve favicons:" },
-    "tbSelectBookmarks": { "message": "Select bookmarks to display" },
+    "tbSelectBookmarks": { "message": "Select bookmarks you wish to display" },
+    "tbSelectAllBookmarks": { "message": "Select/Deselect all bookmarks"},
 
     // UI settings  tab
     "twPopupConfig": { "message": "Popup window configuration" },

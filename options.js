@@ -90,14 +90,27 @@ function setUseGoogleBookmarks(useGoogleBookmarks)
 
 function clearGoogleBookmarksDiv()
 {
-	var gbookmarks = document.querySelectorAll('#googleBookmarksSettings > .gbookmark');
-	if(gbookmarks)
+	var gbookmarksSettings = $('googleBookmarksSettings');
+	gbookmarksSettings.querySelector('div.bookmark').hide();
+	gbookmarksSettings.querySelectorAll('div.gbookmark').forEach(function()
 	{
-		gbookmarks.forEach(function()
+		this.parentElement.removeChild(this);
+	});
+}
+
+function selectAllBookmarks(selectAll, checked)
+{
+	selectAll.parentElement.parentElement.parentElement.querySelectorAll('input[type="checkbox"]')
+		.forEach(function(chk, idx)
 		{
-			this.parentElement.removeChild(this);
+			if(idx > 0)
+			{
+				chk.checked = checked;
+				var evt = document.createEvent("HTMLEvents");
+				evt.initEvent('change', true, true );
+				chk.dispatchEvent(evt);
+			}
 		});
-	}
 }
 
 function addBookmark(divSettings, bookmark, useGoogleBookmarks)
@@ -139,6 +152,7 @@ function processResponse(response, port)
 		$('loading').hide();
 		var GBookmarksTree = chrome.extension.getBackgroundPage().GBookmarksTree;
 		var googleBookmarksSettings = $('googleBookmarksSettings');
+		googleBookmarksSettings.querySelector('div.bookmark').show();
 		GBookmarksTree.children.forEach(function(bookmark)
 		{
 			addBookmark(googleBookmarksSettings, bookmark, true);
