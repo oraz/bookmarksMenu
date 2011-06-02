@@ -14,7 +14,7 @@ zip -r $folder.zip $folder \
 
 # Removing comments from messages.json for each locale
 rm -fr /tmp/$folder
-for loc in en fr ru
+for loc in en fr ru ko
 do
     dir=$folder/_locales/$loc
     file=$dir/messages.json
