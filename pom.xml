@@ -10,17 +10,54 @@
 
     <name>${artifactId}</name>
 
+    <profiles>
+        <profile>
+            <id>i18n</id>
+            <activation>
+                <property>
+                    <name>full</name>
+                </property>
+            </activation>
+            <properties>
+                <default_locale>en</default_locale>
+            </properties>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources</directory>
+                        <includes>
+                            <include>_locales/**/*.json</include>
+                        </includes>
+                    </resource>
+                </resources>
+            </build>
+        </profile>
+        <profile>
+            <id>ko</id>
+            <properties>
+                <default_locale>ko</default_locale>
+            </properties>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources</directory>
+                        <includes>
+                            <include>_locales/ko/*.json</include>
+                        </includes>
+                    </resource>
+                </resources>
+            </build>
+        </profile>
+    </profiles>
+
     <build>
         <resources>
             <resource>
                 <directory>src/main/html</directory>
-                <filtering>false</filtering>
             </resource>
             <resource>
                 <directory>src/main/resources</directory>
-                <filtering>false</filtering>
                 <includes>
-                    <include>_locales/**/*.json</include>
                     <include>icons/*.*</include>
                     <include>changelog.txt</include>
                 </includes>
