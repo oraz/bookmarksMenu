@@ -1,6 +1,6 @@
 {
 	"name": "Bookmarks Menu",
-	"version": "3.4.6",
+	"version": "${project.version}",
 	"description": "__MSG_extDescription__",
 	"default_locale": "en",
 	"browser_action":
