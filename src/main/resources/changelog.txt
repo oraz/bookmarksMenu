@@ -1,3 +1,6 @@
+Changelog 3.4.7 (13.09.2011)
+- Fixed errors in French translation. Thanks TrAsHeR51.
+
 Changelog 3.4.6 (02.06.2011)
 - Added translation to Korean. Thanks iblogbox. Issue: https://github.com/oraz/bookmarksMenu/issues/3
 
