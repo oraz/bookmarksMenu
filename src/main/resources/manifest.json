@@ -19,7 +19,8 @@
     "permissions": [
         "bookmarks",
         "chrome://favicon/",
-        "https://www.google.com/bookmarks/",
+        "http://*/*",
+        "https://*/*",
         "tabs"
     ]
 }
