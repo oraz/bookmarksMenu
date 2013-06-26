@@ -1,3 +1,6 @@
+Changelog 3.4.8 (26.06.2011)
+- Migrated to Manifest v2
+
 Changelog 3.4.7 (13.09.2011)
 - Fixed errors in French translation. Thanks TrAsHeR51.
 
