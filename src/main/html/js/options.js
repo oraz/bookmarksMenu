@@ -157,27 +157,23 @@ function processResponse(response, port)
 	}
 }
 
-function setLabelSeparator(labelSeparator)
-{
-	var newLabelSeparator = labelSeparator.value;
-	if(newLabelSeparator == '')
-	{
-		labelSeparator.setAttribute('class', 'error');
-	}
-	else
-	{
-		labelSeparator.removeAttribute('class');
-		if(newLabelSeparator != getLabelSeparator())
-		{
-			localStorage['labelSeparator'] = newLabelSeparator;
-			clearGoogleBookmarksDiv();
-			$('loadingError').hide();
-			$('loading').show();
-			var port = chrome.extension.connect();
-			port.onMessage.addListener(processResponse);
-			port.postMessage(MESSAGES.REQ_FORCE_LOAD_BOOKMARKS);
-		}
-	}
+function setLabelSeparator() {
+    var newLabelSeparator = this.value;
+    if (newLabelSeparator == '') {
+        this.setAttribute('class', 'error');
+    }
+    else {
+        this.removeAttribute('class');
+        if (newLabelSeparator != getLabelSeparator()) {
+            localStorage['labelSeparator'] = newLabelSeparator;
+            clearGoogleBookmarksDiv();
+            $('loadingError').hide();
+            $('loading').show();
+            var port = chrome.extension.connect();
+            port.onMessage.addListener(processResponse);
+            port.postMessage(MESSAGES.REQ_FORCE_LOAD_BOOKMARKS);
+        }
+    }
 }
 
 function showTab()
@@ -278,6 +274,7 @@ document.addEventListener("DOMContentLoaded", function()
     $('maxWidthMesure').addEventListener('change', setMenuMaxWidthMesure);
 
     document.querySelector('form[name=_xclick]').addEventListener('submit', beforeDonate);
+    $('labelSeparator').addEventListener('input', setLabelSeparator);
 
     addButtonCSS();
 	chrome.i18n.initAll();

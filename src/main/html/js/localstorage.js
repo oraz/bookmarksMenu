@@ -82,9 +82,8 @@ function isUseGoogleBookmarks()
 	return localStorage['useGoogleBookmarks'] == 'true';
 }
 
-function getLabelSeparator()
-{
-	return localStorage['labelSeparator'] || '>';
+function getLabelSeparator() {
+    return localStorage['labelSeparator'] || '>';
 }
 
 function getFaviconServiceForChrome()
