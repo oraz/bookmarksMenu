@@ -1,8 +1,7 @@
 'use strict';
 
-function setMouseButtonAction(select, button)
-{
-	localStorage[button] = select.selectedIndex;
+function setMouseButtonAction() {
+    localStorage[parseInt(this.getAttribute('data-button-number'))] = this.selectedIndex;
 }
 
 function beforeDonate()
@@ -272,6 +271,10 @@ document.addEventListener("DOMContentLoaded", function()
         this.addEventListener('input', setColor);
         this.addEventListener('change', setColor);
     });
+    document.querySelectorAll('#mouseConfig select').forEach(function() {
+        this.addEventListener('change', setMouseButtonAction);
+    });
+
     $('resetWindowSettings').addEventListener('click', resetWindowSettings);
 
     $('fontFamily').addEventListener('change', setFontFamily);
