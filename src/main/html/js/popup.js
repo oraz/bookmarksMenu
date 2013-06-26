@@ -881,7 +881,19 @@ function reloadGBookmarks()
 
 document.addEventListener("DOMContentLoaded", function()
 {
-	config = 
+    function returnFalse() {
+        return false;
+    }
+    var transparentLayer = $('transparentLayer');
+    transparentLayer.addEventListener('mouseup', unSelect);
+    transparentLayer.addEventListener('mousedown', returnFalse);
+    var contextMenu = $('contextMenu');
+    contextMenu.addEventListener('mouseup', function(evt) {
+        processMenu(evt, contextMenu);
+    });
+    contextMenu.addEventListener('mousedown', returnFalse);
+    $('bookmarksMenu').addEventListener('mousedown', returnFalse);
+	config =
 	{
 		winMaxWidth: getWindowMaxWidth(),
 		winMaxHeight: getWindowMaxHeight(),
