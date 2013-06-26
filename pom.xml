@@ -126,7 +126,7 @@
                 <executions>
                     <execution>
                         <id>build archive</id>
-                        <phase>post-integration-test</phase>
+                        <phase>package</phase>
                         <goals>
                             <goal>run</goal>
                         </goals>
