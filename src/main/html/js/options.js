@@ -98,9 +98,10 @@ function clearGoogleBookmarksDiv()
 	});
 }
 
-function selectAllBookmarks(selectAll, checked)
+function selectAllBookmarks()
 {
-	selectAll.parentElement.parentElement.parentElement.querySelectorAll('input[type="checkbox"]')
+    var checked = this.checked;
+	this.parentElement.parentElement.parentElement.querySelectorAll('input[type="checkbox"]')
 		.forEach(function(chk, idx)
 		{
 			if(idx > 0)
@@ -124,8 +125,9 @@ function addBookmark(divSettings, bookmark, useGoogleBookmarks)
 	{
 		checkbox.setAttribute('checked', 'checked');
 	}
-	checkbox.setAttribute('onchange',
-			'setBookmarkHidden("' + bookmark.title + '", ' + useGoogleBookmarks + ', !this.checked)');
+	checkbox.onchange = function() {
+        setBookmarkHidden(bookmark.title, useGoogleBookmarks, !this.checked);
+    };
 
 	var label = document.createElement('label');
 	label.appendChild(checkbox);
@@ -198,9 +200,8 @@ function showTab()
 	$(this.getAttribute('for')).show();
 }
 
-function setFaviconService(obj)
-{
-	localStorage[obj.id] = obj.value;
+function setFaviconService() {
+    localStorage[this.id] = this.value;
 }
 
 function resetWindowSettings()
@@ -258,19 +259,19 @@ document.addEventListener("DOMContentLoaded", function()
     document.querySelectorAll('#tabs > li').forEach(function() {
         this.addEventListener('click', showTab);
     });
-	var appVersion = navigator.appVersion;
-	var ChromeVersion = 5;
-	if(appVersion.indexOf("Chrome/") >= 0)
-	{
-		ChromeVersion = parseInt(appVersion.substr(appVersion.indexOf("Chrome/") + 7));
-	}
-	if(ChromeVersion < 8)
-	{
-		document.querySelectorAll('input[type="number"]').forEach(function()
-		{
-			this.setAttribute('type', 'text');
-		});
-	}
+    $('useChromeBookmarks').addEventListener('click', function() {
+        setUseGoogleBookmarks(false);
+    });
+    $('useGoogleBookmarks').addEventListener('click', function() {
+        setUseGoogleBookmarks(true);
+    });
+
+    $('chbFaviconService').addEventListener('change', setFaviconService);
+    $('gbFaviconService').addEventListener('change', setFaviconService);
+    document.querySelectorAll('.selectAllBookmarks').forEach(function() {
+        this.addEventListener('click', selectAllBookmarks)
+    });
+
 	addButtonCSS();
 	chrome.i18n.initAll();
 	$('donateHeader').innerHTML = chrome.i18n.getMessage('donateHeader');

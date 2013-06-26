@@ -77,10 +77,10 @@
 			</div>
 			<div class="config" id="bookmarksShowHide">
 				<div class="header">
-					<label i18n="tbUseChrome"><input type="radio" id="useChromeBookmarks" name="useGoolgeBookmarks" onclick="setUseGoogleBookmarks(false)"/>&nbsp;</label>
+					<label i18n="tbUseChrome"><input type="radio" id="useChromeBookmarks" name="useGoolgeBookmarks"/>&nbsp;</label>
 				</div>
 				<div>
-					<label i18n="tbUseGoogle"><input type="radio" id="useGoogleBookmarks" name="useGoolgeBookmarks" onclick="setUseGoogleBookmarks(true)"/>&nbsp;</label>
+					<label i18n="tbUseGoogle"><input type="radio" id="useGoogleBookmarks" name="useGoolgeBookmarks"/>&nbsp;</label>
 				</div>
 				<div id="googleBookmarksSettings">
 					<div class="header" style="padding-bottom: 0;">
@@ -89,7 +89,7 @@
 					</div>
 					<div class="header" style="padding-bottom: 0;">
 						<label for="gbFaviconService" i18n="tbSelectFaviconService"></label>
-						<select size="1" id="gbFaviconService" onchange="setFaviconService(this)">
+						<select size="1" id="gbFaviconService">
 							<option value="1">chrome://favicon/</option>
 							<option value="2">http://getfavicon.appspot.com/</option>
 						</select>
@@ -98,22 +98,20 @@
 					<div id="loading" i18n="loadingIndicator"></div>
 					<div id="loadingError" i18n="failedRetrieveGBookmakrs"></div>
 					<div class="bookmark">
-						<label i18n="tbSelectAllBookmarks"><input type="checkbox" style="margin-right: 3px;"
-							onchange="selectAllBookmarks(this, this.checked)"></label>
+						<label i18n="tbSelectAllBookmarks"><input class="selectAllBookmarks" type="checkbox" style="margin-right: 3px;"></label>
 					</div>
 				</div>
 				<div id="chromeBookmarksSettings">
 					<div class="header" style="padding-bottom: 0;">
 						<label for="chbFaviconService" i18n="tbSelectFaviconService"></label>
-						<select size="1" id="chbFaviconService" onchange="setFaviconService(this)">
+						<select size="1" id="chbFaviconService">
 							<option value="1">chrome://favicon/</option>
 							<option value="2">http://getfavicon.appspot.com/</option>
 						</select>
 					</div>
 					<div class="header" i18n="tbSelectBookmarks"></div>
 					<div class="bookmark">
-						<label i18n="tbSelectAllBookmarks"><input type="checkbox" style="margin-right: 3px;"
-							onchange="selectAllBookmarks(this, this.checked)"></label>
+						<label i18n="tbSelectAllBookmarks"><input class="selectAllBookmarks" type="checkbox" style="margin-right: 3px;"></label>
 					</div>
 				</div>
 			</div>
