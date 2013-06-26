@@ -1,3 +1,4 @@
+'use strict';
 
 function setMouseButtonAction(select, button)
 {
@@ -60,12 +61,10 @@ function setBookmarkHidden(title, useGoogleBookmarks, hidden)
 	}
 }
 
-function setColor(el)
-{
-	if(/^[0-9A-F]{6}$/i.test(el.value))
-	{
-		localStorage[el.id] = el.value;
-	}
+function setColor() {
+    if (/^[0-9A-F]{6}$/i.test(this.value)) {
+        localStorage[this.id] = this.value;
+    }
 }
 
 function setUseGoogleBookmarks(useGoogleBookmarks)
@@ -199,28 +198,23 @@ function setFaviconService() {
     localStorage[this.id] = this.value;
 }
 
-function resetWindowSettings()
-{
-	with(localStorage)
-	{
-		removeItem('winMaxWidth');
-		removeItem('winMaxHeight');
-		removeItem('fontFamily');
-		removeItem('fontSize');
-		removeItem('favIconWidth');
-		removeItem('maxWidth');
-		removeItem('maxWidthMesure');
-		removeItem('scrollBarWidth');
-		removeItem('showTooltip');
-		removeItem('showURL');
-		removeItem('hideCMOpenIncognito');
-		removeItem('hideCMModeSwitcher');
-	}
-	document.querySelectorAll('input.color').forEach(function()
-	{
-		localStorage.removeItem(this.id);
-	});
-	initWindowSettingsTab();
+function resetWindowSettings() {
+    localStorage.removeItem('winMaxWidth');
+    localStorage.removeItem('winMaxHeight');
+    localStorage.removeItem('fontFamily');
+    localStorage.removeItem('fontSize');
+    localStorage.removeItem('favIconWidth');
+    localStorage.removeItem('maxWidth');
+    localStorage.removeItem('maxWidthMesure');
+    localStorage.removeItem('scrollBarWidth');
+    localStorage.removeItem('showTooltip');
+    localStorage.removeItem('showURL');
+    localStorage.removeItem('hideCMOpenIncognito');
+    localStorage.removeItem('hideCMModeSwitcher');
+    document.querySelectorAll('input.color').forEach(function () {
+        localStorage.removeItem(this.id);
+    });
+    initWindowSettingsTab();
 }
 
 HTMLSelectElement.prototype.selectByValue = function(value)
@@ -274,6 +268,12 @@ document.addEventListener("DOMContentLoaded", function()
     document.querySelectorAll('#uiConfig input[type=checkbox], #switchToNewTab').forEach(function() {
         this.addEventListener('change', setBoolProperty);
     });
+    document.querySelectorAll('#uiConfig input.color').forEach(function() {
+        this.addEventListener('input', setColor);
+        this.addEventListener('change', setColor);
+    });
+    $('resetWindowSettings').addEventListener('click', resetWindowSettings);
+
     $('fontFamily').addEventListener('change', setFontFamily);
     $('maxWidthMesure').addEventListener('change', setMenuMaxWidthMesure);
 
