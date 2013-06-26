@@ -552,13 +552,12 @@ HTMLLIElement.prototype.reorder = function(beforeSeparator)
 	}
 }
 
-function unSelect()
-{
-	var contextMenu = $('contextMenu');
-	contextMenu.selectedBookmark.unHighlight();
-	contextMenu.hide();
-	$('transparentLayer').hide();
-	$('gwindow').hide();
+function unSelect() {
+    var contextMenu = $('contextMenu');
+    contextMenu.selectedBookmark.unHighlight();
+    contextMenu.hide();
+    $('transparentLayer').hide();
+    $('gwindow').hide();
 }
 
 function processMenu(ev, contextMenu)
@@ -616,53 +615,44 @@ function processMenu(ev, contextMenu)
 	}
 }
 
-function isGBookmarkDataReady()
-{
-	var regexp = /^\s*$/;
-	$('btnAdd').disabled = regexp.test($('gbTitle').value) || regexp.test($('gbURL').value);
+function isGBookmarkDataReady() {
+    var regexp = /^\s*$/;
+    $('btnAdd').disabled = regexp.test($('gbTitle').value) || regexp.test($('gbURL').value);
 }
 
-function suggestLabel(label)
-{
-	var suggestDiv = $('suggest');
-	var cursorPos = label.selectionStart;
-	var labelValue = label.value;
-	var precededComma = labelValue.lastIndexOf(',', labelValue.charAt(cursorPos) == ',' && cursorPos > 0 ? cursorPos - 1 : cursorPos);
-	var nextComma = labelValue.indexOf(',', cursorPos);
-	var newLabel = labelValue.substring(precededComma + 1, nextComma == -1 ? undefined : nextComma)
-					.replace(/(^\s+)|(\s+$)/g, '')
-					.toLocaleLowerCase();
-	if(newLabel == '')
-	{
-		suggestDiv.hide();
-		suggestDiv.querySelectorAll('div > div[class]').forEach(function()
-		{
-			this.removeAttribute('class');
-		});
-		return;
-	}
-	var mustBeShown = false;
-	suggestDiv.querySelectorAll('div > div').forEach(function()
-	{
-		if(this.textContent.toLocaleLowerCase().indexOf(newLabel) == 0)
-		{
-			mustBeShown = true;
-			this.show();
-		}
-		else
-		{
-			this.hide();
-			this.removeAttribute('class');
-		}
-	});
-	if(mustBeShown)
-	{
-		suggestDiv.show();
-	}
-	else
-	{
-		suggestDiv.hide();
-	}
+function suggestLabel() {
+    var suggestDiv = $('suggest');
+    var cursorPos = this.selectionStart;
+    var labelValue = this.value;
+    var precededComma = labelValue.lastIndexOf(',', labelValue.charAt(cursorPos) == ',' && cursorPos > 0 ? cursorPos - 1 : cursorPos);
+    var nextComma = labelValue.indexOf(',', cursorPos);
+    var newLabel = labelValue.substring(precededComma + 1, nextComma == -1 ? undefined : nextComma)
+        .replace(/(^\s+)|(\s+$)/g, '')
+        .toLocaleLowerCase();
+    if (newLabel == '') {
+        suggestDiv.hide();
+        suggestDiv.querySelectorAll('div > div[class]').forEach(function () {
+            this.removeAttribute('class');
+        });
+        return;
+    }
+    var mustBeShown = false;
+    suggestDiv.querySelectorAll('div > div').forEach(function () {
+        if (this.textContent.toLocaleLowerCase().indexOf(newLabel) == 0) {
+            mustBeShown = true;
+            this.show();
+        }
+        else {
+            this.hide();
+            this.removeAttribute('class');
+        }
+    });
+    if (mustBeShown) {
+        suggestDiv.show();
+    }
+    else {
+        suggestDiv.hide();
+    }
 }
 
 function onSuggestMouseOver(div)
@@ -679,52 +669,41 @@ function onSuggestMouseOver(div)
 	div.className = 'currentSuggest';
 }
 
-function selectSuggestion(e)
-{
-	var suggestDiv = $('suggest');
-	if(suggestDiv.style.display == 'block')
-	{
-		var keyCode = e.keyCode;
-		if(keyCode == 40 || keyCode == 38)
-		{
-			var offset = keyCode == 40 ? 1 : -1;
-			var currentSuggest = suggestDiv.querySelector('.currentSuggest');
-			var divs = suggestDiv.querySelectorAll('div > div[style*="block"]');
-			if(!currentSuggest)
-			{
-				onSuggestMouseOver(divs[offset == 1 ? 0 : divs.length - 1]);
-			}
-			else
-			{
-				for(var idx = 0, len = divs.length; idx < len; idx++)
-				{
-					if(divs[idx].className == 'currentSuggest')
-					{
-						idx += offset;
-						if(idx < 0)
-						{
-							idx = len - 1;
-						}
-						else if(idx >= len)
-						{
-							idx = 0;
-						}
-						onSuggestMouseOver(divs[idx]);
-						break;
-					}
-				}
-			}
-			e.preventDefault();
-		}
-		else if(keyCode == 13)
-		{
-			var currentSuggest = suggestDiv.querySelector('.currentSuggest');
-			if(currentSuggest)
-			{
-				fillFolderBySuggest(currentSuggest);
-			}
-		}
-	}
+function selectSuggestion(e) {
+    var suggestDiv = $('suggest');
+    if (suggestDiv.style.display == 'block') {
+        var keyCode = e.keyCode;
+        if (keyCode == 40 || keyCode == 38) {
+            var offset = keyCode == 40 ? 1 : -1;
+            var currentSuggest = suggestDiv.querySelector('.currentSuggest');
+            var divs = suggestDiv.querySelectorAll('div > div[style*="block"]');
+            if (!currentSuggest) {
+                onSuggestMouseOver(divs[offset == 1 ? 0 : divs.length - 1]);
+            }
+            else {
+                for (var idx = 0, len = divs.length; idx < len; idx++) {
+                    if (divs[idx].className == 'currentSuggest') {
+                        idx += offset;
+                        if (idx < 0) {
+                            idx = len - 1;
+                        }
+                        else if (idx >= len) {
+                            idx = 0;
+                        }
+                        onSuggestMouseOver(divs[idx]);
+                        break;
+                    }
+                }
+            }
+            e.preventDefault();
+        }
+        else if (keyCode == 13) {
+            var currentSuggest = suggestDiv.querySelector('.currentSuggest');
+            if (currentSuggest) {
+                fillFolderBySuggest(currentSuggest);
+            }
+        }
+    }
 }
 
 function fillFolderBySuggest(div)
@@ -759,7 +738,7 @@ function showGoogleBookmarkDialog(initalLabel)
 		{
 			if(e.keyCode == 37 || e.keyCode == 39)
 			{
-				suggestLabel(this);
+				suggestLabel.apply(this);
 			}
 		};
 		win.initialized = true;
@@ -812,31 +791,27 @@ function showGoogleBookmarkDialog(initalLabel)
 	}
 }
 
-function addGoogleBookmark()
-{
-	var port = chrome.extension.connect();
-	port.onMessage.addListener(function(response)
-	{
-		if(response == MESSAGES.RESP_TREE_IS_READY)
-		{
-			unSelect();
-			var rootFolder = $('bookmarksMenu');
-			rootFolder.clear();
-			rootFolder.fillFolderContent(chrome.extension.getBackgroundPage().GBookmarksTree.children);
-			document.body.pack(rootFolder);
-		}
-		else
-		{
-			// todo some error
-			unSelect();
-		}
-	});
-	port.postMessage({
-		msg: MESSAGES.REQ_ADD_GOOGLE_BOOKMARK,
-		title: $('gbTitle').value,
-		url: $('gbURL').value,
-		label: $('gbLabel').value
-	});
+function addGoogleBookmark() {
+    var port = chrome.extension.connect();
+    port.onMessage.addListener(function (response) {
+        if (response == MESSAGES.RESP_TREE_IS_READY) {
+            unSelect();
+            var rootFolder = $('bookmarksMenu');
+            rootFolder.clear();
+            rootFolder.fillFolderContent(chrome.extension.getBackgroundPage().GBookmarksTree.children);
+            document.body.pack(rootFolder);
+        }
+        else {
+            // todo some error
+            unSelect();
+        }
+    });
+    port.postMessage({
+        msg: MESSAGES.REQ_ADD_GOOGLE_BOOKMARK,
+        title: $('gbTitle').value,
+        url: $('gbURL').value,
+        label: $('gbLabel').value
+    });
 }
 
 function reloadGBookmarks()
@@ -893,6 +868,15 @@ document.addEventListener("DOMContentLoaded", function()
     });
     contextMenu.addEventListener('mousedown', returnFalse);
     $('bookmarksMenu').addEventListener('mousedown', returnFalse);
+
+    document.querySelector('#gwindow #btnCancel').addEventListener('click', unSelect);
+    document.querySelector('#gwindow #btnAdd').addEventListener('click', addGoogleBookmark);
+    document.querySelectorAll('#gwindow #gbTitle, #gwindow #gbURL').forEach(function() {
+        this.addEventListener('input', isGBookmarkDataReady);
+    });
+    var gbLabel = document.querySelector('#gwindow #gbLabel');
+    gbLabel.addEventListener('input', suggestLabel);
+    gbLabel.addEventListener('keydown', selectSuggestion);
 	config =
 	{
 		winMaxWidth: getWindowMaxWidth(),
