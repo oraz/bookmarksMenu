@@ -67,14 +67,12 @@ function getFavicon(url, serviceId)
 		: 'chrome://favicon/' + url;
 }
 
-function addButtonCSS()
-{
-	//if(navigator.isWindows)
-	{
-		var link = document.createElement('link');
-		link.setAttribute('rel', 'stylesheet');
-		link.setAttribute('type', 'text/css');
-		link.setAttribute('href', 'button.css');
-		document.querySelector('html > head').appendChild(link);
-	}
+function addButtonCSS() {
+    if (navigator.isWindows) {
+        var link = document.createElement('link');
+        link.setAttribute('rel', 'stylesheet');
+        link.setAttribute('type', 'text/css');
+        link.setAttribute('href', 'css/button.css');
+        document.querySelector('html > head').appendChild(link);
+    }
 }
