@@ -20,21 +20,19 @@ function beforeDonate()
 	return false;
 }
 
-function setIntProperty(inputField)
-{
-	var value = parseInt(inputField.value);
-    var maxLimit = parseInt(inputField.getAttribute('max'));
-    var minLimit = parseInt(inputField.getAttribute('min'));
-	if(isNaN(inputField.value) || isNaN(value) ||
-		(!isNaN(minLimit) && value < minLimit) ||
-		(!isNaN(maxLimit) && value > maxLimit))
-	{
-		
-		inputField.setAttribute('class', 'error');
-		return;
-	}
-	inputField.removeAttribute('class');
-	localStorage[inputField.id] = value;
+function setIntProperty() {
+    var value = parseInt(this.value),
+        maxLimit = parseInt(this.getAttribute('max')),
+        minLimit = parseInt(this.getAttribute('min'));
+    if (isNaN(this.value) || isNaN(value) ||
+        (!isNaN(minLimit) && value < minLimit) ||
+        (!isNaN(maxLimit) && value > maxLimit)) {
+
+        this.setAttribute('class', 'error');
+        return;
+    }
+    this.removeAttribute('class');
+    localStorage[this.id] = value;
 }
 
 function setBoolProperty(property, value)
@@ -42,14 +40,12 @@ function setBoolProperty(property, value)
 	localStorage[property] = value;
 }
 
-function setFontFamily(fontFamily)
-{
-	localStorage['fontFamily'] = fontFamily.value;
+function setFontFamily() {
+    localStorage['fontFamily'] = this.value;
 }
 
-function setMenuMaxWidthMesure(maxWidthMesure)
-{
-	localStorage['maxWidthMesure'] = maxWidthMesure.value;
+function setMenuMaxWidthMesure() {
+    localStorage['maxWidthMesure'] = this.value;
 }
 
 function setBookmarkHidden(title, useGoogleBookmarks, hidden)
@@ -272,7 +268,13 @@ document.addEventListener("DOMContentLoaded", function()
         this.addEventListener('click', selectAllBookmarks)
     });
 
-	addButtonCSS();
+    document.querySelectorAll('#uiConfig input[type=number]').forEach(function () {
+        this.addEventListener('input', setIntProperty);
+    });
+    $('fontFamily').addEventListener('change', setFontFamily);
+    $('maxWidthMesure').addEventListener('change', setMenuMaxWidthMesure);
+
+    addButtonCSS();
 	chrome.i18n.initAll();
 	$('donateHeader').innerHTML = chrome.i18n.getMessage('donateHeader');
 	showTab.apply(document.querySelector('li.fgTab'));
