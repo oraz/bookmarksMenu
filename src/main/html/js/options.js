@@ -35,9 +35,8 @@ function setIntProperty() {
     localStorage[this.id] = value;
 }
 
-function setBoolProperty(property, value)
-{
-	localStorage[property] = value;
+function setBoolProperty() {
+    localStorage[this.id] = this.checked;
 }
 
 function setFontFamily() {
@@ -270,6 +269,10 @@ document.addEventListener("DOMContentLoaded", function()
 
     document.querySelectorAll('#uiConfig input[type=number]').forEach(function () {
         this.addEventListener('input', setIntProperty);
+    });
+
+    document.querySelectorAll('#uiConfig input[type=checkbox], #switchToNewTab').forEach(function() {
+        this.addEventListener('change', setBoolProperty);
     });
     $('fontFamily').addEventListener('change', setFontFamily);
     $('maxWidthMesure').addEventListener('change', setMenuMaxWidthMesure);
