@@ -188,14 +188,14 @@ function setLabelSeparator(labelSeparator)
 	}
 }
 
-function showTab(newTab)
+function showTab()
 {
-	var currentTab = newTab.parentNode.querySelector('li.fgTab');
+	var currentTab = this.parentNode.querySelector('li.fgTab');
 	currentTab.setAttribute('class', 'bgTab');
 	$(currentTab.getAttribute('for')).hide();
 	
-	newTab.setAttribute('class', 'fgTab');
-	$(newTab.getAttribute('for')).show();
+	this.setAttribute('class', 'fgTab');
+	$(this.getAttribute('for')).show();
 }
 
 function setFaviconService(obj)
@@ -255,6 +255,9 @@ function initWindowSettingsTab()
 
 document.addEventListener("DOMContentLoaded", function()
 {
+    document.querySelectorAll('#tabs > li').forEach(function() {
+        this.addEventListener('click', showTab);
+    });
 	var appVersion = navigator.appVersion;
 	var ChromeVersion = 5;
 	if(appVersion.indexOf("Chrome/") >= 0)
@@ -271,7 +274,7 @@ document.addEventListener("DOMContentLoaded", function()
 	addButtonCSS();
 	chrome.i18n.initAll();
 	$('donateHeader').innerHTML = chrome.i18n.getMessage('donateHeader');
-	showTab(document.querySelector('li.fgTab'));
+	showTab.apply(document.querySelector('li.fgTab'));
 
 	// init Bookmarks tab
 	var useGoogleBookmarks = isUseGoogleBookmarks();
