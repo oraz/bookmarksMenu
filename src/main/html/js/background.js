@@ -5,7 +5,7 @@ var GBookmarkUrl = 'https://www.google.com/bookmarks/';
 
 function GBookmarkFolder(names, parentFolder)
 {
-	this.children = new Array();
+	this.children = [];
 	if(parentFolder)
 	{
 		this.title = names.shift();
@@ -13,7 +13,7 @@ function GBookmarkFolder(names, parentFolder)
 		parentFolder.addChild(this);
 		if(!GBookmarksTree.labels)
 		{
-			GBookmarksTree.labels = new Array();
+			GBookmarksTree.labels = [];
 		}
 		GBookmarksTree.labels.push(this.id);
 	}
@@ -29,7 +29,7 @@ function GBookmarkFolder(names, parentFolder)
 GBookmarkFolder.prototype.addChild = function(child)
 {
 	this.children.push(child);
-}
+};
 
 GBookmarkFolder.prototype.findFolder = function(fullName)
 {
@@ -45,7 +45,7 @@ GBookmarkFolder.prototype.findFolder = function(fullName)
 	}
 	names.unshift(name);
 	return new GBookmarkFolder(names, this);
-}
+};
 
 GBookmarkFolder.prototype.removeBookmark = function(id)
 {
@@ -70,7 +70,7 @@ GBookmarkFolder.prototype.removeBookmark = function(id)
 		}
 	}
 	return null;
-}
+};
 
 GBookmarkFolder.prototype.sort = function()
 {
@@ -87,7 +87,7 @@ GBookmarkFolder.prototype.sort = function()
 			}
 		}
 	}
-}
+};
 
 function sorting(b1, b2)
 {
@@ -132,7 +132,7 @@ XMLHttpRequest.prototype.processBookmarks = function()
 		this.port.postMessage(MESSAGES.RESP_TREE_IS_READY);
 		this.port.disconnect();
 	}
-}
+};
 
 XMLHttpRequest.prototype.processAbort = function()
 {
@@ -146,7 +146,7 @@ XMLHttpRequest.prototype.processAbort = function()
 		this.port.disconnect();
 		console.error('xhr has been aborted');
 	}
-}
+};
 
 function remove(id)
 {
