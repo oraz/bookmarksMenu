@@ -9,18 +9,24 @@ img {
     vertical-align: bottom;
 }
 
-li { position: relative; }
+li {
+    position: relative;
+}
 
 li ul {
     display: none;
-    position: absolute; top: -1px; right: 100%;
+    position: absolute;
+    top: -1px;
+    right: 100%;
 }
 
 span {
     display: block;
     cursor: default;
     padding: 3px 1em 3px 3px;
-    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 ul {
@@ -30,12 +36,17 @@ ul {
     padding: 0;
 }
 
+.disabled img {
+    opacity: 0.5;
+}
 
-.disabled img { opacity: 0.5; }
+.empty {
+    padding: 3px 0.6em;
+}
 
-.empty { padding: 3px 0.6em; }
-
-.hover > ul { display: block; }
+.hover > ul {
+    display: block;
+}
 
 .separator {
     background-color: #ccc;
@@ -49,23 +60,31 @@ ul {
 
 #contextMenu {
     display: none;
-    border-width: 1px 2px 2px 1px; border-style: outset; border-color: #6f5e5e;
+    border-width: 1px 2px 2px 1px;
+    border-style: outset;
+    border-color: #6f5e5e;
     position: absolute;
     z-index: 2;
 }
 
 #contextMenu[for="bookmark"] > li[for="folder"],
-#contextMenu[for="folder"] > li[for="bookmark"] { display: none; }
+#contextMenu[for="folder"] > li[for="bookmark"] {
+    display: none;
+}
 
 #gwindow {
-    border-width: 1px 2px 2px 1px; border-style: outset; border-color: #6f5e5e;
+    border-width: 1px 2px 2px 1px;
+    border-style: outset;
+    border-color: #6f5e5e;
     border-radius: 3px;
     display: none;
     position: fixed;
     z-index: 2;
 }
 
-#gwindow input { width: 20em; }
+#gwindow input {
+    width: 20em;
+}
 
 #loading {
     display: none;
@@ -89,8 +108,11 @@ ul {
 
 #transparentLayer {
     display: none;
-    background-color: rgba(255,255,255,0.5);
-    position: fixed; top: 0px; bottom: 0px; left: 0px;
+    background-color: rgba(255, 255, 255, 0.5);
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
     z-index: 1;
 }
 
