@@ -57,9 +57,6 @@
     "tbSelectAllBookmarks": { "message": "Sélectionner / Désélectionner tous les favoris"},
 
     // UI Settings tab
-    "twPopupConfig": { "message": "Configuration de la fenêtre" },
-    "twWinMaxWidth": { "message": "Largeur de la fenêtre (max 800px):" },
-    "twWinMaxHeight": { "message": "Hauteur de la fenêtre (max 600px):" },
     "twMesurePX": { "message": "px" },
 
     "twMenuConfig": { "message": "Configuration du menu des favoris" },

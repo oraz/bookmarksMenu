@@ -57,9 +57,6 @@
     "tbSelectAllBookmarks": { "message": "Выбрать все закладки"},
 
     // UI settings  tab
-    "twPopupConfig": { "message": "Настройка окна" },
-    "twWinMaxWidth": { "message": "Ширина окна (макс. 800пикс):" },
-    "twWinMaxHeight": { "message": "Высота окна (макс. 600пикс):" },
     "twMesurePX": { "message": "пикс" },
 
     "twMenuConfig": { "message": "Настройка меню закладок" },

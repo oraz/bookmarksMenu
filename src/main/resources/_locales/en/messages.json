@@ -57,9 +57,6 @@
     "tbSelectAllBookmarks": { "message": "Select/Deselect all bookmarks"},
 
     // UI settings  tab
-    "twPopupConfig": { "message": "Popup window configuration" },
-    "twWinMaxWidth": { "message": "Window width (max 800px):" },
-    "twWinMaxHeight": { "message": "Window height (max 600px):" },
     "twMesurePX": { "message": "px" },
 
     "twMenuConfig": { "message": "Bookmarks menu configuration" },

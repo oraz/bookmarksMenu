@@ -438,9 +438,9 @@ HTMLLIElement.prototype.displayFolderContent = function()
 	var body = document.body, bodyStyle = body.style;
 	var posY = this.getY();
 	var contentHeight = this.folderContent.offsetHeight, offset = 1;
-	if(posY + contentHeight > body.scrollTop + 600)
+	if(posY + contentHeight > body.scrollTop + config.winMaxHeight)
 	{
-		offset = posY + contentHeight - 600 - body.scrollTop;
+		offset = posY + contentHeight - config.winMaxHeight - body.scrollTop;
 		if(offset > posY - body.scrollTop)
 		{
 			offset = posY - body.scrollTop;
@@ -850,8 +850,8 @@ document.addEventListener("DOMContentLoaded", function()
     gbLabel.addEventListener('keydown', selectSuggestion);
 	config =
 	{
-		winMaxWidth: getWindowMaxWidth(),
-		winMaxHeight: getWindowMaxHeight(),
+		winMaxWidth: 800,
+		winMaxHeight: 600,
 		showTooltip: isShowTooltip(),
 		showURL: isShowURL(),
 		useGoogleBookmarks: isUseGoogleBookmarks(),

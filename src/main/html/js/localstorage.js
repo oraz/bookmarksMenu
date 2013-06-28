@@ -1,108 +1,80 @@
+'use strict';
 
-function getButtonAction(btn)
-{
-	return localStorage[btn] || btn;
+function getButtonAction(btn) {
+    return localStorage[btn] || btn;
 }
 
-function getMaxWidth()
-{
-	return localStorage['maxWidth'] || 30;
+function getMaxWidth() {
+    return localStorage['maxWidth'] || 30;
 }
 
-function getMaxWidthMesure()
-{
-	return localStorage['maxWidthMesure'] || 'em';
+function getMaxWidthMesure() {
+    return localStorage['maxWidthMesure'] || 'em';
 }
 
-function isBookmarkHidden(title, useGoogleBookmarks)
-{
-	return localStorage[(useGoogleBookmarks ? 'g_' : '') + 'bookmark_' + title] == 'true';
+function isBookmarkHidden(title, useGoogleBookmarks) {
+    return localStorage[(useGoogleBookmarks ? 'g_' : '') + 'bookmark_' + title] == 'true';
 }
 
-function isSwitchToNewTab()
-{
-	return localStorage['switchToNewTab'] == 'true';
+function isSwitchToNewTab() {
+    return localStorage['switchToNewTab'] == 'true';
 }
 
-function getWindowMaxWidth()
-{
-	var maxWidth = localStorage['winMaxWidth'];
-	return maxWidth == undefined ? 800 : parseInt(maxWidth);
+function getFontFamily() {
+    return localStorage['fontFamily'] || 'Verdana';
 }
 
-function getWindowMaxHeight()
-{
-	var maxHeight = localStorage['winMaxHeight'];
-	return maxHeight == undefined ? 600 : parseInt(maxHeight);
+function getFontSize() {
+    return localStorage['fontSize'] || 13;
 }
 
-function getFontFamily()
-{
-	return localStorage['fontFamily'] || 'Verdana';
+function getFavIconWidth() {
+    return localStorage['favIconWidth'] || 16;
 }
 
-function getFontSize()
-{
-	return localStorage['fontSize'] || 13;
+function isShowTooltip() {
+    return localStorage['showTooltip'] == 'true';
 }
 
-function getFavIconWidth()
-{
-	return localStorage['favIconWidth'] || 16;
+function isShowURL() {
+    return localStorage['showURL'] == 'true';
 }
 
-function isShowTooltip()
-{
-	return localStorage['showTooltip'] == 'true';
+function getColor(name) {
+    var color = localStorage[name];
+    return color ? color
+        : name == 'bodyClr' || name == 'bmBgClr' || name == 'activeBmFntClr' ? 'FFF'
+        : name == 'fntClr' ? '000'
+        : name == 'activeBmBgClrFrom' ? '86ABD9'
+        : name == 'activeBmBgClrTo' ? '1F5EAB'
+        : 'BEBEBE'; // disabledItemFntClr
 }
 
-function isShowURL()
-{
-	return localStorage['showURL'] == 'true';
+function getScrollBarWidth() {
+    return localStorage['scrollBarWidth'] || '7';
 }
 
-function getColor(name)
-{
-	var color = localStorage[name];
-	return color ? color
-		: name == 'bodyClr' || name == 'bmBgClr' || name == 'activeBmFntClr' ? 'FFF'
-		: name == 'fntClr' ? '000'
-		: name == 'activeBmBgClrFrom' ? '86ABD9'
-		: name == 'activeBmBgClrTo' ? '1F5EAB'
-		: 'BEBEBE'; // disabledItemFntClr
-}
-
-function getScrollBarWidth()
-{
-	return localStorage['scrollBarWidth'] || '7';
-}
-
-function isUseGoogleBookmarks()
-{
-	return localStorage['useGoogleBookmarks'] == 'true';
+function isUseGoogleBookmarks() {
+    return localStorage['useGoogleBookmarks'] == 'true';
 }
 
 function getLabelSeparator() {
     return localStorage['labelSeparator'] || '>';
 }
 
-function getFaviconServiceForChrome()
-{
-	var service = localStorage['chbFaviconService'];
-	return service == undefined ? 1 : service;
+function getFaviconServiceForChrome() {
+    var service = localStorage['chbFaviconService'];
+    return service == undefined ? 1 : service;
 }
 
-function getFaviconServiceForGoogle()
-{
-	return localStorage['gbFaviconService'] || 2;
+function getFaviconServiceForGoogle() {
+    return localStorage['gbFaviconService'] || 2;
 }
 
-function isHideCMModeSwitcher()
-{
-	return localStorage['hideCMModeSwitcher'] == 'true';
+function isHideCMModeSwitcher() {
+    return localStorage['hideCMModeSwitcher'] == 'true';
 }
 
-function isHideCMOpenIncognito()
-{
-	return localStorage['hideCMOpenIncognito'] == 'true';
+function isHideCMOpenIncognito() {
+    return localStorage['hideCMOpenIncognito'] == 'true';
 }

@@ -200,9 +200,6 @@
     "twMesurePX": {
         "message": "px"
     },
-    "twPopupConfig": {
-        "message": "팝업 창 설정"
-    },
     "twRestoreDflt": {
         "message": "기본값 가져오기"
     },
@@ -214,11 +211,5 @@
     },
     "twShowURL": {
         "message": "북마크 위치 툴팁으로 보기"
-    },
-    "twWinMaxHeight": {
-        "message": "창 높이 (최대 600px):"
-    },
-    "twWinMaxWidth": {
-        "message": "창 넓이 (최대 800px):"
     }
 }

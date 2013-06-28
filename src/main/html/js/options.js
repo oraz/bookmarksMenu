@@ -191,8 +191,6 @@ function setFaviconService() {
 }
 
 function resetWindowSettings() {
-    localStorage.removeItem('winMaxWidth');
-    localStorage.removeItem('winMaxHeight');
     localStorage.removeItem('fontFamily');
     localStorage.removeItem('fontSize');
     localStorage.removeItem('favIconWidth');
@@ -217,8 +215,6 @@ HTMLSelectElement.prototype.selectByValue = function(value)
 
 function initWindowSettingsTab()
 {
-	$('winMaxWidth').value = getWindowMaxWidth();
-	$('winMaxHeight').value = getWindowMaxHeight();
 	$('fontFamily').selectByValue(getFontFamily());
 	$('fontSize').value = getFontSize();
 	$('favIconWidth').value = getFavIconWidth();
