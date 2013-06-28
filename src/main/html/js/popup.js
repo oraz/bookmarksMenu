@@ -37,27 +37,6 @@ function Bookmark(bookmarkNode)
 
 Bookmark.autoId = 1; // id for google bookmarks
 
-HTMLBodyElement.prototype.setHeight = function(height)
-{
-	if(height > config.winMaxHeight)
-	{
-		this.style.height = config.winMaxHeight + 'px';
-		this.style.overflowY = 'scroll';
-	}
-	else
-	{
-		this.style.height = height + 'px';
-	}
-}
-
-HTMLBodyElement.prototype.pack = function(bookmarksMenu)
-{
-	var height = bookmarksMenu.clientHeight + 2;
-	this.style.width = bookmarksMenu.clientWidth + 2 +
-		(height < config.winMaxHeight ? 0 : parseInt(getScrollBarWidth())) + 'px';
-	this.setHeight(height);
-};
-
 HTMLUListElement.prototype.fillFolderContent = function(childBookmarks)
 {
 	var len = childBookmarks.length;
@@ -459,20 +438,14 @@ HTMLLIElement.prototype.displayFolderContent = function()
 	var body = document.body, bodyStyle = body.style;
 	var posY = this.getY();
 	var contentHeight = this.folderContent.offsetHeight, offset = 1;
-	if(posY + contentHeight > body.scrollTop + body.clientHeight)
+	if(posY + contentHeight > body.scrollTop + 600)
 	{
-		offset = posY + contentHeight - body.clientHeight - body.scrollTop;
+		offset = posY + contentHeight - 600 - body.scrollTop;
 		if(offset > posY - body.scrollTop)
 		{
 			offset = posY - body.scrollTop;
 		}
 		this.folderContent.style.top = '-' + offset + 'px';
-	}
-
-	var height = posY - offset + contentHeight;
-	if(body.clientHeight < height)
-	{
-		body.setHeight(height);
 	}
 
 	var width = 0, tmp = this;
@@ -799,7 +772,6 @@ function addGoogleBookmark() {
             var rootFolder = $('bookmarksMenu');
             rootFolder.clear();
             rootFolder.fillFolderContent(chrome.extension.getBackgroundPage().GBookmarksTree.children);
-            document.body.pack(rootFolder);
         }
         else {
             // todo some error
@@ -843,7 +815,6 @@ function reloadGBookmarks()
 			loading.hide();
 			var rootFolder = $('bookmarksMenu');
 			rootFolder.fillFolderContent(chrome.extension.getBackgroundPage().GBookmarksTree.children);
-			body.pack(rootFolder);
 		}
 		else
 		{
@@ -1042,7 +1013,6 @@ function initBookmarksMenu(nodes)
 			separator.hide();
 		}
 	}
-	document.body.pack(rootFolder);
 	delete rootFolder.hasVisibleBookmarks;
 	
 	if(!rootFolder.noIconCSSAdded)

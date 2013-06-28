@@ -1,7 +1,7 @@
 body {
-    margin: 0.2em 0;
+    margin: 0;
     overflow-x: hidden;
-    overflow-y: visible;
+    overflow-y: scroll;
 }
 
 img {
@@ -43,8 +43,9 @@ ul {
     margin: 1px 3px;
 }
 
-
-#bookmarksMenu { position: absolute; top: 0px; right: 0px; }
+#bookmarksMenu {
+    float: right;
+}
 
 #contextMenu {
     display: none;
@@ -97,6 +98,7 @@ ul {
     background-color: #e2dbdb;
     border: 1px solid #ccc;
     width: 7px; /* will be replaced in initBookmarksMenu */
+    height: 0;
 }
 
 ::-webkit-scrollbar-thumb:vertical {
