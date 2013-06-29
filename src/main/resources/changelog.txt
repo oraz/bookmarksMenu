@@ -1,3 +1,7 @@
+Changelog 3.4.9 (29.06.2011)
+- Fixed issues with scrolling.
+- Removed popup max size configuration. Now max size of popup 800x600.
+
 Changelog 3.4.8 (26.06.2011)
 - Migrated to Manifest v2
 
