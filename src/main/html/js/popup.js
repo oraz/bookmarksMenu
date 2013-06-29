@@ -303,7 +303,7 @@ HTMLLIElement.prototype.remove = function () {
     } else {
         var gid = this.getAttribute('gid');
         chrome.extension.getBackgroundPage().remove(gid);
-        document.querySelectorAll('li[gid="' + gid + '"]').forEach(function () {
+        all('li[gid="' + gid + '"]').forEach(function () {
             this.removeFromUI();
         });
     }
@@ -441,8 +441,9 @@ function unSelect() {
     $('gwindow').hide();
 }
 
-function processMenu(ev, contextMenu) {
-    var item = ev.srcElement;
+function processMenu(ev) {
+    var item = ev.srcElement,
+        contextMenu = this;
     if (item != contextMenu) {
         while (!(item instanceof HTMLLIElement)) {
             item = item.parentElement;
@@ -468,12 +469,10 @@ function processMenu(ev, contextMenu) {
                 localStorage['useGoogleBookmarks'] =
                     config.useGoogleBookmarks = useGoogleBookmarks;
 
-                var contextMenu = $('contextMenu');
                 delete contextMenu.initialized;
-                contextMenu.querySelectorAll('li[action]:not([for])').
-                    forEach(function () {
-                        this.show()
-                    });
+                contextMenu.querySelectorAll('li[action]:not([for])').forEach(function () {
+                    this.show()
+                });
 
                 $('bookmarksMenu').clear();
                 unSelect();
@@ -710,24 +709,14 @@ document.addEventListener("DOMContentLoaded", function () {
         return false;
     }
 
-    var transparentLayer = $('transparentLayer');
-    transparentLayer.addEventListener('mouseup', unSelect);
-    transparentLayer.addEventListener('mousedown', returnFalse);
-    var contextMenu = $('contextMenu');
-    contextMenu.addEventListener('mouseup', function (evt) {
-        processMenu(evt, contextMenu);
-    });
-    contextMenu.addEventListener('mousedown', returnFalse);
-    $('bookmarksMenu').addEventListener('mousedown', returnFalse);
+    all('#transparentLayer').on('mouseup', unSelect).on('mousedown', returnFalse);
+    all('#contextMenu').on('mouseup', processMenu).on('mousedown', returnFalse);
+    $('bookmarksMenu').on('mousedown', returnFalse);
 
-    document.querySelector('#gwindow #btnCancel').addEventListener('click', unSelect);
-    document.querySelector('#gwindow #btnAdd').addEventListener('click', addGoogleBookmark);
-    document.querySelectorAll('#gwindow #gbTitle, #gwindow #gbURL').forEach(function () {
-        this.addEventListener('input', isGBookmarkDataReady);
-    });
-    var gbLabel = document.querySelector('#gwindow #gbLabel');
-    gbLabel.addEventListener('input', suggestLabel);
-    gbLabel.addEventListener('keydown', selectSuggestion);
+    all('#gwindow #btnCancel').on('click', unSelect);
+    all('#gwindow #btnAdd').on('click', addGoogleBookmark);
+    all('#gwindow #gbTitle, #gwindow #gbURL').on('input', isGBookmarkDataReady);
+    all('#gwindow #gbLabel').on('input', suggestLabel).on('keydown', selectSuggestion);
     config =
     {
         winMaxWidth:800,

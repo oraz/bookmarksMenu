@@ -207,44 +207,31 @@ function initWindowSettingsTab() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll('#tabs > li').forEach(function () {
-        this.addEventListener('click', showTab);
-    });
-    $('useChromeBookmarks').addEventListener('click', function () {
+    document.querySelectorAll('#tabs > li').on('click', showTab);
+    $('useChromeBookmarks').on('click', function () {
         setUseGoogleBookmarks(false);
     });
-    $('useGoogleBookmarks').addEventListener('click', function () {
+    $('useGoogleBookmarks').on('click', function () {
         setUseGoogleBookmarks(true);
     });
 
-    $('chbFaviconService').addEventListener('change', setFaviconService);
-    $('gbFaviconService').addEventListener('change', setFaviconService);
-    document.querySelectorAll('.selectAllBookmarks').forEach(function () {
-        this.addEventListener('click', selectAllBookmarks)
-    });
+    $('chbFaviconService').on('change', setFaviconService);
+    $('gbFaviconService').on('change', setFaviconService);
+    document.querySelectorAll('.selectAllBookmarks').on('click', selectAllBookmarks);
 
-    document.querySelectorAll('#uiConfig input[type=number]').forEach(function () {
-        this.addEventListener('input', setIntProperty);
-    });
+    document.querySelectorAll('#uiConfig input[type=number]').on('input', setIntProperty);
 
-    document.querySelectorAll('#uiConfig input[type=checkbox], #switchToNewTab').forEach(function () {
-        this.addEventListener('change', setBoolProperty);
-    });
-    document.querySelectorAll('#uiConfig input.color').forEach(function () {
-        this.addEventListener('input', setColor);
-        this.addEventListener('change', setColor);
-    });
-    document.querySelectorAll('#mouseConfig select').forEach(function () {
-        this.addEventListener('change', setMouseButtonAction);
-    });
+    document.querySelectorAll('#uiConfig input[type=checkbox], #switchToNewTab').on('change', setBoolProperty);
+    document.querySelectorAll('#uiConfig input.color').on('input', setColor).on('change', setColor);
+    document.querySelectorAll('#mouseConfig select').on('change', setMouseButtonAction);
 
-    $('resetWindowSettings').addEventListener('click', resetWindowSettings);
+    $('resetWindowSettings').on('click', resetWindowSettings);
 
-    $('fontFamily').addEventListener('change', setFontFamily);
-    $('maxWidthMesure').addEventListener('change', setMenuMaxWidthMesure);
+    $('fontFamily').on('change', setFontFamily);
+    $('maxWidthMesure').on('change', setMenuMaxWidthMesure);
 
-    document.querySelector('form[name=_xclick]').addEventListener('submit', beforeDonate);
-    $('labelSeparator').addEventListener('input', setLabelSeparator);
+    document.querySelector('form[name=_xclick]').on('submit', beforeDonate);
+    $('labelSeparator').on('input', setLabelSeparator);
 
     addButtonCSS();
     chrome.i18n.initAll();

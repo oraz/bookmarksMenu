@@ -4,11 +4,24 @@ function $(id) {
     return document.getElementById(id);
 }
 
+function all(selector) {
+    return document.querySelectorAll(selector);
+}
+
 NodeList.prototype.forEach = function (func, scope) {
     for (var idx = 0, len = this.length; idx < len; idx++) {
         func.call(scope || this[idx], this[idx], idx);
     }
 };
+
+NodeList.prototype.on = function(evt, callback) {
+    this.forEach(function() {
+        this.on(evt, callback);
+    });
+    return this;
+};
+
+HTMLElement.prototype.on = HTMLElement.prototype.addEventListener;
 
 HTMLElement.prototype.show = function () {
     this.style.display = 'block';
