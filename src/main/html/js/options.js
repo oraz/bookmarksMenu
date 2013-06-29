@@ -5,12 +5,12 @@ function setMouseButtonAction() {
 }
 
 function beforeDonate() {
-    var radioGrp = document.querySelectorAll('input[name="donate_amount"]');
+    var radioGrp = all('input[name="donate_amount"]');
     for (var idx = radioGrp.length - 1; idx >= 0; idx--) {
         var btn = radioGrp[idx];
         if (btn.checked) {
-            document.querySelector('form[name="_xclick"] > input[name="amount"]').value =
-                btn.value == 'selByUser' ? $('donateSelByUser').value : btn.value;
+            one('form[name="_xclick"] > input[name="amount"]').value =
+                btn.value == 'selByUser' ? one('#donateSelByUser').value : btn.value;
             return true;
         }
     }
@@ -61,8 +61,8 @@ function setColor() {
 
 function setUseGoogleBookmarks(useGoogleBookmarks) {
     localStorage['useGoogleBookmarks'] = useGoogleBookmarks;
-    $('chromeBookmarksSettings').style.display = useGoogleBookmarks ? 'none' : 'block';
-    $('googleBookmarksSettings').style.display = useGoogleBookmarks ? 'block' : 'none';
+    one('#chromeBookmarksSettings').style.display = useGoogleBookmarks ? 'none' : 'block';
+    one('#googleBookmarksSettings').style.display = useGoogleBookmarks ? 'block' : 'none';
     changeBookmarkMode(useGoogleBookmarks);
     if (useGoogleBookmarks) {
         clearGoogleBookmarksDiv();
@@ -73,7 +73,7 @@ function setUseGoogleBookmarks(useGoogleBookmarks) {
 }
 
 function clearGoogleBookmarksDiv() {
-    var gbookmarksSettings = $('googleBookmarksSettings');
+    var gbookmarksSettings = one('#googleBookmarksSettings');
     gbookmarksSettings.querySelector('div.bookmark').hide();
     gbookmarksSettings.querySelectorAll('div.gbookmark').forEach(function () {
         this.parentElement.removeChild(this);
@@ -119,20 +119,20 @@ function addBookmark(divSettings, bookmark, useGoogleBookmarks) {
 
 function processResponse(response, port) {
     if (response == MESSAGES.RESP_NEED_TO_LOAD) {
-        $('loadingError').hide();
-        $('loading').show();
+        one('#loadingError').hide();
+        one('#loading').show();
         port.postMessage(MESSAGES.REQ_LOAD_BOOKMARKS);
     } else if (response == MESSAGES.RESP_TREE_IS_READY) {
-        $('loading').hide();
+        one('#loading').hide();
         var GBookmarksTree = chrome.extension.getBackgroundPage().GBookmarksTree;
-        var googleBookmarksSettings = $('googleBookmarksSettings');
+        var googleBookmarksSettings = one('#googleBookmarksSettings');
         googleBookmarksSettings.querySelector('div.bookmark').show();
         GBookmarksTree.children.forEach(function (bookmark) {
             addBookmark(googleBookmarksSettings, bookmark, true);
         });
     } else if (response == MESSAGES.RESP_FAILED) {
-        $('loading').hide();
-        $('loadingError').show();
+        one('#loading').hide();
+        one('#loadingError').show();
     }
 }
 
@@ -146,8 +146,8 @@ function setLabelSeparator() {
         if (newLabelSeparator != getLabelSeparator()) {
             localStorage['labelSeparator'] = newLabelSeparator;
             clearGoogleBookmarksDiv();
-            $('loadingError').hide();
-            $('loading').show();
+            one('#loadingError').hide();
+            one('#loading').show();
             var port = chrome.extension.connect();
             port.onMessage.addListener(processResponse);
             port.postMessage(MESSAGES.REQ_FORCE_LOAD_BOOKMARKS);
@@ -158,10 +158,9 @@ function setLabelSeparator() {
 function showTab() {
     var currentTab = this.parentNode.querySelector('li.fgTab');
     currentTab.setAttribute('class', 'bgTab');
-    $(currentTab.getAttribute('for')).hide();
-
+    one('#' + currentTab.getAttribute('for')).hide();
     this.setAttribute('class', 'fgTab');
-    $(this.getAttribute('for')).show();
+    one('#' + this.getAttribute('for')).show();
 }
 
 function setFaviconService() {
@@ -179,7 +178,7 @@ function resetWindowSettings() {
     localStorage.removeItem('showURL');
     localStorage.removeItem('hideCMOpenIncognito');
     localStorage.removeItem('hideCMModeSwitcher');
-    document.querySelectorAll('input.color').forEach(function () {
+    all('input.color').forEach(function () {
         localStorage.removeItem(this.id);
     });
     initWindowSettingsTab();
@@ -191,62 +190,59 @@ HTMLSelectElement.prototype.selectByValue = function (value) {
 };
 
 function initWindowSettingsTab() {
-    $('fontFamily').selectByValue(getFontFamily());
-    $('fontSize').value = getFontSize();
-    $('favIconWidth').value = getFavIconWidth();
-    $('maxWidth').value = getMaxWidth();
-    $('maxWidthMesure').selectByValue(getMaxWidthMesure());
-    $('scrollBarWidth').value = getScrollBarWidth();
-    $('showTooltip').checked = isShowTooltip();
-    $('showURL').checked = isShowURL();
-    $('hideCMOpenIncognito').checked = isHideCMOpenIncognito();
-    $('hideCMModeSwitcher').checked = isHideCMModeSwitcher();
-    document.querySelectorAll('input.color').forEach(function () {
+    one('#fontFamily').selectByValue(getFontFamily());
+    one('#fontSize').value = getFontSize();
+    one('#favIconWidth').value = getFavIconWidth();
+    one('#maxWidth').value = getMaxWidth();
+    one('#maxWidthMesure').selectByValue(getMaxWidthMesure());
+    one('#scrollBarWidth').value = getScrollBarWidth();
+    one('#showTooltip').checked = isShowTooltip();
+    one('#showURL').checked = isShowURL();
+    one('#hideCMOpenIncognito').checked = isHideCMOpenIncognito();
+    one('#hideCMModeSwitcher').checked = isHideCMModeSwitcher();
+    all('input.color').forEach(function () {
         this.color.fromString(getColor(this.id));
     });
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll('#tabs > li').on('click', showTab);
-    $('useChromeBookmarks').on('click', function () {
+    all('#tabs > li').on('click', showTab);
+    one('#useChromeBookmarks').on('click', function () {
         setUseGoogleBookmarks(false);
     });
-    $('useGoogleBookmarks').on('click', function () {
+    one('#useGoogleBookmarks').on('click', function () {
         setUseGoogleBookmarks(true);
     });
 
-    $('chbFaviconService').on('change', setFaviconService);
-    $('gbFaviconService').on('change', setFaviconService);
-    document.querySelectorAll('.selectAllBookmarks').on('click', selectAllBookmarks);
+    one('#chbFaviconService').on('change', setFaviconService);
+    one('#gbFaviconService').on('change', setFaviconService);
+    all('.selectAllBookmarks').on('click', selectAllBookmarks);
 
-    document.querySelectorAll('#uiConfig input[type=number]').on('input', setIntProperty);
+    all('#uiConfig input[type=number]').on('input', setIntProperty);
 
-    document.querySelectorAll('#uiConfig input[type=checkbox], #switchToNewTab').on('change', setBoolProperty);
-    document.querySelectorAll('#uiConfig input.color').on('input', setColor).on('change', setColor);
-    document.querySelectorAll('#mouseConfig select').on('change', setMouseButtonAction);
+    all('#uiConfig input[type=checkbox], #switchToNewTab').on('change', setBoolProperty);
+    all('#uiConfig input.color').on('input', setColor).on('change', setColor);
+    all('#mouseConfig select').on('change', setMouseButtonAction);
 
-    $('resetWindowSettings').on('click', resetWindowSettings);
-
-    $('fontFamily').on('change', setFontFamily);
-    $('maxWidthMesure').on('change', setMenuMaxWidthMesure);
-
-    document.querySelector('form[name=_xclick]').on('submit', beforeDonate);
-    $('labelSeparator').on('input', setLabelSeparator);
-
+    one('#resetWindowSettings').on('click', resetWindowSettings);
+    one('#fontFamily').on('change', setFontFamily);
+    one('#maxWidthMesure').on('change', setMenuMaxWidthMesure);
+    one('form[name=_xclick]').on('submit', beforeDonate);
+    one('#labelSeparator').on('input', setLabelSeparator);
     addButtonCSS();
     chrome.i18n.initAll();
-    $('donateHeader').innerHTML = chrome.i18n.getMessage('donateHeader');
-    showTab.apply(document.querySelector('li.fgTab'));
+    one('#donateHeader').innerHTML = chrome.i18n.getMessage('donateHeader');
+    showTab.apply(one('li.fgTab'));
 
     // init Bookmarks tab
     var useGoogleBookmarks = isUseGoogleBookmarks();
-    $(useGoogleBookmarks ? 'useGoogleBookmarks' : 'useChromeBookmarks').checked = true;
+    one(useGoogleBookmarks ? '#useGoogleBookmarks' : '#useChromeBookmarks').checked = true;
     setUseGoogleBookmarks(useGoogleBookmarks);
-    $('labelSeparator').value = getLabelSeparator();
-    $('chbFaviconService').selectByValue(getFaviconServiceForChrome());
-    $('gbFaviconService').selectByValue(getFaviconServiceForGoogle());
+    one('#labelSeparator').value = getLabelSeparator();
+    one('#chbFaviconService').selectByValue(getFaviconServiceForChrome());
+    one('#gbFaviconService').selectByValue(getFaviconServiceForGoogle());
     chrome.bookmarks.getTree(function (nodes) {
-        var chromeBookmarksSettings = $('chromeBookmarksSettings');
+        var chromeBookmarksSettings = one('#' + 'chromeBookmarksSettings');
         nodes.forEach(function (node) {
             node.children.forEach(function (child) {
                 child.children.forEach(function (bookmark) {
@@ -262,11 +258,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // init Mouse tab
     for (var idx = 0; idx < 3; idx++) {
-        $('btn' + idx).selectedIndex = getButtonAction(idx);
+        one('#btn' + idx).selectedIndex = getButtonAction(idx);
     }
 
     if (isSwitchToNewTab()) {
-        $('switchToNewTab').checked = true;
+        one('#switchToNewTab').checked = true;
     }
 
 }, false);

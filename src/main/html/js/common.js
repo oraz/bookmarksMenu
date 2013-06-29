@@ -1,7 +1,7 @@
 navigator.isWindows = navigator.platform && navigator.platform.indexOf('Win') == 0;
 
-function $(id) {
-    return document.getElementById(id);
+function one(selector) {
+    return document.querySelector(selector);
 }
 
 function all(selector) {
@@ -83,6 +83,6 @@ function addButtonCSS() {
         link.setAttribute('rel', 'stylesheet');
         link.setAttribute('type', 'text/css');
         link.setAttribute('href', 'css/button.css');
-        document.querySelector('html > head').appendChild(link);
+        one('html > head').appendChild(link);
     }
 }

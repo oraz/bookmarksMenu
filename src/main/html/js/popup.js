@@ -217,7 +217,7 @@ HTMLLIElement.prototype.fillTreeDepth = function () {
 };
 
 HTMLLIElement.prototype.showContextMenu = function (ev) {
-    var contextMenu = $('contextMenu');
+    var contextMenu = one('#contextMenu');
     if (!contextMenu.initialized) {
         chrome.i18n.initAll(contextMenu);
         contextMenu.querySelectorAll(config.useGoogleBookmarks ?
@@ -228,11 +228,9 @@ HTMLLIElement.prototype.showContextMenu = function (ev) {
             });
 
         if (isHideCMOpenIncognito()) {
-            contextMenu.
-                querySelectorAll('li[action="openInIncognitoWindow"], li[action="openAllInIncognitoWindow"]').
-                forEach(function () {
-                    this.hide();
-                });
+            contextMenu.querySelectorAll('li[action="openInIncognitoWindow"], li[action="openAllInIncognitoWindow"]').forEach(function () {
+                this.hide();
+            });
         }
         if (isHideCMModeSwitcher()) {
             if (!config.useGoogleBookmarks) {
@@ -291,7 +289,7 @@ HTMLLIElement.prototype.showContextMenu = function (ev) {
         contextMenuStyle.top = ev.clientY + body.scrollTop + 'px';
     }
 
-    var transparentLayer = $('transparentLayer');
+    var transparentLayer = one('#transparentLayer');
     transparentLayer.style.right = (scrollBarWidth > 0 ? 1 : 0) + 'px';
     transparentLayer.show();
 };
@@ -434,11 +432,11 @@ HTMLLIElement.prototype.reorder = function (beforeSeparator) {
 };
 
 function unSelect() {
-    var contextMenu = $('contextMenu');
+    var contextMenu = one('#contextMenu');
     contextMenu.selectedBookmark.unHighlight();
     contextMenu.hide();
-    $('transparentLayer').hide();
-    $('gwindow').hide();
+    one('#transparentLayer').hide();
+    one('#gwindow').hide();
 }
 
 function processMenu(ev) {
@@ -474,7 +472,7 @@ function processMenu(ev) {
                     this.show()
                 });
 
-                $('bookmarksMenu').clear();
+                one('#bookmarksMenu').clear();
                 unSelect();
 
                 document.body.style.overflowY = 'visible';
@@ -491,11 +489,11 @@ function processMenu(ev) {
 
 function isGBookmarkDataReady() {
     var regexp = /^\s*$/;
-    $('btnAdd').disabled = regexp.test($('gbTitle').value) || regexp.test($('gbURL').value);
+    one('#btnAdd').disabled = regexp.test(one('#gbTitle').value) || regexp.test(one('#gbURL').value);
 }
 
 function suggestLabel() {
-    var suggestDiv = $('suggest');
+    var suggestDiv = one('#suggest');
     var cursorPos = this.selectionStart;
     var labelValue = this.value;
     var precededComma = labelValue.lastIndexOf(',', labelValue.charAt(cursorPos) == ',' && cursorPos > 0 ? cursorPos - 1 : cursorPos);
@@ -541,7 +539,7 @@ function onSuggestMouseOver(div) {
 }
 
 function selectSuggestion(e) {
-    var suggestDiv = $('suggest');
+    var suggestDiv = one('#suggest');
     if (suggestDiv.style.display == 'block') {
         var keyCode = e.keyCode;
         if (keyCode == 40 || keyCode == 38) {
@@ -578,7 +576,7 @@ function selectSuggestion(e) {
 }
 
 function fillFolderBySuggest(div) {
-    var label = $('gbLabel');
+    var label = one('#gbLabel');
     var value = label.value;
     var cursorPos = label.selectionStart;
     var precededComma = value.lastIndexOf(',', value.charAt(cursorPos) == ',' && cursorPos > 0 ? cursorPos - 1 : cursorPos);
@@ -588,20 +586,20 @@ function fillFolderBySuggest(div) {
         (nextComma == -1 ? '' : value.substr(nextComma)) +
         (value.search(/,\s*$/) == -1 ? ', ' : '');
     div.removeAttribute('class');
-    $('suggest').hide();
+    one('#suggest').hide();
 }
 
 function showGoogleBookmarkDialog(initalLabel) {
     chrome.tabs.getSelected(null, function (tab) {
-        $('gbTitle').value = tab.title;
-        $('gbURL').value = tab.url;
+        one('#gbTitle').value = tab.title;
+        one('#gbURL').value = tab.url;
         isGBookmarkDataReady();
     });
-    $('transparentLayer').show();
-    var win = $('gwindow');
+    one('#transparentLayer').show();
+    var win = one('#gwindow');
     if (!win.initialized) {
         chrome.i18n.initAll(win);
-        $('gbLabel').onkeyup = function (e) {
+        one('#gbLabel').onkeyup = function (e) {
             if (e.keyCode == 37 || e.keyCode == 39) {
                 suggestLabel.apply(this);
             }
@@ -626,7 +624,7 @@ function showGoogleBookmarkDialog(initalLabel) {
     else {
         win.style.top = bodyHeight / 2 - winHeight / 2 + 'px';
     }
-    var gbLabel = $('gbLabel');
+    var gbLabel = one('#gbLabel');
     gbLabel.value = initalLabel + ', ';
     gbLabel.focus();
     var suggest = win.querySelector('#suggest');
@@ -635,7 +633,7 @@ function showGoogleBookmarkDialog(initalLabel) {
     var folderNames = new Array();
     var labels = chrome.extension.getBackgroundPage().GBookmarksTree.labels;
     labels.sort();
-    var suggestDiv = $('suggest');
+    var suggestDiv = one('#suggest');
     suggestDiv.querySelectorAll('div > *').forEach(function () {
         this.parentElement.removeChild(this)
     });
@@ -655,7 +653,7 @@ function addGoogleBookmark() {
     port.onMessage.addListener(function (response) {
         if (response == MESSAGES.RESP_TREE_IS_READY) {
             unSelect();
-            var rootFolder = $('bookmarksMenu');
+            var rootFolder = one('#bookmarksMenu');
             rootFolder.clear();
             rootFolder.fillFolderContent(chrome.extension.getBackgroundPage().GBookmarksTree.children);
         }
@@ -666,15 +664,15 @@ function addGoogleBookmark() {
     });
     port.postMessage({
         msg:MESSAGES.REQ_ADD_GOOGLE_BOOKMARK,
-        title:$('gbTitle').value,
-        url:$('gbURL').value,
-        label:$('gbLabel').value
+        title:one('#gbTitle').value,
+        url:one('#gbURL').value,
+        label:one('#gbLabel').value
     });
 }
 
 function reloadGBookmarks() {
-    $('bookmarksMenu').clear();
-    var loading = $('loading');
+    one('#bookmarksMenu').clear();
+    var loading = one('#loading');
     if (loading.hasAttribute('i18n')) {
         chrome.i18n.initElement(loading);
     }
@@ -693,7 +691,7 @@ function reloadGBookmarks() {
     port.onMessage.addListener(function (response) {
         if (response == MESSAGES.RESP_TREE_IS_READY) {
             loading.hide();
-            var rootFolder = $('bookmarksMenu');
+            var rootFolder = one('#bookmarksMenu');
             rootFolder.fillFolderContent(chrome.extension.getBackgroundPage().GBookmarksTree.children);
         }
         else {
@@ -711,8 +709,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     all('#transparentLayer').on('mouseup', unSelect).on('mousedown', returnFalse);
     all('#contextMenu').on('mouseup', processMenu).on('mousedown', returnFalse);
-    $('bookmarksMenu').on('mousedown', returnFalse);
-
+    one('#bookmarksMenu').on('mousedown', returnFalse);
     all('#gwindow #btnCancel').on('click', unSelect);
     all('#gwindow #btnAdd').on('click', addGoogleBookmark);
     all('#gwindow #gbTitle, #gwindow #gbURL').on('input', isGBookmarkDataReady);
@@ -746,7 +743,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     loadBookmarks();
 
-    var rootFolder = $('bookmarksMenu');
+    var rootFolder = one('#bookmarksMenu');
     rootFolder.onmouseup = function (ev) {
         var bookmark = ev.srcElement;
         while (!(bookmark instanceof HTMLLIElement)) {
@@ -805,7 +802,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function loadBookmarks() {
     if (config.useGoogleBookmarks) {
-        var loading = $('loading');
+        var loading = one('#loading');
         var port = chrome.extension.connect();
         port.onMessage.addListener(function (response) {
             if (response == MESSAGES.RESP_TREE_IS_READY) {
@@ -827,7 +824,7 @@ function loadBookmarks() {
 }
 
 function initBookmarksMenu(nodes) {
-    var rootFolder = $('bookmarksMenu');
+    var rootFolder = one('#bookmarksMenu');
     rootFolder.isRoot = true;
     if (config.useGoogleBookmarks) {
         rootFolder.fillFolderContent(chrome.extension.getBackgroundPage().GBookmarksTree.children);
