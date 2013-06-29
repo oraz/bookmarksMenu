@@ -1,12 +1,9 @@
+'use strict';
+
 navigator.isWindows = navigator.platform && navigator.platform.indexOf('Win') == 0;
 
-function one(selector) {
-    return document.querySelector(selector);
-}
-
-function all(selector) {
-    return document.querySelectorAll(selector);
-}
+var one = document.querySelector.bind(document);
+var all = document.querySelectorAll.bind(document);
 
 NodeList.prototype.forEach = function (func, scope) {
     for (var idx = 0, len = this.length; idx < len; idx++) {
@@ -14,8 +11,8 @@ NodeList.prototype.forEach = function (func, scope) {
     }
 };
 
-NodeList.prototype.on = function(evt, callback) {
-    this.forEach(function() {
+NodeList.prototype.on = function (evt, callback) {
+    this.forEach(function () {
         this.on(evt, callback);
     });
     return this;
@@ -40,8 +37,7 @@ chrome.i18n.initAll = function (el) {
     (el ? el : document).querySelectorAll('[i18n]').forEach(this.initElement);
 };
 
-const MESSAGES =
-{
+var MESSAGES = {
     REQ_LOAD_BOOKMARKS:1,
     REQ_FORCE_LOAD_BOOKMARKS:2,
     REQ_GET_TREE_STATUS:3,
@@ -56,8 +52,7 @@ function changeBookmarkMode(useGoogleBookmarks) {
     if (useGoogleBookmarks) {
         title = 'extTitleGoogle';
         badge = 'G';
-    }
-    else {
+    } else {
         title = 'extTitle';
         badge = '';
     }
