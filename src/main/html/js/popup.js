@@ -707,6 +707,11 @@ document.addEventListener("DOMContentLoaded", function () {
         return false;
     }
 
+    function _preventDefault(evt) {
+        evt.preventDefault();
+    }
+
+    document.addEventListener('contextmenu', _preventDefault);
     all('#transparentLayer').on('mouseup', unSelect).on('mousedown', returnFalse);
     all('#contextMenu').on('mouseup', processMenu).on('mousedown', returnFalse);
     one('#bookmarksMenu').on('mousedown', returnFalse);
