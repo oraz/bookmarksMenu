@@ -86,6 +86,10 @@ ul {
     width: 20em;
 }
 
+#gwindow tr > td:first-child {
+    text-align: right;
+}
+
 #loading {
     display: none;
     margin: 2ex 0.3em;
