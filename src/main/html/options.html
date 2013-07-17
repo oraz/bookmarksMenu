@@ -1,11 +1,12 @@
+<!DOCTYPE html>
 <html>
 	<head>
-		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-		<link rel="stylesheet" type="text/css" href="css/options.css">
-		<script type="text/javascript" src="js/localstorage.js"></script>
-		<script type="text/javascript" src="js/common.js"></script>
-		<script type="text/javascript" src="js/options.js"></script>
-		<script type="text/javascript" src="js/jscolor/jscolor.js"></script>
+        <meta charset="UTF-8">
+		<link rel="stylesheet" href="css/options.css">
+		<script src="js/localstorage.js"></script>
+		<script src="js/common.js"></script>
+		<script src="js/options.js"></script>
+		<script src="js/jscolor/jscolor.js"></script>
 		<title i18n="mainHeader"></title>
 	</head>
 	<body>
@@ -22,11 +23,11 @@
 			<div class="config" id="donate">
 				<p id="donateHeader"><!-- The body will be filled up in DOMContentLoaded handler --></p>
 				<ul>
-					<li><label><input type="radio" name="donate_amount" value="10" checked="checked">$10</input></label></li>
-					<li><label><input type="radio" name="donate_amount" value="15">$15</input></label></li>
-					<li><label><input type="radio" name="donate_amount" value="20">$20</input></label></li>
+					<li><label><input type="radio" name="donate_amount" value="10" checked="checked"/>$10</label></li>
+					<li><label><input type="radio" name="donate_amount" value="15"/>$15</label></li>
+					<li><label><input type="radio" name="donate_amount" value="20"/>$20</label></li>
 					<li><label><input type="radio" name="donate_amount" value="selByUser">$&nbsp;<input type="number" min="1"
-						step="1" max="100" id="donateSelByUser"/></input></label></li>
+						step="1" max="100" id="donateSelByUser"/></label></li>
 				</ul>
 				<form name="_xclick" action="https://www.paypal.com/cgi-bin/webscr" method="post">
 					<input type="hidden" name="cmd" value="_xclick"/>
