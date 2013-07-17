@@ -265,4 +265,11 @@ document.addEventListener("DOMContentLoaded", function () {
         one('#switchToNewTab').checked = true;
     }
 
+    chrome.fontSettings.getFontList(function(fonts) {
+        var fontList = one('#fontFamily').options;
+        fonts.forEach(function(each) {
+            fontList.add(new Option(each.displayName, each.fontId));
+        });
+        one('#fontFamily').selectByValue(getFontFamily());
+    });
 }, false);
