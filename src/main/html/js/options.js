@@ -266,10 +266,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     chrome.fontSettings.getFontList(function(fonts) {
-        var fontList = one('#fontFamily').options;
+        var fontList = one('#fontFamily').options,
+            defaultFont = getFontFamily();
         fonts.forEach(function(each) {
-            fontList.add(new Option(each.displayName, each.fontId));
+            fontList.add(new Option(each.displayName, each.fontId, false, each.fontId === defaultFont));
         });
-        one('#fontFamily').selectByValue(getFontFamily());
     });
 }, false);
