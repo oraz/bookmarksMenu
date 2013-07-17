@@ -67,8 +67,10 @@ ul {
     z-index: 2;
 }
 
-#contextMenu[for="bookmark"] > li[for="folder"],
-#contextMenu[for="folder"] > li[for="bookmark"] {
+#contextMenu.forChromeBookmarks > .forGoogleBookmarks,
+#contextMenu.forGoogleBookmarks > .forChromeBookmarks,
+#contextMenu[for="bookmark"] > .forFolder,
+#contextMenu[for="folder"] > .forBookmark {
     display: none;
 }
 
