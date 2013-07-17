@@ -221,24 +221,24 @@ HTMLLIElement.prototype.showContextMenu = function (ev) {
     if (!contextMenu.initialized) {
         chrome.i18n.initAll(contextMenu);
         contextMenu.querySelectorAll(config.useGoogleBookmarks ?
-            'li[action="reorder"], li[action="useGoogleBookmarks"]' :
-            'li[action="addGBookmark"], li[action="reload"], li[action="useChromeBookmarks"]').
+            'li[data-action="reorder"], li[data-action="useGoogleBookmarks"]' :
+            'li[data-action="addGBookmark"], li[data-action="reload"], li[data-action="useChromeBookmarks"]').
             forEach(function () {
                 this.hide();
             });
 
         if (isHideCMOpenIncognito()) {
-            contextMenu.querySelectorAll('li[action="openInIncognitoWindow"], li[action="openAllInIncognitoWindow"]').forEach(function () {
+            contextMenu.querySelectorAll('li[data-action="openInIncognitoWindow"], li[data-action="openAllInIncognitoWindow"]').forEach(function () {
                 this.hide();
             });
         }
         if (isHideCMModeSwitcher()) {
             if (!config.useGoogleBookmarks) {
-                contextMenu.querySelector('li[action="useGoogleBookmarks"]').hide();
+                contextMenu.querySelector('li[data-action="useGoogleBookmarks"]').hide();
                 contextMenu.querySelectorAll('li.separator')[1].hide();
             }
             else {
-                contextMenu.querySelector('li[action="useChromeBookmarks"]').hide();
+                contextMenu.querySelector('li[data-action="useChromeBookmarks"]').hide();
             }
         }
         contextMenu.initialized = true;
@@ -247,15 +247,15 @@ HTMLLIElement.prototype.showContextMenu = function (ev) {
     contextMenu.setAttribute('for', this.getAttribute('type'));
     if (this.isFolder) {
         var className = this.lastChild.numberOfBookmarks > 0 ? 'enabled' : 'disabled';
-        contextMenu.querySelectorAll('li[action="openAllInTabs"], ' +
-            'li[action="openAllInNewWindow"], li[action="openAllInIncognitoWindow"]').
+        contextMenu.querySelectorAll('li[data-action="openAllInTabs"], ' +
+            'li[data-action="openAllInNewWindow"], li[data-action="openAllInIncognitoWindow"]').
             forEach(function () {
                 this.className = className;
             });
     }
-    contextMenu.querySelector('li[action="reorder"]').className =
+    contextMenu.querySelector('li[data-action="reorder"]').className =
         this.parentElement.childElementCount > 1 ? 'enabled' : 'disabled';
-    contextMenu.querySelector('li[action="remove"]').className =
+    contextMenu.querySelector('li[data-action="remove"]').className =
         this.isBookmark || this.isFolder && this.isEmpty ? 'enabled' : 'disabled';
     contextMenu.show();
 
@@ -447,7 +447,7 @@ function processMenu(ev) {
             item = item.parentElement;
         }
         if (item.getAttribute('class') == 'enabled') {
-            var action = item.getAttribute('action');
+            var action = item.getAttribute('data-action');
             if (action == 'reload') {
                 unSelect();
                 reloadGBookmarks();
@@ -468,7 +468,7 @@ function processMenu(ev) {
                     config.useGoogleBookmarks = useGoogleBookmarks;
 
                 delete contextMenu.initialized;
-                contextMenu.querySelectorAll('li[action]:not([for])').forEach(function () {
+                contextMenu.querySelectorAll('li[data-action]:not([for])').forEach(function () {
                     this.show()
                 });
 

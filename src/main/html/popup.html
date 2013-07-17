@@ -1,55 +1,80 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<link rel="stylesheet" href="css/popup.css">
-		<script src="js/localstorage.js"></script>
-		<script src="js/common.js"></script>
-		<script src="js/popup.js"></script>
-	</head>
-	<body>
-		<div id="transparentLayer"></div>
-		<ul id="contextMenu">
-			<li action="openInNewTab" for="bookmark" class="enabled"><span i18n="openInNewTab"><img src="icons/tab-new.png"/></span></li>
-			<li action="openInNewWindow" for="bookmark" class="enabled"><span i18n="openInNewWindow"><img src="icons/window-new.png"/></span></li>
-			<li action="openInIncognitoWindow" for="bookmark" class="enabled"><span i18n="openInIncognitoWindow"><img src="icons/window-incognito.png"/></span></li>
-			<li action="openAllInTabs" for="folder"><span i18n="openAllBookmarks" class="noicon"></span></li>
-			<li action="openAllInNewWindow" for="folder"><span i18n="openAllBookmarksInNewWindow" class="noicon"></span></li>
-			<li action="openAllInIncognitoWindow" for="folder"><span i18n="openAllBookmarksInIncognitoWindow"><img src="icons/window-incognito.png"/></span></li>
-			<li class="separator"></li>
-			<li action="reorder"><span i18n="reorder"><img src="icons/reorder.png"/></span></li>
-			<li action="addGBookmark" class="enabled"><span i18n="addBookmark"><img src="icons/icon-16.png"/></span></li>
-			<li action="remove"><span i18n="remove"><img src="icons/icon_delete.png"/></span></li>
-			<li class="separator"></li>
-			<li action="reload" class="enabled"><span i18n="reloadGBookmarks"><img src="icons/refresh.png"/></span></li>
-			<li action="useGoogleBookmarks" class="enabled"><span class="noicon" i18n="tbUseGoogle"></span></li>
-			<li action="useChromeBookmarks" class="enabled"><span class="noicon" i18n="tbUseChrome"></span></li>
-		</ul>
-		<ul id="bookmarksMenu"></ul>
-		<div id="loading" i18n="loadingIndicator"></div>
-		<table id="gwindow">
-			<tr>
-				<td><label for="gbTitle" i18n="lblTitle"></label></td>
-				<td><input type="text" id="gbTitle"/></td>
-			</tr>
-			<tr>
-				<td><label for="gbURL" i18n="lblURL"></label></td>
-				<td><input type="url" id="gbURL"/></td>
-			</tr>
-			<tr>
-				<td><label for="gbLabel" i18n="lblLabel"></label></td>
-				<td>
-					<input type="text" id="gbLabel"/>
-					<div id="suggest"></div>
-				</td>
-			</tr>
-			<tr>
-				<td>&nbsp;</td>
-				<td>
-					<button id="btnAdd" i18n="btnAdd" style="margin-right: .3em;"></button>
-					<button id="btnCancel" i18n="btnCancel"></button>
-				</td>
-			</tr>
-		</table>
-	</body>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/popup.css">
+    <script src="js/localstorage.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/popup.js"></script>
+</head>
+<body>
+<div id="transparentLayer"></div>
+<ul id="contextMenu">
+    <li data-action="openInNewTab" for="bookmark" class="enabled">
+        <span i18n="openInNewTab"><img src="icons/tab-new.png"/></span>
+    </li>
+    <li data-action="openInNewWindow" for="bookmark" class="enabled">
+        <span i18n="openInNewWindow"><img src="icons/window-new.png"/></span>
+    </li>
+    <li data-action="openInIncognitoWindow" for="bookmark" class="enabled">
+        <span i18n="openInIncognitoWindow"><img src="icons/window-incognito.png"/></span>
+    </li>
+    <li data-action="openAllInTabs" for="folder">
+        <span i18n="openAllBookmarks" class="noicon"></span>
+    </li>
+    <li data-action="openAllInNewWindow" for="folder">
+        <span i18n="openAllBookmarksInNewWindow" class="noicon"></span>
+    </li>
+    <li data-action="openAllInIncognitoWindow" for="folder">
+        <span i18n="openAllBookmarksInIncognitoWindow"><img src="icons/window-incognito.png"/></span>
+    </li>
+    <li class="separator"></li>
+    <li data-action="reorder">
+        <span i18n="reorder"><img src="icons/reorder.png"/></span>
+    </li>
+    <li data-action="addGBookmark" class="enabled">
+        <span i18n="addBookmark"><img src="icons/icon-16.png"/></span>
+    </li>
+    <li data-action="remove">
+        <span i18n="remove"><img src="icons/icon_delete.png"/></span>
+    </li>
+    <li class="separator"></li>
+    <li data-action="reload" class="enabled">
+        <span i18n="reloadGBookmarks"><img src="icons/refresh.png"/></span>
+    </li>
+    <li data-action="useGoogleBookmarks" class="enabled">
+        <span class="noicon" i18n="tbUseGoogle"></span>
+    </li>
+    <li data-action="useChromeBookmarks" class="enabled">
+        <span class="noicon" i18n="tbUseChrome"></span>
+    </li>
+</ul>
+<ul id="bookmarksMenu"></ul>
+<div id="loading" i18n="loadingIndicator"></div>
+<table id="gwindow">
+    <tr>
+        <td><label for="gbTitle" i18n="lblTitle"></label></td>
+        <td><input type="text" id="gbTitle"/></td>
+    </tr>
+    <tr>
+        <td><label for="gbURL" i18n="lblURL"></label></td>
+        <td><input type="url" id="gbURL"/></td>
+    </tr>
+    <tr>
+        <td><label for="gbLabel" i18n="lblLabel"></label></td>
+        <td>
+            <input type="text" id="gbLabel"/>
+
+            <div id="suggest"></div>
+        </td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>
+            <button id="btnAdd" i18n="btnAdd" style="margin-right: .3em;"></button>
+            <button id="btnCancel" i18n="btnCancel"></button>
+        </td>
+    </tr>
+</table>
+</body>
 </html>
