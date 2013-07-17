@@ -242,18 +242,14 @@ HTMLLIElement.prototype.showContextMenu = function (ev) {
     contextMenu.selectedBookmark = this;
     contextMenu.setAttribute('for', this.getAttribute('type'));
     if (this.isFolder) {
-        var className = this.lastChild.numberOfBookmarks > 0 ? 'enabled' : 'disabled';
-        contextMenu.querySelectorAll('li[data-action="openAllInTabs"], ' +
-            'li[data-action="openAllInNewWindow"], li[data-action="openAllInIncognitoWindow"]').
-            forEach(function () {
-                this.removeClass('enabled').removeClass('disabled').addClass(className);
-            });
+        var hasChildren = this.lastChild.numberOfBookmarks > 0;
+        contextMenu.querySelectorAll('.forFolder').forEach(function () {
+            this.classList.toggle('enabled', hasChildren);
+        });
     }
 
-    contextMenu.querySelector('li[data-action="reorder"]').removeClass('enabled').removeClass('disabled')
-        .addClass(this.parentElement.childElementCount > 1 ? 'enabled' : 'disabled');
-    contextMenu.querySelector('li[data-action="remove"]').removeClass('enabled').removeClass('disabled')
-        .addClass(this.isBookmark || this.isFolder && this.isEmpty ? 'enabled' : 'disabled');
+    contextMenu.querySelector('li[data-action="reorder"]').classList.toggle('enabled', this.parentElement.childElementCount > 1);
+    contextMenu.querySelector('li[data-action="remove"]').classList.toggle('enabled', this.isBookmark || this.isFolder && this.isEmpty);
     contextMenu.show();
 
     var body = document.body;
@@ -729,7 +725,7 @@ document.addEventListener("DOMContentLoaded", function () {
         'color: #' + getColor('fntClr') + ';');
     styleSheet.addRule('ul, #gwindow', 'background-color: #' + getColor('bmBgClr') + ';');
 
-    styleSheet.addRule('.empty, .disabled > span', 'color: #' + getColor('disabledItemFntClr') + ';');
+    styleSheet.addRule('#contextMenu > li:not(.enabled) > span, .empty', 'color: #' + getColor('disabledItemFntClr') + ';');
     styleSheet.addRule('li[type]:hover > span, .enabled:hover > span, .hover > span',
         'color: #' + getColor('activeBmFntClr') + ';' +
             'background-image: -webkit-gradient(linear, left top, left bottom, from(#' +

@@ -20,16 +20,6 @@ NodeList.prototype.on = function (evt, callback) {
 
 HTMLElement.prototype.on = HTMLElement.prototype.addEventListener;
 
-HTMLElement.prototype.removeClass = function (className) {
-    this.classList.remove(className);
-    return this;
-};
-
-HTMLElement.prototype.addClass = function (className) {
-    this.classList.add(className);
-    return this;
-};
-
 HTMLElement.prototype.show = function () {
     this.style.display = 'block';
 };

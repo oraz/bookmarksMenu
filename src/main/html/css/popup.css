@@ -36,7 +36,7 @@ ul {
     padding: 0;
 }
 
-.disabled img {
+#contextMenu > li:not(.enabled) img {
     opacity: 0.5;
 }
 
