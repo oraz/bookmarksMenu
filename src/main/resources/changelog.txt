@@ -1,3 +1,7 @@
+Changelog 3.4.11 (20.07.2013)
+- Font chooser (options page): show list of all system fonts.
+- Code refactoring.
+
 Changelog 3.4.10 (16.07.2013)
 - Blocked Chrome context menu when user clicks on any element by right button.
 - Code refactoring.
