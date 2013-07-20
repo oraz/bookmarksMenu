@@ -42,12 +42,12 @@ function isShowURL() {
 
 function getColor(name) {
     var color = localStorage[name];
-    return color ? color
-        : name == 'bodyClr' || name == 'bmBgClr' || name == 'activeBmFntClr' ? 'FFF'
-        : name == 'fntClr' ? '000'
-        : name == 'activeBmBgClrFrom' ? '86ABD9'
-        : name == 'activeBmBgClrTo' ? '1F5EAB'
-        : 'BEBEBE'; // disabledItemFntClr
+    return color ? color.indexOf('#') === 0 ? color : '#' + color
+        : name == 'bodyClr' || name == 'bmBgClr' || name == 'activeBmFntClr' ? '#FFFFFF'
+        : name == 'fntClr' ? '#000000'
+        : name == 'activeBmBgClrFrom' ? '#86ABD9'
+        : name == 'activeBmBgClrTo' ? '#1F5EAB'
+        : '#BEBEBE'; // disabledItemFntClr
 }
 
 function getScrollBarWidth() {

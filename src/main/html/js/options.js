@@ -54,7 +54,7 @@ function setBookmarkHidden(title, useGoogleBookmarks, hidden) {
 }
 
 function setColor() {
-    if (/^[0-9A-F]{6}$/i.test(this.value)) {
+    if (/^#[0-9A-F]{6}$/i.test(this.value)) {
         localStorage[this.id] = this.value;
     }
 }
@@ -178,7 +178,7 @@ function resetWindowSettings() {
     localStorage.removeItem('showURL');
     localStorage.removeItem('hideCMOpenIncognito');
     localStorage.removeItem('hideCMModeSwitcher');
-    all('input.color').forEach(function () {
+    all('input[type=color]').forEach(function () {
         localStorage.removeItem(this.id);
     });
     initWindowSettingsTab();
@@ -200,8 +200,8 @@ function initWindowSettingsTab() {
     one('#showURL').checked = isShowURL();
     one('#hideCMOpenIncognito').checked = isHideCMOpenIncognito();
     one('#hideCMModeSwitcher').checked = isHideCMModeSwitcher();
-    all('input.color').forEach(function () {
-        this.color.fromString(getColor(this.id));
+    all('input[type=color]').forEach(function () {
+        this.value = getColor(this.id);
     });
 }
 
@@ -221,7 +221,7 @@ document.addEventListener("DOMContentLoaded", function () {
     all('#uiConfig input[type=number]').on('input', setIntProperty);
 
     all('#uiConfig input[type=checkbox], #switchToNewTab').on('change', setBoolProperty);
-    all('#uiConfig input.color').on('input', setColor).on('change', setColor);
+    all('#uiConfig input[type=color]').on('change', setColor);
     all('#mouseConfig select').on('change', setMouseButtonAction);
 
     one('#resetWindowSettings').on('click', resetWindowSettings);
@@ -252,8 +252,6 @@ document.addEventListener("DOMContentLoaded", function () {
         })
     });
 
-    // init UI tab
-    jscolor.init();
     initWindowSettingsTab();
 
     // init Mouse tab

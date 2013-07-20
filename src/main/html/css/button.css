@@ -1,14 +1,18 @@
-button {
+button, input[type=color] {
     background: -webkit-gradient(linear, left top, left bottom, from(#ece9e9), to(#d8d8d8));
     border: 1px solid #a39e9e;
     border-radius: 3px;
     padding: 1px 7px;
 }
 
-button:enabled:active {
+button:enabled:active, input[type=color]:active {
     background: -webkit-gradient(linear, left top, left bottom, from(#dadada), to(#ece9e9));
 }
 
-button:hover {
+button:hover, input[type=color]:hover {
     border-color: #746a6a;
+}
+
+input[type=color] {
+    padding: 1px 3px;
 }

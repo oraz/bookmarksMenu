@@ -42,7 +42,7 @@ hr {
     margin-top: 3px;
 }
 
-input[type="text"], input[type="number"] {
+input[type=color], input[type=text], input[type=number] {
     width: 5em;
 }
 
