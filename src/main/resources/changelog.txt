@@ -1,3 +1,6 @@
+Changelog 3.4.12 (24.07.2013)
+- Options page: html5 colorpicker is used instead of jscolor
+
 Changelog 3.4.11 (20.07.2013)
 - Font chooser (options page): show list of all system fonts.
 - Code refactoring.
