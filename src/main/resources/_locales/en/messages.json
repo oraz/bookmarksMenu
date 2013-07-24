@@ -21,7 +21,8 @@
     "reloadGBookmarks": { "message": "Reload Google Bookmarks" },
     "addBookmark": { "message": "Bookmark This Page" },
     "remove": { "message": "Delete" },
-    
+    "openBookmarkManager": { "message": "Bookmark Manager" },
+
     // Add Google bookmark dialog
     "lblTitle": { "message": "Title:" },
     "lblURL": { "message": "URL:" },

@@ -5,7 +5,7 @@
 
     <groupId>org.oraz.chrome</groupId>
     <artifactId>bookmarksMenu</artifactId>
-    <version>3.4.12</version>
+    <version>3.4.13-dev</version>
     <packaging>jar</packaging>
 
     <name>${artifactId}</name>

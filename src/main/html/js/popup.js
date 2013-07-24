@@ -141,14 +141,14 @@ HTMLLIElement.prototype.unHighlightActiveFolder = function () {
 HTMLLIElement.prototype.open = function (closeAfterOpen) {
     var url = this.url;
     if (isBookmarklet(url)) {
-        chrome.tabs.executeScript(null, { code:unescape(url.substr(11)) });
+        chrome.tabs.executeScript(null, { code: unescape(url.substr(11)) });
         if (closeAfterOpen) {
             window.close();
         }
     }
     else {
         chrome.tabs.getSelected(null, function (tab) {
-            chrome.tabs.update(tab.id, { url:url });
+            chrome.tabs.update(tab.id, { url: url });
             if (closeAfterOpen) {
                 window.close();
             }
@@ -157,12 +157,12 @@ HTMLLIElement.prototype.open = function (closeAfterOpen) {
 };
 
 HTMLLIElement.prototype.openInNewTab = function (switchToNewTab) {
-    chrome.tabs.create({ url:this.url, selected:switchToNewTab || isSwitchToNewTab() });
+    chrome.tabs.create({ url: this.url, selected: switchToNewTab || isSwitchToNewTab() });
     window.close();
 };
 
 HTMLLIElement.prototype.openInNewWindow = function (incognito) {
-    chrome.windows.create({ url:this.url, incognito:incognito });
+    chrome.windows.create({ url: this.url, incognito: incognito });
     window.close();
 };
 
@@ -176,7 +176,7 @@ HTMLLIElement.prototype.openAllInTabs = function (firstInCurrentTab) {
             bookmark.open();
         }
         else {
-            chrome.tabs.create({ url:bookmark.url, selected:idx == 0 });
+            chrome.tabs.create({ url: bookmark.url, selected: idx == 0 });
         }
     });
     window.close();
@@ -420,7 +420,7 @@ HTMLLIElement.prototype.reorder = function (beforeSeparator) {
     var folderId = this.parentFolder.isRoot ? this.parentFolderId : this.parentFolder.id;
     for (var idx = 0, len = bookmarks.length; idx < len; idx++) {
         folderContent.insertBefore(bookmarks[idx], separator);
-        chrome.bookmarks.move(bookmarks[idx].id, { parentId:folderId, index:idx });
+        chrome.bookmarks.move(bookmarks[idx].id, { parentId: folderId, index: idx });
     }
 };
 
@@ -465,6 +465,10 @@ function processMenu(ev) {
 
                 document.body.style.overflowY = 'visible';
                 loadBookmarks();
+            }
+            else if (action === 'openBookmarkManager') {
+                chrome.tabs.create({ url: "chrome://bookmarks", selected: true });
+                window.close();
             }
             else {
                 var bookmark = contextMenu.selectedBookmark;
@@ -651,10 +655,10 @@ function addGoogleBookmark() {
         }
     });
     port.postMessage({
-        msg:MESSAGES.REQ_ADD_GOOGLE_BOOKMARK,
-        title:one('#gbTitle').value,
-        url:one('#gbURL').value,
-        label:one('#gbLabel').value
+        msg: MESSAGES.REQ_ADD_GOOGLE_BOOKMARK,
+        title: one('#gbTitle').value,
+        url: one('#gbURL').value,
+        label: one('#gbLabel').value
     });
 }
 
@@ -707,14 +711,13 @@ document.addEventListener("DOMContentLoaded", function () {
     all('#gwindow #btnAdd').on('click', addGoogleBookmark);
     all('#gwindow #gbTitle, #gwindow #gbURL').on('input', isGBookmarkDataReady);
     all('#gwindow #gbLabel').on('input', suggestLabel).on('keydown', selectSuggestion);
-    config =
-    {
-        winMaxWidth:800,
-        winMaxHeight:600,
-        showTooltip:isShowTooltip(),
-        showURL:isShowURL(),
-        useGoogleBookmarks:isUseGoogleBookmarks(),
-        faviconService:isUseGoogleBookmarks() ? getFaviconServiceForGoogle() : getFaviconServiceForChrome()
+    config = {
+        winMaxWidth: 800,
+        winMaxHeight: 600,
+        showTooltip: isShowTooltip(),
+        showURL: isShowURL(),
+        useGoogleBookmarks: isUseGoogleBookmarks(),
+        faviconService: isUseGoogleBookmarks() ? getFaviconServiceForGoogle() : getFaviconServiceForChrome()
     };
 
     var styleSheet = document.styleSheets[0];
