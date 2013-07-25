@@ -21,6 +21,7 @@
     "reloadGBookmarks": { "message": "Перезагрузить закладки Google" },
     "addBookmark": { "message": "Добавить страницу в закладки" },
     "remove": { "message": "Удалить" },
+    "openBookmarkManager": { "message": "Диспетчер закладок" },
 
     // Add Google bookmark dialog
     "lblTitle": { "message": "Название:" },

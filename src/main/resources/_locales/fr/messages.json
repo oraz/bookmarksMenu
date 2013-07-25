@@ -21,6 +21,7 @@
     "reloadGBookmarks": { "message": "Actualiser les favoris de Google" },
     "addBookmark": { "message": "Marquer cette page" },
     "remove": { "message": "Supprimer" },
+    "openBookmarkManager": { "message": "Gestionnaire de favoris" },
 
     // Add Google bookmark dialog
     "lblTitle": { "message": "Nom :" },

@@ -77,6 +77,7 @@
     "remove": {
         "message": "삭제"
     },
+    "openBookmarkManager": { "message": "북마크 관리자" },
     "reorder": {
         "message": "제목순으로 정렬"
     },
