@@ -205,6 +205,7 @@ function onIncomingMessage(req, port) {
             }
         };
         xhr.open('POST', GBookmarkUrl + 'mark', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.send('bkmk=' + encodeURIComponent(req.url) +
             '&title=' + encodeURIComponent(req.title) +
             '&labels=' + encodeURIComponent(label) +
