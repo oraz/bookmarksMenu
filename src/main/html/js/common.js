@@ -2,8 +2,9 @@
 
 navigator.isWindows = navigator.platform && navigator.platform.indexOf('Win') == 0;
 
-var one = document.querySelector.bind(document);
-var all = document.querySelectorAll.bind(document);
+var $ = document.getElementById.bind(document),
+    one = document.querySelector.bind(document),
+    all = document.querySelectorAll.bind(document);
 
 NodeList.prototype.forEach = function (func, scope) {
     for (var idx = 0, len = this.length; idx < len; idx++) {

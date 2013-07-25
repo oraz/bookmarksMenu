@@ -10,7 +10,7 @@ function beforeDonate() {
         var btn = radioGrp[idx];
         if (btn.checked) {
             one('form[name="_xclick"] > input[name="amount"]').value =
-                btn.value == 'selByUser' ? one('#donateSelByUser').value : btn.value;
+                btn.value == 'selByUser' ? $('donateSelByUser').value : btn.value;
             return true;
         }
     }
@@ -61,8 +61,8 @@ function setColor() {
 
 function setUseGoogleBookmarks(useGoogleBookmarks) {
     localStorage['useGoogleBookmarks'] = useGoogleBookmarks;
-    one('#chromeBookmarksSettings').style.display = useGoogleBookmarks ? 'none' : 'block';
-    one('#googleBookmarksSettings').style.display = useGoogleBookmarks ? 'block' : 'none';
+    $('chromeBookmarksSettings').style.display = useGoogleBookmarks ? 'none' : 'block';
+    $('googleBookmarksSettings').style.display = useGoogleBookmarks ? 'block' : 'none';
     changeBookmarkMode(useGoogleBookmarks);
     if (useGoogleBookmarks) {
         clearGoogleBookmarksDiv();
@@ -73,7 +73,7 @@ function setUseGoogleBookmarks(useGoogleBookmarks) {
 }
 
 function clearGoogleBookmarksDiv() {
-    var gbookmarksSettings = one('#googleBookmarksSettings');
+    var gbookmarksSettings = $('googleBookmarksSettings');
     gbookmarksSettings.querySelector('div.bookmark').hide();
     gbookmarksSettings.querySelectorAll('div.gbookmark').forEach(function () {
         this.parentElement.removeChild(this);
@@ -119,20 +119,20 @@ function addBookmark(divSettings, bookmark, useGoogleBookmarks) {
 
 function processResponse(response, port) {
     if (response == MESSAGES.RESP_NEED_TO_LOAD) {
-        one('#loadingError').hide();
-        one('#loading').show();
+        $('loadingError').hide();
+        $('loading').show();
         port.postMessage(MESSAGES.REQ_LOAD_BOOKMARKS);
     } else if (response == MESSAGES.RESP_TREE_IS_READY) {
-        one('#loading').hide();
+        $('loading').hide();
         var GBookmarksTree = chrome.extension.getBackgroundPage().GBookmarksTree;
-        var googleBookmarksSettings = one('#googleBookmarksSettings');
+        var googleBookmarksSettings = $('googleBookmarksSettings');
         googleBookmarksSettings.querySelector('div.bookmark').show();
         GBookmarksTree.children.forEach(function (bookmark) {
             addBookmark(googleBookmarksSettings, bookmark, true);
         });
     } else if (response == MESSAGES.RESP_FAILED) {
-        one('#loading').hide();
-        one('#loadingError').show();
+        $('loading').hide();
+        $('loadingError').show();
     }
 }
 
@@ -146,8 +146,8 @@ function setLabelSeparator() {
         if (newLabelSeparator != getLabelSeparator()) {
             localStorage['labelSeparator'] = newLabelSeparator;
             clearGoogleBookmarksDiv();
-            one('#loadingError').hide();
-            one('#loading').show();
+            $('loadingError').hide();
+            $('loading').show();
             var port = chrome.extension.connect();
             port.onMessage.addListener(processResponse);
             port.postMessage(MESSAGES.REQ_FORCE_LOAD_BOOKMARKS);
@@ -158,9 +158,9 @@ function setLabelSeparator() {
 function showTab() {
     var currentTab = this.parentNode.querySelector('li.fgTab');
     currentTab.setAttribute('class', 'bgTab');
-    one('#' + currentTab.getAttribute('for')).hide();
+    $(currentTab.getAttribute('for')).hide();
     this.setAttribute('class', 'fgTab');
-    one('#' + this.getAttribute('for')).show();
+    $(this.getAttribute('for')).show();
 }
 
 function setFaviconService() {
@@ -190,16 +190,16 @@ HTMLSelectElement.prototype.selectByValue = function (value) {
 };
 
 function initWindowSettingsTab() {
-    one('#fontFamily').selectByValue(getFontFamily());
-    one('#fontSize').value = getFontSize();
-    one('#favIconWidth').value = getFavIconWidth();
-    one('#maxWidth').value = getMaxWidth();
-    one('#maxWidthMesure').selectByValue(getMaxWidthMesure());
-    one('#scrollBarWidth').value = getScrollBarWidth();
-    one('#showTooltip').checked = isShowTooltip();
-    one('#showURL').checked = isShowURL();
-    one('#hideCMOpenIncognito').checked = isHideCMOpenIncognito();
-    one('#hideCMModeSwitcher').checked = isHideCMModeSwitcher();
+    $('fontFamily').selectByValue(getFontFamily());
+    $('fontSize').value = getFontSize();
+    $('favIconWidth').value = getFavIconWidth();
+    $('maxWidth').value = getMaxWidth();
+    $('maxWidthMesure').selectByValue(getMaxWidthMesure());
+    $('scrollBarWidth').value = getScrollBarWidth();
+    $('showTooltip').checked = isShowTooltip();
+    $('showURL').checked = isShowURL();
+    $('hideCMOpenIncognito').checked = isHideCMOpenIncognito();
+    $('hideCMModeSwitcher').checked = isHideCMModeSwitcher();
     all('input[type=color]').forEach(function () {
         this.value = getColor(this.id);
     });
@@ -207,15 +207,15 @@ function initWindowSettingsTab() {
 
 document.addEventListener("DOMContentLoaded", function () {
     all('#tabs > li').on('click', showTab);
-    one('#useChromeBookmarks').on('click', function () {
+    $('useChromeBookmarks').on('click', function () {
         setUseGoogleBookmarks(false);
     });
-    one('#useGoogleBookmarks').on('click', function () {
+    $('useGoogleBookmarks').on('click', function () {
         setUseGoogleBookmarks(true);
     });
 
-    one('#chbFaviconService').on('change', setFaviconService);
-    one('#gbFaviconService').on('change', setFaviconService);
+    $('chbFaviconService').on('change', setFaviconService);
+    $('gbFaviconService').on('change', setFaviconService);
     all('.selectAllBookmarks').on('click', selectAllBookmarks);
 
     all('#uiConfig input[type=number]').on('input', setIntProperty);
@@ -224,25 +224,25 @@ document.addEventListener("DOMContentLoaded", function () {
     all('#uiConfig input[type=color]').on('change', setColor);
     all('#mouseConfig select').on('change', setMouseButtonAction);
 
-    one('#resetWindowSettings').on('click', resetWindowSettings);
-    one('#fontFamily').on('change', setFontFamily);
-    one('#maxWidthMesure').on('change', setMenuMaxWidthMesure);
+    $('resetWindowSettings').on('click', resetWindowSettings);
+    $('fontFamily').on('change', setFontFamily);
+    $('maxWidthMesure').on('change', setMenuMaxWidthMesure);
     one('form[name=_xclick]').on('submit', beforeDonate);
-    one('#labelSeparator').on('input', setLabelSeparator);
+    $('labelSeparator').on('input', setLabelSeparator);
     addButtonCSS();
     chrome.i18n.initAll();
-    one('#donateHeader').innerHTML = chrome.i18n.getMessage('donateHeader');
+    $('donateHeader').innerHTML = chrome.i18n.getMessage('donateHeader');
     showTab.apply(one('li.fgTab'));
 
     // init Bookmarks tab
     var useGoogleBookmarks = isUseGoogleBookmarks();
-    one(useGoogleBookmarks ? '#useGoogleBookmarks' : '#useChromeBookmarks').checked = true;
+    $(useGoogleBookmarks ? 'useGoogleBookmarks' : 'useChromeBookmarks').checked = true;
     setUseGoogleBookmarks(useGoogleBookmarks);
-    one('#labelSeparator').value = getLabelSeparator();
-    one('#chbFaviconService').selectByValue(getFaviconServiceForChrome());
-    one('#gbFaviconService').selectByValue(getFaviconServiceForGoogle());
+    $('labelSeparator').value = getLabelSeparator();
+    $('chbFaviconService').selectByValue(getFaviconServiceForChrome());
+    $('gbFaviconService').selectByValue(getFaviconServiceForGoogle());
     chrome.bookmarks.getTree(function (nodes) {
-        var chromeBookmarksSettings = one('#' + 'chromeBookmarksSettings');
+        var chromeBookmarksSettings = $('chromeBookmarksSettings');
         nodes.forEach(function (node) {
             node.children.forEach(function (child) {
                 child.children.forEach(function (bookmark) {
@@ -256,15 +256,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // init Mouse tab
     for (var idx = 0; idx < 3; idx++) {
-        one('#btn' + idx).selectedIndex = getButtonAction(idx);
+        $('btn' + idx).selectedIndex = getButtonAction(idx);
     }
 
     if (isSwitchToNewTab()) {
-        one('#switchToNewTab').checked = true;
+        $('switchToNewTab').checked = true;
     }
 
     chrome.fontSettings.getFontList(function(fonts) {
-        var fontList = one('#fontFamily').options,
+        var fontList = $('fontFamily').options,
             defaultFont = getFontFamily();
         fonts.forEach(function(each) {
             fontList.add(new Option(each.displayName, each.fontId, false, each.fontId === defaultFont));

@@ -217,7 +217,7 @@ HTMLLIElement.prototype.fillTreeDepth = function () {
 };
 
 HTMLLIElement.prototype.showContextMenu = function (ev) {
-    var contextMenu = one('#contextMenu');
+    var contextMenu = $('contextMenu');
     if (!contextMenu.initialized) {
         chrome.i18n.initAll(contextMenu);
         contextMenu.initialized = true;
@@ -282,7 +282,7 @@ HTMLLIElement.prototype.showContextMenu = function (ev) {
         contextMenuStyle.top = ev.clientY + body.scrollTop + 'px';
     }
 
-    var transparentLayer = one('#transparentLayer');
+    var transparentLayer = $('transparentLayer');
     transparentLayer.style.right = (scrollBarWidth > 0 ? 1 : 0) + 'px';
     transparentLayer.show();
 };
@@ -425,11 +425,11 @@ HTMLLIElement.prototype.reorder = function (beforeSeparator) {
 };
 
 function unSelect() {
-    var contextMenu = one('#contextMenu');
+    var contextMenu = $('contextMenu');
     contextMenu.selectedBookmark.unHighlight();
     contextMenu.hide();
-    one('#transparentLayer').hide();
-    one('#gwindow').hide();
+    $('transparentLayer').hide();
+    $('gwindow').hide();
 }
 
 function processMenu(ev) {
@@ -460,7 +460,7 @@ function processMenu(ev) {
                 localStorage['useGoogleBookmarks'] =
                     config.useGoogleBookmarks = useGoogleBookmarks;
 
-                one('#bookmarksMenu').clear();
+                $('bookmarksMenu').clear();
                 unSelect();
 
                 document.body.style.overflowY = 'visible';
@@ -481,11 +481,11 @@ function processMenu(ev) {
 
 function isGBookmarkDataReady() {
     var regexp = /^\s*$/;
-    one('#btnAdd').disabled = regexp.test(one('#gbTitle').value) || regexp.test(one('#gbURL').value);
+    $('btnAdd').disabled = regexp.test($('gbTitle').value) || regexp.test($('gbURL').value);
 }
 
 function suggestLabel() {
-    var suggestDiv = one('#suggest');
+    var suggestDiv = $('suggest');
     var cursorPos = this.selectionStart;
     var labelValue = this.value;
     var precededComma = labelValue.lastIndexOf(',', labelValue.charAt(cursorPos) == ',' && cursorPos > 0 ? cursorPos - 1 : cursorPos);
@@ -531,7 +531,7 @@ function onSuggestMouseOver(div) {
 }
 
 function selectSuggestion(e) {
-    var suggestDiv = one('#suggest');
+    var suggestDiv = $('suggest');
     if (suggestDiv.style.display == 'block') {
         var keyCode = e.keyCode;
         if (keyCode == 40 || keyCode == 38) {
@@ -568,7 +568,7 @@ function selectSuggestion(e) {
 }
 
 function fillFolderBySuggest(div) {
-    var label = one('#gbLabel');
+    var label = $('gbLabel');
     var value = label.value;
     var cursorPos = label.selectionStart;
     var precededComma = value.lastIndexOf(',', value.charAt(cursorPos) == ',' && cursorPos > 0 ? cursorPos - 1 : cursorPos);
@@ -578,20 +578,20 @@ function fillFolderBySuggest(div) {
         (nextComma == -1 ? '' : value.substr(nextComma)) +
         (value.search(/,\s*$/) == -1 ? ', ' : '');
     div.removeAttribute('class');
-    one('#suggest').hide();
+    $('suggest').hide();
 }
 
 function showGoogleBookmarkDialog(initalLabel) {
     chrome.tabs.getSelected(null, function (tab) {
-        one('#gbTitle').value = tab.title;
-        one('#gbURL').value = tab.url;
+        $('gbTitle').value = tab.title;
+        $('gbURL').value = tab.url;
         isGBookmarkDataReady();
     });
-    one('#transparentLayer').show();
-    var win = one('#gwindow');
+    $('transparentLayer').show();
+    var win = $('gwindow');
     if (!win.initialized) {
         chrome.i18n.initAll(win);
-        one('#gbLabel').onkeyup = function (e) {
+        $('gbLabel').onkeyup = function (e) {
             if (e.keyCode == 37 || e.keyCode == 39) {
                 suggestLabel.apply(this);
             }
@@ -616,7 +616,7 @@ function showGoogleBookmarkDialog(initalLabel) {
     else {
         win.style.top = bodyHeight / 2 - winHeight / 2 + 'px';
     }
-    var gbLabel = one('#gbLabel');
+    var gbLabel = $('gbLabel');
     gbLabel.value = initalLabel + ', ';
     gbLabel.focus();
     var suggest = win.querySelector('#suggest');
@@ -625,7 +625,7 @@ function showGoogleBookmarkDialog(initalLabel) {
     var folderNames = new Array();
     var labels = chrome.extension.getBackgroundPage().GBookmarksTree.labels;
     labels.sort();
-    var suggestDiv = one('#suggest');
+    var suggestDiv = $('suggest');
     suggestDiv.querySelectorAll('div > *').forEach(function () {
         this.parentElement.removeChild(this)
     });
@@ -645,7 +645,7 @@ function addGoogleBookmark() {
     port.onMessage.addListener(function (response) {
         if (response == MESSAGES.RESP_TREE_IS_READY) {
             unSelect();
-            var rootFolder = one('#bookmarksMenu');
+            var rootFolder = $('bookmarksMenu');
             rootFolder.clear();
             rootFolder.fillFolderContent(chrome.extension.getBackgroundPage().GBookmarksTree.children);
         }
@@ -656,15 +656,15 @@ function addGoogleBookmark() {
     });
     port.postMessage({
         msg: MESSAGES.REQ_ADD_GOOGLE_BOOKMARK,
-        title: one('#gbTitle').value,
-        url: one('#gbURL').value,
-        label: one('#gbLabel').value
+        title: $('gbTitle').value,
+        url: $('gbURL').value,
+        label: $('gbLabel').value
     });
 }
 
 function reloadGBookmarks() {
-    one('#bookmarksMenu').clear();
-    var loading = one('#loading');
+    $('bookmarksMenu').clear();
+    var loading = $('loading');
     if (loading.hasAttribute('i18n')) {
         chrome.i18n.initElement(loading);
     }
@@ -683,7 +683,7 @@ function reloadGBookmarks() {
     port.onMessage.addListener(function (response) {
         if (response == MESSAGES.RESP_TREE_IS_READY) {
             loading.hide();
-            var rootFolder = one('#bookmarksMenu');
+            var rootFolder = $('bookmarksMenu');
             rootFolder.fillFolderContent(chrome.extension.getBackgroundPage().GBookmarksTree.children);
         }
         else {
@@ -706,7 +706,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.addEventListener('contextmenu', _preventDefault);
     all('#transparentLayer').on('mouseup', unSelect).on('mousedown', returnFalse);
     all('#contextMenu').on('mouseup', processMenu).on('mousedown', returnFalse);
-    one('#bookmarksMenu').on('mousedown', returnFalse);
+    $('bookmarksMenu').on('mousedown', returnFalse);
     all('#gwindow #btnCancel').on('click', unSelect);
     all('#gwindow #btnAdd').on('click', addGoogleBookmark);
     all('#gwindow #gbTitle, #gwindow #gbURL').on('input', isGBookmarkDataReady);
@@ -739,7 +739,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     loadBookmarks();
 
-    var rootFolder = one('#bookmarksMenu');
+    var rootFolder = $('bookmarksMenu');
     rootFolder.onmouseup = function (ev) {
         var bookmark = ev.srcElement;
         while (!(bookmark instanceof HTMLLIElement)) {
@@ -798,7 +798,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function loadBookmarks() {
     if (config.useGoogleBookmarks) {
-        var loading = one('#loading');
+        var loading = $('loading');
         var port = chrome.extension.connect();
         port.onMessage.addListener(function (response) {
             if (response == MESSAGES.RESP_TREE_IS_READY) {
@@ -820,7 +820,7 @@ function loadBookmarks() {
 }
 
 function initBookmarksMenu(nodes) {
-    var rootFolder = one('#bookmarksMenu');
+    var rootFolder = $('bookmarksMenu');
     rootFolder.isRoot = true;
     if (config.useGoogleBookmarks) {
         rootFolder.fillFolderContent(chrome.extension.getBackgroundPage().GBookmarksTree.children);
