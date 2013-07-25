@@ -1,3 +1,7 @@
+Changelog 3.4.13 (25.07.2013)
+- Added new context menu item: Bookmark Manager
+- Fixed issue: add/remove Google bookmark doesn't work.
+
 Changelog 3.4.12 (24.07.2013)
 - Options page: html5 colorpicker is used instead of jscolor
 
