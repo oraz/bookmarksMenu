@@ -128,8 +128,8 @@ function remove(id) {
     var child = GBookmarksTree.removeBookmark(id);
     if (child) {
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', GBookmarkUrl + 'mark', true);
-        xhr.send('dlq=' + encodeURIComponent(id) + '&sig=' + encodeURIComponent(GBookmarksTree.signature));
+        xhr.open('GET', GBookmarkUrl + 'mark?' + 'dlq=' + encodeURIComponent(id) + '&sig=' + encodeURIComponent(GBookmarksTree.signature), true);
+        xhr.send();
     }
 }
 
