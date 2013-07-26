@@ -7,6 +7,7 @@ function Bookmark(bookmarkNode) {
         bookmark.setAttribute('gid', bookmarkNode.id);
     } else {
         bookmark.id = bookmarkNode.id;
+        bookmark.parentFolderId = bookmarkNode.parentId;
     }
     var span = document.createElement('span');
     var favicon = document.createElement('img');
@@ -46,7 +47,6 @@ HTMLUListElement.prototype.fillFolderContent = function (childBookmarks) {
                     this.hasVisibleBookmarks = true;
                 }
                 bookmark.parentFolder = bookmark.rootFolder = this;
-                bookmark.parentFolderId = childBookmarks[i].parentId;
             }
             else {
                 bookmark.parentFolder = this.parentElement;
@@ -62,16 +62,16 @@ HTMLUListElement.prototype.fillFolderContent = function (childBookmarks) {
         }
         if (this.numberOfBookmarks > 1) {
             this.addSeparator();
-            var bookmark = document.createElement('li');
-            bookmark.parentFolder = this.parentElement;
-            bookmark.rootFolder = bookmark.parentFolder.rootFolder;
-            bookmark.setAttribute('type', 'openAllInTabs');
-            bookmark.isOpenAll = true;
+            var openAllInTabs = document.createElement('li');
+            openAllInTabs.parentFolder = this.parentElement;
+            openAllInTabs.rootFolder = openAllInTabs.parentFolder.rootFolder;
+            openAllInTabs.setAttribute('type', 'openAllInTabs');
+            openAllInTabs.isOpenAll = true;
             var span = document.createElement('span');
             span.className = 'noicon';
             span.appendChild(document.createTextNode(chrome.i18n.getMessage('openAllInTabs')));
-            bookmark.appendChild(span);
-            this.appendChild(bookmark);
+            openAllInTabs.appendChild(span);
+            this.appendChild(openAllInTabs);
         }
     }
     else if (!this.isRoot) {
@@ -440,13 +440,13 @@ function processMenu(ev) {
             item = item.parentElement;
         }
         if (item.classList.contains('enabled')) {
-            var action = item.getAttribute('data-action');
+            var action = item.getAttribute('data-action'),
+                bookmark = contextMenu.selectedBookmark;
             if (action == 'reload') {
                 unSelect();
                 reloadGBookmarks();
             }
             else if (action == 'addGBookmark') {
-                var bookmark = contextMenu.selectedBookmark;
                 var label = bookmark.isBookmark && bookmark.parentFolder.isRoot ? '' :
                     (bookmark.isFolder ? bookmark : bookmark.parentFolder).getAttribute('gid');
                 unSelect();
@@ -467,11 +467,11 @@ function processMenu(ev) {
                 loadBookmarks();
             }
             else if (action === 'openBookmarkManager') {
-                chrome.tabs.create({ url: "chrome://bookmarks", selected: true });
+                var folderId = bookmark.isFolder ? bookmark.id : bookmark.parentFolderId;
+                chrome.tabs.create({ url: "chrome://bookmarks/#" + folderId, selected: true });
                 window.close();
             }
             else {
-                var bookmark = contextMenu.selectedBookmark;
                 bookmark[action].call(bookmark);
                 unSelect();
             }
