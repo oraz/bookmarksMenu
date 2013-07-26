@@ -1,3 +1,7 @@
+Changelog 3.4.14 (26.07.2013)
+- Open Bookmark Manager for current folder.
+- if Bookmark Manager is already opened switch to tab instead of creating new one.
+
 Changelog 3.4.13 (25.07.2013)
 - Added new context menu item: Bookmark Manager
 - Fixed issue: add/remove Google bookmark doesn't work.
