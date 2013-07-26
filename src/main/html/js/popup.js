@@ -389,10 +389,9 @@ HTMLLIElement.prototype.reorder = function (beforeSeparator) {
     if (beforeSeparator == undefined) {
         beforeSeparator = true;
     }
-    var bookmarks = new Array();
-    var separator = null;
-    do
-    {
+    var bookmarks = [],
+        separator = null;
+    do {
         var child = beforeSeparator ? folderContent.firstChild : folderContent.lastChild;
         if (child.isSeparator) {
             if (beforeSeparator) {
@@ -417,10 +416,9 @@ HTMLLIElement.prototype.reorder = function (beforeSeparator) {
         return t1 > t2 ? 1 : t1 < t2 ? -1 : 0;
     });
 
-    var folderId = this.parentFolder.isRoot ? this.parentFolderId : this.parentFolder.id;
     for (var idx = 0, len = bookmarks.length; idx < len; idx++) {
         folderContent.insertBefore(bookmarks[idx], separator);
-        chrome.bookmarks.move(bookmarks[idx].id, { parentId: folderId, index: idx });
+        chrome.bookmarks.move(bookmarks[idx].id, { parentId: this.parentFolderId, index: idx });
     }
 };
 
