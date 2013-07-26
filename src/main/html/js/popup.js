@@ -465,9 +465,15 @@ function processMenu(ev) {
                 loadBookmarks();
             }
             else if (action === 'openBookmarkManager') {
-                var folderId = bookmark.isFolder ? bookmark.id : bookmark.parentFolderId;
-                chrome.tabs.create({ url: "chrome://bookmarks/#" + folderId, selected: true });
-                window.close();
+                chrome.tabs.query({ currentWindow: true, url: 'chrome://bookmarks/*' }, function (tabs) {
+                    var folderId = bookmark.isFolder ? bookmark.id : bookmark.parentFolderId,
+                        bookmarkManagerUrl = "chrome://bookmarks/#" + folderId;
+                    if(tabs.length === 0) {
+                        chrome.tabs.create({ url: bookmarkManagerUrl, selected: true }, closePopup);
+                    } else {
+                        chrome.tabs.update(tabs[0].id, { url: bookmarkManagerUrl, active: true }, closePopup);
+                    }
+                });
             }
             else {
                 bookmark[action].call(bookmark);
@@ -845,4 +851,8 @@ function initBookmarksMenu(nodes) {
         document.styleSheets[0].addRule('.noicon', 'padding-left:' + textPaddingLeft + 'px;');
         rootFolder.noIconCSSAdded = true;
     }
+}
+
+function closePopup() {
+    window.close();
 }
