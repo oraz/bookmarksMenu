@@ -143,27 +143,25 @@ HTMLLIElement.prototype.open = function (closeAfterOpen) {
     if (isBookmarklet(url)) {
         chrome.tabs.executeScript(null, { code: unescape(url.substr(11)) });
         if (closeAfterOpen) {
-            window.close();
+            closePopup();
         }
     }
     else {
         chrome.tabs.getSelected(null, function (tab) {
             chrome.tabs.update(tab.id, { url: url });
             if (closeAfterOpen) {
-                window.close();
+                closePopup();
             }
         });
     }
 };
 
 HTMLLIElement.prototype.openInNewTab = function (switchToNewTab) {
-    chrome.tabs.create({ url: this.url, selected: switchToNewTab || isSwitchToNewTab() });
-    window.close();
+    chrome.tabs.create({ url: this.url, selected: switchToNewTab || isSwitchToNewTab() }, closePopup);
 };
 
 HTMLLIElement.prototype.openInNewWindow = function (incognito) {
-    chrome.windows.create({ url: this.url, incognito: incognito });
-    window.close();
+    chrome.windows.create({ url: this.url, incognito: incognito }, closePopup);
 };
 
 HTMLLIElement.prototype.openInIncognitoWindow = function () {
@@ -179,16 +177,16 @@ HTMLLIElement.prototype.openAllInTabs = function (firstInCurrentTab) {
             chrome.tabs.create({ url: bookmark.url, selected: idx == 0 });
         }
     });
-    window.close();
+    closePopup();
 };
 
 HTMLLIElement.prototype.openAllInNewWindow = function (incognito) {
-    var urls = new Array();
+    var urls = [];
     this.getBookmarksInFolder().forEach(function (bookmark) {
         urls.push(bookmark.url);
     });
     chrome.extension.getBackgroundPage().openUrlsInNewWindow(urls, incognito);
-    window.close();
+    closePopup();
 };
 
 HTMLLIElement.prototype.openAllInIncognitoWindow = function () {
