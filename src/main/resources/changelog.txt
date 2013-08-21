@@ -1,3 +1,6 @@
+Changelog 3.4.15 (22.08.2013)
+- Fixed Google Bookmarks for Chrome 29
+
 Changelog 3.4.14 (26.07.2013)
 - Open Bookmark Manager for current folder.
 - if Bookmark Manager is already opened switch to tab instead of creating new one.

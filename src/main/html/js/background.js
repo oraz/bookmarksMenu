@@ -152,9 +152,11 @@ function onIncomingMessage(req, port) {
         port.onDisconnect.addListener(onDisconnect);
         xhr.onreadystatechange = xhr.processBookmarks;
         xhr.onabort = xhr.processAbort;
+/*
         xhr.timeout = setTimeout(function () {
             xhr.abort();
         }, 10 * 1000);
+*/
         xhr.open("GET", GBookmarkUrl + '?output=rss&num=10000', true);
         xhr.send();
     }
