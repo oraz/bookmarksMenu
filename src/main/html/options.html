@@ -23,22 +23,20 @@
 </ul>
 <div class="config" id="donate">
     <p id="donateHeader"><!-- The body will be filled up in DOMContentLoaded handler --></p>
-    <ul>
-        <li><label><input type="radio" name="donate_amount" value="10" checked="checked"/>$10</label></li>
-        <li><label><input type="radio" name="donate_amount" value="15"/>$15</label></li>
-        <li><label><input type="radio" name="donate_amount" value="20"/>$20</label></li>
-        <li><label><input type="radio" name="donate_amount" value="selByUser">$&nbsp;<input type="number" min="1"
-                                                                                            step="1" max="100"
-                                                                                            id="donateSelByUser"/></label>
-        </li>
-    </ul>
-    <form name="_xclick" action="https://www.paypal.com/cgi-bin/webscr" method="post">
-        <input type="hidden" name="cmd" value="_xclick"/>
+    <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
         <input type="hidden" name="business" value="oraz.ra@gmail.com"/>
+        <input type="hidden" name="cmd" value="_donations"/>
         <input type="hidden" name="item_name" value="Donate to Bookmarks Menu"/>
-        <input type="hidden" name="currency_code" value="USD"/>
-        <input type="hidden" name="amount"/>
-        <button type="submit" name="submit" i18n="btnDonate"></button>
+        <select name="currency_code">
+        	<option value="AUD">AUD $</option>
+        	<option value="CAD">CAD $</option>
+        	<option value="CHF">CHF Fr.</option>
+        	<option value="EUR">EUR €</option>
+        	<option value="RUB">RUB ₽</option>
+        	<option value="USD" selected="selected">USD $</option>
+        </select>
+        <input type="image" name="submit" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" alt="Donate" />
+        <img alt="" width="1" height="1" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" />
     </form>
 </div>
 <div class="config" id="mouseConfig">

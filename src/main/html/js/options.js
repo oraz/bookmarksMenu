@@ -4,19 +4,6 @@ function setMouseButtonAction() {
     localStorage[parseInt(this.getAttribute('data-button-number'))] = this.selectedIndex;
 }
 
-function beforeDonate() {
-    var radioGrp = all('input[name="donate_amount"]');
-    for (var idx = radioGrp.length - 1; idx >= 0; idx--) {
-        var btn = radioGrp[idx];
-        if (btn.checked) {
-            one('form[name="_xclick"] > input[name="amount"]').value =
-                btn.value == 'selByUser' ? $('donateSelByUser').value : btn.value;
-            return true;
-        }
-    }
-    return false;
-}
-
 function setIntProperty() {
     var value = parseInt(this.value),
         maxLimit = parseInt(this.getAttribute('max')),
@@ -221,7 +208,6 @@ document.addEventListener("DOMContentLoaded", function () {
     $('resetWindowSettings').on('click', resetWindowSettings);
     $('fontFamily').on('change', setFontFamily);
     $('maxWidthMesure').on('change', setMenuMaxWidthMesure);
-    one('form[name=_xclick]').on('submit', beforeDonate);
     $('labelSeparator').on('input', setLabelSeparator);
     addButtonCSS();
     chrome.i18n.initAll();
