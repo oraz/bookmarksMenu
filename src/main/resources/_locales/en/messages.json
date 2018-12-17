@@ -53,7 +53,6 @@
     "tbUseChrome": { "message": "Use Chrome bookmarks" },
     "tbUseGoogle": { "message": "Use Google bookmarks" },
     "tbLabelSeparator": { "message": "Label separator:" },
-    "tbSelectFaviconService": { "message": "Select service to retrieve favicons:" },
     "tbSelectBookmarks": { "message": "Select bookmarks you wish to display" },
     "tbSelectAllBookmarks": { "message": "Select/Deselect all bookmarks"},
 

@@ -65,11 +65,10 @@ function isBookmarklet(url) {
     return url.substr(0, 11) == 'javascript:';
 }
 
-function getFavicon(url, serviceId) {
+function getFavicon(url) {
     return url == undefined ? 'icons/' + (navigator.isWindows ? 'folder-win.png' : 'folder.png')
         : isBookmarklet(url) ? 'icons/js.png'
         : url.substr(0, 5) == 'file:' ? 'icons/html.png'
-        : serviceId == 2 ? 'http://getfavicon.appspot.com/' + url
         : 'chrome://favicon/' + url;
 }
 
