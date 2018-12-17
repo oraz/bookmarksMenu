@@ -15,5 +15,3 @@ Usage:
 On options panel you can hide some bookmarks or folders. It might be useful if you use bookmark synchronization between different computers.
 
 If your monitor is too small, you can change popup window size and font size on options panel.
-
-The extension uses jscolor library which is under LGPL license. jscolor site: http://jscolor.com
