@@ -53,7 +53,6 @@
     "tbUseChrome": { "message": "Utiliser les favoris de Chrome" },
     "tbUseGoogle": { "message": "Utiliser les favoris de Google" },
     "tbLabelSeparator": { "message": "Séparateur des labels :" },
-    "tbSelectFaviconService": { "message": "Sélectionnez le service pour récupérer des favicônes :" },
     "tbSelectBookmarks": { "message": "Sélectionnez les favoris que vous souhaitez afficher" },
     "tbSelectAllBookmarks": { "message": "Sélectionner / Désélectionner tous les favoris"},
 

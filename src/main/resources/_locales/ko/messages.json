@@ -99,9 +99,6 @@
     "tbSelectBookmarks": {
         "message": "표시하고자 하는 북마크를 선택하세요."
     },
-    "tbSelectFaviconService": {
-        "message": "favicon 가져올 서비스 선택하기:"
-    },
     "tbUseChrome": {
         "message": "크롬 북마크 사용하기"
     },

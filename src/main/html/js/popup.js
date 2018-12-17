@@ -11,7 +11,7 @@ function Bookmark(bookmarkNode) {
     }
     var span = document.createElement('span');
     var favicon = document.createElement('img');
-    favicon.src = getFavicon(bookmarkNode.url, config.faviconService);
+    favicon.src = getFavicon(bookmarkNode.url);
     span.appendChild(favicon);
     span.appendChild(document.createTextNode(bookmarkNode.title));
     bookmark.appendChild(span);
@@ -451,8 +451,6 @@ function processMenu(ev) {
             else if (action == 'useGoogleBookmarks' || action == 'useChromeBookmarks') {
                 var useGoogleBookmarks = !config.useGoogleBookmarks;
                 changeBookmarkMode(useGoogleBookmarks);
-                config.faviconService = useGoogleBookmarks ?
-                    getFaviconServiceForGoogle() : getFaviconServiceForChrome();
                 localStorage['useGoogleBookmarks'] =
                     config.useGoogleBookmarks = useGoogleBookmarks;
 
@@ -718,8 +716,7 @@ document.addEventListener("DOMContentLoaded", function () {
         winMaxHeight: 600,
         showTooltip: isShowTooltip(),
         showURL: isShowURL(),
-        useGoogleBookmarks: isUseGoogleBookmarks(),
-        faviconService: isUseGoogleBookmarks() ? getFaviconServiceForGoogle() : getFaviconServiceForChrome()
+        useGoogleBookmarks: isUseGoogleBookmarks()
     };
 
     var styleSheet = document.styleSheets[0];

@@ -62,15 +62,6 @@ function getLabelSeparator() {
     return localStorage['labelSeparator'] || '>';
 }
 
-function getFaviconServiceForChrome() {
-    var service = localStorage['chbFaviconService'];
-    return service == undefined ? 1 : service;
-}
-
-function getFaviconServiceForGoogle() {
-    return localStorage['gbFaviconService'] || 2;
-}
-
 function isHideCMModeSwitcher() {
     return localStorage['hideCMModeSwitcher'] == 'true';
 }
