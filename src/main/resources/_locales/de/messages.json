@@ -1,0 +1,98 @@
+{
+    // manifest.json
+    "extDescription": { "message": "Zeigt Lesezeichen. Funktioniert mit Chrome und Google Lesezeichen." },
+    "extTitle": { "message": "Lesezeichen" },
+    "extTitleGoogle": { "message": "Google Bookmarks" },
+
+    // Bookmarks Menu
+    "empty": { "message": "leer" },
+    "openAllInTabs": { "message": "Alle öffnen" },
+    "loadingIndicator": { "message": "Lädt..." },
+    "failedRetrieveGBookmakrs": { "message": "Google Bookmarks konntent nicht abgerufen werden" },
+
+    // Context menu
+    "openInNewTab": { "message": "In neuem Tab öffnen" },
+    "openInNewWindow": { "message": "In neuem Fenster öffnen" },
+    "openInIncognitoWindow": { "message": "In Inkognito-Fenster öffnen" },
+    "openAllBookmarks": { "message": "Alle Lesezeichen öffnen" },
+    "openAllBookmarksInNewWindow": { "message": "Alle Lesezeichen in neuem Fenster öffnen" },
+    "openAllBookmarksInIncognitoWindow": { "message": "Alle Lesezeichen in Inkognito-Fenster öffnen" },
+    "reorder": { "message": "Sortieren nach Namen" },
+    "reloadGBookmarks": { "message": "Google Bookmarks neuladen" },
+    "addBookmark": { "message": "Lesezeichen für diese Seite erstellen" },
+    "remove": { "message": "Löschen" },
+    "openBookmarkManager": { "message": "Lesezeichen-Manager" },
+
+    // Add Google bookmark dialog
+    "lblTitle": { "message": "Name:" },
+    "lblURL": { "message": "URL:" },
+    "lblLabel": { "message": "Label:" },
+    "btnAdd": { "message": "Ok" },
+    "btnCancel": { "message": "Abbrechen" },
+
+    // Options page
+    "mainHeader": { "message": "'Bookmarks Menu' Einstellungen" },
+    "changelog": { "message": "Änderungen anschauen"},
+
+    // tabs names
+    "tabMouse": { "message": "Maus" },
+    "tabBookmarks": { "message": "Lesezeichen" },
+    "tabWindow": { "message": "UI-Einstellungen" },
+
+    // Mouse tab
+    "tmMouseConfig": { "message": "Maus Einstellungen" },
+    "tmLeftBtn": { "message": "Linker Button" },
+    "tmMiddleBtn": { "message": "Mitter button" },
+    "tmRightBtn": { "message": "Rechter button" },
+    "tmOpenInCurTab": { "message": "Öffnen" },
+    "tmOpenInNewTab": { "message": "In neuem Tab öffnen" },
+    "tmShowContextMenu": { "message": "Zeige Kontext-Menü" },
+    "tmSwitchToNewTab": { "message": "Wenn ich in neuem Tab öffne, schalte sofort um"},
+
+    // Bookmarks tab
+    "tbUseChrome": { "message": "Chrome bookmarks nutzen" },
+    "tbUseGoogle": { "message": "Google bookmarks nutzen" },
+    "tbLabelSeparator": { "message": "Label separator:" },
+    "tbSelectFaviconService": { "message": "Dienst für Favicons:" },
+    "tbSelectBookmarks": { "message": "Select bookmarks you wish to display" },
+    "tbSelectAllBookmarks": { "message": "Select/Deselect all bookmarks"},
+
+    // UI settings  tab
+    "twMesurePX": { "message": "px" },
+
+    "twMenuConfig": { "message": "Bookmarks menu configuration" },
+    "twFont": { "message": "Schriftart:" },
+    "twFontSize": { "message": "Schriftgröße:" },
+    "twFaviconSize": { "message": "Favicon-Größe:" },
+    "twMaxBookmarkWidth": { "message": "Max Breite des Lesezeichens:" },
+    "twMaxBookmarkWidthEM": { "message": "'m' Symbole" },
+    "twMaxBookmarkWidthPX": { "message": "Pixel" },
+    "twMaxBookmarkWidthIN": { "message": "Zoll" },
+    "twMaxBookmarkWidthCM": { "message": "Zentimeter" },
+    "twMaxBookmarkWidthMM": { "message": "Millimeter" },
+    "twScrollBarWidth": { "message": "Rollbalkensbreite:" },
+    "twShowTooltip": { "message": "Zeigen tooltip für lange Lesezeichen" },
+    "twShowURL": { "message": "Zeigen tooltip mit URL" },
+    
+    "twContextMenu": { "message": "Kontextmenü-Einstellungen" },
+    "twHideCMOpenIncognito": { "message": "Hide menu item 'Open in Incognito Window'" },
+    "twHideCMModeSwitcher": { "message": "Hide menu item 'Use Chrome/Google bookmarks'" },
+
+    "twColorScheme": { "message": "Farben" },
+    "twBodyColor": { "message": "Fenstershintegrund Farbe:" },
+    "twFontColor": { "message": "Schrift Farbe:" },
+    "twBmBgColor": { "message": "Lesezeichenshintegrund Farbe:" },
+    "twDisabledItemFntClr": { "message": "Font color of disabled menu item:" },
+    "twActiveBmFntClr": { "message": "Font color of highlighted bookmark:" },
+    "twActiveBmBgClr": { "message": "Background color of highlighted bookmark:" },
+    "twActiveBmBgClrFrom": { "message": "gradient from:" },
+    "twActiveBmBgClrTo": { "message": "gradient to:" },
+
+    "twRestoreDflt": { "message": "Wiederherstellen" },
+    
+    "donateHeader": { "message": "I'm glad that you use this extension.<br/>If you like it very much, you can sponsor me.<br/>Thank you!" },
+    "btnDonate": { "message": "Send via PayPal" },
+
+    // Background page
+    "needAllowIncognito": { "message": "You need to allow 'Bookmarks menu' to run in incognito! You can do it on extensions page." }
+}
