@@ -22,8 +22,7 @@
         "bookmarks",
         "chrome://favicon/",
         "fontSettings",
-        "http://*/*",
-        "https://*/*",
+        "https://www.google.com/bookmarks/*",
         "tabs"
     ]
 }
