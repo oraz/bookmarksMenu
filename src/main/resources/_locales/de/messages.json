@@ -8,7 +8,7 @@
     "empty": { "message": "leer" },
     "openAllInTabs": { "message": "Alle öffnen" },
     "loadingIndicator": { "message": "Lädt..." },
-    "failedRetrieveGBookmakrs": { "message": "Google Bookmarks konntent nicht abgerufen werden" },
+    "failedRetrieveGBookmakrs": { "message": "Google Bookmarks konnten nicht abgerufen werden" },
 
     // Context menu
     "openInNewTab": { "message": "In neuem Tab öffnen" },
@@ -42,8 +42,8 @@
     // Mouse tab
     "tmMouseConfig": { "message": "Maus Einstellungen" },
     "tmLeftBtn": { "message": "Linker Button" },
-    "tmMiddleBtn": { "message": "Mitter button" },
-    "tmRightBtn": { "message": "Rechter button" },
+    "tmMiddleBtn": { "message": "Mitter Button" },
+    "tmRightBtn": { "message": "Rechter Button" },
     "tmOpenInCurTab": { "message": "Öffnen" },
     "tmOpenInNewTab": { "message": "In neuem Tab öffnen" },
     "tmShowContextMenu": { "message": "Zeige Kontext-Menü" },
@@ -52,14 +52,14 @@
     // Bookmarks tab
     "tbUseChrome": { "message": "Chrome bookmarks nutzen" },
     "tbUseGoogle": { "message": "Google bookmarks nutzen" },
-    "tbLabelSeparator": { "message": "Label separator:" },
-    "tbSelectBookmarks": { "message": "Select bookmarks you wish to display" },
-    "tbSelectAllBookmarks": { "message": "Select/Deselect all bookmarks"},
+    "tbLabelSeparator": { "message": "labels Trennsymbol:" },
+    "tbSelectBookmarks": { "message": "Wählen Lesezeichen, die angezeigt werden müssen" },
+    "tbSelectAllBookmarks": { "message": "Alle Lesezeichen"},
 
     // UI settings  tab
     "twMesurePX": { "message": "px" },
 
-    "twMenuConfig": { "message": "Bookmarks menu configuration" },
+    "twMenuConfig": { "message": "Lesezeichensmenü-Enstellungen" },
     "twFont": { "message": "Schriftart:" },
     "twFontSize": { "message": "Schriftgröße:" },
     "twFaviconSize": { "message": "Favicon-Größe:" },
@@ -70,12 +70,12 @@
     "twMaxBookmarkWidthCM": { "message": "Zentimeter" },
     "twMaxBookmarkWidthMM": { "message": "Millimeter" },
     "twScrollBarWidth": { "message": "Rollbalkensbreite:" },
-    "twShowTooltip": { "message": "Zeigen tooltip für lange Lesezeichen" },
-    "twShowURL": { "message": "Zeigen tooltip mit URL" },
+    "twShowTooltip": { "message": "Zeigen Tooltip für lange Lesezeichen" },
+    "twShowURL": { "message": "Zeigen Tooltip mit URL" },
     
     "twContextMenu": { "message": "Kontextmenü-Einstellungen" },
-    "twHideCMOpenIncognito": { "message": "Hide menu item 'Open in Incognito Window'" },
-    "twHideCMModeSwitcher": { "message": "Hide menu item 'Use Chrome/Google bookmarks'" },
+    "twHideCMOpenIncognito": { "message": "Verstecken Eintrag 'In Inkognito-Fenster öffnen'" },
+    "twHideCMModeSwitcher": { "message": "Verstecken Eintrag 'Chrome/Google Lesezeichen nutzen'" },
 
     "twColorScheme": { "message": "Farben" },
     "twBodyColor": { "message": "Fenstershintegrund Farbe:" },
