@@ -211,7 +211,6 @@ document.addEventListener("DOMContentLoaded", function () {
     $('labelSeparator').on('input', setLabelSeparator);
     addButtonCSS();
     chrome.i18n.initAll();
-    $('donateHeader').innerHTML = chrome.i18n.getMessage('donateHeader');
     showTab.apply(one('li.fgTab'));
 
     // init Bookmarks tab
