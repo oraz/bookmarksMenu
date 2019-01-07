@@ -8,23 +8,6 @@ body {
 	padding: 1ex 1em;
 }
 
-#donate ul {
-	list-style: none;
-	padding-top: 1.5ex;
-}
-
-#donate p {
-	font-weight: bold;
-}
-
-#donate li {
-	padding: 0.5ex 0;
-}
-
-#donate button {
-	margin: 0.5ex 0 1.5ex;
-}
-
 h1 {
 	font-size: 18px;
 	font-weight: bold;
@@ -89,6 +72,7 @@ div.bookmark, div.gbookmark {
 }
 
 div.config {
+	min-width: 40em;
 	clear: left;
 	display: none;
 	border: 1px solid #6f5e5e;
@@ -108,6 +92,8 @@ div.header {
 
 div.tabs {
 	display: table;
+	float: left;
+	margin-right: 5em;
 }
 
 .favicon {
@@ -169,7 +155,7 @@ button.paypal:hover {
 }
 
 button.paypal {
-	display: flex;
+	display: inline-flex;
 	background: #ffc439;
 	align-items: center;
 	border-radius: .4em;
@@ -185,3 +171,11 @@ button.paypal img {
 button.paypal span {
 	font-weight: bold;
 	font-style: italic;
+}
+
+#donateNG {
+	margin: 5ex;
+	display: table;
+	border: 1px solid #6f5e5e;
+	padding: 3em;
+}
