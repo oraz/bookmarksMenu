@@ -227,10 +227,20 @@ function openUrlsInNewWindow(urls, incognito) {
     });
 }
 
+function showOptionsPageOnce() {
+    var version = chrome.runtime.getManifest().version;
+    if(localStorage['optionsPageIsShownFor'] != version) {
+    	localStorage['optionsPageIsShownFor'] = version;
+    	chrome.runtime.openOptionsPage();
+    }
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     chrome.browserAction.setBadgeBackgroundColor({ color:[ 24, 135, 185, 255 ] });
     changeBookmarkMode(isUseGoogleBookmarks());
     chrome.extension.onConnect.addListener(function (port) {
         port.onMessage.addListener(onIncomingMessage);
     });
+    
+    showOptionsPageOnce();
 });
