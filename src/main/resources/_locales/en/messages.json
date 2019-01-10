@@ -33,6 +33,8 @@
     // Options page
     "mainHeader": { "message": "'Bookmarks Menu' settings" },
     "changelog": { "message": "View changelog"},
+    "donateQuestion": { "message": "Do you like Bookmarks Menu?"},
+    "donateWith": { "message": "Donate with"},
 
     // tabs names
     "tabMouse": { "message": "Mouse" },

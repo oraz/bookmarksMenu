@@ -17,7 +17,7 @@
     "openAllBookmarks": { "message": "Alle Lesezeichen öffnen" },
     "openAllBookmarksInNewWindow": { "message": "Alle Lesezeichen in neuem Fenster öffnen" },
     "openAllBookmarksInIncognitoWindow": { "message": "Alle Lesezeichen in Inkognito-Fenster öffnen" },
-    "reorder": { "message": "Sortieren nach Namen" },
+    "reorder": { "message": "Nach Namen sortieren" },
     "reloadGBookmarks": { "message": "Google Bookmarks neuladen" },
     "addBookmark": { "message": "Lesezeichen für diese Seite erstellen" },
     "remove": { "message": "Löschen" },
@@ -33,6 +33,9 @@
     // Options page
     "mainHeader": { "message": "'Bookmarks Menu' Einstellungen" },
     "changelog": { "message": "Änderungen anschauen"},
+    "donateQuestion": { "message": "Gefällt Ihnen Bookmarks Menu?"},
+    "donateWith": { "message": "Spenden Sie via"},
+    
 
     // tabs names
     "tabMouse": { "message": "Maus" },
