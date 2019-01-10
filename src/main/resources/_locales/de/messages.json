@@ -49,14 +49,14 @@
     "tmRightBtn": { "message": "Rechter Button" },
     "tmOpenInCurTab": { "message": "Öffnen" },
     "tmOpenInNewTab": { "message": "In neuem Tab öffnen" },
-    "tmShowContextMenu": { "message": "Zeige Kontext-Menü" },
+    "tmShowContextMenu": { "message": "Kontext-Menü anzeigen" },
     "tmSwitchToNewTab": { "message": "Wenn ich in neuem Tab öffne, schalte sofort um"},
 
     // Bookmarks tab
     "tbUseChrome": { "message": "Chrome bookmarks nutzen" },
     "tbUseGoogle": { "message": "Google bookmarks nutzen" },
     "tbLabelSeparator": { "message": "labels Trennsymbol:" },
-    "tbSelectBookmarks": { "message": "Wählen Lesezeichen, die angezeigt werden müssen" },
+    "tbSelectBookmarks": { "message": "Wählen Sie Lesezeichen, die angezeigt werden müssen" },
     "tbSelectAllBookmarks": { "message": "Alle Lesezeichen"},
 
     // UI settings  tab
@@ -73,22 +73,22 @@
     "twMaxBookmarkWidthCM": { "message": "Zentimeter" },
     "twMaxBookmarkWidthMM": { "message": "Millimeter" },
     "twScrollBarWidth": { "message": "Rollbalkensbreite:" },
-    "twShowTooltip": { "message": "Zeigen Tooltip für lange Lesezeichen" },
-    "twShowURL": { "message": "Zeigen Tooltip mit URL" },
+    "twShowTooltip": { "message": "Tooltip für lange Lesezeichen zeigen" },
+    "twShowURL": { "message": "Tooltip mit URL zeigen " },
     
     "twContextMenu": { "message": "Kontextmenü-Einstellungen" },
-    "twHideCMOpenIncognito": { "message": "Verstecken Eintrag 'In Inkognito-Fenster öffnen'" },
-    "twHideCMModeSwitcher": { "message": "Verstecken Eintrag 'Chrome/Google Lesezeichen nutzen'" },
+    "twHideCMOpenIncognito": { "message": "Eintrag 'In Inkognito-Fenster öffnen' verstecken" },
+    "twHideCMModeSwitcher": { "message": "Eintrag 'Chrome/Google Lesezeichen nutzen' verstecken" },
 
     "twColorScheme": { "message": "Farben" },
-    "twBodyColor": { "message": "Fenstershintegrund Farbe:" },
-    "twFontColor": { "message": "Schrift Farbe:" },
-    "twBmBgColor": { "message": "Lesezeichenshintegrund Farbe:" },
-    "twDisabledItemFntClr": { "message": "Font color of disabled menu item:" },
-    "twActiveBmFntClr": { "message": "Font color of highlighted bookmark:" },
-    "twActiveBmBgClr": { "message": "Background color of highlighted bookmark:" },
-    "twActiveBmBgClrFrom": { "message": "gradient from:" },
-    "twActiveBmBgClrTo": { "message": "gradient to:" },
+    "twBodyColor": { "message": "Fensterhintegrundfarbe:" },
+    "twFontColor": { "message": "Schriftfarbe:" },
+    "twBmBgColor": { "message": "Lesezeichenshintegrundfarbe:" },
+    "twDisabledItemFntClr": { "message": "Schriftfarbe des deaktivierten Eintrags:" },
+    "twActiveBmFntClr": { "message": "Schriftfarbe des hervorgehobenen Lesezeichens:" },
+    "twActiveBmBgClr": { "message": "Hintegrundfarbe des hervorgehobenen Lesezeichens:" },
+    "twActiveBmBgClrFrom": { "message": "Gradient ab:" },
+    "twActiveBmBgClrTo": { "message": "Gradient bis:" },
 
     "twRestoreDflt": { "message": "Wiederherstellen" },
     
