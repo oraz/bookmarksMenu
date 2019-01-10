@@ -92,7 +92,7 @@ div.header {
 
 div.tabs {
 	display: table;
-	float: left;
+	/*float: left;*/
 	margin-right: 5em;
 }
 
@@ -171,11 +171,4 @@ button.paypal img {
 button.paypal span {
 	font-weight: bold;
 	font-style: italic;
-}
-
-#donateNG {
-	margin: 5ex;
-	display: table;
-	border: 1px solid #6f5e5e;
-	padding: 3em;
 }
