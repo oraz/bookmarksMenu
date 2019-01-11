@@ -145,9 +145,9 @@ function setLabelSeparator() {
 function showTab() {
     var currentTab = this.parentNode.querySelector('li.fgTab');
     currentTab.setAttribute('class', 'bgTab');
-    $(currentTab.getAttribute('for')).hide();
+    $(currentTab.dataset.tab).hide();
     this.setAttribute('class', 'fgTab');
-    $(this.getAttribute('for')).show();
+    $(this.dataset.tab).show();
 }
 
 function resetWindowSettings() {
