@@ -1,16 +1,16 @@
 {
-    // manifest.json
+    "manifest_json": {"message": "___ JUST COMMENT ___"},
     "extDescription": { "message": "Показывает меню закладок. Работает с закладками Chrome и Google." },
     "extTitle": { "message": "Закладки" },
     "extTitleGoogle": { "message": "Закладки Google" },
 
-    // Bookmarks Menu
+    "Bookmarks_Menu": {"message": "___ JUST COMMENT ___"},
     "empty": { "message": "пусто" },
     "openAllInTabs": { "message": "Открыть всё во вкладках" },
     "loadingIndicator": { "message": "Загрузка..." },
     "failedRetrieveGBookmakrs": { "message": "Не удалось загрузить закладки Google" },
 
-    // Context menu
+    "Context_menu": {"message": "___ JUST COMMENT ___"},
     "openInNewTab": { "message": "Открыть в новой вкладке" },
     "openInNewWindow": { "message": "Открыть в новом окне" },
     "openInIncognitoWindow": { "message": "Открыть в режиме инкогнито" },
@@ -23,25 +23,25 @@
     "remove": { "message": "Удалить" },
     "openBookmarkManager": { "message": "Диспетчер закладок" },
 
-    // Add Google bookmark dialog
+    "Add_Google_bookmark_dialog": {"message": "___ JUST COMMENT ___"},
     "lblTitle": { "message": "Название:" },
     "lblURL": { "message": "Ссылка:" },
     "lblLabel": { "message": "Метка:" },
     "btnAdd": { "message": "Готово" },
     "btnCancel": { "message": "Отменить" },
 
-    // Options page
+    "Options_page": {"message": "___ JUST COMMENT ___"},
     "mainHeader": { "message": "Настройки 'Bookmarks Menu'" },
     "changelog": { "message": "Посмотреть историю изменений"},
     "donateQuestion": { "message": "Вам нравится Bookmarks Menu?"},
     "donateWith": { "message": "Поддержите через"},
 
-    // tabs names
+    "tabs_names": {"message": "___ JUST COMMENT ___"},
     "tabMouse": { "message": "Мышь" },
     "tabBookmarks": { "message": "Закладки" },
     "tabWindow": { "message": "Настройки интерфейса" },
 
-    // Mouse tab
+    "Mouse_tab": {"message": "___ JUST COMMENT ___"},
     "tmMouseConfig": { "message": "Настройка жестов мыши" },
     "tmLeftBtn": { "message": "Левая кнопка" },
     "tmMiddleBtn": { "message": "Средняя кнопка" },
@@ -51,14 +51,14 @@
     "tmShowContextMenu": { "message": "Показать контекстное меню" },
     "tmSwitchToNewTab": { "message": "Переключаться на открываемую вкладку"},
 
-    // Bookmarks tab
+    "Bookmarks_tab": {"message": "___ JUST COMMENT ___"},
     "tbUseChrome": { "message": "Использовать закладки Chrome" },
     "tbUseGoogle": { "message": "Использовать закладки Google" },
     "tbLabelSeparator": { "message": "Разделитель меток:" },
     "tbSelectBookmarks": { "message": "Выберите закладки, которые нужно показывать" },
     "tbSelectAllBookmarks": { "message": "Выбрать все закладки"},
 
-    // UI settings  tab
+    "UI_settings_tab": {"message": "___ JUST COMMENT ___"},
     "twMesurePX": { "message": "пикс" },
 
     "twMenuConfig": { "message": "Настройка меню закладок" },
@@ -94,6 +94,6 @@
     "donateHeader": { "message": "Я рад, что Вы используете это расширение.<br/>Если оно Вам очень нравится, то Вы можете меня проспонсировать.<br/>Спасибо!" },
     "btnDonate": { "message": "Отправить через PayPal" },
 
-    // Background page
+    "Background_page": {"message": "___ JUST COMMENT ___"},
     "needAllowIncognito": { "message": "Вам необходимо разрешить расширению 'Bookmarks menu' работать в анонимном режиме! Вы можете сделать это на странице расширений." }
 }
