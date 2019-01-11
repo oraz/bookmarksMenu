@@ -247,4 +247,11 @@ document.addEventListener("DOMContentLoaded", function () {
             fontList.add(new Option(each.displayName, each.fontId, false, each.fontId === defaultFont));
         });
     });
+    
+    var lang = chrome.i18n.getUILanguage();
+    if(lang.indexOf('ru') != -1) {
+    	$('currency_code').selectedIndex = 1;
+    } else if(lang.indexOf('en') != -1) {
+    	$('currency_code').selectedIndex = 2;
+    }
 }, false);
