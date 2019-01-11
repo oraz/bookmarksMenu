@@ -29,6 +29,11 @@ input[type=color], input[type=text], input[type=number] {
 	width: 5em;
 }
 
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
 #tabs>li {
 	display: inline;
 	float: left;
