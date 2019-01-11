@@ -205,9 +205,10 @@
 					type="hidden" name="cmd" value="_donations" /> <input
 					type="hidden" name="item_name" value="Donate to Bookmarks Menu" />
 				<select name="currency_code" id="currency_code">
-					<option value="EUR">EUR €</option>
+				<!-- If you change it, change also options.js. There is locale-based currency choice. --> 
+					<option value="EUR" selected="selected">EUR €</option>
 					<option value="RUB">RUB ₽</option>
-					<option value="USD" selected="selected">USD $</option>
+					<option value="USD">USD $</option>
 				</select>
 				<button class="paypal" name="submit">
 					<span i18n="donateWith"></span>&nbsp;<img alt="pp"
