@@ -198,14 +198,18 @@
 			</div>
 		</div>
 		<div id="donateNG" style="display: table;">
-			<a href="changelog.txt" i18n="changelog" style="float: right; margin-right: .7em;"></a> <br style="clear: both;" /><br />
+			<a href="changelog.txt" i18n="changelog"
+				style="float: right; margin-right: .7em;"></a> <br
+				style="clear: both;" />
+			<br />
 			<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
-				<label for="currency_code" i18n="donateQuestion"></label> <br/><input
-					type="hidden" name="business" value="oraz.ra@gmail.com" /> <input
+				<label for="currency_code" i18n="donateQuestion"></label> <br />
+				<input type="hidden" name="business" value="oraz.ra@gmail.com" /> <input
 					type="hidden" name="cmd" value="_donations" /> <input
 					type="hidden" name="item_name" value="Donate to Bookmarks Menu" />
-				<select name="currency_code" id="currency_code">
-				<!-- If you change it, change also options.js. There is locale-based currency choice. --> 
+				<input type="hidden" name="lc" value="en_US" /> <select
+					name="currency_code" id="currency_code">
+					<!-- If you change it, change also options.js. There is locale-based currency choice. -->
 					<option value="EUR" selected="selected">EUR €</option>
 					<option value="RUB">RUB ₽</option>
 					<option value="USD">USD $</option>
