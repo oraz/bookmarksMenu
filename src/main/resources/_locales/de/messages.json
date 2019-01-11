@@ -1,16 +1,16 @@
 {
-    // manifest.json
+    "manifest_json": {"message": "___ JUST COMMENT ___"},
     "extDescription": { "message": "Zeigt Lesezeichen. Funktioniert mit Chrome und Google Lesezeichen." },
     "extTitle": { "message": "Lesezeichen" },
     "extTitleGoogle": { "message": "Google Bookmarks" },
 
-    // Bookmarks Menu
+    "Bookmarks_Menu": {"message": "___ JUST COMMENT ___"},
     "empty": { "message": "leer" },
     "openAllInTabs": { "message": "Alle öffnen" },
     "loadingIndicator": { "message": "Lädt..." },
     "failedRetrieveGBookmakrs": { "message": "Google Bookmarks konnten nicht abgerufen werden" },
 
-    // Context menu
+    "Context_menu": {"message": "___ JUST COMMENT ___"},
     "openInNewTab": { "message": "In neuem Tab öffnen" },
     "openInNewWindow": { "message": "In neuem Fenster öffnen" },
     "openInIncognitoWindow": { "message": "In Inkognito-Fenster öffnen" },
@@ -23,26 +23,25 @@
     "remove": { "message": "Löschen" },
     "openBookmarkManager": { "message": "Lesezeichen-Manager" },
 
-    // Add Google bookmark dialog
+    "Add_Google_bookmark_dialog": {"message": "___ JUST COMMENT ___"},
     "lblTitle": { "message": "Name:" },
     "lblURL": { "message": "URL:" },
     "lblLabel": { "message": "Label:" },
     "btnAdd": { "message": "Ok" },
     "btnCancel": { "message": "Abbrechen" },
 
-    // Options page
+    "Options_page": {"message": "___ JUST COMMENT ___"},
     "mainHeader": { "message": "'Bookmarks Menu' Einstellungen" },
     "changelog": { "message": "Änderungen anschauen"},
     "donateQuestion": { "message": "Gefällt Ihnen Bookmarks Menu?"},
     "donateWith": { "message": "Spenden Sie via"},
-    
 
-    // tabs names
+    "tabs_names": {"message": "___ JUST COMMENT ___"},
     "tabMouse": { "message": "Maus" },
     "tabBookmarks": { "message": "Lesezeichen" },
     "tabWindow": { "message": "UI-Einstellungen" },
 
-    // Mouse tab
+    "Mouse_tab": {"message": "___ JUST COMMENT ___"},
     "tmMouseConfig": { "message": "Maus Einstellungen" },
     "tmLeftBtn": { "message": "Linker Button" },
     "tmMiddleBtn": { "message": "Mitter Button" },
@@ -52,14 +51,14 @@
     "tmShowContextMenu": { "message": "Kontext-Menü anzeigen" },
     "tmSwitchToNewTab": { "message": "Wenn ich in neuem Tab öffne, schalte sofort um"},
 
-    // Bookmarks tab
+    "Bookmarks_tab": {"message": "___ JUST COMMENT ___"},
     "tbUseChrome": { "message": "Chrome bookmarks benutzen" },
     "tbUseGoogle": { "message": "Google bookmarks benutzen" },
     "tbLabelSeparator": { "message": "labels Trennsymbol:" },
     "tbSelectBookmarks": { "message": "Wählen Sie Lesezeichen, die angezeigt werden müssen" },
     "tbSelectAllBookmarks": { "message": "Alle Lesezeichen"},
 
-    // UI settings  tab
+    "UI_settings_tab": {"message": "___ JUST COMMENT ___"},
     "twMesurePX": { "message": "px" },
 
     "twMenuConfig": { "message": "Lesezeichensmenü-Enstellungen" },
@@ -95,6 +94,6 @@
     "donateHeader": { "message": "I'm glad that you use this extension.<br/>If you like it very much, you can sponsor me.<br/>Thank you!" },
     "btnDonate": { "message": "Send via PayPal" },
 
-    // Background page
+    "Background_page": {"message": "___ JUST COMMENT ___"},
     "needAllowIncognito": { "message": "You need to allow 'Bookmarks menu' to run in incognito! You can do it on extensions page." }
 }

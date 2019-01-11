@@ -1,16 +1,16 @@
 {
-    // manifest.json
+    "manifest_json": {"message": "___ JUST COMMENT ___"},
     "extDescription": { "message": "Montre le menu des favoris. Fonctionne avec les favoris de Chrome et ceux de Google." },
     "extTitle": { "message": "Favoris" },
     "extTitleGoogle": { "message": "Favoris de Google" },
 
-    // Bookmarks menu
+    "Bookmarks_Menu": {"message": "___ JUST COMMENT ___"},
     "empty": { "message": "vide" },
     "openAllInTabs": { "message": "Tout ouvrir dans des onglets", "commentaire": "traduction de Firefox" },
     "loadingIndicator": { "message": "Chargement..." },
     "failedRetrieveGBookmakrs": { "message": "Impossible de récupérer les favoris de Google" },
 
-    // Context menu
+    "Context_menu": {"message": "___ JUST COMMENT ___"},
     "openInNewTab": { "message": "Ouvrir dans un nouvel onglet" },
     "openInNewWindow": { "message": "Ouvrir dans une nouvelle fenêtre" },
     "openInIncognitoWindow": { "message": "Ouvrir dans une fenêtre de navigation privée" },
@@ -23,23 +23,23 @@
     "remove": { "message": "Supprimer" },
     "openBookmarkManager": { "message": "Gestionnaire de favoris" },
 
-    // Add Google bookmark dialog
+    "Add_Google_bookmark_dialog": {"message": "___ JUST COMMENT ___"},
     "lblTitle": { "message": "Nom :" },
     "lblURL": { "message": "Lien :" },
     "lblLabel": { "message": "Labels :" },
     "btnAdd": { "message": "Ok" },
     "btnCancel": { "message": "Annuler" },
 
-    // Options page
+    "Options_page": {"message": "___ JUST COMMENT ___"},
     "mainHeader": { "message": "Configuration de 'Bookmarks Menu'" },
     "changelog": { "message": "Regarder journal des modifications"},
 
-    // tabs names
+    "tabs_names": {"message": "___ JUST COMMENT ___"},
     "tabMouse": { "message": "Souris" },
     "tabBookmarks": { "message": "Favoris" },
     "tabWindow": { "message": "Options de l'interface" },
 
-    // Mouse tab
+    "Mouse_tab": {"message": "___ JUST COMMENT ___"},
     "tmMouseConfig": { "message": "Configuration de la souris" },
     "tmLeftBtn": { "message": "Bouton gauche" },
     "tmMiddleBtn": { "message": "Bouton molette" },
@@ -49,14 +49,14 @@
     "tmShowContextMenu": { "message": "Montrer menu contextuel" },
     "tmSwitchToNewTab": { "message": "Lors de l'ouverture d'un lien dans un nouvel onglet, basculer vers celui-ci immédiatement" },
 
-    // Bookmarks tab
+    "Bookmarks_tab": {"message": "___ JUST COMMENT ___"},
     "tbUseChrome": { "message": "Utiliser les favoris de Chrome" },
     "tbUseGoogle": { "message": "Utiliser les favoris de Google" },
     "tbLabelSeparator": { "message": "Séparateur des labels :" },
     "tbSelectBookmarks": { "message": "Sélectionnez les favoris que vous souhaitez afficher" },
     "tbSelectAllBookmarks": { "message": "Sélectionner / Désélectionner tous les favoris"},
 
-    // UI Settings tab
+    "UI_settings_tab": {"message": "___ JUST COMMENT ___"},
     "twMesurePX": { "message": "px" },
 
     "twMenuConfig": { "message": "Configuration du menu des favoris" },
@@ -92,6 +92,6 @@
     "donateHeader": { "message": "Je suis content que vous utilisez cette extension.<br/>Si vous l'aimez, vous pouvez me sponsoriser.<br/>Merci beaucoup !" },
     "btnDonate": { "message": "Envoyer via PayPal" },
 
-    // Background page
+    "Background_page": {"message": "___ JUST COMMENT ___"},
     "needAllowIncognito": { "message": "Il est nécessaire de permettre à 'Bookmarks menu' de s'exécuter en mode de navigation privée ! Vous pouvez le faire sur la page des extensions." }
 }

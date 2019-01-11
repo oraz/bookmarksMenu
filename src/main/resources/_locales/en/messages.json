@@ -1,16 +1,16 @@
 {
-    // manifest.json
+    "manifest_json": {"message": "___ JUST COMMENT ___"},
     "extDescription": { "message": "Shows bookmarks menu. Works with Chrome and Google bookmarks." },
     "extTitle": { "message": "Bookmarks" },
     "extTitleGoogle": { "message": "Google Bookmarks" },
 
-    // Bookmarks Menu
+    "Bookmarks_Menu": {"message": "___ JUST COMMENT ___"},
     "empty": { "message": "empty" },
     "openAllInTabs": { "message": "Open All in Tabs" },
     "loadingIndicator": { "message": "Loading..." },
     "failedRetrieveGBookmakrs": { "message": "Failed to retrieve Google Bookmarks" },
 
-    // Context menu
+    "Context_menu": {"message": "___ JUST COMMENT ___"},
     "openInNewTab": { "message": "Open in New Tab" },
     "openInNewWindow": { "message": "Open in New Window" },
     "openInIncognitoWindow": { "message": "Open in Incognito Window" },
@@ -23,25 +23,25 @@
     "remove": { "message": "Delete" },
     "openBookmarkManager": { "message": "Bookmark Manager" },
 
-    // Add Google bookmark dialog
+    "Add_Google_bookmark_dialog": {"message": "___ JUST COMMENT ___"},
     "lblTitle": { "message": "Title:" },
     "lblURL": { "message": "URL:" },
     "lblLabel": { "message": "Label:" },
     "btnAdd": { "message": "Ok" },
     "btnCancel": { "message": "Cancel" },
 
-    // Options page
+    "Options_page": {"message": "___ JUST COMMENT ___"},
     "mainHeader": { "message": "'Bookmarks Menu' settings" },
     "changelog": { "message": "View changelog"},
     "donateQuestion": { "message": "Do you like Bookmarks Menu?"},
     "donateWith": { "message": "Donate with"},
 
-    // tabs names
+    "tabs_names": {"message": "___ JUST COMMENT ___"},
     "tabMouse": { "message": "Mouse" },
     "tabBookmarks": { "message": "Bookmarks" },
     "tabWindow": { "message": "UI Settings" },
 
-    // Mouse tab
+    "Mouse_tab": {"message": "___ JUST COMMENT ___"},
     "tmMouseConfig": { "message": "Mouse configuration" },
     "tmLeftBtn": { "message": "Left button" },
     "tmMiddleBtn": { "message": "Middle button" },
@@ -51,14 +51,14 @@
     "tmShowContextMenu": { "message": "Show context menu" },
     "tmSwitchToNewTab": { "message": "When I open a bookmark in new tab, switch to it immediately"},
 
-    // Bookmarks tab
+    "Bookmarks_tab": {"message": "___ JUST COMMENT ___"},
     "tbUseChrome": { "message": "Use Chrome bookmarks" },
     "tbUseGoogle": { "message": "Use Google bookmarks" },
     "tbLabelSeparator": { "message": "Label separator:" },
     "tbSelectBookmarks": { "message": "Select bookmarks you wish to display" },
     "tbSelectAllBookmarks": { "message": "Select/Deselect all bookmarks"},
 
-    // UI settings  tab
+    "UI_settings_tab": {"message": "___ JUST COMMENT ___"},
     "twMesurePX": { "message": "px" },
 
     "twMenuConfig": { "message": "Bookmarks menu configuration" },
@@ -94,6 +94,6 @@
     "donateHeader": { "message": "I'm glad that you use this extension.<br/>If you like it very much, you can sponsor me.<br/>Thank you!" },
     "btnDonate": { "message": "Send via PayPal" },
 
-    // Background page
+    "Background_page": {"message": "___ JUST COMMENT ___"},
     "needAllowIncognito": { "message": "You need to allow 'Bookmarks menu' to run in incognito! You can do it on extensions page." }
 }
