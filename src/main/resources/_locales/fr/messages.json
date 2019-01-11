@@ -33,6 +33,8 @@
     "Options_page": {"message": "___ JUST COMMENT ___"},
     "mainHeader": { "message": "Configuration de 'Bookmarks Menu'" },
     "changelog": { "message": "Regarder journal des modifications"},
+    "donateQuestion": { "message": "Aimez-vous Bookmarks Menu?"},
+    "donateWith": { "message": "Faites un don via"},
 
     "tabs_names": {"message": "___ JUST COMMENT ___"},
     "tabMouse": { "message": "Souris" },
