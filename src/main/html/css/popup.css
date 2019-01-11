@@ -1,5 +1,7 @@
 body {
     margin: 0;
+    min-width: 800px;
+    min-height: 600px;
     overflow-x: hidden;
     overflow-y: scroll;
 }
