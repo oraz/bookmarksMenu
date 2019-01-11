@@ -53,8 +53,8 @@
     "tmSwitchToNewTab": { "message": "Wenn ich in neuem Tab öffne, schalte sofort um"},
 
     // Bookmarks tab
-    "tbUseChrome": { "message": "Chrome bookmarks nutzen" },
-    "tbUseGoogle": { "message": "Google bookmarks nutzen" },
+    "tbUseChrome": { "message": "Chrome bookmarks benutzen" },
+    "tbUseGoogle": { "message": "Google bookmarks benutzen" },
     "tbLabelSeparator": { "message": "labels Trennsymbol:" },
     "tbSelectBookmarks": { "message": "Wählen Sie Lesezeichen, die angezeigt werden müssen" },
     "tbSelectAllBookmarks": { "message": "Alle Lesezeichen"},
@@ -78,7 +78,7 @@
     
     "twContextMenu": { "message": "Kontextmenü-Einstellungen" },
     "twHideCMOpenIncognito": { "message": "Eintrag 'In Inkognito-Fenster öffnen' verstecken" },
-    "twHideCMModeSwitcher": { "message": "Eintrag 'Chrome/Google Lesezeichen nutzen' verstecken" },
+    "twHideCMModeSwitcher": { "message": "Eintrag 'Chrome/Google Lesezeichen benutzen' verstecken" },
 
     "twColorScheme": { "message": "Farben" },
     "twBodyColor": { "message": "Fensterhintegrundfarbe:" },
