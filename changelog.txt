@@ -1,0 +1,292 @@
+Changelog 2019.01.14
+- Fixed popup's width and height
+- Reworked options page
+- Endlich auf Deutsch
+
+Changelog 3.4.15 (22.08.2013)
+- Fixed Google Bookmarks for Chrome 29
+
+Changelog 3.4.14 (26.07.2013)
+- Open Bookmark Manager for current folder.
+- if Bookmark Manager is already opened switch to tab instead of creating new one.
+
+Changelog 3.4.13 (25.07.2013)
+- Added new context menu item: Bookmark Manager
+- Fixed issue: add/remove Google bookmark doesn't work.
+
+Changelog 3.4.12 (24.07.2013)
+- Options page: html5 colorpicker is used instead of jscolor
+
+Changelog 3.4.11 (20.07.2013)
+- Font chooser (options page): show list of all system fonts.
+- Code refactoring.
+
+Changelog 3.4.10 (16.07.2013)
+- Blocked Chrome context menu when user clicks on any element by right button.
+- Code refactoring.
+
+Changelog 3.4.9 (29.06.2013)
+- Fixed issues with scrolling.
+- Removed popup max size configuration. Now max size of popup 800x600.
+
+Changelog 3.4.8 (26.06.2013)
+- Migrated to Manifest v2
+
+Changelog 3.4.7 (13.09.2011)
+- Fixed errors in French translation. Thanks TrAsHeR51.
+
+Changelog 3.4.6 (02.06.2011)
+- Added translation to Korean. Thanks iblogbox. Issue: https://github.com/oraz/bookmarksMenu/issues/3
+
+Changelog 3.4.5 (17.01.2011)
+- Added checkbox to select/deselect all bookmarks on options page
+
+Changelog 3.4.4 (22.12.2010)
+- Changed CSS for tabs (options page)
+- Some code optimizations
+
+Changelog 3.4.3 (18.12.2010)
+- A little changes in options page
+- Changed info in Donate tab
+
+Changelog 3.4.2 (12.12.2010)
+- A little changes in options page
+- Set default font to Verdana
+
+Changelog 3.4.1 (09.12.2010)
+- A few CSS changes
+
+Changelog 3.4.0 (08.12.2010)
+- Added a couple of options for customizing context menu
+- A few code changes
+- Added tab "Donate" on options page
+
+Changelog 3.3.5 (06.12.2010)
+- Use HTML5 number fields on options page (requires Chrome version 8 or later).
+
+Changelog 3.3.4 (10.10.2010)
+- Use appropriate favicon service after switching between Chrome and
+Google bookmarks using context menu
+
+Changelog 3.3.3 (28.09.2010)
+- Pre load currently selected label when adding new bookmark.
+- Suggest labels when adding multilabeled bookmark.
+
+Changelog 3.3.2 (23.09.2010)
+- Fixed errors in context menu positioning
+- Fixed errors in folder content positioning after removing bookmark
+
+Changelog 3.3.1 (22.09.2010)
+- Fix for Chrome dev channel: tag <script> in html files must have closing tag </script>
+
+Changelog 3.3.0 (21.09.2010)
+- New context menu item to switch between Google and Chrome bookmarks
+- Added Windows styled icon for folder (just on MS systems)
+
+Changelog 3.2.2 (18.09.2010)
+- Fixed error: "OK" button is disabled in "Add bookmark" dialog.
+
+Changelog 3.2.1 (17.09.2010)
+- Use 'text' fields on options page instead of 'number' fields because of bugs
+in Chrome
+
+Changelog 3.2.0 (17.09.2010)
+- Added context menu item "Bookmark This Page" for Google bookmarks.
+- Changes to correctly display (and remove) Google bookmarks with multiple labels
+
+Changelog 3.1.5 (06.09.2010)
+- Added option to show tooltip with bookmark location
+
+Changelog 3.1.4 (20.08.2010)
+- A few enhancements for Chrome dev version.
+
+Changelog 3.1.3 (09.08.2010)
+- Added option to choice which service must be used for retrieving favicons.
+chrome://favicons is used by default for Chrome native bookmarks and
+http://getfavicon.appspot.com/ is used for Google bookmarks
+
+Changelog 3.1.2 (05.08.2010)
+- A few changes in French version
+
+Changelog 3.1.1 (05.06.2010)
+- Removed unnecessary logging from background page.
+- Set text color for hovered menu items correctly.
+- POST method is used in procedure of removing Google Bookmark
+
+Changelog 3.1.0 (04.06.2010)
+- Added context menu item 'Reload Google Bookmarks'. Used icon from
+Debian package tango-icon-theme.
+
+Changelog 3.0.4 (01.06.2010)
+- Changed timeout for retrieving Google Bookmarks from 3 sec to 10.
+
+Changelog 3.0.3 (28.05.2010)
+- DOMContentLoaded event handler is used to initialyze bookmarks menu
+- A few changes in French locale
+- Another badge label is used in case of working with Google bookmarks.
+
+Changelog 3.0.2 (26.05.2010)
+- chrome://favicon/ is used to get favicon for url.
+- Allowed 'Open in Incognito Window' menu items on windows version.
+
+Changelog 3.0.1 (24.05.2010)
+- Added icon for 'Open in Incognito Window' menu item. The icon has been downloaded
+from chrome://theme/otr_icon_standalone
+- Disconnect port by background page after message passing finished
+
+Changelog 3.0.0 (20.05.2010)
+- Extension can work with two bookmark types: Chrome bookmarks and Google
+bookmarks.
+- Changed order of tabs on options page.
+
+Changelog 2.8.0 (11.05.2010)
+- Added menu items 'Open in Incognito Window' for bookmark and 'Open All
+Bookmarks in Incognito Window' for folder. These items are not visible on
+Chrome stable version.
+- Removed open-all-bookmarks.html. To open all bookmarks in new window
+background page is used
+
+Changelog 2.7.2 (27.04.2010)
+- Made a lot of changes to improve performance. No new changes in UI.
+
+Changelog 2.7.1 (22.04.2010)
+- Added 'Open All Bookmarks' and 'Open All Bookmarks in New Window' context
+menu items. To open all bookmarks in new window open-all-bookmarks.html is
+being used.
+
+Changelog 2.7.0 (13.04.2010)
+- The extension has been renamed to 'Bookmarks Menu'. It's more exact name for
+the extension.
+- Some code improvements
+
+Changelog 2.6.1 (09.04.2010)
+- Enabled ability to customize scrollbar width
+- Shaded icon of disabled menu items
+
+Changelog 2.6.0 (07.04.2010)
+- Added ability to customize colors of bookmark menu
+
+Changelog 2.5.4 (03.04.2010)
+- Added font family customization on options panel
+
+Changelog 2.5.3 (02.04.2010)
+- Added translation to French.
+- Improved handler of context menu.
+
+Changelog 2.5.2 (31.03.2010)
+- Shift+Middle button click opens bookmark in new tab and switches to it
+- Shift+Left button click opens bookmark in new window
+- Optimized XPath queries.
+- Finished translation to Russian
+
+Changelog 2.5.1 (29.03.2010)
+- Special fix for Linux x86_64. If user clicks middle button on folder, just
+first bookmark opens. Tested on Debian Lenny.
+
+Changelog 2.5.0 (29.03.2010)
+- Added translation to Russian.
+- Fixed handler for middle button click for folders and for 'Open All in Tabs'
+item
+
+Changelog 2.4.4 (28.03.2010)
+- Added handler for middle button click for folders and for 'Open All in Tabs'
+like in Firefox
+
+Changelog 2.4.3 (26.03.2010)
+- Changed positioning of popup menu.
+- Changed background and transparency when popup menu appears.
+
+Changelog 2.4.2 (25.03.2010)
+- Fixed scroll bar appearance to be compatible with Chrome 5.0.342.7 beta.
+
+Changelog 2.4.1 (23.03.2010)
+- Waiting for DOM loading before filling bookmarks menu instead of handling
+window.onload event
+- Changed method configMenu of popupMenu
+
+Changelog 2.4.0 (22.03.2010)
+- Added popup menu item 'Reorder by Title'. Sometimes it stops working because
+Chrome limits amount of available operations with bookmarks.  In this case it's
+necessary to restart Chrome.
+- Moved code of filling bookmark tree in window.onload event handler.
+
+Changelog 2.3.3 (19.03.2010)
+- Changed colors for scrollbar.
+
+Changelog 2.3.2 (19.03.2010)
+- Added styles for scrollbar to make it thin.
+
+Changelog 2.3.1 (18.03.2010)
+- Disabled tooltip for long bookmark names. It can be enabled from options
+panel in 'Window & Tree' tab.
+
+Changelog 2.3.0 (15.03.2010)
+- Added bookmark menu item 'Open all in tabs' like in Firefox
+
+Changelog 2.2.1 (15.03.2010)
+- Show tooltip with full bookmark name for long names
+
+Changelog 2.2.0 (11.03.2010)
+- Changed setMenuItemEnabled/Disabled functions
+- Changed appearance of subfolder content
+
+Changelog 2.1.0 (09.03.2010)
+- popup.js was fully rewritten.
+- MOUSE_DOWN event is ignored by all document.
+- <span> is used instead of <a> element to display bookmark title
+- Top level folders are filling when MOUSE_OVER event occurs first time.
+
+Changelog 2.0.0 (01.03.2010)
+- Changed structure of bookmarks tree. Now it's not so sensible to mouse
+motions. Content of subfolder doesn't disappear after mouse leaves it.
+- Disabled "Open in new tab/window" items in popup menu for empty folder.
+
+Changelog 1.3.9 (release wasn't published)
+- Removed unnecessary rules from options.css
+- Event 'onkeyup' was replaced by 'oninput' on options panel
+
+Changelog 1.3.8 (26.02.2010)
+- Prevent tree from hanging-up when user is trying to drag bookmark
+- Moved 'tabs configuration' to 'Mouse' tab on options panel
+- CSS changes on options panel
+
+Changelog 1.3.7 (24.02.2010)
+- Added new option FavIconWidth. FavIconHeight will be the same as FavIconWidth.
+
+Changelog 1.3.6 (22.02.2010)
+- Added ability to point font size, window width and height on options panel
+- Changed options panel
+- CSS changes: set right padding to 1em in tree item
+
+Changelog 1.3.5 (19.02.2010)
+- Decrease icons size
+- Made process of tree initialization faster
+- Fixed errors with dimensions of body after initializing tree
+
+Changelog 1.3.4 (19.02.2010)
+- Changelog file is accessible from options panel
+- Set mouse cursor as default
+- Changed border of popup menu
+
+Changelog 1.3.3 (18.02.2010)
+- Added items into popup menu: "Open in new tab" and "Open in new window"
+- Fixed errors with dimensions of popup menu
+
+Changelog 1.3.2 (17.02.2010)
+- Added option "Switch to new tab".
+
+Changelog 1.3.1 (16.02.2010)
+- Fixed errors in positioning popup menu
+- Changed some styles.
+
+Changelog 1.3.0 (15.02.2010)
+- Added ability to hide unnecessary bookmarks or folders.
+
+Changelog 1.2.0 (14.02.2010)
+- Made it compatible with Chrome for Windows and Chrome 5.0 for Linux.
+- Vertical scroll bar appears if it's needed.
+- Added a few changes in CSS for options panel.
+
+Changelog 1.1 (11.02.2010)
+- Added options page which allows to configure max width of menu item and
+mouse actions.
