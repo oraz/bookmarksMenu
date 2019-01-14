@@ -1,5 +1,6 @@
-Changelog 2019.01.xx (dev)
+Changelog 2019.01.14.2
 - Fixed bug: options page shows mobile bookmarks
+- Rolled back: Fixed popup's width and height. MANY THANKS FOR FEEDBACK
 
 Changelog 2019.01.14
 - Fixed popup's width and height
