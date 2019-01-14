@@ -229,7 +229,7 @@ function openUrlsInNewWindow(urls, incognito) {
 
 function showOptionsPageOnce() {
     var version = chrome.runtime.getManifest().version;
-    if(localStorage['optionsPageIsShownFor'] != version) {
+    if(localStorage['optionsPageIsShownFor'] === undefined) {
     	localStorage['optionsPageIsShownFor'] = version;
     	chrome.runtime.openOptionsPage();
     }
