@@ -665,7 +665,7 @@ function addGoogleBookmark() {
 function reloadGBookmarks() {
     $('bookmarksMenu').clear();
     var loading = $('loading');
-    if (loading.hasAttribute('i18n')) {
+    if (loading.hasAttribute('data-i18n')) {
         chrome.i18n.initElement(loading);
     }
     loading.style.position = 'fixed';
