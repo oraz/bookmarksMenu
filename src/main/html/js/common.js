@@ -30,12 +30,12 @@ HTMLElement.prototype.hide = function () {
 };
 
 chrome.i18n.initElement = function (el) {
-    el.appendChild(document.createTextNode(chrome.i18n.getMessage(el.getAttribute('i18n'))));
-    el.removeAttribute('i18n');
+    el.appendChild(document.createTextNode(chrome.i18n.getMessage(el.getAttribute('data-i18n'))));
+    el.removeAttribute('data-i18n');
 };
 
 chrome.i18n.initAll = function (el) {
-    (el ? el : document).querySelectorAll('[i18n]').forEach(this.initElement);
+    (el ? el : document).querySelectorAll('[data-i18n]').forEach(this.initElement);
 };
 
 var MESSAGES = {
