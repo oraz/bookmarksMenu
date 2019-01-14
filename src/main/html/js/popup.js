@@ -267,10 +267,9 @@ HTMLLIElement.prototype.showContextMenu = function (ev) {
         contextMenuStyle.left = ev.clientX + 'px';
     }
 
-    var bodyHeight = body.scrollHeight;
     if (ev.clientY + contextMenu.clientHeight > body.clientHeight) {
         if (contextMenu.clientHeight > body.clientHeight || ev.clientY < contextMenu.clientHeight) {
-            bodyHeight = ev.clientY + contextMenu.clientHeight + 5;
+            var bodyHeight = ev.clientY + contextMenu.clientHeight + 5;
             body.style.height = bodyHeight + 'px';
             contextMenuStyle.top = ev.clientY + 'px';
         } else {
@@ -622,7 +621,6 @@ function showGoogleBookmarkDialog(initalLabel) {
     var suggest = win.querySelector('#suggest');
     suggest.style.width = suggest.style.maxWidth = gbLabel.clientWidth + 'px';
     suggest.hide();
-    var folderNames = new Array();
     var labels = chrome.extension.getBackgroundPage().GBookmarksTree.labels;
     labels.sort();
     var suggestDiv = $('suggest');
