@@ -247,7 +247,7 @@ HTMLLIElement.prototype.showContextMenu = function (ev) {
     }
 
     contextMenu.querySelector('li[data-action="reorder"]').classList.toggle('enabled', this.parentElement.childElementCount > 1);
-    contextMenu.querySelector('li[data-action="remove"]').classList.toggle('enabled', this.isBookmark || this.isFolder && this.isEmpty);
+    contextMenu.querySelector('li[data-action="remove"]').classList.toggle('enabled', this.isBookmark || this.isFolder && this.isEmpty === true);
     contextMenu.show();
 
     var body = document.body;
