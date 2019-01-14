@@ -220,13 +220,11 @@ document.addEventListener("DOMContentLoaded", function () {
     $('labelSeparator').value = getLabelSeparator();
     chrome.bookmarks.getTree(function (nodes) {
         var chromeBookmarksSettings = $('chromeBookmarksSettings');
-        nodes.forEach(function (node) {
-            node.children.forEach(function (child) {
-                child.children.forEach(function (bookmark) {
-                    addBookmark(chromeBookmarksSettings, bookmark, false);
-                });
+        nodes[0].children.slice(0, 2).forEach(function (child) {
+            child.children.forEach(function (bookmark) {
+                addBookmark(chromeBookmarksSettings, bookmark, false);
             });
-        })
+        });
     });
 
     initWindowSettingsTab();
