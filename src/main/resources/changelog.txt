@@ -1,4 +1,7 @@
-Changelog 2019.01.xx
+Changelog 2019.01.xx (dev)
+- Fixed bug: options page shows mobile bookmarks
+
+Changelog 2019.01.14
 - Fixed popup's width and height
 - Reworked options page
 - Endlich auf Deutsch
