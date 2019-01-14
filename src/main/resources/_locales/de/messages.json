@@ -49,7 +49,7 @@
     "tmOpenInCurTab": { "message": "Öffnen" },
     "tmOpenInNewTab": { "message": "In neuem Tab öffnen" },
     "tmShowContextMenu": { "message": "Kontext-Menü anzeigen" },
-    "tmSwitchToNewTab": { "message": "Wenn ich in neuem Tab öffne, schalte sofort um"},
+    "tmSwitchToNewTab": { "message": "Tabs im Vordergrund öffnen"},
 
     "Bookmarks_tab": {"message": "___ JUST COMMENT ___"},
     "tbUseChrome": { "message": "Chrome bookmarks benutzen" },
