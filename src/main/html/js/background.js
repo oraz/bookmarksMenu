@@ -1,3 +1,5 @@
+'use strict';
+
 var GBookmarksTree = null;
 
 var GBookmarkUrl = 'https://www.google.com/bookmarks/';
