@@ -1,3 +1,5 @@
+'use strict';
+
 var config; // will be initialized in DOMContentLoaded handler
 
 function Bookmark(bookmarkNode) {
