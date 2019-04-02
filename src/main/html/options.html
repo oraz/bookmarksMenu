@@ -19,7 +19,8 @@
 
 			<div class="tabs">
 				<ul id="tabs">
-					<li class="fgTab" data-tab="bookmarksShowHide" data-i18n="tabBookmarks"></li>
+					<li class="fgTab" data-tab="bookmarksShowHide"
+						data-i18n="tabBookmarks"></li>
 					<li class="bgTab" data-tab="uiConfig" data-i18n="tabWindow"></li>
 					<li class="bgTab" data-tab="mouseConfig" data-i18n="tabMouse"></li>
 				</ul>
@@ -70,8 +71,8 @@
 					</div>
 					<div id="googleBookmarksSettings">
 						<div class="header" style="padding-bottom: 0;">
-							<label for="labelSeparator" data-i18n="tbLabelSeparator"></label> <input
-								type="text" maxlength="1" id="labelSeparator" />
+							<label for="labelSeparator" data-i18n="tbLabelSeparator"></label>
+							<input type="text" maxlength="1" id="labelSeparator" />
 						</div>
 						<div class="header" data-i18n="tbSelectBookmarks"></div>
 						<div id="loading" data-i18n="loadingIndicator"></div>
@@ -103,13 +104,13 @@
 						</tr>
 						<tr>
 							<td><label for="fontSize" data-i18n="twFontSize"></label></td>
-							<td data-i18n="twMesurePX"><input type="number" id="fontSize"
-								min="3" max="99" />&nbsp;</td>
+							<td data-i18n="twMesurePX"><input type="number"
+								id="fontSize" min="3" max="99" />&nbsp;</td>
 						</tr>
 						<tr>
 							<td><label for="favIconWidth" data-i18n="twFaviconSize"></label></td>
-							<td data-i18n="twMesurePX"><input type="number" id="favIconWidth"
-								min="3" max="40" />&nbsp;</td>
+							<td data-i18n="twMesurePX"><input type="number"
+								id="favIconWidth" min="3" max="40" />&nbsp;</td>
 						</tr>
 						<tr>
 							<td><label for="maxWidth" data-i18n="twMaxBookmarkWidth"></label></td>
@@ -134,8 +135,8 @@
 						</tr>
 						<tr>
 							<td colspan="2" style="padding-top: 1ex; text-align: left;"><label
-								data-i18n="twShowURL"><input type="checkbox" id="showURL" />&nbsp;</label>
-							</td>
+								data-i18n="twShowURL"><input type="checkbox"
+									id="showURL" />&nbsp;</label></td>
 						</tr>
 						<tr>
 							<th data-i18n="twContextMenu" colspan="2"></th>
@@ -175,7 +176,8 @@
 							<td><input id="activeBmFntClr" type="color" /></td>
 						</tr>
 						<tr>
-							<td><label data-i18n="twActiveBmBgClr" for="activeBmBgClrFrom"></label></td>
+							<td><label data-i18n="twActiveBmBgClr"
+								for="activeBmBgClrFrom"></label></td>
 							<td>
 								<table>
 									<tr>
@@ -184,7 +186,8 @@
 										<td><input id="activeBmBgClrFrom" type="color" /></td>
 									</tr>
 									<tr>
-										<td><label data-i18n="twActiveBmBgClrTo" for="activeBmBgClrTo"></label></td>
+										<td><label data-i18n="twActiveBmBgClrTo"
+											for="activeBmBgClrTo"></label></td>
 										<td><input id="activeBmBgClrTo" type="color" /></td>
 									</tr>
 								</table>
@@ -198,16 +201,17 @@
 			</div>
 		</div>
 		<div id="donateNG" style="display: table;">
-			<a href="changelog.txt" data-i18n="changelog"
-				style="float: right; margin-right: .7em;"></a> <br
-				style="clear: both;" />
-			<br />
-			<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+			<span id="version" style="float: right; margin-right: .7em;"></span><br
+				style="clear: both;" /> <a href="changelog.txt"
+				data-i18n="changelog" style="float: right; margin-right: .7em;"></a>
+			<br style="clear: both;" /> <br />
+			<form action="https://www.paypal.com/cgi-bin/webscr" method="post"
+				target="_blank">
 				<label for="currency_code" data-i18n="donateQuestion"></label> <br />
 				<input type="hidden" name="business" value="oraz.ra@gmail.com" /> <input
 					type="hidden" name="cmd" value="_donations" /> <input
-					type="hidden" name="item_name" value="Donate Bookmarks Menu" />
-				<input type="hidden" id="paypal_locale" name="lc" value="en_US" /> <select
+					type="hidden" name="item_name" value="Donate Bookmarks Menu" /> <input
+					type="hidden" id="paypal_locale" name="lc" value="en_US" /> <select
 					name="currency_code" id="currency_code">
 					<!-- If you change it, change also options.js. There is locale-based currency choice. -->
 					<option value="EUR" selected="selected">EUR €</option>
