@@ -173,6 +173,7 @@ HTMLSelectElement.prototype.selectByValue = function (value) {
 };
 
 function initWindowSettingsTab() {
+	$('version').innerHTML = chrome.i18n.getMessage('version', chrome.runtime.getManifest().version);
     $('fontFamily').selectByValue(getFontFamily());
     $('fontSize').value = getFontSize();
     $('favIconWidth').value = getFavIconWidth();

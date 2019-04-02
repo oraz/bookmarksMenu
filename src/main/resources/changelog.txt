@@ -1,5 +1,7 @@
 Changelog 2019.01.xx (dev)
-Fixed issue: context-menu item "Remove" is enabled for non-empty folders
+- Fixed issue: context-menu item "Remove" is enabled for non-empty folders
+- Fixed i18n for German
+- JS: 'use strict' everywhere
 
 Changelog 2019.01.14.3
 - Recovered bookmarklets

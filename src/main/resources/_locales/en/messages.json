@@ -33,6 +33,14 @@
     "Options_page": {"message": "___ JUST COMMENT ___"},
     "mainHeader": { "message": "'Bookmarks Menu' settings" },
     "changelog": { "message": "View changelog"},
+    "version": {
+    	"message": "Version $VERSION$", 
+    	"placeholders": {
+    		"VERSION": {
+    			"content": "$1"
+    		}
+    	}
+    },
     "donateQuestion": { "message": "Do you like Bookmarks Menu?"},
     "donateWith": { "message": "Donate with"},
 

@@ -32,7 +32,7 @@
 
     "Options_page": {"message": "___ JUST COMMENT ___"},
     "mainHeader": { "message": "'Bookmarks Menu' Einstellungen" },
-    "changelog": { "message": "Änderungen anschauen"},
+    "changelog": { "message": "Änderungen anschauen" },
     "donateQuestion": { "message": "Gefällt Ihnen Bookmarks Menu?"},
     "donateWith": { "message": "Spenden Sie via"},
 
