@@ -2,20 +2,19 @@
 
 navigator.isWindows = navigator.platform && navigator.platform.indexOf('Win') == 0;
 
-var $ = document.getElementById.bind(document),
+const $ = document.getElementById.bind(document),
     one = document.querySelector.bind(document),
     all = document.querySelectorAll.bind(document);
 
+    /*
 NodeList.prototype.forEach = function (func, scope) {
     for (var idx = 0, len = this.length; idx < len; idx++) {
         func.call(scope || this[idx], this[idx], idx);
     }
-};
+};*/
 
 NodeList.prototype.on = function (evt, callback) {
-    this.forEach(function () {
-        this.on(evt, callback);
-    });
+    this.forEach(el => el.on(evt, callback));
     return this;
 };
 
@@ -38,7 +37,7 @@ chrome.i18n.initAll = function (el) {
     (el ? el : document).querySelectorAll('[data-i18n]').forEach(this.initElement);
 };
 
-var MESSAGES = {
+const MESSAGES = {
     REQ_LOAD_BOOKMARKS:1,
     REQ_FORCE_LOAD_BOOKMARKS:2,
     REQ_GET_TREE_STATUS:3,
@@ -55,7 +54,7 @@ function changeBookmarkMode(useGoogleBookmarks) {
         badge = 'G';
     } else {
         title = 'extTitle';
-        badge = '';
+        badge = 'D';
     }
     chrome.browserAction.setTitle({ title:chrome.i18n.getMessage(title) });
     chrome.browserAction.setBadgeText({ text:badge });

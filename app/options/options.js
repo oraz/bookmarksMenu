@@ -161,9 +161,7 @@ function resetWindowSettings() {
     localStorage.removeItem('showURL');
     localStorage.removeItem('hideCMOpenIncognito');
     localStorage.removeItem('hideCMModeSwitcher');
-    all('input[type=color]').forEach(function () {
-        localStorage.removeItem(this.id);
-    });
+    all('input[type=color]').forEach(el => localStorage.removeItem(el.id));
     initWindowSettingsTab();
 }
 
@@ -184,9 +182,7 @@ function initWindowSettingsTab() {
     $('showURL').checked = isShowURL();
     $('hideCMOpenIncognito').checked = isHideCMOpenIncognito();
     $('hideCMModeSwitcher').checked = isHideCMModeSwitcher();
-    all('input[type=color]').forEach(function () {
-        this.value = getColor(this.id);
-    });
+    all('input[type=color]').forEach(el => el.value = getColor(el.id));
 }
 
 document.addEventListener("DOMContentLoaded", function () {
