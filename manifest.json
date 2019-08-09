@@ -1,9 +1,9 @@
 {
     "name": "Bookmarks Menu",
-    "version": "${project.version}",
+    "version": "2019.08.09",
     "manifest_version": 2,
     "description": "__MSG_extDescription__",
-    "default_locale": "${default_locale}",
+    "default_locale": "en",
     "browser_action": {
         "default_icon": "icons/icon-24.png",
         "default_popup": "popup.html"
