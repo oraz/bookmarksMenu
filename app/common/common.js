@@ -66,9 +66,9 @@ function isBookmarklet(url) {
 }
 
 function getFavicon(url) {
-    return url == undefined ? 'icons/' + (navigator.isWindows ? 'folder-win.png' : 'folder.png')
-        : isBookmarklet(url) ? 'icons/js.png'
-        : url.substr(0, 5) == 'file:' ? 'icons/html.png'
+    return url == undefined ? '../../icons/' + (navigator.isWindows ? 'folder-win.png' : 'folder.png')
+        : isBookmarklet(url) ? '../../icons/js.png'
+        : url.substr(0, 5) == 'file:' ? '../../icons/html.png'
         : 'chrome://favicon/' + url;
 }
 
