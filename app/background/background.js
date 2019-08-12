@@ -2,7 +2,7 @@
 
 var GBookmarksTree = null;
 
-var GBookmarkUrl = 'https://www.google.com/bookmarks/';
+const GBookmarkUrl = 'https://www.google.com/bookmarks/';
 
 function GBookmarkFolder(names, parentFolder) {
     this.children = [];
@@ -85,15 +85,15 @@ function sorting(b1, b2) {
 }
 
 function createBookmark(node) {
-    var bm =
+    const bm =
     {
         title:node.querySelector('title').textContent,
         url:node.querySelector('link').textContent,
         id:node.querySelector('bkmk_id').textContent
     };
-    var labels = node.querySelectorAll('bkmk_label');
+    const labels = node.querySelectorAll('bkmk_label');
     if (labels.length > 0) {
-        for (var idx = labels.length - 1; idx >= 0; idx--) {
+        for (let idx = labels.length - 1; idx >= 0; idx--) {
             GBookmarksTree.findFolder(labels[idx].textContent).addChild(bm);
         }
     }

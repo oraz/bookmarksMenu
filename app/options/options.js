@@ -5,7 +5,7 @@ function setMouseButtonAction() {
 }
 
 function setIntProperty() {
-    var value = parseInt(this.value),
+    const value = parseInt(this.value),
         maxLimit = parseInt(this.getAttribute('max')),
         minLimit = parseInt(this.getAttribute('min'));
     if (isNaN(this.value) || isNaN(value) ||
@@ -32,7 +32,7 @@ function setMenuMaxWidthMesure() {
 }
 
 function setBookmarkHidden(title, useGoogleBookmarks, hidden) {
-    var key = (useGoogleBookmarks ? 'g_' : '') + 'bookmark_' + title;
+    const key = (useGoogleBookmarks ? 'g_' : '') + 'bookmark_' + title;
     if (hidden == true) {
         localStorage[key] = true;
     } else {
@@ -53,26 +53,24 @@ function setUseGoogleBookmarks(useGoogleBookmarks) {
     changeBookmarkMode(useGoogleBookmarks);
     if (useGoogleBookmarks) {
         clearGoogleBookmarksDiv();
-        var port = chrome.extension.connect();
+        const port = chrome.extension.connect();
         port.onMessage.addListener(processResponse);
         port.postMessage(MESSAGES.REQ_GET_TREE_STATUS);
     }
 }
 
 function clearGoogleBookmarksDiv() {
-    var gbookmarksSettings = $('googleBookmarksSettings');
+    const gbookmarksSettings = $('googleBookmarksSettings');
     gbookmarksSettings.querySelector('div.bookmark').hide();
-    gbookmarksSettings.querySelectorAll('div.gbookmark').forEach(function () {
-        this.parentElement.removeChild(this);
-    });
+    gbookmarksSettings.querySelectorAll('div.gbookmark').forEach(each => each.parentElement.removeChild(each));
 }
 
 function selectAllBookmarks() {
-    var checked = this.checked;
-    this.parentElement.parentElement.parentElement.querySelectorAll('input[type="checkbox"]').forEach(function (chk, idx) {
+    const checked = this.checked;
+    this.parentElement.parentElement.parentElement.querySelectorAll('input[type="checkbox"]').forEach((chk, idx) => {
         if (idx > 0) {
             chk.checked = checked;
-            var evt = document.createEvent("HTMLEvents");
+            const evt = document.createEvent("HTMLEvents");
             evt.initEvent('change', true, true);
             chk.dispatchEvent(evt);
         }
