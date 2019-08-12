@@ -223,9 +223,8 @@ HTMLLIElement.prototype.showContextMenu = function (ev) {
         contextMenu.initialized = true;
 
         if (isHideCMOpenIncognito()) {
-            contextMenu.querySelectorAll('li[data-action="openInIncognitoWindow"], li[data-action="openAllInIncognitoWindow"]').forEach(function () {
-                this.hide();
-            });
+            contextMenu.querySelectorAll('li[data-action="openInIncognitoWindow"],' + 
+                ' li[data-action="openAllInIncognitoWindow"]').forEach(each => each.hide());
         }
         if (isHideCMModeSwitcher()) {
             if (!config.useGoogleBookmarks) {
@@ -242,10 +241,8 @@ HTMLLIElement.prototype.showContextMenu = function (ev) {
     contextMenu.selectedBookmark = this;
     contextMenu.setAttribute('for', this.getAttribute('type'));
     if (this.isFolder) {
-        var hasChildren = this.lastChild.numberOfBookmarks > 0;
-        contextMenu.querySelectorAll('.forFolder').forEach(function () {
-            this.classList.toggle('enabled', hasChildren);
-        });
+        const hasChildren = this.lastChild.numberOfBookmarks > 0;
+        contextMenu.querySelectorAll('.forFolder').forEach(each => each.classList.toggle('enabled', hasChildren));
     }
 
     contextMenu.querySelector('li[data-action="reorder"]').classList.toggle('enabled', this.parentElement.childElementCount > 1);
