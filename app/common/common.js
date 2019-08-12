@@ -61,19 +61,19 @@ function changeBookmarkMode(useGoogleBookmarks) {
 }
 
 function isBookmarklet(url) {
-    return url.substr(0, 11) == 'javascript:';
+    return url.startsWith('javascript:');
 }
 
 function getFavicon(url) {
     return url == undefined ? '../../icons/' + (navigator.isWindows ? 'folder-win.png' : 'folder.png')
         : isBookmarklet(url) ? '../../icons/js.png'
-        : url.substr(0, 5) == 'file:' ? '../../icons/html.png'
+        : url.startsWith('file:') ? '../../icons/html.png'
         : 'chrome://favicon/' + url;
 }
 
 function addButtonCSS() {
     if (navigator.isWindows) {
-        var link = document.createElement('link');
+        const link = document.createElement('link');
         link.setAttribute('rel', 'stylesheet');
         link.setAttribute('type', 'text/css');
         link.setAttribute('href', 'css/button.css');
