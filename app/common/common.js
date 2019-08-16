@@ -6,13 +6,6 @@ const $ = document.getElementById.bind(document),
     one = document.querySelector.bind(document),
     all = document.querySelectorAll.bind(document);
 
-    /*
-NodeList.prototype.forEach = function (func, scope) {
-    for (var idx = 0, len = this.length; idx < len; idx++) {
-        func.call(scope || this[idx], this[idx], idx);
-    }
-};*/
-
 NodeList.prototype.on = function (evt, callback) {
     this.forEach(el => el.on(evt, callback));
     return this;

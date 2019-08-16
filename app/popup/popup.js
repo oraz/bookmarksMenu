@@ -496,8 +496,7 @@ function suggestLabel() {
         if (each.textContent.toLocaleLowerCase().indexOf(newLabel) == 0) {
             mustBeShown = true;
             each.show();
-        }
-        else {
+        } else {
             each.hide();
             each.removeAttribute('class');
         }
