@@ -2,6 +2,7 @@
     "name": "Bookmarks Menu",
     "version": "2019.08.09",
     "manifest_version": 2,
+    "minimum_chrome_version": "64",
     "description": "__MSG_extDescription__",
     "default_locale": "en",
     "browser_action": {
