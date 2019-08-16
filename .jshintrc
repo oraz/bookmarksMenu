@@ -1,3 +1,14 @@
 {
-    "esversion": "6"
+    "esversion": 6,
+    "globals": {
+        "chrome": true,
+        "localStorage": true,
+        "document": true,
+        "HTMLElement": true,
+        "HTMLLIElement": true,
+        "HTMLUListElement": true,
+        "NodeList": true,
+        "XMLHttpRequest": true,
+        "navigator": true
+    }
 }
