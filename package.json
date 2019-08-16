@@ -1,0 +1,27 @@
+{
+  "name": "bookmarksmenu",
+  "version": "1.0.0",
+  "description": "Chrome extension which shows bookmarks menu. Works with Chrome and Google bookmarks.",
+  "scripts": {
+    "lint": "echo Lint && jshint app",
+    "prepack": "npm run lint -s",
+    "pack": "zip -r dist.zip app/ icons/ manifest.json changelog.txt _locales"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oraz/bookmarksMenu.git"
+  },
+  "keywords": [
+    "chrome",
+    "bookmarks"
+  ],
+  "author": "Roman Orazmagomedov <oraz.ra@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/oraz/bookmarksMenu/issues"
+  },
+  "homepage": "https://github.com/oraz/bookmarksMenu#readme",
+  "devDependencies": {
+    "jshint": "^2.10.2"
+  }
+}
