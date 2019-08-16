@@ -171,11 +171,10 @@ HTMLLIElement.prototype.openInIncognitoWindow = function () {
 };
 
 HTMLLIElement.prototype.openAllInTabs = function (firstInCurrentTab) {
-    this.getBookmarksInFolder().forEach(function (bookmark, idx) {
+    this.getBookmarksInFolder().forEach((bookmark, idx) => {
         if (idx == 0 && firstInCurrentTab) {
             bookmark.open();
-        }
-        else {
+        } else {
             chrome.tabs.create({ url: bookmark.url, selected: idx == 0 });
         }
     });
@@ -183,10 +182,8 @@ HTMLLIElement.prototype.openAllInTabs = function (firstInCurrentTab) {
 };
 
 HTMLLIElement.prototype.openAllInNewWindow = function (incognito) {
-    var urls = [];
-    this.getBookmarksInFolder().forEach(function (bookmark) {
-        urls.push(bookmark.url);
-    });
+    const urls = [];
+    this.getBookmarksInFolder().forEach(bookmark => urls.push(bookmark.url));
     chrome.extension.getBackgroundPage().openUrlsInNewWindow(urls, incognito);
     closePopup();
 };
@@ -290,9 +287,7 @@ HTMLLIElement.prototype.remove = function () {
     } else {
         var gid = this.getAttribute('gid');
         chrome.extension.getBackgroundPage().remove(gid);
-        all('li[gid="' + gid + '"]').forEach(function () {
-            this.removeFromUI();
-        });
+        all('li[gid="' + gid + '"]').forEach(each => each.removeFromUI());
     }
     // replace folder content after removing bookmark
     var parentFolder = this.parentFolder;
@@ -493,20 +488,18 @@ function suggestLabel() {
         .toLocaleLowerCase();
     if (newLabel == '') {
         suggestDiv.hide();
-        suggestDiv.querySelectorAll('div > div[class]').forEach(function () {
-            this.removeAttribute('class');
-        });
+        suggestDiv.querySelectorAll('div > div[class]').forEach(each => each.removeAttribute('class'));
         return;
     }
     var mustBeShown = false;
-    suggestDiv.querySelectorAll('div > div').forEach(function () {
-        if (this.textContent.toLocaleLowerCase().indexOf(newLabel) == 0) {
+    suggestDiv.querySelectorAll('div > div').forEach(each => {
+        if (each.textContent.toLocaleLowerCase().indexOf(newLabel) == 0) {
             mustBeShown = true;
-            this.show();
+            each.show();
         }
         else {
-            this.hide();
-            this.removeAttribute('class');
+            each.hide();
+            each.removeAttribute('class');
         }
     });
     if (mustBeShown) {
@@ -623,9 +616,7 @@ function showGoogleBookmarkDialog(initalLabel) {
     var labels = chrome.extension.getBackgroundPage().GBookmarksTree.labels;
     labels.sort();
     var suggestDiv = $('suggest');
-    suggestDiv.querySelectorAll('div > *').forEach(function () {
-        this.parentElement.removeChild(this)
-    });
+    suggestDiv.querySelectorAll('div > *').forEach(each => each.parentElement.removeChild(each));
     var gbLabelStyles = window.getComputedStyle(gbLabel);
     suggestDiv.style.marginLeft = parseInt(gbLabelStyles.marginLeft) + parseInt(gbLabelStyles.borderLeftWidth) - 1 + 'px';
     for (var idx = 0, len = labels.length; idx < len; idx++) {
@@ -786,9 +777,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     };
     rootFolder.clear = function () {
-        this.querySelectorAll('#bookmarksMenu > *').forEach(function () {
-            this.parentElement.removeChild(this)
-        });
+        this.querySelectorAll('#bookmarksMenu > *').forEach(each => each.parentElement.removeChild(each));
     }
 });
 
