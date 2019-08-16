@@ -112,9 +112,7 @@ function processResponse(response, port) {
         var GBookmarksTree = chrome.extension.getBackgroundPage().GBookmarksTree;
         var googleBookmarksSettings = $('googleBookmarksSettings');
         googleBookmarksSettings.querySelector('div.bookmark').show();
-        GBookmarksTree.children.forEach(function (bookmark) {
-            addBookmark(googleBookmarksSettings, bookmark, true);
-        });
+        GBookmarksTree.children.forEach(bookmark => addBookmark(googleBookmarksSettings, bookmark, true));
     } else if (response == MESSAGES.RESP_FAILED) {
         $('loading').hide();
         $('loadingError').show();
@@ -209,23 +207,21 @@ document.addEventListener("DOMContentLoaded", function () {
     showTab.apply(one('li.fgTab'));
 
     // init Bookmarks tab
-    var useGoogleBookmarks = isUseGoogleBookmarks();
+    const useGoogleBookmarks = isUseGoogleBookmarks();
     $(useGoogleBookmarks ? 'useGoogleBookmarks' : 'useChromeBookmarks').checked = true;
     setUseGoogleBookmarks(useGoogleBookmarks);
     $('labelSeparator').value = getLabelSeparator();
-    chrome.bookmarks.getTree(function (nodes) {
-        var chromeBookmarksSettings = $('chromeBookmarksSettings');
-        nodes[0].children.slice(0, 2).forEach(function (child) {
-            child.children.forEach(function (bookmark) {
-                addBookmark(chromeBookmarksSettings, bookmark, false);
-            });
+    chrome.bookmarks.getTree(nodes => {
+        const chromeBookmarksSettings = $('chromeBookmarksSettings');
+        nodes[0].children.slice(0, 2).forEach(child => {
+            child.children.forEach(bookmark => addBookmark(chromeBookmarksSettings, bookmark, false));
         });
     });
 
     initWindowSettingsTab();
 
     // init Mouse tab
-    for (var idx = 0; idx < 3; idx++) {
+    for (let idx = 0; idx < 3; idx++) {
         $('btn' + idx).selectedIndex = getButtonAction(idx);
     }
 
@@ -234,14 +230,14 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     chrome.fontSettings.getFontList(function(fonts) {
-        var fontList = $('fontFamily').options,
+        const fontList = $('fontFamily').options,
             defaultFont = getFontFamily();
-        fonts.forEach(function(each) {
+        fonts.forEach(each => {
             fontList.add(new Option(each.displayName, each.fontId, false, each.fontId === defaultFont));
         });
     });
     
-    var lang = chrome.i18n.getUILanguage();
+    const lang = chrome.i18n.getUILanguage();
     if(lang.startsWith('ru')) {
     	$('currency_code').selectedIndex = 1;
     	$('paypal_locale').value = 'ru_RU';
