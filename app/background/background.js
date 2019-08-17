@@ -1,7 +1,7 @@
 'use strict';
 
 import { changeBookmarkMode, MESSAGES } from '../common/common.js';
-import { LocalStorageUtils } from '../common/localstorage.js';
+import { LocalStorageUtils } from '../common/settings.js';
 
 window.GBookmarksTree = null;
 
