@@ -1,6 +1,6 @@
 "use strict";
 
-export class LocalStorageUtils {
+export class Settings {
 
     static getButtonAction(btn) {
         return localStorage[btn] || btn;

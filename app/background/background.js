@@ -1,7 +1,7 @@
 'use strict';
 
 import { changeBookmarkMode, MESSAGES } from '../common/common.js';
-import { LocalStorageUtils } from '../common/settings.js';
+import { Settings } from '../common/settings.js';
 
 window.GBookmarksTree = null;
 
@@ -20,7 +20,7 @@ function GBookmarkFolder(names, parentFolder) {
     }
     else {
         this.isRoot = true;
-        this.labelSeparator = LocalStorageUtils.getLabelSeparator();
+        this.labelSeparator = Settings.getLabelSeparator();
         return this;
     }
     return names.length > 0 ? new GBookmarkFolder(names, this) : this;
@@ -242,7 +242,7 @@ function showOptionsPageOnce() {
 
 document.addEventListener("DOMContentLoaded", function () {
     chrome.browserAction.setBadgeBackgroundColor({ color: [24, 135, 185, 255] });
-    changeBookmarkMode(LocalStorageUtils.isUseGoogleBookmarks());
+    changeBookmarkMode(Settings.isUseGoogleBookmarks());
     chrome.extension.onConnect.addListener(function (port) {
         port.onMessage.addListener(onIncomingMessage);
     });
