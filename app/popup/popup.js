@@ -1,5 +1,7 @@
 'use strict';
 
+import { $, all, changeBookmarkMode, MESSAGES, addButtonCSS, getFavicon } from '../common/common.js';
+
 var config; // will be initialized in DOMContentLoaded handler
 
 function Bookmark(bookmarkNode) {

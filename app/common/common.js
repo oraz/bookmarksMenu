@@ -2,7 +2,7 @@
 
 navigator.isWindows = navigator.platform && navigator.platform.indexOf('Win') == 0;
 
-const $ = document.getElementById.bind(document),
+export const $ = document.getElementById.bind(document),
     one = document.querySelector.bind(document),
     all = document.querySelectorAll.bind(document);
 
@@ -30,7 +30,7 @@ chrome.i18n.initAll = function (el) {
     (el ? el : document).querySelectorAll('[data-i18n]').forEach(this.initElement);
 };
 
-const MESSAGES = {
+export const MESSAGES = {
     REQ_LOAD_BOOKMARKS:1,
     REQ_FORCE_LOAD_BOOKMARKS:2,
     REQ_GET_TREE_STATUS:3,
@@ -40,7 +40,7 @@ const MESSAGES = {
     RESP_FAILED:400
 };
 
-function changeBookmarkMode(useGoogleBookmarks) {
+export function changeBookmarkMode(useGoogleBookmarks) {
     var title, badge;
     if (useGoogleBookmarks) {
         title = 'extTitleGoogle';
@@ -57,14 +57,14 @@ function isBookmarklet(url) {
     return url.startsWith('javascript:');
 }
 
-function getFavicon(url) {
+export function getFavicon(url) {
     return url == undefined ? '../../icons/' + (navigator.isWindows ? 'folder-win.png' : 'folder.png')
         : isBookmarklet(url) ? '../../icons/js.png'
         : url.startsWith('file:') ? '../../icons/html.png'
         : 'chrome://favicon/' + url;
 }
 
-function addButtonCSS() {
+export function addButtonCSS() {
     if (navigator.isWindows) {
         const link = document.createElement('link');
         link.setAttribute('rel', 'stylesheet');
