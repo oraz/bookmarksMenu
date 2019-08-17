@@ -1,6 +1,8 @@
 'use strict';
 
-var GBookmarksTree = null;
+import { changeBookmarkMode, MESSAGES } from '../common/common.js';
+
+window.GBookmarksTree = null;
 
 const GBookmarkUrl = 'https://www.google.com/bookmarks/';
 
@@ -126,7 +128,7 @@ XMLHttpRequest.prototype.processAbort = function () {
     }
 };
 
-function remove(id) {
+window.remove = id => {
     var child = GBookmarksTree.removeBookmark(id);
     if (child) {
         var xhr = new XMLHttpRequest();
@@ -217,8 +219,8 @@ function onIncomingMessage(req, port) {
     }
 }
 
-function openUrlsInNewWindow(urls, incognito) {
-    chrome.windows.create({ url:urls[0], incognito:incognito }, function (win) {
+window.openUrlsInNewWindow = (urls, incognito) => {
+    chrome.windows.create({ url:urls[0], incognito:incognito }, win => {
         if (incognito && !win && urls.length > 1) {
             alert(chrome.i18n.getMessage('needAllowIncognito'));
             return;
