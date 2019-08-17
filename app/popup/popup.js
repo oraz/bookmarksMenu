@@ -1,7 +1,7 @@
 'use strict';
 
 import { $, all, changeBookmarkMode, MESSAGES, addButtonCSS, getFavicon, isBookmarklet } from '../common/common.js';
-import { LocalStorageUtils } from '../common/settings.js';
+import { Settings } from '../common/settings.js';
 
 var config; // will be initialized in DOMContentLoaded handler
 
@@ -43,7 +43,7 @@ HTMLUListElement.prototype.fillFolderContent = function (childBookmarks) {
             var bookmark = new Bookmark(childBookmarks[i]);
             this.appendChild(bookmark);
             if (this.isRoot) {
-                if (LocalStorageUtils.isBookmarkHidden(childBookmarks[i].title, config.useGoogleBookmarks)) {
+                if (Settings.isBookmarkHidden(childBookmarks[i].title, config.useGoogleBookmarks)) {
                     bookmark.hide();
                     bookmark.isBookmarkHidden = true;
                     bookmark.removeAttribute("type");
@@ -162,7 +162,7 @@ HTMLLIElement.prototype.open = function (closeAfterOpen) {
 };
 
 HTMLLIElement.prototype.openInNewTab = function (switchToNewTab) {
-    chrome.tabs.create({ url: this.url, selected: switchToNewTab || LocalStorageUtils.isSwitchToNewTab() }, closePopup);
+    chrome.tabs.create({ url: this.url, selected: switchToNewTab || Settings.isSwitchToNewTab() }, closePopup);
 };
 
 HTMLLIElement.prototype.openInNewWindow = function (incognito) {
@@ -222,11 +222,11 @@ HTMLLIElement.prototype.showContextMenu = function (ev) {
         chrome.i18n.initAll(contextMenu);
         contextMenu.initialized = true;
 
-        if (LocalStorageUtils.isHideCMOpenIncognito()) {
+        if (Settings.isHideCMOpenIncognito()) {
             contextMenu.querySelectorAll('li[data-action="openInIncognitoWindow"],' + 
                 ' li[data-action="openAllInIncognitoWindow"]').forEach(each => each.hide());
         }
-        if (LocalStorageUtils.isHideCMModeSwitcher()) {
+        if (Settings.isHideCMModeSwitcher()) {
             if (!config.useGoogleBookmarks) {
                 contextMenu.querySelector('li[data-action="useGoogleBookmarks"]').hide();
                 contextMenu.querySelectorAll('li.separator')[1].hide();
@@ -704,27 +704,27 @@ document.addEventListener("DOMContentLoaded", function () {
     config = {
         winMaxWidth: 800,
         winMaxHeight: 600,
-        showTooltip: LocalStorageUtils.isShowTooltip(),
-        showURL: LocalStorageUtils.isShowURL(),
-        useGoogleBookmarks: LocalStorageUtils.isUseGoogleBookmarks()
+        showTooltip: Settings.isShowTooltip(),
+        showURL: Settings.isShowURL(),
+        useGoogleBookmarks: Settings.isUseGoogleBookmarks()
     };
 
     var styleSheet = document.styleSheets[0];
-    var favIconWidth = LocalStorageUtils.getFavIconWidth();
-    styleSheet.addRule('body', 'background-color: ' + LocalStorageUtils.getColor('bodyClr') + ';');
+    var favIconWidth = Settings.getFavIconWidth();
+    styleSheet.addRule('body', 'background-color: ' + Settings.getColor('bodyClr') + ';');
     styleSheet.addRule('img', 'width: ' + favIconWidth + 'px; height: ' + favIconWidth + 'px;');
     styleSheet.addRule('label, span, #loading', 
-            'font: ' + LocalStorageUtils.getFontSize() + 'px "' + LocalStorageUtils.getFontFamily() + '";' + 
-            'color: ' + LocalStorageUtils.getColor('fntClr') + ';');
-    styleSheet.addRule('ul, #gwindow', 'background-color: ' + LocalStorageUtils.getColor('bmBgClr') + ';');
+            'font: ' + Settings.getFontSize() + 'px "' + Settings.getFontFamily() + '";' + 
+            'color: ' + Settings.getColor('fntClr') + ';');
+    styleSheet.addRule('ul, #gwindow', 'background-color: ' + Settings.getColor('bmBgClr') + ';');
 
-    styleSheet.addRule('#contextMenu > li:not(.enabled) > span, .empty', 'color: ' + LocalStorageUtils.getColor('disabledItemFntClr') + ';');
+    styleSheet.addRule('#contextMenu > li:not(.enabled) > span, .empty', 'color: ' + Settings.getColor('disabledItemFntClr') + ';');
     styleSheet.addRule('li[type]:hover > span, .enabled:hover > span, .hover > span',
-            'color: ' + LocalStorageUtils.getColor('activeBmFntClr') + ';' +
+            'color: ' + Settings.getColor('activeBmFntClr') + ';' +
             'background-image: -webkit-gradient(linear, left top, left bottom, from(' +
-            LocalStorageUtils.getColor('activeBmBgClrFrom') + '), to(' + LocalStorageUtils.getColor('activeBmBgClrTo') + '));');
-    styleSheet.addRule('#bookmarksMenu span', 'max-width: ' + LocalStorageUtils.getMaxWidth() + LocalStorageUtils.getMaxWidthMesure() + ';');
-    styleSheet.addRule('::-webkit-scrollbar', 'width: ' + LocalStorageUtils.getScrollBarWidth() + 'px;');
+            Settings.getColor('activeBmBgClrFrom') + '), to(' + Settings.getColor('activeBmBgClrTo') + '));');
+    styleSheet.addRule('#bookmarksMenu span', 'max-width: ' + Settings.getMaxWidth() + Settings.getMaxWidthMesure() + ';');
+    styleSheet.addRule('::-webkit-scrollbar', 'width: ' + Settings.getScrollBarWidth() + 'px;');
     addButtonCSS();
 
     loadBookmarks();
@@ -735,7 +735,7 @@ document.addEventListener("DOMContentLoaded", function () {
         while (!(bookmark instanceof HTMLLIElement)) {
             bookmark = bookmark.parentElement;
         }
-        var action = parseInt(LocalStorageUtils.getButtonAction(ev.button));
+        var action = parseInt(Settings.getButtonAction(ev.button));
         switch (action) {
             case 0: // open in current tab
                 if (bookmark.isBookmark) {
