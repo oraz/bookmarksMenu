@@ -1,7 +1,7 @@
 'use strict';
 
 import { $, all, one, changeBookmarkMode, MESSAGES, addButtonCSS, getFavicon } from '../common/common.js';
-import { LocalStorageUtils } from '../common/localstorage.js';
+import { LocalStorageUtils } from '../common/settings.js';
 
 function setMouseButtonAction() {
     localStorage[parseInt(this.getAttribute('data-button-number'))] = this.selectedIndex;

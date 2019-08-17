@@ -1,7 +1,7 @@
 'use strict';
 
 import { $, all, changeBookmarkMode, MESSAGES, addButtonCSS, getFavicon, isBookmarklet } from '../common/common.js';
-import { LocalStorageUtils } from '../common/localstorage.js';
+import { LocalStorageUtils } from '../common/settings.js';
 
 var config; // will be initialized in DOMContentLoaded handler
 
