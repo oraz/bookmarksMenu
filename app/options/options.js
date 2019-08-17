@@ -1,6 +1,7 @@
 'use strict';
 
 import { $, all, one, changeBookmarkMode, MESSAGES, addButtonCSS, getFavicon } from '../common/common.js';
+import { LocalStorageUtils } from '../common/localstorage.js';
 
 function setMouseButtonAction() {
     localStorage[parseInt(this.getAttribute('data-button-number'))] = this.selectedIndex;
@@ -85,7 +86,7 @@ function addBookmark(divSettings, bookmark, useGoogleBookmarks) {
 
     var checkbox = document.createElement('input');
     checkbox.setAttribute('type', 'checkbox');
-    if (!isBookmarkHidden(bookmark.title, useGoogleBookmarks)) {
+    if (!LocalStorageUtils.isBookmarkHidden(bookmark.title, useGoogleBookmarks)) {
         checkbox.setAttribute('checked', 'checked');
     }
     checkbox.onchange = function () {
@@ -128,7 +129,7 @@ function setLabelSeparator() {
     }
     else {
         this.removeAttribute('class');
-        if (newLabelSeparator != getLabelSeparator()) {
+        if (newLabelSeparator != LocalStorageUtils.getLabelSeparator()) {
             localStorage['labelSeparator'] = newLabelSeparator;
             clearGoogleBookmarksDiv();
             $('loadingError').hide();
@@ -170,17 +171,17 @@ HTMLSelectElement.prototype.selectByValue = function (value) {
 
 function initWindowSettingsTab() {
 	$('version').innerHTML = chrome.i18n.getMessage('version', chrome.runtime.getManifest().version);
-    $('fontFamily').selectByValue(getFontFamily());
-    $('fontSize').value = getFontSize();
-    $('favIconWidth').value = getFavIconWidth();
-    $('maxWidth').value = getMaxWidth();
-    $('maxWidthMesure').selectByValue(getMaxWidthMesure());
-    $('scrollBarWidth').value = getScrollBarWidth();
-    $('showTooltip').checked = isShowTooltip();
-    $('showURL').checked = isShowURL();
-    $('hideCMOpenIncognito').checked = isHideCMOpenIncognito();
-    $('hideCMModeSwitcher').checked = isHideCMModeSwitcher();
-    all('input[type=color]').forEach(el => el.value = getColor(el.id));
+    $('fontFamily').selectByValue(LocalStorageUtils.getFontFamily());
+    $('fontSize').value = LocalStorageUtils.getFontSize();
+    $('favIconWidth').value = LocalStorageUtils.getFavIconWidth();
+    $('maxWidth').value = LocalStorageUtils.getMaxWidth();
+    $('maxWidthMesure').selectByValue(LocalStorageUtils.getMaxWidthMesure());
+    $('scrollBarWidth').value = LocalStorageUtils.getScrollBarWidth();
+    $('showTooltip').checked = LocalStorageUtils.isShowTooltip();
+    $('showURL').checked = LocalStorageUtils.isShowURL();
+    $('hideCMOpenIncognito').checked = LocalStorageUtils.isHideCMOpenIncognito();
+    $('hideCMModeSwitcher').checked = LocalStorageUtils.isHideCMModeSwitcher();
+    all('input[type=color]').forEach(el => el.value = LocalStorageUtils.getColor(el.id));
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -209,10 +210,10 @@ document.addEventListener("DOMContentLoaded", function () {
     showTab.apply(one('li.fgTab'));
 
     // init Bookmarks tab
-    const useGoogleBookmarks = isUseGoogleBookmarks();
+    const useGoogleBookmarks = LocalStorageUtils.isUseGoogleBookmarks();
     $(useGoogleBookmarks ? 'useGoogleBookmarks' : 'useChromeBookmarks').checked = true;
     setUseGoogleBookmarks(useGoogleBookmarks);
-    $('labelSeparator').value = getLabelSeparator();
+    $('labelSeparator').value = LocalStorageUtils.getLabelSeparator();
     chrome.bookmarks.getTree(nodes => {
         const chromeBookmarksSettings = $('chromeBookmarksSettings');
         nodes[0].children.slice(0, 2).forEach(child => {
@@ -224,16 +225,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // init Mouse tab
     for (let idx = 0; idx < 3; idx++) {
-        $('btn' + idx).selectedIndex = getButtonAction(idx);
+        $('btn' + idx).selectedIndex = LocalStorageUtils.getButtonAction(idx);
     }
 
-    if (isSwitchToNewTab()) {
+    if (LocalStorageUtils.isSwitchToNewTab()) {
         $('switchToNewTab').checked = true;
     }
 
     chrome.fontSettings.getFontList(function(fonts) {
         const fontList = $('fontFamily').options,
-            defaultFont = getFontFamily();
+            defaultFont = LocalStorageUtils.getFontFamily();
         fonts.forEach(each => {
             fontList.add(new Option(each.displayName, each.fontId, false, each.fontId === defaultFont));
         });
