@@ -1,71 +1,74 @@
-'use strict';
+"use strict";
 
-function getButtonAction(btn) {
-    return localStorage[btn] || btn;
-}
+export class LocalStorageUtils {
 
-function getMaxWidth() {
-    return localStorage['maxWidth'] || 30;
-}
+    static getButtonAction(btn) {
+        return localStorage[btn] || btn;
+    }
 
-function getMaxWidthMesure() {
-    return localStorage['maxWidthMesure'] || 'em';
-}
+    static getMaxWidth() {
+        return localStorage['maxWidth'] || 30;
+    }
 
-function isBookmarkHidden(title, useGoogleBookmarks) {
-    return localStorage[(useGoogleBookmarks ? 'g_' : '') + 'bookmark_' + title] == 'true';
-}
+    static getMaxWidthMesure() {
+        return localStorage['maxWidthMesure'] || 'em';
+    }
 
-function isSwitchToNewTab() {
-    return localStorage['switchToNewTab'] == 'true';
-}
+    static isBookmarkHidden(title, useGoogleBookmarks) {
+        return localStorage[(useGoogleBookmarks ? 'g_' : '') + 'bookmark_' + title] == 'true';
+    }
 
-function getFontFamily() {
-    return localStorage['fontFamily'] || 'Verdana';
-}
+    static isSwitchToNewTab() {
+        return localStorage['switchToNewTab'] == 'true';
+    }
 
-function getFontSize() {
-    return localStorage['fontSize'] || 13;
-}
+    static getFontFamily() {
+        return localStorage['fontFamily'] || 'Verdana';
+    }
 
-function getFavIconWidth() {
-    return localStorage['favIconWidth'] || 16;
-}
+    static getFontSize() {
+        return localStorage['fontSize'] || 13;
+    }
 
-function isShowTooltip() {
-    return localStorage['showTooltip'] == 'true';
-}
+    static getFavIconWidth() {
+        return localStorage['favIconWidth'] || 16;
+    }
 
-function isShowURL() {
-    return localStorage['showURL'] == 'true';
-}
+    static isShowTooltip() {
+        return localStorage['showTooltip'] == 'true';
+    }
 
-function getColor(name) {
-    var color = localStorage[name];
-    return color ? color.indexOf('#') === 0 ? color : '#' + color
-        : name == 'bodyClr' || name == 'bmBgClr' || name == 'activeBmFntClr' ? '#FFFFFF'
-        : name == 'fntClr' ? '#000000'
-        : name == 'activeBmBgClrFrom' ? '#86ABD9'
-        : name == 'activeBmBgClrTo' ? '#1F5EAB'
-        : '#BEBEBE'; // disabledItemFntClr
-}
+    static isShowURL() {
+        return localStorage['showURL'] == 'true';
+    }
 
-function getScrollBarWidth() {
-    return localStorage['scrollBarWidth'] || '7';
-}
+    static getColor(name) {
+        var color = localStorage[name];
+        return color ? color.indexOf('#') === 0 ? color : '#' + color
+            : name == 'bodyClr' || name == 'bmBgClr' || name == 'activeBmFntClr' ? '#FFFFFF'
+                : name == 'fntClr' ? '#000000'
+                    : name == 'activeBmBgClrFrom' ? '#86ABD9'
+                        : name == 'activeBmBgClrTo' ? '#1F5EAB'
+                            : '#BEBEBE'; // disabledItemFntClr
+    }
 
-function isUseGoogleBookmarks() {
-    return localStorage['useGoogleBookmarks'] == 'true';
-}
+    static getScrollBarWidth() {
+        return localStorage['scrollBarWidth'] || '7';
+    }
 
-function getLabelSeparator() {
-    return localStorage['labelSeparator'] || '>';
-}
+    static isUseGoogleBookmarks() {
+        return localStorage['useGoogleBookmarks'] == 'true';
+    }
 
-function isHideCMModeSwitcher() {
-    return localStorage['hideCMModeSwitcher'] == 'true';
-}
+    static getLabelSeparator() {
+        return localStorage['labelSeparator'] || '>';
+    }
 
-function isHideCMOpenIncognito() {
-    return localStorage['hideCMOpenIncognito'] == 'true';
+    static isHideCMModeSwitcher() {
+        return localStorage['hideCMModeSwitcher'] == 'true';
+    }
+
+    static isHideCMOpenIncognito() {
+        return localStorage['hideCMOpenIncognito'] == 'true';
+    }
 }

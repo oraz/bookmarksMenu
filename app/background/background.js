@@ -1,6 +1,7 @@
 'use strict';
 
 import { changeBookmarkMode, MESSAGES } from '../common/common.js';
+import { LocalStorageUtils } from '../common/localstorage.js';
 
 window.GBookmarksTree = null;
 
@@ -19,7 +20,7 @@ function GBookmarkFolder(names, parentFolder) {
     }
     else {
         this.isRoot = true;
-        this.labelSeparator = getLabelSeparator();
+        this.labelSeparator = LocalStorageUtils.getLabelSeparator();
         return this;
     }
     return names.length > 0 ? new GBookmarkFolder(names, this) : this;
@@ -89,9 +90,9 @@ function sorting(b1, b2) {
 function createBookmark(node) {
     const bm =
     {
-        title:node.querySelector('title').textContent,
-        url:node.querySelector('link').textContent,
-        id:node.querySelector('bkmk_id').textContent
+        title: node.querySelector('title').textContent,
+        url: node.querySelector('link').textContent,
+        id: node.querySelector('bkmk_id').textContent
     };
     const labels = node.querySelectorAll('bkmk_label');
     if (labels.length > 0) {
@@ -135,7 +136,7 @@ window.remove = id => {
         xhr.open('GET', GBookmarkUrl + 'mark?' + 'dlq=' + encodeURIComponent(id) + '&sig=' + encodeURIComponent(GBookmarksTree.signature), true);
         xhr.send();
     }
-}
+};
 
 function onDisconnect(port) {
     // fired when user closes popup window or options window
@@ -156,11 +157,11 @@ function onIncomingMessage(req, port) {
         port.onDisconnect.addListener(onDisconnect);
         xhr.onreadystatechange = xhr.processBookmarks;
         xhr.onabort = xhr.processAbort;
-/*
-        xhr.timeout = setTimeout(function () {
-            xhr.abort();
-        }, 10 * 1000);
-*/
+        /*
+                xhr.timeout = setTimeout(function () {
+                    xhr.abort();
+                }, 10 * 1000);
+        */
         xhr.open("GET", GBookmarkUrl + '?output=rss&num=10000', true);
         xhr.send();
     }
@@ -179,9 +180,9 @@ function onIncomingMessage(req, port) {
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200) {
                 var bm = {
-                    title:req.title,
-                    url:req.url,
-                    id:xhr.responseText
+                    title: req.title,
+                    url: req.url,
+                    id: xhr.responseText
                 };
                 if (label == '') {
                     GBookmarksTree.addChild(bm);
@@ -220,31 +221,31 @@ function onIncomingMessage(req, port) {
 }
 
 window.openUrlsInNewWindow = (urls, incognito) => {
-    chrome.windows.create({ url:urls[0], incognito:incognito }, win => {
+    chrome.windows.create({ url: urls[0], incognito: incognito }, win => {
         if (incognito && !win && urls.length > 1) {
             alert(chrome.i18n.getMessage('needAllowIncognito'));
             return;
         }
         for (var idx = 1, len = urls.length; idx < len; idx++) {
-            chrome.tabs.create({ url:urls[idx], windowId:win.id, selected:false });
+            chrome.tabs.create({ url: urls[idx], windowId: win.id, selected: false });
         }
     });
-}
+};
 
 function showOptionsPageOnce() {
     var version = chrome.runtime.getManifest().version;
-    if(localStorage['optionsPageIsShownFor'] != version) {
-    	localStorage['optionsPageIsShownFor'] = version;
-    	chrome.runtime.openOptionsPage();
+    if (localStorage['optionsPageIsShownFor'] != version) {
+        localStorage['optionsPageIsShownFor'] = version;
+        chrome.runtime.openOptionsPage();
     }
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    chrome.browserAction.setBadgeBackgroundColor({ color:[ 24, 135, 185, 255 ] });
-    changeBookmarkMode(isUseGoogleBookmarks());
+    chrome.browserAction.setBadgeBackgroundColor({ color: [24, 135, 185, 255] });
+    changeBookmarkMode(LocalStorageUtils.isUseGoogleBookmarks());
     chrome.extension.onConnect.addListener(function (port) {
         port.onMessage.addListener(onIncomingMessage);
     });
-    
+
     showOptionsPageOnce();
 });

@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 navigator.isWindows = navigator.platform && navigator.platform.indexOf('Win') == 0;
 
@@ -53,7 +53,7 @@ export function changeBookmarkMode(useGoogleBookmarks) {
     chrome.browserAction.setBadgeText({ text:badge });
 }
 
-function isBookmarklet(url) {
+export function isBookmarklet(url) {
     return url.startsWith('javascript:');
 }
 
