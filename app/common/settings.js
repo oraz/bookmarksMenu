@@ -1,48 +1,48 @@
 "use strict";
 
-export class Settings {
+export const Settings = {
 
-    static getButtonAction(btn) {
+    getButtonAction: btn => {
         return localStorage[btn] || btn;
-    }
+    },
 
-    static getMaxWidth() {
+    getMaxWidth: () => {
         return localStorage['maxWidth'] || 30;
-    }
+    },
 
-    static getMaxWidthMesure() {
+    getMaxWidthMesure: () => {
         return localStorage['maxWidthMesure'] || 'em';
-    }
+    },
 
-    static isBookmarkHidden(title, useGoogleBookmarks) {
+    isBookmarkHidden: (title, useGoogleBookmarks) => {
         return localStorage[(useGoogleBookmarks ? 'g_' : '') + 'bookmark_' + title] == 'true';
-    }
+    },
 
-    static isSwitchToNewTab() {
+    isSwitchToNewTab: () => {
         return localStorage['switchToNewTab'] == 'true';
-    }
+    },
 
-    static getFontFamily() {
+    getFontFamily: () => {
         return localStorage['fontFamily'] || 'Verdana';
-    }
+    },
 
-    static getFontSize() {
+    getFontSize: () => {
         return localStorage['fontSize'] || 13;
-    }
+    },
 
-    static getFavIconWidth() {
+    getFavIconWidth() {
         return localStorage['favIconWidth'] || 16;
-    }
+    },
 
-    static isShowTooltip() {
+    isShowTooltip: () => {
         return localStorage['showTooltip'] == 'true';
-    }
+    },
 
-    static isShowURL() {
+    isShowURL: () => {
         return localStorage['showURL'] == 'true';
-    }
+    },
 
-    static getColor(name) {
+    getColor: name => {
         var color = localStorage[name];
         return color ? color.indexOf('#') === 0 ? color : '#' + color
             : name == 'bodyClr' || name == 'bmBgClr' || name == 'activeBmFntClr' ? '#FFFFFF'
@@ -50,25 +50,25 @@ export class Settings {
                     : name == 'activeBmBgClrFrom' ? '#86ABD9'
                         : name == 'activeBmBgClrTo' ? '#1F5EAB'
                             : '#BEBEBE'; // disabledItemFntClr
-    }
+    },
 
-    static getScrollBarWidth() {
+    getScrollBarWidth: () => {
         return localStorage['scrollBarWidth'] || '7';
-    }
+    },
 
-    static isUseGoogleBookmarks() {
+    isUseGoogleBookmarks: () => {
         return localStorage['useGoogleBookmarks'] == 'true';
-    }
+    },
 
-    static getLabelSeparator() {
+    getLabelSeparator: () => {
         return localStorage['labelSeparator'] || '>';
-    }
+    },
 
-    static isHideCMModeSwitcher() {
+    isHideCMModeSwitcher: () => {
         return localStorage['hideCMModeSwitcher'] == 'true';
-    }
+    },
 
-    static isHideCMOpenIncognito() {
+    isHideCMOpenIncognito: () => {
         return localStorage['hideCMOpenIncognito'] == 'true';
     }
 }
