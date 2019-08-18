@@ -1,17 +1,21 @@
 "use strict";
 
+function setting(name, defaultValue) {
+    return localStorage.getItem(name) || defaultValue;
+}
+
 export const Settings = {
 
     getButtonAction: btn => {
-        return localStorage[btn] || btn;
+        return setting(btn, btn);
     },
 
     getMaxWidth: () => {
-        return localStorage['maxWidth'] || 30;
+        return setting('maxWidth', 30);
     },
 
     getMaxWidthMesure: () => {
-        return localStorage['maxWidthMesure'] || 'em';
+        return setting('maxWidthMesure', 'em');
     },
 
     isBookmarkHidden: (title, useGoogleBookmarks) => {
@@ -23,15 +27,15 @@ export const Settings = {
     },
 
     getFontFamily: () => {
-        return localStorage['fontFamily'] || 'Verdana';
+        return setting('fontFamily', 'Verdana');
     },
 
     getFontSize: () => {
-        return localStorage['fontSize'] || 13;
+        return setting('fontSize', 13);
     },
 
     getFavIconWidth() {
-        return localStorage['favIconWidth'] || 16;
+        return setting('favIconWidth', 16);
     },
 
     isShowTooltip: () => {
@@ -53,7 +57,7 @@ export const Settings = {
     },
 
     getScrollBarWidth: () => {
-        return localStorage['scrollBarWidth'] || '7';
+        return setting('scrollBarWidth', '7');
     },
 
     isUseGoogleBookmarks: () => {
@@ -61,7 +65,7 @@ export const Settings = {
     },
 
     getLabelSeparator: () => {
-        return localStorage['labelSeparator'] || '>';
+        return setting('labelSeparator', '>');
     },
 
     isHideCMModeSwitcher: () => {
