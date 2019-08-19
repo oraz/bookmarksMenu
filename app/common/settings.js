@@ -4,47 +4,31 @@ function setting(name, defaultValue) {
     return localStorage.getItem(name) || defaultValue;
 }
 
+function isTrue(name) {
+    return setting(name) == 'true';
+}
+
 export const Settings = {
 
-    getButtonAction: btn => {
-        return setting(btn, btn);
-    },
+    getButtonAction: btn => setting(btn, btn),
 
-    getMaxWidth: () => {
-        return setting('maxWidth', 30);
-    },
+    getMaxWidth: () => setting('maxWidth', 30),
 
-    getMaxWidthMesure: () => {
-        return setting('maxWidthMesure', 'em');
-    },
+    getMaxWidthMesure: () => setting('maxWidthMesure', 'em'),
 
-    isBookmarkHidden: (title, useGoogleBookmarks) => {
-        return localStorage[(useGoogleBookmarks ? 'g_' : '') + 'bookmark_' + title] == 'true';
-    },
+    isBookmarkHidden: (title, useGoogleBookmarks) => isTrue((useGoogleBookmarks ? 'g_' : '') + 'bookmark_' + title),
 
-    isSwitchToNewTab: () => {
-        return localStorage['switchToNewTab'] == 'true';
-    },
+    isSwitchToNewTab: () => isTrue('switchToNewTab'),
 
-    getFontFamily: () => {
-        return setting('fontFamily', 'Verdana');
-    },
+    getFontFamily: () => setting('fontFamily', 'Verdana'),
 
-    getFontSize: () => {
-        return setting('fontSize', 13);
-    },
+    getFontSize: () => setting('fontSize', 13),
 
-    getFavIconWidth() {
-        return setting('favIconWidth', 16);
-    },
+    getFavIconWidth: () => setting('favIconWidth', 16),
 
-    isShowTooltip: () => {
-        return localStorage['showTooltip'] == 'true';
-    },
+    isShowTooltip: () => setting('showTooltip') == 'true',
 
-    isShowURL: () => {
-        return localStorage['showURL'] == 'true';
-    },
+    isShowURL: () => isTrue('showURL'),
 
     getColor: name => {
         var color = localStorage[name];
@@ -56,23 +40,13 @@ export const Settings = {
                             : '#BEBEBE'; // disabledItemFntClr
     },
 
-    getScrollBarWidth: () => {
-        return setting('scrollBarWidth', '7');
-    },
+    getScrollBarWidth: () => setting('scrollBarWidth', '7'),
 
-    isUseGoogleBookmarks: () => {
-        return localStorage['useGoogleBookmarks'] == 'true';
-    },
+    isUseGoogleBookmarks: () => isTrue('useGoogleBookmarks'),
 
-    getLabelSeparator: () => {
-        return setting('labelSeparator', '>');
-    },
+    getLabelSeparator: () => setting('labelSeparator', '>'),
 
-    isHideCMModeSwitcher: () => {
-        return localStorage['hideCMModeSwitcher'] == 'true';
-    },
+    isHideCMModeSwitcher: () => isTrue('hideCMModeSwitcher'),
 
-    isHideCMOpenIncognito: () => {
-        return localStorage['hideCMOpenIncognito'] == 'true';
-    }
-}
+    isHideCMOpenIncognito: () => isTrue('hideCMOpenIncognito')
+};
