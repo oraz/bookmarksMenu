@@ -5,7 +5,7 @@
   "scripts": {
     "lint": "echo Lint. See https://github.com/jshint/jshint/blob/master/examples/.jshintrc && jshint app",
     "test": "jest",
-    "prepack": "npm test &&  npm run lint",
+    "prepack": "npm test && npm run lint",
     "pack": "npm-pack-zip"
   },
   "repository": {
@@ -27,6 +27,7 @@
     "@babel/preset-typescript": "^7.3.3",
     "@types/jest": "^24.0.17",
     "babel-jest": "^24.9.0",
+    "jest": "^24.9.0",
     "jshint": "^2.10.2",
     "npm-pack-zip": "^1.2.7"
   }
