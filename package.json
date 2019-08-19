@@ -24,13 +24,10 @@
   "homepage": "https://github.com/oraz/bookmarksMenu#readme",
   "devDependencies": {
     "@babel/preset-env": "^7.5.5",
-    "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.3.3",
     "@types/jest": "^24.0.17",
     "babel-jest": "^24.9.0",
     "jshint": "^2.10.2",
-    "npm-pack-zip": "^1.2.7",
-    "ts-jest": "^24.0.2",
-    "typescript": "^3.5.3"
+    "npm-pack-zip": "^1.2.7"
   }
 }
