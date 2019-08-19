@@ -4,10 +4,9 @@
   "description": "Chrome extension which shows bookmarks menu. Works with Chrome and Google bookmarks.",
   "scripts": {
     "lint": "echo Lint. See https://github.com/jshint/jshint/blob/master/examples/.jshintrc && jshint app",
-    "pretest_work_in_progress": "npm run lint",
     "test": "jest",
     "prepack": "npm test &&  npm run lint",
-    "pack": "zip -r dist.zip app/ icons/ manifest.json changelog.txt _locales"
+    "pack": "npm-pack-zip"
   },
   "repository": {
     "type": "git",
@@ -27,6 +26,7 @@
     "@babel/preset-env": "^7.5.5",
     "@babel/preset-react": "^7.0.0",
     "babel-jest": "^24.9.0",
-    "jshint": "^2.10.2"
+    "jshint": "^2.10.2",
+    "npm-pack-zip": "^1.2.7"
   }
 }
