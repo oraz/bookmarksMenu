@@ -125,7 +125,7 @@ XMLHttpRequest.prototype.processAbort = function () {
     else {
         this.port.postMessage(MESSAGES.RESP_FAILED);
         this.port.disconnect();
-        console.error('xhr has been aborted');
+        window.console.error('xhr has been aborted');
     }
 };
 
@@ -151,7 +151,7 @@ function onIncomingMessage(req, port) {
     }
     else if (req == MESSAGES.REQ_LOAD_BOOKMARKS && !GBookmarksTree || req == MESSAGES.REQ_FORCE_LOAD_BOOKMARKS) {
         GBookmarksTree = null;
-        var xhr = new XMLHttpRequest();
+        const xhr = new XMLHttpRequest();
         xhr.port = port;
         port.xhr = xhr;
         port.onDisconnect.addListener(onDisconnect);
@@ -172,11 +172,11 @@ function onIncomingMessage(req, port) {
         }
     }
     else if (req.msg == MESSAGES.REQ_ADD_GOOGLE_BOOKMARK) {
-        var xhr = new XMLHttpRequest();
+        const xhr = new XMLHttpRequest();
         port.onDisconnect.addListener(function () {
             port.disconnected = true;
         });
-        var label = req.label.replace(/(^\s+)|(\s+$)/g, '').replace(/\s*,\s*/g, ',').replace(/,{2,}/g, ',').replace(/(^,)|(,$)/g, '');
+        const label = req.label.replace(/(^\s+)|(\s+$)/g, '').replace(/\s*,\s*/g, ',').replace(/,{2,}/g, ',').replace(/(^,)|(,$)/g, '');
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200) {
                 var bm = {
@@ -188,11 +188,11 @@ function onIncomingMessage(req, port) {
                     GBookmarksTree.addChild(bm);
                 }
                 else {
-                    var labels = label.split(',');
-                    var proceededLabels = [];
-                    for (var idx = labels.length - 1; idx >= 0; idx--) {
-                        var proceeded = false;
-                        for (var pIdx = proceededLabels.length - 1; pIdx >= 0; pIdx--) {
+                    const labels = label.split(',');
+                    const proceededLabels = [];
+                    for (let idx = labels.length - 1; idx >= 0; idx--) {
+                        let proceeded = false;
+                        for (let pIdx = proceededLabels.length - 1; pIdx >= 0; pIdx--) {
                             if (proceededLabels[pIdx] == labels[idx]) {
                                 proceeded = true;
                                 break;
@@ -223,7 +223,7 @@ function onIncomingMessage(req, port) {
 window.openUrlsInNewWindow = (urls, incognito) => {
     chrome.windows.create({ url: urls[0], incognito: incognito }, win => {
         if (incognito && !win && urls.length > 1) {
-            alert(chrome.i18n.getMessage('needAllowIncognito'));
+            window.alert(chrome.i18n.getMessage('needAllowIncognito'));
             return;
         }
         for (var idx = 1, len = urls.length; idx < len; idx++) {
@@ -233,9 +233,9 @@ window.openUrlsInNewWindow = (urls, incognito) => {
 };
 
 function showOptionsPageOnce() {
-    var version = chrome.runtime.getManifest().version;
-    if (localStorage['optionsPageIsShownFor'] != version) {
-        localStorage['optionsPageIsShownFor'] = version;
+    const version = chrome.runtime.getManifest().version;
+    if (localStorage.getItem('optionsPageIsShownFor') !== version) {
+        localStorage.setItem('optionsPageIsShownFor', version);
         chrome.runtime.openOptionsPage();
     }
 }
