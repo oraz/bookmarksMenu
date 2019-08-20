@@ -4,10 +4,12 @@ import { $, all, one, changeBookmarkMode, MESSAGES, addButtonCSS, getFavicon } f
 import { Settings } from '../common/settings.js';
 
 function setMouseButtonAction() {
+    /* jshint validthis: true */
     localStorage[parseInt(this.getAttribute('data-button-number'))] = this.selectedIndex;
 }
 
 function setIntProperty() {
+    /* jshint validthis: true */
     const value = parseInt(this.value),
         maxLimit = parseInt(this.getAttribute('max')),
         minLimit = parseInt(this.getAttribute('min'));
@@ -23,15 +25,18 @@ function setIntProperty() {
 }
 
 function setBoolProperty() {
+    /* jshint validthis: true */
     localStorage[this.id] = this.checked;
 }
 
 function setFontFamily() {
-    localStorage['fontFamily'] = this.value;
+    /* jshint validthis: true */
+    localStorage.setItem('fontFamily', this.value);
 }
 
 function setMenuMaxWidthMesure() {
-    localStorage['maxWidthMesure'] = this.value;
+    /* jshint validthis: true */
+    localStorage.setItem('maxWidthMesure', this.value);
 }
 
 function setBookmarkHidden(title, useGoogleBookmarks, hidden) {
@@ -44,13 +49,14 @@ function setBookmarkHidden(title, useGoogleBookmarks, hidden) {
 }
 
 function setColor() {
+    /* jshint validthis: true */
     if (/^#[0-9A-F]{6}$/i.test(this.value)) {
         localStorage[this.id] = this.value;
     }
 }
 
 function setUseGoogleBookmarks(useGoogleBookmarks) {
-    localStorage['useGoogleBookmarks'] = useGoogleBookmarks;
+    localStorage.setItem('useGoogleBookmarks', useGoogleBookmarks);
     $('chromeBookmarksSettings').style.display = useGoogleBookmarks ? 'none' : 'block';
     $('googleBookmarksSettings').style.display = useGoogleBookmarks ? 'block' : 'none';
     changeBookmarkMode(useGoogleBookmarks);
@@ -69,6 +75,7 @@ function clearGoogleBookmarksDiv() {
 }
 
 function selectAllBookmarks() {
+    /* jshint validthis: true */
     const checked = this.checked;
     this.parentElement.parentElement.parentElement.querySelectorAll('input[type="checkbox"]').forEach((chk, idx) => {
         if (idx > 0) {
@@ -123,6 +130,7 @@ function processResponse(response, port) {
 }
 
 function setLabelSeparator() {
+    /* jshint validthis: true */
     var newLabelSeparator = this.value;
     if (newLabelSeparator == '') {
         this.setAttribute('class', 'error');
@@ -130,7 +138,7 @@ function setLabelSeparator() {
     else {
         this.removeAttribute('class');
         if (newLabelSeparator != Settings.getLabelSeparator()) {
-            localStorage['labelSeparator'] = newLabelSeparator;
+            localStorage.setItem('labelSeparator', newLabelSeparator);
             clearGoogleBookmarksDiv();
             $('loadingError').hide();
             $('loading').show();
@@ -142,6 +150,7 @@ function setLabelSeparator() {
 }
 
 function showTab() {
+    /* jshint validthis: true */
     var currentTab = this.parentNode.querySelector('li.fgTab');
     currentTab.setAttribute('class', 'bgTab');
     $(currentTab.dataset.tab).hide();
