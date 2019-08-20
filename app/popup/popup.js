@@ -146,7 +146,7 @@ HTMLLIElement.prototype.unHighlightActiveFolder = function () {
 HTMLLIElement.prototype.open = function (closeAfterOpen) {
     var url = this.url;
     if (isBookmarklet(url)) {
-        chrome.tabs.executeScript(null, { code: unescape(url.substr(11)) });
+        chrome.tabs.executeScript(null, { code: decodeURI(url.substr(11)) });
         if (closeAfterOpen) {
             closePopup();
         }
@@ -425,6 +425,7 @@ function unSelect() {
 }
 
 function processMenu(ev) {
+    /* jshint validthis: true */
     var item = ev.srcElement,
         contextMenu = this;
     if (item != contextMenu) {
@@ -445,10 +446,9 @@ function processMenu(ev) {
                 showGoogleBookmarkDialog(label);
             }
             else if (action == 'useGoogleBookmarks' || action == 'useChromeBookmarks') {
-                var useGoogleBookmarks = !config.useGoogleBookmarks;
-                changeBookmarkMode(useGoogleBookmarks);
-                localStorage['useGoogleBookmarks'] =
-                    config.useGoogleBookmarks = useGoogleBookmarks;
+                config.useGoogleBookmarks = !config.useGoogleBookmarks;
+                changeBookmarkMode(config.useGoogleBookmarks);
+                localStorage.setItem('useGoogleBookmarks', config.useGoogleBookmarks);
 
                 $('bookmarksMenu').clear();
                 unSelect();
@@ -481,6 +481,7 @@ function isGBookmarkDataReady() {
 }
 
 function suggestLabel() {
+    /* jshint validthis: true */
     var suggestDiv = $('suggest');
     var cursorPos = this.selectionStart;
     var labelValue = this.value;
@@ -524,18 +525,18 @@ function onSuggestMouseOver(div) {
 }
 
 function selectSuggestion(e) {
-    var suggestDiv = $('suggest');
+    const suggestDiv = $('suggest');
     if (suggestDiv.style.display == 'block') {
-        var keyCode = e.keyCode;
+        const keyCode = e.keyCode;
         if (keyCode == 40 || keyCode == 38) {
-            var offset = keyCode == 40 ? 1 : -1;
-            var currentSuggest = suggestDiv.querySelector('.currentSuggest');
-            var divs = suggestDiv.querySelectorAll('div > div[style*="block"]');
+            const offset = keyCode == 40 ? 1 : -1;
+            const currentSuggest = suggestDiv.querySelector('.currentSuggest');
+            const divs = suggestDiv.querySelectorAll('div > div[style*="block"]');
             if (!currentSuggest) {
                 onSuggestMouseOver(divs[offset == 1 ? 0 : divs.length - 1]);
             }
             else {
-                for (var idx = 0, len = divs.length; idx < len; idx++) {
+                for (let idx = 0, len = divs.length; idx < len; idx++) {
                     if (divs[idx].className == 'currentSuggest') {
                         idx += offset;
                         if (idx < 0) {
@@ -552,7 +553,7 @@ function selectSuggestion(e) {
             e.preventDefault();
         }
         else if (keyCode == 13) {
-            var currentSuggest = suggestDiv.querySelector('.currentSuggest');
+            const currentSuggest = suggestDiv.querySelector('.currentSuggest');
             if (currentSuggest) {
                 fillFolderBySuggest(currentSuggest);
             }
@@ -739,9 +740,13 @@ document.addEventListener("DOMContentLoaded", function () {
         switch (action) {
             case 0: // open in current tab
                 if (bookmark.isBookmark) {
-                    ev.ctrlKey ? bookmark.openInNewTab()
-                        : ev.shiftKey ? bookmark.openInNewWindow()
-                        : bookmark.open(true);
+                    if(ev.ctrlKey) {
+                        bookmark.openInNewTab();
+                    } else if(ev.shiftKey) {
+                        bookmark.openInNewWindow();
+                    } else {
+                        bookmark.open(true);
+                    }
                 } else if (bookmark.isOpenAll) {
                     bookmark.parentFolder.openAllInTabs(true);
                 }
