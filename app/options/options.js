@@ -3,9 +3,9 @@
 import { $, all, one, changeBookmarkMode, MESSAGES, addButtonCSS, getFavicon } from '../common/common.js';
 import { Settings } from '../common/settings.js';
 
-function setMouseButtonAction() {
-    /* jshint validthis: true */
-    localStorage[parseInt(this.getAttribute('data-button-number'))] = this.selectedIndex;
+function setMouseButtonAction(/** @type {Event} */ evt) {
+    const el = evt.target;
+    localStorage[parseInt(el.getAttribute('data-button-number'))] = el.selectedIndex;
 }
 
 function setIntProperty() {
@@ -119,8 +119,8 @@ function processResponse(response, port) {
         port.postMessage(MESSAGES.REQ_LOAD_BOOKMARKS);
     } else if (response == MESSAGES.RESP_TREE_IS_READY) {
         $('loading').hide();
-        var GBookmarksTree = chrome.extension.getBackgroundPage().GBookmarksTree;
-        var googleBookmarksSettings = $('googleBookmarksSettings');
+        const GBookmarksTree = chrome.extension.getBackgroundPage().GBookmarksTree;
+        const googleBookmarksSettings = $('googleBookmarksSettings');
         googleBookmarksSettings.querySelector('div.bookmark').show();
         GBookmarksTree.children.forEach(bookmark => addBookmark(googleBookmarksSettings, bookmark, true));
     } else if (response == MESSAGES.RESP_FAILED) {
@@ -131,18 +131,17 @@ function processResponse(response, port) {
 
 function setLabelSeparator() {
     /* jshint validthis: true */
-    var newLabelSeparator = this.value;
+    const newLabelSeparator = this.value;
     if (newLabelSeparator == '') {
         this.setAttribute('class', 'error');
-    }
-    else {
+    } else {
         this.removeAttribute('class');
         if (newLabelSeparator != Settings.getLabelSeparator()) {
             localStorage.setItem('labelSeparator', newLabelSeparator);
             clearGoogleBookmarksDiv();
             $('loadingError').hide();
             $('loading').show();
-            var port = chrome.extension.connect();
+            const port = chrome.extension.connect();
             port.onMessage.addListener(processResponse);
             port.postMessage(MESSAGES.REQ_FORCE_LOAD_BOOKMARKS);
         }
@@ -151,7 +150,7 @@ function setLabelSeparator() {
 
 function showTab() {
     /* jshint validthis: true */
-    var currentTab = this.parentNode.querySelector('li.fgTab');
+    const currentTab = this.parentNode.querySelector('li.fgTab');
     currentTab.setAttribute('class', 'bgTab');
     $(currentTab.dataset.tab).hide();
     this.setAttribute('class', 'fgTab');
@@ -179,7 +178,7 @@ HTMLSelectElement.prototype.selectByValue = function (value) {
 };
 
 function initWindowSettingsTab() {
-	$('version').innerHTML = chrome.i18n.getMessage('version', chrome.runtime.getManifest().version);
+    $('version').innerHTML = chrome.i18n.getMessage('version', chrome.runtime.getManifest().version);
     $('fontFamily').selectByValue(Settings.getFontFamily());
     $('fontSize').value = Settings.getFontSize();
     $('favIconWidth').value = Settings.getFavIconWidth();
@@ -193,14 +192,10 @@ function initWindowSettingsTab() {
     all('input[type=color]').forEach(el => el.value = Settings.getColor(el.id));
 }
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", () => {
     all('#tabs > li').on('click', showTab);
-    $('useChromeBookmarks').on('click', function () {
-        setUseGoogleBookmarks(false);
-    });
-    $('useGoogleBookmarks').on('click', function () {
-        setUseGoogleBookmarks(true);
-    });
+    $('useChromeBookmarks').on('click', () => setUseGoogleBookmarks(false));
+    $('useGoogleBookmarks').on('click', () => setUseGoogleBookmarks(true));
 
     all('.selectAllBookmarks').on('click', selectAllBookmarks);
 
@@ -241,25 +236,25 @@ document.addEventListener("DOMContentLoaded", function () {
         $('switchToNewTab').checked = true;
     }
 
-    chrome.fontSettings.getFontList(function(fonts) {
+    chrome.fontSettings.getFontList(function (fonts) {
         const fontList = $('fontFamily').options,
             defaultFont = Settings.getFontFamily();
         fonts.forEach(each => {
             fontList.add(new Option(each.displayName, each.fontId, false, each.fontId === defaultFont));
         });
     });
-    
+
     const lang = chrome.i18n.getUILanguage();
-    if(lang.startsWith('ru')) {
-    	$('currency_code').selectedIndex = 1;
-    	$('paypal_locale').value = 'ru_RU';
-    } else if(lang.startsWith('en')) {
-    	$('currency_code').selectedIndex = 2;
-    } else if(lang.startsWith('de')) {
-    	$('paypal_locale').value = 'de_DE';
-    } else if(lang.startsWith('fr')) {
-    	$('paypal_locale').value = 'fr_FR';
-    } else if(lang.startsWith('es')) {
-    	$('paypal_locale').value = 'es_ES';
+    if (lang.startsWith('ru')) {
+        $('currency_code').selectedIndex = 1;
+        $('paypal_locale').value = 'ru_RU';
+    } else if (lang.startsWith('en')) {
+        $('currency_code').selectedIndex = 2;
+    } else if (lang.startsWith('de')) {
+        $('paypal_locale').value = 'de_DE';
+    } else if (lang.startsWith('fr')) {
+        $('paypal_locale').value = 'fr_FR';
+    } else if (lang.startsWith('es')) {
+        $('paypal_locale').value = 'es_ES';
     }
-}, false);
+});
