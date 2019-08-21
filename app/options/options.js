@@ -10,18 +10,9 @@ function setMouseButtonAction(/** @type {Event} */ evt) {
 
 function setIntProperty() {
     /* jshint validthis: true */
-    const value = parseInt(this.value),
-        maxLimit = parseInt(this.getAttribute('max')),
-        minLimit = parseInt(this.getAttribute('min'));
-    if (isNaN(this.value) || isNaN(value) ||
-        (!isNaN(minLimit) && value < minLimit) ||
-        (!isNaN(maxLimit) && value > maxLimit)) {
-
-        this.setAttribute('class', 'error');
-        return;
+    if(this.validity.valid) {
+        localStorage[this.id] = this.value;
     }
-    this.removeAttribute('class');
-    localStorage[this.id] = value;
 }
 
 function setBoolProperty() {
