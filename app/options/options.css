@@ -109,8 +109,9 @@ div.tabs {
 	padding-right: 3px;
 }
 
-input.error {
+input[type=number]:invalid, input.error {
 	color: red;
+	border: 1px solid red;
 }
 
 input.color {
