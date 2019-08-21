@@ -10,7 +10,7 @@ function setMouseButtonAction(/** @type {Event} */ evt) {
 
 function setIntProperty() {
     /* jshint validthis: true */
-    if(this.validity.valid) {
+    if (this.validity.valid) {
         localStorage[this.id] = this.value;
     }
 }
@@ -122,21 +122,16 @@ function processResponse(response, port) {
 
 function setLabelSeparator() {
     /* jshint validthis: true */
-    const newLabelSeparator = this.value;
-    if (newLabelSeparator == '') {
-        this.setAttribute('class', 'error');
-    } else {
-        this.removeAttribute('class');
-        if (newLabelSeparator != Settings.getLabelSeparator()) {
-            localStorage.setItem('labelSeparator', newLabelSeparator);
-            clearGoogleBookmarksDiv();
-            $('loadingError').hide();
-            $('loading').show();
-            const port = chrome.extension.connect();
-            port.onMessage.addListener(processResponse);
-            port.postMessage(MESSAGES.REQ_FORCE_LOAD_BOOKMARKS);
-        }
+    if (this.validity.valid && this.value != Settings.getLabelSeparator()) {
+        localStorage.setItem('labelSeparator', this.value);
+        clearGoogleBookmarksDiv();
+        $('loadingError').hide();
+        $('loading').show();
+        const port = chrome.extension.connect();
+        port.onMessage.addListener(processResponse);
+        port.postMessage(MESSAGES.REQ_FORCE_LOAD_BOOKMARKS);
     }
+
 }
 
 function showTab() {
