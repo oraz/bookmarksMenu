@@ -31,13 +31,13 @@ chrome.i18n.initAll = function (el) {
 };
 
 export const MESSAGES = {
-    REQ_LOAD_BOOKMARKS:1,
-    REQ_FORCE_LOAD_BOOKMARKS:2,
-    REQ_GET_TREE_STATUS:3,
-    REQ_ADD_GOOGLE_BOOKMARK:4,
-    RESP_TREE_IS_READY:200,
-    RESP_NEED_TO_LOAD:201,
-    RESP_FAILED:400
+    REQ_LOAD_BOOKMARKS: 1,
+    REQ_FORCE_LOAD_BOOKMARKS: 2,
+    REQ_GET_TREE_STATUS: 3,
+    REQ_ADD_GOOGLE_BOOKMARK: 4,
+    RESP_TREE_IS_READY: 200,
+    RESP_NEED_TO_LOAD: 201,
+    RESP_FAILED: 400
 };
 
 export function changeBookmarkMode(useGoogleBookmarks) {
@@ -49,8 +49,8 @@ export function changeBookmarkMode(useGoogleBookmarks) {
         title = 'extTitle';
         badge = 'D';
     }
-    chrome.browserAction.setTitle({ title:chrome.i18n.getMessage(title) });
-    chrome.browserAction.setBadgeText({ text:badge });
+    chrome.browserAction.setTitle({ title: chrome.i18n.getMessage(title) });
+    chrome.browserAction.setBadgeText({ text: badge });
 }
 
 export function isBookmarklet(url) {
@@ -60,8 +60,8 @@ export function isBookmarklet(url) {
 export function getFavicon(url) {
     return url == undefined ? '../../icons/' + (navigator.isWindows ? 'folder-win.png' : 'folder.png')
         : isBookmarklet(url) ? '../../icons/js.png'
-        : url.startsWith('file:') ? '../../icons/html.png'
-        : 'chrome://favicon/' + url;
+            : url.startsWith('file:') ? '../../icons/html.png'
+                : 'chrome://favicon/' + url;
 }
 
 export function addButtonCSS() {
