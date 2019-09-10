@@ -1,6 +1,6 @@
 "use strict";
 
-navigator.isWindows = navigator.platform && navigator.platform.indexOf('Win') == 0;
+const isWindows = navigator.platform && navigator.platform.startsWith('Win');
 
 export const $ = document.getElementById.bind(document),
     one = document.querySelector.bind(document),
@@ -58,18 +58,18 @@ export function isBookmarklet(url) {
 }
 
 export function getFavicon(url) {
-    return url == undefined ? '../../icons/' + (navigator.isWindows ? 'folder-win.png' : 'folder.png')
+    return url == undefined ? '../../icons/' + (isWindows ? 'folder-win.png' : 'folder.png')
         : isBookmarklet(url) ? '../../icons/js.png'
             : url.startsWith('file:') ? '../../icons/html.png'
                 : 'chrome://favicon/' + url;
 }
 
 export function addButtonCSS() {
-    if (navigator.isWindows) {
+    if (isWindows) {
         const link = document.createElement('link');
         link.setAttribute('rel', 'stylesheet');
         link.setAttribute('type', 'text/css');
-        link.setAttribute('href', 'css/button.css');
+        link.setAttribute('href', 'button.css');
         one('html > head').appendChild(link);
     }
 }
