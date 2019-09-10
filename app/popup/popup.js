@@ -223,7 +223,7 @@ HTMLLIElement.prototype.showContextMenu = function (ev) {
         contextMenu.initialized = true;
 
         if (Settings.isHideCMOpenIncognito()) {
-            contextMenu.querySelectorAll('li[data-action="openInIncognitoWindow"],' + 
+            contextMenu.querySelectorAll('li[data-action="openInIncognitoWindow"],' +
                 ' li[data-action="openAllInIncognitoWindow"]').forEach(each => each.hide());
         }
         if (Settings.isHideCMModeSwitcher()) {
@@ -308,8 +308,7 @@ HTMLLIElement.prototype.removeFromUI = function () {
             folderContent.fillAsEmpty();
         } else {
             // remove folder if it's empty
-            do
-            {
+            do {
                 var folder = folderContent.parentElement;
                 folderContent = folder.parentElement;
                 chrome.extension.getBackgroundPage().remove(folder.getAttribute('gid'));
@@ -460,7 +459,7 @@ function processMenu(ev) {
                 chrome.tabs.query({ currentWindow: true, url: 'chrome://bookmarks/*' }, function (tabs) {
                     var folderId = bookmark.isFolder ? bookmark.id : bookmark.parentFolderId,
                         bookmarkManagerUrl = "chrome://bookmarks/#" + folderId;
-                    if(tabs.length === 0) {
+                    if (tabs.length === 0) {
                         chrome.tabs.create({ url: bookmarkManagerUrl, selected: true }, closePopup);
                     } else {
                         chrome.tabs.update(tabs[0].id, { url: bookmarkManagerUrl, active: true }, closePopup);
@@ -714,16 +713,16 @@ document.addEventListener("DOMContentLoaded", function () {
     var favIconWidth = Settings.getFavIconWidth();
     styleSheet.addRule('body', 'background-color: ' + Settings.getColor('bodyClr') + ';');
     styleSheet.addRule('img', 'width: ' + favIconWidth + 'px; height: ' + favIconWidth + 'px;');
-    styleSheet.addRule('label, span, #loading', 
-            'font: ' + Settings.getFontSize() + 'px "' + Settings.getFontFamily() + '";' + 
-            'color: ' + Settings.getColor('fntClr') + ';');
+    styleSheet.addRule('label, span, #loading',
+        'font: ' + Settings.getFontSize() + 'px "' + Settings.getFontFamily() + '";' +
+        'color: ' + Settings.getColor('fntClr') + ';');
     styleSheet.addRule('ul, #gwindow', 'background-color: ' + Settings.getColor('bmBgClr') + ';');
 
     styleSheet.addRule('#contextMenu > li:not(.enabled) > span, .empty', 'color: ' + Settings.getColor('disabledItemFntClr') + ';');
     styleSheet.addRule('li[type]:hover > span, .enabled:hover > span, .hover > span',
-            'color: ' + Settings.getColor('activeBmFntClr') + ';' +
-            'background-image: -webkit-gradient(linear, left top, left bottom, from(' +
-            Settings.getColor('activeBmBgClrFrom') + '), to(' + Settings.getColor('activeBmBgClrTo') + '));');
+        'color: ' + Settings.getColor('activeBmFntClr') + ';' +
+        'background-image: -webkit-gradient(linear, left top, left bottom, from(' +
+        Settings.getColor('activeBmBgClrFrom') + '), to(' + Settings.getColor('activeBmBgClrTo') + '));');
     styleSheet.addRule('#bookmarksMenu span', 'max-width: ' + Settings.getMaxWidth() + Settings.getMaxWidthMesure() + ';');
     styleSheet.addRule('::-webkit-scrollbar', 'width: ' + Settings.getScrollBarWidth() + 'px;');
     addButtonCSS();
@@ -740,9 +739,9 @@ document.addEventListener("DOMContentLoaded", function () {
         switch (action) {
             case 0: // open in current tab
                 if (bookmark.isBookmark) {
-                    if(ev.ctrlKey) {
+                    if (ev.ctrlKey) {
                         bookmark.openInNewTab();
-                    } else if(ev.shiftKey) {
+                    } else if (ev.shiftKey) {
                         bookmark.openInNewWindow();
                     } else {
                         bookmark.open(true);
