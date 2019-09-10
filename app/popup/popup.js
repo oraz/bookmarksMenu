@@ -622,13 +622,13 @@ function showGoogleBookmarkDialog(initalLabel) {
     suggestDiv.querySelectorAll('div > *').forEach(each => each.parentElement.removeChild(each));
     var gbLabelStyles = window.getComputedStyle(gbLabel);
     suggestDiv.style.marginLeft = parseInt(gbLabelStyles.marginLeft) + parseInt(gbLabelStyles.borderLeftWidth) - 1 + 'px';
-    for (var idx = 0, len = labels.length; idx < len; idx++) {
-        var div = document.createElement('div');
-        div.appendChild(document.createTextNode(labels[idx]));
-        div.setAttribute('onmouseover', 'onSuggestMouseOver(this)');
-        div.setAttribute('onclick', 'fillFolderBySuggest(this)');
+    labels.forEach(each => {
+        const div = document.createElement('div');
+        div.appendChild(document.createTextNode(each));
+        div.onmouseover = (evt) => onSuggestMouseOver(evt.target);
+        div.onclick = (evt) => fillFolderBySuggest(evt.target);
         suggestDiv.appendChild(div);
-    }
+    });
 }
 
 function addGoogleBookmark() {
