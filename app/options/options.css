@@ -1,5 +1,6 @@
 * {
-	font: 13px "Verdana";
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	font-size: 13px;
 	margin: 0;
 	padding: 0;
 }
