@@ -721,8 +721,7 @@ document.addEventListener("DOMContentLoaded", function () {
     styleSheet.addRule('#contextMenu > li:not(.enabled) > span, .empty', 'color: ' + Settings.getColor('disabledItemFntClr') + ';');
     styleSheet.addRule('li[type]:hover > span, .enabled:hover > span, .hover > span',
         'color: ' + Settings.getColor('activeBmFntClr') + ';' +
-        'background-image: -webkit-gradient(linear, left top, left bottom, from(' +
-        Settings.getColor('activeBmBgClrFrom') + '), to(' + Settings.getColor('activeBmBgClrTo') + '));');
+        'background: linear-gradient(' + Settings.getColor('activeBmBgClrFrom') + ', ' + Settings.getColor('activeBmBgClrTo') + ');');
     styleSheet.addRule('#bookmarksMenu span', 'max-width: ' + Settings.getMaxWidth() + Settings.getMaxWidthMesure() + ';');
     styleSheet.addRule('::-webkit-scrollbar', 'width: ' + Settings.getScrollBarWidth() + 'px;');
     addButtonCSS();
