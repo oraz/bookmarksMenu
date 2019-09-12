@@ -1,15 +1,10 @@
 body {
-	font-family: Verdana, Geneva, Tahoma, sans-serif;
-	font-size: 13px;
+	font-family: "DejaVu Sans", Arial, Verdana, Geneva, Tahoma, sans-serif;
 }
 
-h1 {
-	font-size: 18px;
-	font-weight: bold;
-}
 
-h1>img {
-	margin-right: 5px;
+h2>img {
+	margin-right: .4em;
 	vertical-align: bottom;
 }
 
@@ -32,6 +27,7 @@ table {
 #tabs {
 	padding-left: 0;
 }
+
 #tabs>li {
 	display: inline;
 	float: left;
