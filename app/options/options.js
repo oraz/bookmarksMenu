@@ -1,6 +1,6 @@
 'use strict';
 
-import { $, all, one, changeBookmarkMode, MESSAGES, addButtonCSS, getFavicon } from '../common/common.js';
+import { $, all, one, changeBookmarkMode, MESSAGES, getFavicon } from '../common/common.js';
 import { Settings } from '../common/settings.js';
 
 function setMouseButtonAction(/** @type {Event} */ evt) {
@@ -195,7 +195,6 @@ document.addEventListener("DOMContentLoaded", () => {
     $('fontFamily').on('change', setFontFamily);
     $('maxWidthMesure').on('change', setMenuMaxWidthMesure);
     $('labelSeparator').on('input', setLabelSeparator);
-    addButtonCSS();
     chrome.i18n.initAll();
     showTab.apply(one('li.fgTab'));
 
