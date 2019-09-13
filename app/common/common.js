@@ -63,13 +63,3 @@ export function getFavicon(url) {
             : url.startsWith('file:') ? '../../icons/html.png'
                 : 'chrome://favicon/' + url;
 }
-
-export function addButtonCSS() {
-    if (isWindows) {
-        const link = document.createElement('link');
-        link.setAttribute('rel', 'stylesheet');
-        link.setAttribute('type', 'text/css');
-        link.setAttribute('href', 'button.css');
-        one('html > head').appendChild(link);
-    }
-}

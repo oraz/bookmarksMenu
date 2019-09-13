@@ -1,6 +1,6 @@
 'use strict';
 
-import { $, all, changeBookmarkMode, MESSAGES, addButtonCSS, getFavicon, isBookmarklet } from '../common/common.js';
+import { $, all, changeBookmarkMode, MESSAGES, getFavicon, isBookmarklet } from '../common/common.js';
 import { Settings } from '../common/settings.js';
 
 var config; // will be initialized in DOMContentLoaded handler
@@ -723,8 +723,7 @@ document.addEventListener("DOMContentLoaded", function () {
         'color: ' + Settings.getColor('activeBmFntClr') + ';' +
         'background: linear-gradient(' + Settings.getColor('activeBmBgClrFrom') + ', ' + Settings.getColor('activeBmBgClrTo') + ');');
     styleSheet.addRule('#bookmarksMenu span', 'max-width: ' + Settings.getMaxWidth() + Settings.getMaxWidthMesure() + ';');
-    styleSheet.addRule('::-webkit-scrollbar', 'width: ' + Settings.getScrollBarWidth() + 'px;');
-    addButtonCSS();
+    styleSheet.addRule('::-webkit-scrollbar', 'width: ' + Settings.getScrollBarWidth() + 'px;');    
 
     loadBookmarks();
 
