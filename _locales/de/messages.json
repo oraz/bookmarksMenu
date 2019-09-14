@@ -92,8 +92,5 @@
     "twRestoreDflt": { "message": "Wiederherstellen" },
     
     "donateHeader": { "message": "I'm glad that you use this extension.<br/>If you like it very much, you can sponsor me.<br/>Thank you!" },
-    "btnDonate": { "message": "Send via PayPal" },
-
-    "Background_page": {"message": "___ JUST COMMENT ___"},
-    "needAllowIncognito": { "message": "You need to allow 'Bookmarks menu' to run in incognito! You can do it on extensions page." }
+    "btnDonate": { "message": "Send via PayPal" }
 }

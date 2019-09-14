@@ -92,8 +92,5 @@
     "twRestoreDflt": { "message": "Restaurer les options par défaut" },
     
     "donateHeader": { "message": "Je suis content que vous utilisez cette extension.<br/>Si vous l'aimez, vous pouvez me sponsoriser.<br/>Merci beaucoup !" },
-    "btnDonate": { "message": "Envoyer via PayPal" },
-
-    "Background_page": {"message": "___ JUST COMMENT ___"},
-    "needAllowIncognito": { "message": "Il est nécessaire de permettre à 'Bookmarks menu' de s'exécuter en mode de navigation privée ! Vous pouvez le faire sur la page des extensions." }
+    "btnDonate": { "message": "Envoyer via PayPal" }
 }

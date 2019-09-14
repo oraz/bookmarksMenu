@@ -6,7 +6,7 @@ import { Settings } from '../common/settings.js';
 var config; // will be initialized in DOMContentLoaded handler
 
 function Bookmark(bookmarkNode) {
-    var bookmark = document.createElement('li');
+    const bookmark = document.createElement('li');
     if (config.useGoogleBookmarks) {
         bookmark.id = Bookmark.autoId++;
         bookmark.setAttribute('gid', bookmarkNode.id);
@@ -14,8 +14,8 @@ function Bookmark(bookmarkNode) {
         bookmark.id = bookmarkNode.id;
         bookmark.parentFolderId = bookmarkNode.parentId;
     }
-    var span = document.createElement('span');
-    var favicon = document.createElement('img');
+    const span = document.createElement('span');
+    const favicon = document.createElement('img');
     favicon.src = getFavicon(bookmarkNode.url);
     span.appendChild(favicon);
     span.appendChild(document.createTextNode(bookmarkNode.title));
@@ -36,30 +36,27 @@ function Bookmark(bookmarkNode) {
 Bookmark.autoId = 1; // id for google bookmarks
 
 HTMLUListElement.prototype.fillFolderContent = function (childBookmarks) {
-    var len = childBookmarks.length;
+    const len = childBookmarks.length;
     if (len > 0) {
         this.numberOfBookmarks = 0;
-        for (var i = 0; i < len; i++) {
-            var bookmark = new Bookmark(childBookmarks[i]);
+        for (let i = 0; i < len; i++) {
+            const bookmark = new Bookmark(childBookmarks[i]);
             this.appendChild(bookmark);
             if (this.isRoot) {
                 if (Settings.isBookmarkHidden(childBookmarks[i].title, config.useGoogleBookmarks)) {
                     bookmark.hide();
                     bookmark.isBookmarkHidden = true;
                     bookmark.removeAttribute("type");
-                }
-                else {
+                } else {
                     this.hasVisibleBookmarks = true;
                 }
                 bookmark.parentFolder = bookmark.rootFolder = this;
-            }
-            else {
+            } else {
                 bookmark.parentFolder = this.parentElement;
                 bookmark.rootFolder = bookmark.parentFolder.rootFolder;
                 if (bookmark.isBookmark) {
                     this.numberOfBookmarks++;
-                }
-                else {
+                } else {
                     bookmark.parentFolder.hasSubFolders = true;
                     bookmark.fillFolder();
                 }
@@ -67,12 +64,12 @@ HTMLUListElement.prototype.fillFolderContent = function (childBookmarks) {
         }
         if (this.numberOfBookmarks > 1) {
             this.addSeparator();
-            var openAllInTabs = document.createElement('li');
+            const openAllInTabs = document.createElement('li');
             openAllInTabs.parentFolder = this.parentElement;
             openAllInTabs.rootFolder = openAllInTabs.parentFolder.rootFolder;
             openAllInTabs.setAttribute('type', 'openAllInTabs');
             openAllInTabs.isOpenAll = true;
-            var span = document.createElement('span');
+            const span = document.createElement('span');
             span.className = 'noicon';
             span.appendChild(document.createTextNode(chrome.i18n.getMessage('openAllInTabs')));
             openAllInTabs.appendChild(span);
@@ -86,8 +83,8 @@ HTMLUListElement.prototype.fillFolderContent = function (childBookmarks) {
 
 HTMLUListElement.prototype.fillAsEmpty = function () {
     this.parentElement.isEmpty = true;
-    var li = document.createElement('li');
-    var span = document.createElement('span');
+    const li = document.createElement('li');
+    const span = document.createElement('span');
     span.className = 'empty';
     span.appendChild(document.createTextNode('(' + chrome.i18n.getMessage('empty') + ')'));
     li.appendChild(span);
@@ -95,7 +92,7 @@ HTMLUListElement.prototype.fillAsEmpty = function () {
 };
 
 HTMLUListElement.prototype.addSeparator = function () {
-    var separator = document.createElement('li');
+    const separator = document.createElement('li');
     separator.className = 'separator';
     separator.isSeparator = true;
     this.appendChild(separator);
@@ -106,7 +103,7 @@ HTMLLIElement.prototype.highlight = function () {
     if (this.isFolder) {
         this.setAttribute("class", "hover");
     }
-    var span = this.firstChild;
+    const span = this.firstChild;
     if ((config.showTooltip || config.showURL) && span.title == "") {
         if (config.showTooltip && span.offsetWidth < span.scrollWidth) {
             span.title = span.innerText;
@@ -144,29 +141,25 @@ HTMLLIElement.prototype.unHighlightActiveFolder = function () {
 };
 
 HTMLLIElement.prototype.open = function (closeAfterOpen) {
-    var url = this.url;
+    const url = this.url;
     if (isBookmarklet(url)) {
         chrome.tabs.executeScript(null, { code: decodeURI(url.substr(11)) });
-        if (closeAfterOpen) {
-            closePopup();
-        }
+    } else {
+        chrome.tabs.update(null, { url: url });
     }
-    else {
-        chrome.tabs.getSelected(null, function (tab) {
-            chrome.tabs.update(tab.id, { url: url });
-            if (closeAfterOpen) {
-                closePopup();
-            }
-        });
+    if (closeAfterOpen) {
+        closePopup();
     }
 };
 
 HTMLLIElement.prototype.openInNewTab = function (switchToNewTab) {
-    chrome.tabs.create({ url: this.url, selected: switchToNewTab || Settings.isSwitchToNewTab() }, closePopup);
+    chrome.tabs.create({ url: this.url, active: switchToNewTab || Settings.isSwitchToNewTab() });
+    closePopup();
 };
 
 HTMLLIElement.prototype.openInNewWindow = function (incognito) {
-    chrome.windows.create({ url: this.url, incognito: incognito }, closePopup);
+    chrome.windows.create({ url: this.url, incognito: incognito });
+    closePopup();
 };
 
 HTMLLIElement.prototype.openInIncognitoWindow = function () {
@@ -187,7 +180,7 @@ HTMLLIElement.prototype.openAllInTabs = function (firstInCurrentTab) {
 HTMLLIElement.prototype.openAllInNewWindow = function (incognito) {
     const urls = [];
     this.getBookmarksInFolder().forEach(bookmark => urls.push(bookmark.url));
-    chrome.extension.getBackgroundPage().openUrlsInNewWindow(urls, incognito);
+    chrome.windows.create({ url: urls, incognito: incognito });
     closePopup();
 };
 
@@ -217,7 +210,7 @@ HTMLLIElement.prototype.fillTreeDepth = function () {
 };
 
 HTMLLIElement.prototype.showContextMenu = function (ev) {
-    var contextMenu = $('contextMenu');
+    const contextMenu = $('contextMenu');
     if (!contextMenu.initialized) {
         chrome.i18n.initAll(contextMenu);
         contextMenu.initialized = true;
@@ -230,8 +223,7 @@ HTMLLIElement.prototype.showContextMenu = function (ev) {
             if (!config.useGoogleBookmarks) {
                 contextMenu.querySelector('li[data-action="useGoogleBookmarks"]').hide();
                 contextMenu.querySelectorAll('li.separator')[1].hide();
-            }
-            else {
+            } else {
                 contextMenu.querySelector('li[data-action="useChromeBookmarks"]').hide();
             }
         }
@@ -249,11 +241,11 @@ HTMLLIElement.prototype.showContextMenu = function (ev) {
     contextMenu.querySelector('li[data-action="remove"]').classList.toggle('enabled', this.isBookmark || this.isFolder && this.isEmpty === true);
     contextMenu.show();
 
-    var body = document.body;
-    var bodyWidth = body.clientWidth;
-    var contextMenuStyle = contextMenu.style;
-    var contextMenuWidth = contextMenu.clientWidth + 3; // 3 is a border size
-    var scrollBarWidth = body.offsetWidth - body.clientWidth;
+    const body = document.body;
+    let bodyWidth = body.clientWidth;
+    const contextMenuStyle = contextMenu.style;
+    const contextMenuWidth = contextMenu.clientWidth + 3; // 3 is a border size
+    const scrollBarWidth = body.offsetWidth - body.clientWidth;
     if (ev.clientX + contextMenuWidth >= body.clientWidth) {
         if (ev.clientX > contextMenuWidth) {
             contextMenuStyle.left = ev.clientX - contextMenuWidth + 'px';
@@ -268,7 +260,7 @@ HTMLLIElement.prototype.showContextMenu = function (ev) {
 
     if (ev.clientY + contextMenu.clientHeight > body.clientHeight) {
         if (contextMenu.clientHeight > body.clientHeight || ev.clientY < contextMenu.clientHeight) {
-            var bodyHeight = ev.clientY + contextMenu.clientHeight + 5;
+            const bodyHeight = ev.clientY + contextMenu.clientHeight + 5;
             body.style.height = bodyHeight + 'px';
             contextMenuStyle.top = ev.clientY + 'px';
         } else {
@@ -278,7 +270,7 @@ HTMLLIElement.prototype.showContextMenu = function (ev) {
         contextMenuStyle.top = ev.clientY + body.scrollTop + 'px';
     }
 
-    var transparentLayer = $('transparentLayer');
+    const transparentLayer = $('transparentLayer');
     transparentLayer.style.right = (scrollBarWidth > 0 ? 1 : 0) + 'px';
     transparentLayer.show();
 };
@@ -288,12 +280,12 @@ HTMLLIElement.prototype.remove = function () {
         chrome.bookmarks.remove(this.id);
         this.removeFromUI();
     } else {
-        var gid = this.getAttribute('gid');
+        const gid = this.getAttribute('gid');
         chrome.extension.getBackgroundPage().remove(gid);
         all('li[gid="' + gid + '"]').forEach(each => each.removeFromUI());
     }
     // replace folder content after removing bookmark
-    var parentFolder = this.parentFolder;
+    const parentFolder = this.parentFolder;
     if (!parentFolder.isRoot && parentFolder.exists !== false) {
         parentFolder.unHighlight();
         parentFolder.displayFolderContent();
@@ -416,7 +408,7 @@ HTMLLIElement.prototype.reorder = function (beforeSeparator) {
 };
 
 function unSelect() {
-    var contextMenu = $('contextMenu');
+    const contextMenu = $('contextMenu');
     contextMenu.selectedBookmark.unHighlight();
     contextMenu.hide();
     $('transparentLayer').hide();
@@ -689,11 +681,7 @@ document.addEventListener("DOMContentLoaded", function () {
         return false;
     }
 
-    function _preventDefault(evt) {
-        evt.preventDefault();
-    }
-
-    document.addEventListener('contextmenu', _preventDefault);
+    document.addEventListener('contextmenu', evt => evt.preventDefault());
     all('#transparentLayer').on('mouseup', unSelect).on('mousedown', returnFalse);
     all('#contextMenu').on('mouseup', processMenu).on('mousedown', returnFalse);
     $('bookmarksMenu').on('mousedown', returnFalse);
@@ -723,7 +711,7 @@ document.addEventListener("DOMContentLoaded", function () {
         'color: ' + Settings.getColor('activeBmFntClr') + ';' +
         'background: linear-gradient(' + Settings.getColor('activeBmBgClrFrom') + ', ' + Settings.getColor('activeBmBgClrTo') + ');');
     styleSheet.addRule('#bookmarksMenu span', 'max-width: ' + Settings.getMaxWidth() + Settings.getMaxWidthMesure() + ';');
-    styleSheet.addRule('::-webkit-scrollbar', 'width: ' + Settings.getScrollBarWidth() + 'px;');    
+    styleSheet.addRule('::-webkit-scrollbar', 'width: ' + Settings.getScrollBarWidth() + 'px;');
 
     loadBookmarks();
 
