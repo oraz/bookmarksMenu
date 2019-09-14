@@ -100,8 +100,5 @@
     "twRestoreDflt": { "message": "Восстановить значения по умолчанию" },
     
     "donateHeader": { "message": "Я рад, что Вы используете это расширение.<br/>Если оно Вам очень нравится, то Вы можете меня проспонсировать.<br/>Спасибо!" },
-    "btnDonate": { "message": "Отправить через PayPal" },
-
-    "Background_page": {"message": "___ JUST COMMENT ___"},
-    "needAllowIncognito": { "message": "Вам необходимо разрешить расширению 'Bookmarks menu' работать в анонимном режиме! Вы можете сделать это на странице расширений." }
+    "btnDonate": { "message": "Отправить через PayPal" }
 }

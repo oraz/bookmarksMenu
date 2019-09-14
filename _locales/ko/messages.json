@@ -47,9 +47,6 @@
     "mainHeader": {
         "message": "'Bookmarks menu' 설정"
     },
-    "needAllowIncognito": {
-        "message": "시크릿 모드에서 'Bookmarks menu'를 사용하도록 설정해야 합니다. 확장프로그램 페이지에서 설정할 수 있습니다."
-    },
     "openAllBookmarks": {
         "message": "모든 북마크 열기"
     },

@@ -220,18 +220,6 @@ function onIncomingMessage(req, port) {
     }
 }
 
-window.openUrlsInNewWindow = (urls, incognito) => {
-    chrome.windows.create({ url: urls[0], incognito: incognito }, win => {
-        if (incognito && !win && urls.length > 1) {
-            window.alert(chrome.i18n.getMessage('needAllowIncognito'));
-            return;
-        }
-        for (var idx = 1, len = urls.length; idx < len; idx++) {
-            chrome.tabs.create({ url: urls[idx], windowId: win.id, selected: false });
-        }
-    });
-};
-
 function showOptionsPageOnce() {
     const version = chrome.runtime.getManifest().version;
     if (localStorage.getItem('optionsPageIsShownFor') !== version) {
