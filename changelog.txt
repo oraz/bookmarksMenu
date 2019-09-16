@@ -1,7 +1,8 @@
-Changelog 2019.09.xx (dev)
+Changelog 2019.09.16
 - Fix: suggestions for google bookmarks doesn't work
+- Fix: open all in incognito window requires additional setting for the extension
 - started using js modules
-- removed monkepatch (NodeList.forEach)
+- removed monkeypatch (NodeList.forEach)
 
 Changelog 2019.04.02
 - Fixed issue: context-menu item "Remove" is enabled for non-empty folders
