@@ -47,7 +47,7 @@ export function changeBookmarkMode(useGoogleBookmarks) {
         badge = 'G';
     } else {
         title = 'extTitle';
-        badge = 'D';
+        badge = '';
     }
     chrome.browserAction.setTitle({ title: chrome.i18n.getMessage(title) });
     chrome.browserAction.setBadgeText({ text: badge });
