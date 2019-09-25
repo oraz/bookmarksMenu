@@ -1,12 +1,26 @@
+::root {
+    --bodyClr: #fff;
+    --fav-icon-width: 16px;
+    --scrollbar-width: 7px;
+    --fntClr: #000;
+    --font: 13px Verdana;
+    --bmBgClr: #fff;
+    --disabledItemFntClr: #bebebe;
+}
 body {
     margin: 0;
     overflow-x: hidden;
     overflow-y: scroll;
+    background-color: var(--bodyClr);
+    color: var(--fntClr);
+    font: var(--font);
 }
 
 img {
     margin-right: 0.3em;
     vertical-align: bottom;
+    width: var(--fav-icon-width);
+    width: var(--fav-icon-width);
 }
 
 li {
@@ -34,6 +48,11 @@ ul {
     list-style: none;
     margin: 0;
     padding: 0;
+    background-color: var(--bmBgClr);
+}
+
+#contextMenu > li:not(.enabled) span {
+    color: var(--disabledItemFntClr);
 }
 
 #contextMenu > li:not(.enabled) img {
@@ -42,6 +61,7 @@ ul {
 
 .empty {
     padding: 3px 0.6em;
+    color: var(--disabledItemFntClr);
 }
 
 .hover > ul {
@@ -75,6 +95,7 @@ ul {
 }
 
 #gwindow {
+    background-color: var(--bmBgClr);
     border-width: 1px 2px 2px 1px;
     border-style: outset;
     border-color: #6f5e5e;
@@ -125,8 +146,9 @@ ul {
 ::-webkit-scrollbar {
     background-color: #e2dbdb;
     border: 1px solid #ccc;
-    width: 7px; /* will be replaced in initBookmarksMenu */
     height: 0;
+    width: var(--scrollbar-width);
+
 }
 
 ::-webkit-scrollbar-thumb:vertical {
