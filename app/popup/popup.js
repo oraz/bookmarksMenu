@@ -697,21 +697,17 @@ document.addEventListener("DOMContentLoaded", function () {
         useGoogleBookmarks: Settings.isUseGoogleBookmarks()
     };
 
-    var styleSheet = document.styleSheets[0];
-    var favIconWidth = Settings.getFavIconWidth();
-    styleSheet.addRule('body', 'background-color: ' + Settings.getColor('bodyClr') + ';');
-    styleSheet.addRule('img', 'width: ' + favIconWidth + 'px; height: ' + favIconWidth + 'px;');
-    styleSheet.addRule('label, span, #loading',
-        'font: ' + Settings.getFontSize() + 'px "' + Settings.getFontFamily() + '";' +
-        'color: ' + Settings.getColor('fntClr') + ';');
-    styleSheet.addRule('ul, #gwindow', 'background-color: ' + Settings.getColor('bmBgClr') + ';');
+    const style = document.documentElement.style;
+    ['bodyClr', 'fntClr', 'bmBgClr', 'disabledItemFntClr'].forEach(each => style.setProperty(`--${each}`, Settings.getColor(each)));
+    style.setProperty('--fav-icon-width', Settings.getFavIconWidth() + 'px');
+    style.setProperty('--scrollbar-width', Settings.getScrollBarWidth() + 'px');
+    style.setProperty('--font', `${Settings.getFontSize()}px "${Settings.getFontFamily()}"`);
 
-    styleSheet.addRule('#contextMenu > li:not(.enabled) > span, .empty', 'color: ' + Settings.getColor('disabledItemFntClr') + ';');
+    const styleSheet = document.styleSheets[0];
     styleSheet.addRule('li[type]:hover > span, .enabled:hover > span, .hover > span',
         'color: ' + Settings.getColor('activeBmFntClr') + ';' +
         'background: linear-gradient(' + Settings.getColor('activeBmBgClrFrom') + ', ' + Settings.getColor('activeBmBgClrTo') + ');');
     styleSheet.addRule('#bookmarksMenu span', 'max-width: ' + Settings.getMaxWidth() + Settings.getMaxWidthMesure() + ';');
-    styleSheet.addRule('::-webkit-scrollbar', 'width: ' + Settings.getScrollBarWidth() + 'px;');
 
     loadBookmarks();
 

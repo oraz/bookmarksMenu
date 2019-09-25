@@ -1,6 +1,6 @@
 {
     "name": "Bookmarks Menu",
-    "version": "2019.09.16",
+    "version": "2019.10.01",
     "manifest_version": 2,
     "minimum_chrome_version": "64",
     "description": "__MSG_extDescription__",
