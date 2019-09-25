@@ -6,6 +6,10 @@
     --font: 13px Verdana;
     --bmBgClr: #fff;
     --disabledItemFntClr: #bebebe;
+    --bookmark-max-width: 30em;
+    --activeBmFntClr: #fff;
+    --activeBmBgClrFrom: #86ABD9;
+    --activeBmBgClrTo: #1F5EAB;
 }
 body {
     margin: 0;
@@ -76,6 +80,10 @@ ul {
 
 #bookmarksMenu {
     float: right;
+}
+
+#bookmarksMenu span {
+    max-width: var(--bookmark-max-width);
 }
 
 #contextMenu {
@@ -153,4 +161,9 @@ ul {
 
 ::-webkit-scrollbar-thumb:vertical {
     background-image: -webkit-gradient(linear, left top, right top, from(#ccc), to(gray));
+}
+
+li[type]:hover > span, .enabled:hover > span, .hover > span {
+    color: var(--activeBmFntClr);
+    background: linear-gradient(var(--activeBmBgClrFrom), var(--activeBmBgClrTo));
 }
