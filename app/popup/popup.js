@@ -698,16 +698,12 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     const style = document.documentElement.style;
-    ['bodyClr', 'fntClr', 'bmBgClr', 'disabledItemFntClr'].forEach(each => style.setProperty(`--${each}`, Settings.getColor(each)));
+    ['bodyClr', 'fntClr', 'bmBgClr', 'disabledItemFntClr', 'activeBmFntClr', 'activeBmBgClrFrom', 'activeBmBgClrTo']
+        .forEach(each => style.setProperty(`--${each}`, Settings.getColor(each)));
     style.setProperty('--fav-icon-width', Settings.getFavIconWidth() + 'px');
     style.setProperty('--scrollbar-width', Settings.getScrollBarWidth() + 'px');
     style.setProperty('--font', `${Settings.getFontSize()}px "${Settings.getFontFamily()}"`);
-
-    const styleSheet = document.styleSheets[0];
-    styleSheet.addRule('li[type]:hover > span, .enabled:hover > span, .hover > span',
-        'color: ' + Settings.getColor('activeBmFntClr') + ';' +
-        'background: linear-gradient(' + Settings.getColor('activeBmBgClrFrom') + ', ' + Settings.getColor('activeBmBgClrTo') + ');');
-    styleSheet.addRule('#bookmarksMenu span', 'max-width: ' + Settings.getMaxWidth() + Settings.getMaxWidthMesure() + ';');
+    style.setProperty('--bookmark-max-width', Settings.getMaxWidth() + Settings.getMaxWidthMesure());
 
     loadBookmarks();
 
