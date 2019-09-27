@@ -1,13 +1,14 @@
 {
-    "esversion": 6,
-    "undef": true,
-    "unused": "strict",
-    "strict": true,
-    "globalstrict": true,
-    "scripturl": true,
-    "browser": true,
-    "globals": {
-        "chrome": true,
-        "customElements": true
-    }
+  "esversion": 6,
+  "undef": true,
+  "unused": "strict",
+  "strict": true,
+  "globalstrict": true,
+  "scripturl": true,
+  "browser": true,
+  "globals": {
+    "chrome": true,
+    "customElements": true
+  },
+  "laxbreak": true
 }
