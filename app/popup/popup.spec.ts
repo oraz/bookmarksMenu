@@ -1,6 +1,7 @@
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
 import M from 'ts-mockito';
+import jQuery from 'jquery';
 
 interface BookmarkTreeNode {
   id: string;
@@ -69,35 +70,99 @@ describe('popup.html', () => {
   });
 
   beforeEach(() => {
+    // TODO remove <html> from html
     document.documentElement.innerHTML = html;
     document.dispatchEvent(new Event('DOMContentLoaded'));
   });
 
-  it('#bookmarksMenu exists', () => {
-    expect(bookmarksMenu()).toBeInstanceOf(HTMLUListElement);
+  afterEach(() => {
+    const doc = document.documentElement;
+    while (doc.hasChildNodes()) {
+      doc.removeChild(doc.lastChild);
+    }
   });
 
-  it('with some bookmarks', () => {
+  it('#bookmarksMenu exists', () => {
+    expect(bookmarksMenu().length).toBe(1);
+  });
+
+  it('with bookmarks in toolbar', () => {
     givenBookmakrs([
-      {
-        id: '1',
-        title: 'lenta.ru',
-        url: 'http://lenta.ru'
-      },
-      {
-        id: '2',
-        title: 'gazeta.ru',
-        url: 'http://gazeta.ru'
-      }
+      bookmark(1, 'lenta', 'http://lenta.ru'),
+      bookmark(2, 'gazeta', 'http://gazeta.ru')
     ]);
 
-    expect(bookmarksMenu().childElementCount).toBe(3);
+    expect(bookmarksMenu().children().length).toBe(3);
+
+    const first = bookmarksMenu().children(':nth(0)');
+    expect(first.is('#1[type=bookmark]')).toBeTruthy();
+    expect(first.css('display')).toBe('list-item');
+
+    const second = bookmarksMenu().children(':nth(1)');
+    expect(second.is('#2[type=bookmark]')).toBeTruthy();
+    expect(second.css('display')).toBe('list-item');
+
+    const separator = bookmarksMenu().children(':nth(2)');
+    expect(separator.is('.separator')).toBeTruthy();
+    expect(separator.css('display')).toBe('none');
   });
 
-  function bookmarksMenu(): HTMLUListElement {
-    return document.getElementById('bookmarksMenu') as HTMLUListElement;
+  it('with bookmarks in both parts', () => {
+    givenBookmakrs(
+      [bookmark(1, 'lenta', 'http://lenta.ru')],
+      [bookmark(2, 'gazeta', 'http://gazeta.ru')]
+    );
+
+    expect(bookmarksMenu().children().length).toBe(3);
+
+    const first = bookmarksMenu().children(':nth(0)');
+    expect(first.is('#1[type=bookmark]')).toBeTruthy();
+    expect(first.css('display')).toBe('list-item');
+
+    const separator = bookmarksMenu().children(':nth(1)');
+    expect(separator.is('.separator')).toBeTruthy();
+    expect(separator.css('display')).toBe('list-item');
+
+    const second = bookmarksMenu().children(':nth(2)');
+    expect(second.is('#2[type=bookmark]')).toBeTruthy();
+    expect(second.css('display')).toBe('list-item');
+  });
+
+  it('with bookmarks only in other part', () => {
+    givenBookmakrs(
+      [],
+      [
+        bookmark(1, 'lenta', 'http://lenta.ru'),
+        bookmark(2, 'gazeta', 'http://gazeta.ru')
+      ]
+    );
+
+    expect(bookmarksMenu().children().length).toBe(3);
+
+    const separator = bookmarksMenu().children(':nth(0)');
+    expect(separator.is('.separator')).toBeTruthy();
+    expect(separator.css('display')).toBe('none');
+
+    const first = bookmarksMenu().children(':nth(1)');
+    expect(first.is('#1[type=bookmark]')).toBeTruthy();
+    expect(first.css('display')).toBe('list-item');
+
+    const second = bookmarksMenu().children(':nth(2)');
+    expect(second.is('#2[type=bookmark]')).toBeTruthy();
+    expect(second.css('display')).toBe('list-item');
+  });
+
+  function bookmarksMenu() {
+    return jQuery('#bookmarksMenu');
   }
 
+  function bookmark(id: number, title: string, url: string): BookmarkTreeNode {
+    return {
+      id: '' + id,
+      title,
+      url
+    };
+  }
   function givenBookmakrs(
     quick: BookmarkTreeNode[],
     other: BookmarkTreeNode[] = []
