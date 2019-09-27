@@ -25,10 +25,12 @@ class Bookmark extends HTMLLIElement {
             this.isFolder = true;
             this.setAttribute("type", "folder");
             this.childBookmarks = bookmarkNode.children;
+            this.onmouseover = this.displayFolderContent;
         } else {
             this.isBookmark = true;
             this.setAttribute("type", "bookmark");
             this.url = bookmarkNode.url;
+            this.onmouseover = this.highlight;
         }
     }
 
@@ -41,6 +43,7 @@ class Bookmark extends HTMLLIElement {
         span.className = 'noicon';
         span.appendChild(document.createTextNode(chrome.i18n.getMessage('openAllInTabs')));
         this.appendChild(span);
+        this.onmouseover = this.highlight;
     }
 
     highlight() {
@@ -757,22 +760,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 break;
         }
     };
-    rootFolder.onmouseover = function (ev) {
-        /** @type Bookmark */
-        var bookmark = ev.srcElement;
-        if (!(bookmark instanceof HTMLUListElement)) {
-            while (!(bookmark instanceof HTMLLIElement)) {
-                bookmark = bookmark.parentElement;
-            }
-            if (bookmark.isBookmark || bookmark.isOpenAll) {
-                bookmark.highlight();
-            } else if (bookmark.isFolder) {
-                bookmark.displayFolderContent();
-            }
-        }
-    };
+    
     rootFolder.clear = function () {
-        this.querySelectorAll('#bookmarksMenu > *').forEach(each => each.parentElement.removeChild(each));
+        while(this.hasChildNodes()) {
+            this.removeChild(this.lastChild);
+        }
     };
 });
 
