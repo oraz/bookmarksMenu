@@ -25,25 +25,36 @@ window['chrome'] = {
     }
 };
 
-window['customElements'] = M.instance(M.mock<CustomElementRegistry>());
-
-
 describe('popup.html', () => {
     const html = readFileSync(resolve(__dirname, 'popup.html'), 'utf-8');
 
     beforeAll(() => {
-        import('./popup').then(Popup => {
-            const nativeCreateElement = document.createElement.bind(document);
-            document.createElement = (nodeName: string, options?: ElementCreationOptions) => {
-                const el: HTMLElement = nativeCreateElement(nodeName);
-                if (options === undefined) {
-                    return el;
-                } else {
-                    return Object.setPrototypeOf(el, Popup.Bookmark.prototype);
-                }
+        const customElementsDefinitions: {
+            customTagName: string,
+            clazz: Function,
+            config: ElementDefinitionOptions
+        }[] = [];
+
+        const customElementsMock = M.mock<CustomElementRegistry>();
+        M.when(customElementsMock.define(M.anyString(), M.anyFunction(), M.anything()))
+            .thenCall((customTagName: string, clazz: Function, config: ElementDefinitionOptions) => {
+                customElementsDefinitions.push({ customTagName, clazz, config });
+            });
+        window.customElements = M.instance(customElementsMock);
+
+        const nativeCreateElement = document.createElement.bind(document);
+        document.createElement = (nodeName: string, options?: ElementCreationOptions) => {
+            const el: HTMLElement = nativeCreateElement(nodeName);
+            if (options === undefined) {
+                return el;
+            } else {
+                const definition = customElementsDefinitions.find(each => each.config.extends === nodeName && each.customTagName === options.is);
+                return Object.setPrototypeOf(el, definition.clazz.prototype);
             }
-        });
-    })
+        }
+
+        import('./popup');
+    });
 
     beforeEach(() => {
         document.documentElement.innerHTML = html;
