@@ -5,7 +5,7 @@ import { Settings } from '../common/settings.js';
 
 var config; // will be initialized in DOMContentLoaded handler
 
-class Bookmark extends HTMLLIElement {
+export class Bookmark extends HTMLLIElement {
     init(bookmarkNode) {
         if (config.useGoogleBookmarks) {
             this.id = Bookmark.autoId++;
@@ -763,7 +763,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function clearBookmarksMenu() {
     const bookmarksMenu = $('bookmarksMenu');
-    while(bookmarksMenu.hasChildNodes()) {
+    while (bookmarksMenu.hasChildNodes()) {
         bookmarksMenu.removeChild(bookmarksMenu.lastChild);
     }
 }
@@ -813,10 +813,10 @@ function initBookmarksMenu(nodes) {
     delete rootFolder.hasVisibleBookmarks;
 
     if (!rootFolder.noIconCSSAdded) {
-        var favIcon = rootFolder.querySelector('li[type] img');
-        var iconMarginRight = window.getComputedStyle(favIcon).marginRight; // contains '3px'
-        var textPaddingLeft = favIcon.offsetLeft + favIcon.scrollWidth + parseInt(iconMarginRight);
-        document.styleSheets[0].addRule('.noicon', 'padding-left:' + textPaddingLeft + 'px;');
+        const favIcon = rootFolder.querySelector('li[type] img');
+        const iconMarginRight = window.getComputedStyle(favIcon).marginRight; // contains '3px'
+        const textPaddingLeft = favIcon.offsetLeft + favIcon.scrollWidth + parseInt(iconMarginRight);
+        document.documentElement.style.setProperty('--padding-for-noicon', textPaddingLeft + 'px');
         rootFolder.noIconCSSAdded = true;
     }
 }
