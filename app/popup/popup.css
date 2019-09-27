@@ -10,6 +10,7 @@
     --activeBmFntClr: #fff;
     --activeBmBgClrFrom: #86ABD9;
     --activeBmBgClrTo: #1F5EAB;
+    --padding-for-noicon: 3px;
 }
 body {
     margin: 0;
@@ -166,4 +167,8 @@ ul {
 li[type]:hover > span, .enabled:hover > span, .hover > span {
     color: var(--activeBmFntClr);
     background: linear-gradient(var(--activeBmBgClrFrom), var(--activeBmBgClrTo));
+}
+
+.noicon {
+    padding-left: var(--padding-for-noicon);
 }
