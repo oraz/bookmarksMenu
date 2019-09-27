@@ -5,7 +5,7 @@ import { Settings } from '../common/settings.js';
 
 var config; // will be initialized in DOMContentLoaded handler
 
-export class Bookmark extends HTMLLIElement {
+class Bookmark extends HTMLLIElement {
     init(bookmarkNode) {
         if (config.useGoogleBookmarks) {
             this.id = Bookmark.autoId++;
