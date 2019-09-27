@@ -28,8 +28,11 @@
     "@babel/preset-typescript": "^7.3.3",
     "@types/jest": "^24.0.17",
     "babel-jest": "^24.9.0",
+    "fs": "0.0.1-security",
     "jest": "^24.9.0",
     "jshint": "^2.10.2",
-    "npm-pack-zip": "^1.2.7"
+    "npm-pack-zip": "^1.2.7",
+    "path": "^0.12.7",
+    "ts-mockito": "^2.5.0"
   }
 }
