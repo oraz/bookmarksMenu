@@ -66,33 +66,16 @@ describe('popup.html', () => {
     });
 
     it('with some bookmarks', () => {
-        getTreeCallback([
+        givenBookmakrs([
             {
-                id: 'root',
-                title: 'root',
-                children: [
-                    {
-                        id: 'quick',
-                        title: 'quick',
-                        children: [
-                            {
-                                id: '1',
-                                title: 'lenta.ru',
-                                url: 'http://lenta.ru'
-                            },
-                            {
-                                id: '2',
-                                title: 'gazeta.ru',
-                                url: 'http://gazeta.ru'
-                            }
-                        ]
-                    },
-                    {
-                        id: 'other',
-                        title: 'other',
-                        children: []
-                    }
-                ]
+                id: '1',
+                title: 'lenta.ru',
+                url: 'http://lenta.ru'
+            },
+            {
+                id: '2',
+                title: 'gazeta.ru',
+                url: 'http://gazeta.ru'
             }
         ]);
 
@@ -101,5 +84,26 @@ describe('popup.html', () => {
 
     function bookmarksMenu(): HTMLUListElement {
         return document.getElementById('bookmarksMenu') as HTMLUListElement;
+    }
+
+    function givenBookmakrs(quick: BookmarkTreeNode[], other: BookmarkTreeNode[] = []) {
+        getTreeCallback([
+            {
+                id: 'root',
+                title: 'root',
+                children: [
+                    {
+                        id: 'quick',
+                        title: 'quick',
+                        children: quick
+                    },
+                    {
+                        id: 'other',
+                        title: 'other',
+                        children: other
+                    }
+                ]
+            }
+        ]);
     }
 });
