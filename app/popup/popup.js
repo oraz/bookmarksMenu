@@ -56,7 +56,7 @@ class Bookmark extends HTMLLIElement {
             if (config.showTooltip && span.offsetWidth < span.scrollWidth) {
                 span.title = span.innerText;
             }
-            if (config.showURL && !this.isFolder && !this.isOpenAll && span.className != 'empty') {
+            if (config.showURL && this.isBookmark) {
                 span.title += (span.title == '' ? '' : '\n') + this.url;
             }
         }
@@ -453,7 +453,7 @@ function processMenu(ev) {
                 changeBookmarkMode(config.useGoogleBookmarks);
                 localStorage.setItem('useGoogleBookmarks', config.useGoogleBookmarks);
 
-                $('bookmarksMenu').clear();
+                clearBookmarksMenu();
                 unSelect();
 
                 document.body.style.overflowY = 'visible';
@@ -639,9 +639,8 @@ function addGoogleBookmark() {
     port.onMessage.addListener(function (response) {
         if (response == MESSAGES.RESP_TREE_IS_READY) {
             unSelect();
-            var rootFolder = $('bookmarksMenu');
-            rootFolder.clear();
-            rootFolder.fillFolderContent(chrome.extension.getBackgroundPage().GBookmarksTree.children);
+            clearBookmarksMenu();
+            $('bookmarksMenu').fillFolderContent(chrome.extension.getBackgroundPage().GBookmarksTree.children);
         }
         else {
             // todo some error
@@ -657,7 +656,7 @@ function addGoogleBookmark() {
 }
 
 function reloadGBookmarks() {
-    $('bookmarksMenu').clear();
+    clearBookmarksMenu();
     var loading = $('loading');
     if (loading.hasAttribute('data-i18n')) {
         chrome.i18n.initElement(loading);
@@ -760,13 +759,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 break;
         }
     };
-    
-    rootFolder.clear = function () {
-        while(this.hasChildNodes()) {
-            this.removeChild(this.lastChild);
-        }
-    };
 });
+
+function clearBookmarksMenu() {
+    const bookmarksMenu = $('bookmarksMenu');
+    while(bookmarksMenu.hasChildNodes()) {
+        bookmarksMenu.removeChild(bookmarksMenu.lastChild);
+    }
+}
 
 function loadBookmarks() {
     if (config.useGoogleBookmarks) {
