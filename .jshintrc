@@ -7,6 +7,7 @@
     "scripturl": true,
     "browser": true,
     "globals": {
-        "chrome": true
+        "chrome": true,
+        "customElements": true
     }
 }
