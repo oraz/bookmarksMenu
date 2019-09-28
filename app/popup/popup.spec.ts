@@ -34,12 +34,6 @@ declare global {
   }
 }
 
-$.extend($.expr[':'], {
-  displayed: (el: HTMLElement) => $(el).css('display') !== 'none',
-  visible: (el: HTMLElement) => $(el).css('display') !== 'none',
-  hidden: (el: HTMLElement) => $(el).css('display') === 'none'
-});
-
 describe('popup.html', () => {
   const html = readFileSync(resolve(__dirname, 'popup.html'), 'utf-8').replace(
     /(<!DOCTYPE.*$|<\/?html>)$/gm,
@@ -62,15 +56,12 @@ describe('popup.html', () => {
   });
 
   afterEach(() => {
-    const doc = document.documentElement;
-    while (doc.hasChildNodes()) {
-      doc.removeChild(doc.lastChild);
-    }
+    $(document.documentElement).empty();
   });
 
   it('#bookmarksMenu exists', () => {
     expect(bookmarksMenu).toHaveLength(1);
-    expect(bookmarksMenu).is(':displayed');
+    expect(bookmarksMenu).is(':visible');
   });
 
   it('with bookmarks in toolbar', () => {
@@ -80,9 +71,9 @@ describe('popup.html', () => {
     ]);
 
     expect(bookmarksMenu.children()).toHaveLength(3);
-    expect(bookmarksMenu.children(':nth(0)')).is('#1[type=bookmark]:displayed');
-    expect(bookmarksMenu.children(':nth(1)')).is('#2[type=bookmark]:displayed');
-    expect(bookmarksMenu.children(':nth(2)')).is('.separator:not(:displayed)');
+    expect(bookmarksMenu.children(':nth(0)')).is('#1[type=bookmark]:visible');
+    expect(bookmarksMenu.children(':nth(1)')).is('#2[type=bookmark]:visible');
+    expect(bookmarksMenu.children(':nth(2)')).is('.separator:not(:visible)');
   });
 
   it('with bookmarks in both parts', () => {
@@ -92,9 +83,9 @@ describe('popup.html', () => {
     );
 
     expect(bookmarksMenu.children()).toHaveLength(3);
-    expect(bookmarksMenu.children(':nth(0)')).is('#1[type=bookmark]:displayed');
-    expect(bookmarksMenu.children(':nth(1)')).is('.separator:displayed');
-    expect(bookmarksMenu.children(':nth(2)')).is('#2[type=bookmark]:displayed');
+    expect(bookmarksMenu.children(':nth(0)')).is('#1[type=bookmark]:visible');
+    expect(bookmarksMenu.children(':nth(1)')).is('.separator:visible');
+    expect(bookmarksMenu.children(':nth(2)')).is('#2[type=bookmark]:visible');
   });
 
   it('with bookmarks only in other part', () => {
@@ -107,9 +98,9 @@ describe('popup.html', () => {
     );
 
     expect(bookmarksMenu.children()).toHaveLength(3);
-    expect(bookmarksMenu.children(':nth(0)')).is('.separator:not(:displayed)');
-    expect(bookmarksMenu.children(':nth(1)')).is('#1[type=bookmark]:displayed');
-    expect(bookmarksMenu.children(':nth(2)')).is('#2[type=bookmark]:displayed');
+    expect(bookmarksMenu.children(':nth(0)')).is('.separator:not(:visible)');
+    expect(bookmarksMenu.children(':nth(1)')).is('#1[type=bookmark]:visible');
+    expect(bookmarksMenu.children(':nth(2)')).is('#2[type=bookmark]:visible');
   });
 
   function bookmark(id: number, title: string, url: string): BookmarkTreeNode {

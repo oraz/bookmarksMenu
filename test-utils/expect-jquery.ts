@@ -1,3 +1,10 @@
+import $ from 'jquery';
+
+$.extend($.expr[':'], {
+  visible: (el: HTMLElement) => $(el).css('display') !== 'none',
+  hidden: (el: HTMLElement) => $(el).css('display') === 'none'
+});
+
 expect.extend({
   is(el: JQuery<HTMLElement>, selector: string) {
     return {
