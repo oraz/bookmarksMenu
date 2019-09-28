@@ -3,6 +3,7 @@ import { resolve } from 'path';
 import $ from 'jquery';
 import '../../test-utils/expect-jquery';
 import { simulateCustomeElements } from '../../test-utils/simulate-custom-elements';
+import { JQueryMatchers } from '../../test-utils/expect-jquery';
 
 interface BookmarkTreeNode {
   id: string;
@@ -27,10 +28,7 @@ window['chrome'] = {
 
 declare global {
   namespace jest {
-    interface Matchers<R> {
-      is(selector: string): R;
-      toBeVisible(): R;
-    }
+    interface Matchers<R> extends JQueryMatchers<R> {}
   }
 }
 
