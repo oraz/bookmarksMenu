@@ -24,6 +24,32 @@ window['chrome'] = {
   }
 };
 
+declare global {
+  namespace jest {
+    interface Matchers<R> {
+      is(selector: string): R;
+      toBeVisible(): R;
+    }
+  }
+}
+expect.extend({
+  is(el: JQuery<HTMLElement>, selector: string) {
+    return {
+      message: () =>
+        `expected ${el.get().map(each => each.outerHTML)} to be '${selector}'`,
+      pass: el.is(selector)
+    };
+  },
+
+  toBeVisible(el: JQuery<HTMLElement>) {
+    return {
+      message: () =>
+        `expected ${el.get().map(each => each.outerHTML)} has not display none`,
+      pass: el.css('display') !== 'none'
+    };
+  }
+});
+
 describe('popup.html', () => {
   const html = readFileSync(resolve(__dirname, 'popup.html'), 'utf-8').replace(
     /(<!DOCTYPE.*$|<\/?html>)$/gm,
@@ -90,7 +116,8 @@ describe('popup.html', () => {
   });
 
   it('#bookmarksMenu exists', () => {
-    expect(bookmarksMenu.length).toBe(1);
+    expect(bookmarksMenu).toHaveLength(1);
+    expect(bookmarksMenu).toBeVisible();
   });
 
   it('with bookmarks in toolbar', () => {
@@ -102,16 +129,16 @@ describe('popup.html', () => {
     expect(bookmarksMenu.children().length).toBe(3);
 
     const first = bookmarksMenu.children(':nth(0)');
-    expect(first.is('#1[type=bookmark]')).toBeTruthy();
-    expect(first.css('display')).toBe('list-item');
+    expect(first).is('#1[type=bookmark]');
+    expect(first).toBeVisible();
 
     const second = bookmarksMenu.children(':nth(1)');
-    expect(second.is('#2[type=bookmark]')).toBeTruthy();
-    expect(second.css('display')).toBe('list-item');
+    expect(second).is('#2[type=bookmark]');
+    expect(second).toBeVisible();
 
     const separator = bookmarksMenu.children(':nth(2)');
-    expect(separator.is('.separator')).toBeTruthy();
-    expect(separator.css('display')).toBe('none');
+    expect(separator).is('.separator');
+    expect(separator).not.toBeVisible();
   });
 
   it('with bookmarks in both parts', () => {
@@ -120,19 +147,19 @@ describe('popup.html', () => {
       [bookmark(2, 'gazeta', 'http://gazeta.ru')]
     );
 
-    expect(bookmarksMenu.children().length).toBe(3);
+    expect(bookmarksMenu.children()).toHaveLength(3);
 
     const first = bookmarksMenu.children(':nth(0)');
-    expect(first.is('#1[type=bookmark]')).toBeTruthy();
-    expect(first.css('display')).toBe('list-item');
+    expect(first).is('#1[type=bookmark]');
+    expect(first).toBeVisible();
 
     const separator = bookmarksMenu.children(':nth(1)');
-    expect(separator.is('.separator')).toBeTruthy();
-    expect(separator.css('display')).toBe('list-item');
+    expect(separator).is('.separator');
+    expect(separator).toBeVisible();
 
     const second = bookmarksMenu.children(':nth(2)');
-    expect(second.is('#2[type=bookmark]')).toBeTruthy();
-    expect(second.css('display')).toBe('list-item');
+    expect(second).is('#2[type=bookmark]');
+    expect(second).toBeVisible();
   });
 
   it('with bookmarks only in other part', () => {
@@ -144,19 +171,19 @@ describe('popup.html', () => {
       ]
     );
 
-    expect(bookmarksMenu.children().length).toBe(3);
+    expect(bookmarksMenu.children()).toHaveLength(3);
 
     const separator = bookmarksMenu.children(':nth(0)');
-    expect(separator.is('.separator')).toBeTruthy();
-    expect(separator.css('display')).toBe('none');
+    expect(separator).is('.separator');
+    expect(separator).not.toBeVisible();
 
     const first = bookmarksMenu.children(':nth(1)');
-    expect(first.is('#1[type=bookmark]')).toBeTruthy();
-    expect(first.css('display')).toBe('list-item');
+    expect(first).is('#1[type=bookmark]');
+    expect(first).toBeVisible();
 
     const second = bookmarksMenu.children(':nth(2)');
-    expect(second.is('#2[type=bookmark]')).toBeTruthy();
-    expect(second.css('display')).toBe('list-item');
+    expect(second).is('#2[type=bookmark]');
+    expect(second).toBeVisible();
   });
 
   function bookmark(id: number, title: string, url: string): BookmarkTreeNode {
