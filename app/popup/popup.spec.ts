@@ -1,7 +1,8 @@
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
-import M from 'ts-mockito';
 import $ from 'jquery';
+import '../../test-utils/expect-jquery';
+import { simulateCustomeElements } from '../../test-utils/simulate-custom-elements';
 
 interface BookmarkTreeNode {
   id: string;
@@ -32,23 +33,6 @@ declare global {
     }
   }
 }
-expect.extend({
-  is(el: JQuery<HTMLElement>, selector: string) {
-    return {
-      message: () =>
-        `expected ${el.get().map(each => each.outerHTML)} to be '${selector}'`,
-      pass: el.is(selector)
-    };
-  },
-
-  toBeVisible(el: JQuery<HTMLElement>) {
-    return {
-      message: () =>
-        `expected ${el.get().map(each => each.outerHTML)} has not display none`,
-      pass: el.css('display') !== 'none'
-    };
-  }
-});
 
 describe('popup.html', () => {
   const html = readFileSync(resolve(__dirname, 'popup.html'), 'utf-8').replace(
@@ -57,44 +41,7 @@ describe('popup.html', () => {
   );
 
   beforeAll(() => {
-    const customElementsDefinitions: {
-      customTagName: string;
-      clazz: Function;
-      config: ElementDefinitionOptions;
-    }[] = [];
-
-    const customElementsMock = M.mock<CustomElementRegistry>();
-    M.when(
-      customElementsMock.define(M.anyString(), M.anyFunction(), M.anything())
-    ).thenCall(
-      (
-        customTagName: string,
-        clazz: Function,
-        config: ElementDefinitionOptions
-      ) => {
-        customElementsDefinitions.push({ customTagName, clazz, config });
-      }
-    );
-    window.customElements = M.instance(customElementsMock);
-
-    const nativeCreateElement = document.createElement.bind(document);
-    document.createElement = (
-      nodeName: string,
-      options?: ElementCreationOptions
-    ) => {
-      const el: HTMLElement = nativeCreateElement(nodeName);
-      if (options === undefined) {
-        return el;
-      } else {
-        const definition = customElementsDefinitions.find(
-          each =>
-            each.config.extends === nodeName &&
-            each.customTagName === options.is
-        );
-        return Object.setPrototypeOf(el, definition.clazz.prototype);
-      }
-    };
-
+    simulateCustomeElements();
     import('./popup');
   });
 
