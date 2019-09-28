@@ -22,3 +22,8 @@ expect.extend({
     };
   }
 });
+
+export interface JQueryMatchers<R> {
+  is(selector: string): R;
+  toBeVisible(): R;
+}
