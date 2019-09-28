@@ -33,10 +33,13 @@ declare global {
 }
 
 describe('popup.html', () => {
-  const html = readFileSync(resolve(__dirname, 'popup.html'), 'utf-8').replace(
-    /(<!DOCTYPE.*$|<\/?html>)$/gm,
-    '<!-- $1 -->'
-  );
+  const css = readFileSync(resolve(__dirname, 'popup.css'), 'utf-8');
+  const html =
+    `<style>${css}</style>` +
+    readFileSync(resolve(__dirname, 'popup.html'), 'utf-8').replace(
+      /(<!DOCTYPE.*$|<\/?html>)$/gm,
+      '<!-- $1 -->'
+    );
 
   beforeAll(() => {
     simulateCustomeElements();
