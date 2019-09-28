@@ -1,5 +1,7 @@
 {
-"editor.formatOnSave": true,
-"[javascript]": {
+  "editor.formatOnSave": true,
+  "[javascript]": {
     "editor.formatOnSave": true
+  },
+  "editor.minimap.enabled": false
 }
