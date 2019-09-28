@@ -34,6 +34,12 @@ declare global {
   }
 }
 
+$.extend($.expr[':'], {
+  displayed: (el: HTMLElement) => $(el).css('display') !== 'none',
+  visible: (el: HTMLElement) => $(el).css('display') !== 'none',
+  hidden: (el: HTMLElement) => $(el).css('display') === 'none'
+});
+
 describe('popup.html', () => {
   const html = readFileSync(resolve(__dirname, 'popup.html'), 'utf-8').replace(
     /(<!DOCTYPE.*$|<\/?html>)$/gm,
@@ -64,7 +70,7 @@ describe('popup.html', () => {
 
   it('#bookmarksMenu exists', () => {
     expect(bookmarksMenu).toHaveLength(1);
-    expect(bookmarksMenu).toBeVisible();
+    expect(bookmarksMenu).is(':displayed');
   });
 
   it('with bookmarks in toolbar', () => {
@@ -73,19 +79,10 @@ describe('popup.html', () => {
       bookmark(2, 'gazeta', 'http://gazeta.ru')
     ]);
 
-    expect(bookmarksMenu.children().length).toBe(3);
-
-    const first = bookmarksMenu.children(':nth(0)');
-    expect(first).is('#1[type=bookmark]');
-    expect(first).toBeVisible();
-
-    const second = bookmarksMenu.children(':nth(1)');
-    expect(second).is('#2[type=bookmark]');
-    expect(second).toBeVisible();
-
-    const separator = bookmarksMenu.children(':nth(2)');
-    expect(separator).is('.separator');
-    expect(separator).not.toBeVisible();
+    expect(bookmarksMenu.children()).toHaveLength(3);
+    expect(bookmarksMenu.children(':nth(0)')).is('#1[type=bookmark]:displayed');
+    expect(bookmarksMenu.children(':nth(1)')).is('#2[type=bookmark]:displayed');
+    expect(bookmarksMenu.children(':nth(2)')).is('.separator:not(:displayed)');
   });
 
   it('with bookmarks in both parts', () => {
@@ -95,18 +92,9 @@ describe('popup.html', () => {
     );
 
     expect(bookmarksMenu.children()).toHaveLength(3);
-
-    const first = bookmarksMenu.children(':nth(0)');
-    expect(first).is('#1[type=bookmark]');
-    expect(first).toBeVisible();
-
-    const separator = bookmarksMenu.children(':nth(1)');
-    expect(separator).is('.separator');
-    expect(separator).toBeVisible();
-
-    const second = bookmarksMenu.children(':nth(2)');
-    expect(second).is('#2[type=bookmark]');
-    expect(second).toBeVisible();
+    expect(bookmarksMenu.children(':nth(0)')).is('#1[type=bookmark]:displayed');
+    expect(bookmarksMenu.children(':nth(1)')).is('.separator:displayed');
+    expect(bookmarksMenu.children(':nth(2)')).is('#2[type=bookmark]:displayed');
   });
 
   it('with bookmarks only in other part', () => {
@@ -119,18 +107,9 @@ describe('popup.html', () => {
     );
 
     expect(bookmarksMenu.children()).toHaveLength(3);
-
-    const separator = bookmarksMenu.children(':nth(0)');
-    expect(separator).is('.separator');
-    expect(separator).not.toBeVisible();
-
-    const first = bookmarksMenu.children(':nth(1)');
-    expect(first).is('#1[type=bookmark]');
-    expect(first).toBeVisible();
-
-    const second = bookmarksMenu.children(':nth(2)');
-    expect(second).is('#2[type=bookmark]');
-    expect(second).toBeVisible();
+    expect(bookmarksMenu.children(':nth(0)')).is('.separator:not(:displayed)');
+    expect(bookmarksMenu.children(':nth(1)')).is('#1[type=bookmark]:displayed');
+    expect(bookmarksMenu.children(':nth(2)')).is('#2[type=bookmark]:displayed');
   });
 
   function bookmark(id: number, title: string, url: string): BookmarkTreeNode {
