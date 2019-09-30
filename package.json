@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Chrome extension which shows bookmarks menu. Works with Chrome and Google bookmarks.",
   "scripts": {
-    "lint": "echo Lint. See https://github.com/jshint/jshint/blob/master/examples/.jshintrc && jshint app",
+    "lint": "eslint app",
     "pretest": "npm run lint",
     "test": "jest",
     "prepack": "npm test",

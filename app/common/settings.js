@@ -1,52 +1,59 @@
-"use strict";
+'use strict';
 
 function setting(name, defaultValue) {
-    return localStorage.getItem(name) || defaultValue;
+  return localStorage.getItem(name) || defaultValue;
 }
 
 function isTrue(name) {
-    return setting(name) == 'true';
+  return setting(name) == 'true';
 }
 
 export const Settings = {
+  getButtonAction: btn => setting(btn, btn),
 
-    getButtonAction: btn => setting(btn, btn),
+  getMaxWidth: () => setting('maxWidth', 30),
 
-    getMaxWidth: () => setting('maxWidth', 30),
+  getMaxWidthMesure: () => setting('maxWidthMesure', 'em'),
 
-    getMaxWidthMesure: () => setting('maxWidthMesure', 'em'),
+  isBookmarkHidden: (title, useGoogleBookmarks) =>
+    isTrue((useGoogleBookmarks ? 'g_' : '') + 'bookmark_' + title),
 
-    isBookmarkHidden: (title, useGoogleBookmarks) => isTrue((useGoogleBookmarks ? 'g_' : '') + 'bookmark_' + title),
+  isSwitchToNewTab: () => isTrue('switchToNewTab'),
 
-    isSwitchToNewTab: () => isTrue('switchToNewTab'),
+  getFontFamily: () => setting('fontFamily', 'Verdana'),
 
-    getFontFamily: () => setting('fontFamily', 'Verdana'),
+  getFontSize: () => setting('fontSize', 13),
 
-    getFontSize: () => setting('fontSize', 13),
+  getFavIconWidth: () => setting('favIconWidth', 16),
 
-    getFavIconWidth: () => setting('favIconWidth', 16),
+  isShowTooltip: () => setting('showTooltip') == 'true',
 
-    isShowTooltip: () => setting('showTooltip') == 'true',
+  isShowURL: () => isTrue('showURL'),
 
-    isShowURL: () => isTrue('showURL'),
+  getColor: name => {
+    var color = localStorage[name];
+    return color
+      ? color.indexOf('#') === 0
+        ? color
+        : '#' + color
+      : name == 'bodyClr' || name == 'bmBgClr' || name == 'activeBmFntClr'
+      ? '#FFFFFF'
+      : name == 'fntClr'
+      ? '#000000'
+      : name == 'activeBmBgClrFrom'
+      ? '#86ABD9'
+      : name == 'activeBmBgClrTo'
+      ? '#1F5EAB'
+      : '#BEBEBE'; // disabledItemFntClr
+  },
 
-    getColor: name => {
-        var color = localStorage[name];
-        return color ? color.indexOf('#') === 0 ? color : '#' + color
-            : name == 'bodyClr' || name == 'bmBgClr' || name == 'activeBmFntClr' ? '#FFFFFF'
-                : name == 'fntClr' ? '#000000'
-                    : name == 'activeBmBgClrFrom' ? '#86ABD9'
-                        : name == 'activeBmBgClrTo' ? '#1F5EAB'
-                            : '#BEBEBE'; // disabledItemFntClr
-    },
+  getScrollBarWidth: () => setting('scrollBarWidth', '7'),
 
-    getScrollBarWidth: () => setting('scrollBarWidth', '7'),
+  isUseGoogleBookmarks: () => isTrue('useGoogleBookmarks'),
 
-    isUseGoogleBookmarks: () => isTrue('useGoogleBookmarks'),
+  getLabelSeparator: () => setting('labelSeparator', '>'),
 
-    getLabelSeparator: () => setting('labelSeparator', '>'),
+  isHideCMModeSwitcher: () => isTrue('hideCMModeSwitcher'),
 
-    isHideCMModeSwitcher: () => isTrue('hideCMModeSwitcher'),
-
-    isHideCMOpenIncognito: () => isTrue('hideCMOpenIncognito')
+  isHideCMOpenIncognito: () => isTrue('hideCMOpenIncognito')
 };
