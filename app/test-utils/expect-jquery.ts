@@ -5,7 +5,7 @@ $.extend($.expr[':'], {
   hidden: (el: HTMLElement) => $(el).css('display') === 'none'
 });
 
-expect.extend({
+export const jQueryExtensionForExpect = {
   is(el: JQuery<HTMLElement>, selector: string) {
     return {
       message: () =>
@@ -21,7 +21,7 @@ expect.extend({
       pass: el.css('display') !== 'none'
     };
   }
-});
+};
 
 export interface JQueryMatchers<R> {
   is(selector: string): R;
