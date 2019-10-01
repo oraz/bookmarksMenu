@@ -9,7 +9,6 @@ import { simulateCustomeElements } from '../test-utils/simulate-custom-elements'
 import { randomAlphanumeric } from '../test-utils/random-utils';
 import { BookmarkTreeNode, Chrome } from '../test-utils/chrome';
 
-window.close = () => {};
 const chrome = new Chrome();
 window['chrome'] = chrome;
 
@@ -40,6 +39,9 @@ describe('popup.html', () => {
     document.dispatchEvent(new Event('DOMContentLoaded'));
     bookmarksMenu = $('#bookmarksMenu');
     bookmark.nextId = 1;
+    window.close = () => {
+      throw Error('Not implemented!');
+    };
   });
 
   afterEach(() => {
@@ -84,20 +86,55 @@ describe('popup.html', () => {
       const first = bookmark();
       givenBookmakrs([], [first, bookmark()]);
       chrome.tabs.update = jest.fn();
+      window.close = jest.fn();
 
       clickOn(first);
 
       expect(chrome.tabs.update).toHaveBeenCalledWith(null, {
         url: first.url
       });
+      expect(window.close).toHaveBeenCalled();
+    });
+
+    it('open bookmark in new tab', () => {
+      const first = bookmark();
+      const second = bookmark();
+      givenBookmakrs([], [first, second]);
+      chrome.tabs.create = jest.fn();
+      window.close = jest.fn();
+
+      clickOn(second, { ctrlKey: true });
+
+      expect(chrome.tabs.create).toHaveBeenCalledWith({
+        url: second.url,
+        active: false
+      });
+      expect(window.close).toHaveBeenCalled();
+    });
+
+    it('open bookmark in new window', () => {
+      const first = bookmark();
+      const second = bookmark();
+      givenBookmakrs([], [first, second]);
+      chrome.windows.create = jest.fn();
+      window.close = jest.fn();
+
+      clickOn(second, { shiftKey: true });
+
+      expect(chrome.windows.create).toHaveBeenCalledWith({
+        url: second.url,
+        incognito: undefined
+      });
+      expect(window.close).toHaveBeenCalled();
     });
   });
 
-  function clickOn(bookmark: BookmarkTreeNode, button = 0) {
+  function clickOn(bookmark: BookmarkTreeNode, eventInit: MouseEventInit = {}) {
     const evt = new MouseEvent('mouseup', {
-      button,
+      button: 0,
+      cancelable: true,
       bubbles: true,
-      cancelable: true
+      ...eventInit
     });
     document.getElementById(bookmark.id).dispatchEvent(evt);
   }
