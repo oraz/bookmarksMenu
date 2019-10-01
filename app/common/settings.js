@@ -31,20 +31,26 @@ export const Settings = {
   isShowURL: () => isTrue('showURL'),
 
   getColor: name => {
-    var color = localStorage[name];
-    return color
-      ? color.indexOf('#') === 0
-        ? color
-        : '#' + color
-      : name == 'bodyClr' || name == 'bmBgClr' || name == 'activeBmFntClr'
-      ? '#FFFFFF'
-      : name == 'fntClr'
-      ? '#000000'
-      : name == 'activeBmBgClrFrom'
-      ? '#86ABD9'
-      : name == 'activeBmBgClrTo'
-      ? '#1F5EAB'
-      : '#BEBEBE'; // disabledItemFntClr
+    const color = localStorage.getItem(name);
+    if (color !== null) {
+      return color.startsWith('#') ? color : `#${color}`;
+    }
+    switch (name) {
+      case 'bodyClr':
+      case 'bmBgClr':
+      case 'activeBmFntClr':
+        return '#FFFFFF';
+      case 'fntClr':
+        return '#000000';
+      case 'activeBmBgClrFrom':
+        return '#86ABD9';
+      case 'activeBmBgClrTo':
+        return '#1F5EAB';
+      case 'disabledItemFntClr':
+        return '#BEBEBE';
+      default:
+        throw Error('Unsupoorted color: ' + name);
+    }
   },
 
   getScrollBarWidth: () => setting('scrollBarWidth', '7'),
