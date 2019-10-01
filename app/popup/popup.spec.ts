@@ -10,7 +10,8 @@ import { randomAlphanumeric } from '../test-utils/random-utils';
 import { BookmarkTreeNode, Chrome } from '../test-utils/chrome';
 
 window.close = () => {};
-let chrome: Chrome;
+const chrome = new Chrome();
+window['chrome'] = chrome;
 
 expect.extend(jQueryExtensionForExpect);
 declare global {
@@ -35,8 +36,6 @@ describe('popup.html', () => {
 
   let bookmarksMenu: JQuery<HTMLElement>;
   beforeEach(() => {
-    chrome = new Chrome();
-    window['chrome'] = chrome;
     document.documentElement.innerHTML = html;
     document.dispatchEvent(new Event('DOMContentLoaded'));
     bookmarksMenu = $('#bookmarksMenu');
@@ -45,6 +44,7 @@ describe('popup.html', () => {
 
   afterEach(() => {
     $(document.documentElement).empty();
+    chrome.reset();
   });
 
   it('#bookmarksMenu exists', () => {
@@ -114,6 +114,7 @@ describe('popup.html', () => {
     };
   }
   bookmark.nextId = 1;
+
   function givenBookmakrs(
     quick: BookmarkTreeNode[],
     other: BookmarkTreeNode[] = []
