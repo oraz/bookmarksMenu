@@ -7,35 +7,10 @@ import {
 } from '../test-utils/expect-jquery';
 import { simulateCustomeElements } from '../test-utils/simulate-custom-elements';
 import { randomAlphanumeric } from '../test-utils/random-utils';
+import { BookmarkTreeNode, Chrome } from '../test-utils/chrome';
 
-interface BookmarkTreeNode {
-  id: string;
-  title: string;
-  children?: BookmarkTreeNode[];
-  parentId?: string;
-  index?: number;
-  url?: string;
-  dateAdded?: number;
-  dateGroupModified?: number;
-}
-
-let getTreeCallback: (nodes: BookmarkTreeNode[]) => void;
-const chrome = {
-  tabs: {
-    update(tabsId: number, updateProperties: { url?: string }): void {
-      throw Error('Not implemented!');
-    }
-  },
-  i18n: {},
-  bookmarks: {
-    getTree(callback: (nodes: BookmarkTreeNode[]) => void) {
-      getTreeCallback = callback;
-    }
-  }
-};
-
-window['chrome'] = chrome;
 window.close = () => {};
+let chrome: Chrome;
 
 expect.extend(jQueryExtensionForExpect);
 declare global {
@@ -60,9 +35,8 @@ describe('popup.html', () => {
 
   let bookmarksMenu: JQuery<HTMLElement>;
   beforeEach(() => {
-    getTreeCallback = nodes => {
-      throw Error('Not implemented');
-    };
+    chrome = new Chrome();
+    window['chrome'] = chrome;
     document.documentElement.innerHTML = html;
     document.dispatchEvent(new Event('DOMContentLoaded'));
     bookmarksMenu = $('#bookmarksMenu');
@@ -144,7 +118,7 @@ describe('popup.html', () => {
     quick: BookmarkTreeNode[],
     other: BookmarkTreeNode[] = []
   ) {
-    getTreeCallback([
+    chrome.bookmarks.givenBookmarks([
       {
         id: 'root',
         title: 'root',
