@@ -1,9 +1,11 @@
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
 import $ from 'jquery';
-import '../../test-utils/expect-jquery';
-import { simulateCustomeElements } from '../../test-utils/simulate-custom-elements';
-import { JQueryMatchers } from '../../test-utils/expect-jquery';
+import {
+  JQueryMatchers,
+  jQueryExtensionForExpect
+} from '../test-utils/expect-jquery';
+import { simulateCustomeElements } from '../test-utils/simulate-custom-elements';
 
 interface BookmarkTreeNode {
   id: string;
@@ -26,6 +28,7 @@ window['chrome'] = {
   }
 };
 
+expect.extend(jQueryExtensionForExpect);
 declare global {
   namespace jest {
     interface Matchers<R> extends JQueryMatchers<R> {}

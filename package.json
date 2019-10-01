@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "description": "Chrome extension which shows bookmarks menu. Works with Chrome and Google bookmarks.",
   "scripts": {
-    "lint": "eslint app",
+    "lint": "echo ESLint... && eslint app",
     "pretest": "npm run lint",
-    "test": "jest",
+    "test": "echo Jest... && jest",
     "prepack": "npm test",
-    "pack": "npm-pack-zip"
+    "pack": "echo Pack... && npm-pack-zip"
   },
   "repository": {
     "type": "git",
