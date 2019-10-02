@@ -9,6 +9,7 @@ import { simulateCustomeElements } from '../test-utils/simulate-custom-elements'
 import { randomAlphanumeric } from '../test-utils/random-utils';
 import { Chrome } from '../test-utils/chrome';
 import { BookmarkTreeNode } from '../test-utils/apis/bookmarks-api';
+import { Settings } from '../common/settings';
 
 const chrome = new Chrome();
 window['chrome'] = chrome;
@@ -179,7 +180,7 @@ describe('popup.html', () => {
     });
   });
 
-  describe('click on bookmark', () => {
+  describe('click on bookmark (left button)', () => {
     it('open bookmark', () => {
       const first = bookmark();
       givenBookmakrs([], [first, bookmark()]);
@@ -238,7 +239,7 @@ describe('popup.html', () => {
       expect(window.close).toHaveBeenCalled();
     });
 
-    it('open all (left button click)', () => {
+    it('open all', () => {
       const first = bookmark();
       const second = bookmark();
       const third = bookmark();
@@ -263,6 +264,72 @@ describe('popup.html', () => {
       });
       expect(window.close).toBeCalled();
     });
+  });
+
+  describe('click on bookmark (middle button)', () => {
+    it.each([
+      [false, false, false],
+      [false, true, true],
+      [true, false, true],
+      [true, true, true]
+    ])(
+      'settingSwitchToNewTab = %p, shiftKey: %p => expectedNewTabActive: %p',
+      (settingSwitchToNewTab, shiftKey, expectedNewTabActive) => {
+        localStorage.switchToNewTab = settingSwitchToNewTab;
+        const first = bookmark();
+        givenBookmakrs([bookmark(), first, bookmark()]);
+        chrome.tabs.create = jest.fn();
+        window.close = jest.fn();
+
+        clickOn(first, { button: 1, shiftKey });
+
+        expect(chrome.tabs.create).toBeCalledWith({
+          url: first.url,
+          active: expectedNewTabActive
+        });
+        expect(window.close).toBeCalled();
+      }
+    );
+
+    it.each([
+      ['click open all in tabs', clickOpenAll],
+      ['click open all (click on folder)', clickOn]
+    ])(
+      '%s:%p',
+      (
+        testName,
+        clickAction: (
+          folder: BookmarkTreeNode,
+          eventInit: MouseEventInit
+        ) => void
+      ) => {
+        const first = bookmark();
+        const second = bookmark();
+        const third = bookmark();
+        const folder = givenFolder(100, first, second, third);
+        givenBookmakrs([folder, bookmark()], [bookmark(), bookmark()]);
+        window.close = jest.fn();
+        chrome.tabs.create = jest.fn();
+
+        mouseOver(folder);
+        clickAction(folder, { button: 1 });
+
+        expect(chrome.tabs.create).toBeCalledTimes(3);
+        expect(chrome.tabs.create).toHaveBeenNthCalledWith(1, {
+          url: first.url,
+          selected: true
+        });
+        expect(chrome.tabs.create).toHaveBeenNthCalledWith(2, {
+          url: second.url,
+          selected: false
+        });
+        expect(chrome.tabs.create).toHaveBeenNthCalledWith(3, {
+          url: third.url,
+          selected: false
+        });
+        expect(window.close).toBeCalled();
+      }
+    );
   });
 
   function clickOn(bookmark: BookmarkTreeNode, eventInit: MouseEventInit = {}) {
