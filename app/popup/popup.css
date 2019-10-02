@@ -1,174 +1,181 @@
 :root {
-    --bodyClr: #fff;
-    --fav-icon-width: 16px;
-    --scrollbar-width: 7px;
-    --fntClr: #000;
-    --font: 13px Verdana;
-    --bmBgClr: #fff;
-    --disabledItemFntClr: #bebebe;
-    --bookmark-max-width: 30em;
-    --activeBmFntClr: #fff;
-    --activeBmBgClrFrom: #86ABD9;
-    --activeBmBgClrTo: #1F5EAB;
-    --padding-for-noicon: 3px;
+  --bodyClr: #fff;
+  --fav-icon-width: 16px;
+  --scrollbar-width: 7px;
+  --fntClr: #000;
+  --font: 13px Verdana;
+  --bmBgClr: #fff;
+  --disabledItemFntClr: #bebebe;
+  --bookmark-max-width: 30em;
+  --activeBmFntClr: #fff;
+  --activeBmBgClrFrom: #86abd9;
+  --activeBmBgClrTo: #1f5eab;
+  --padding-for-noicon: 3px;
 }
 body {
-    margin: 0;
-    overflow-x: hidden;
-    overflow-y: scroll;
-    background-color: var(--bodyClr);
-    color: var(--fntClr);
-    font: var(--font);
+  margin: 0;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  background-color: var(--bodyClr);
+  color: var(--fntClr);
+  font: var(--font);
 }
 
 img {
-    margin-right: 0.3em;
-    vertical-align: bottom;
-    width: var(--fav-icon-width);
-    width: var(--fav-icon-width);
+  margin-right: 0.3em;
+  vertical-align: bottom;
+  width: var(--fav-icon-width);
+  width: var(--fav-icon-width);
 }
 
 li {
-    position: relative;
+  position: relative;
 }
 
 li ul {
-    display: none;
-    position: absolute;
-    top: -1px;
-    right: 100%;
+  display: none;
+  position: absolute;
+  top: -1px;
+  right: 100%;
 }
 
 span {
-    display: block;
-    cursor: default;
-    padding: 3px 1em 3px 3px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  display: block;
+  cursor: default;
+  padding: 3px 1em 3px 3px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 ul {
-    border: 1px solid #ccc;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    background-color: var(--bmBgClr);
+  border: 1px solid #ccc;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background-color: var(--bmBgClr);
 }
 
 #contextMenu > li:not(.enabled) span {
-    color: var(--disabledItemFntClr);
+  color: var(--disabledItemFntClr);
 }
 
 #contextMenu > li:not(.enabled) img {
-    opacity: 0.5;
+  opacity: 0.5;
 }
 
 .empty {
-    padding: 3px 0.6em;
-    color: var(--disabledItemFntClr);
+  padding: 3px 0.6em;
+  color: var(--disabledItemFntClr);
 }
 
 .hover > ul {
-    display: block;
+  display: block;
 }
 
 .separator {
-    background-color: #ccc;
-    height: 1px;
-    margin: 1px 3px;
+  background-color: #ccc;
+  height: 1px;
+  margin: 1px 3px;
 }
 
 #bookmarksMenu {
-    float: right;
+  float: right;
 }
 
 #bookmarksMenu span {
-    max-width: var(--bookmark-max-width);
+  max-width: var(--bookmark-max-width);
 }
 
 #contextMenu {
-    display: none;
-    border-width: 1px 2px 2px 1px;
-    border-style: outset;
-    border-color: #6f5e5e;
-    position: absolute;
-    z-index: 2;
+  display: none;
+  border-width: 1px 2px 2px 1px;
+  border-style: outset;
+  border-color: #6f5e5e;
+  position: absolute;
+  z-index: 2;
 }
 
 #contextMenu.forChromeBookmarks > .forGoogleBookmarks,
 #contextMenu.forGoogleBookmarks > .forChromeBookmarks,
 #contextMenu[for="bookmark"] > .forFolder,
 #contextMenu[for="folder"] > .forBookmark {
-    display: none;
+  display: none;
 }
 
 #gwindow {
-    background-color: var(--bmBgClr);
-    border-width: 1px 2px 2px 1px;
-    border-style: outset;
-    border-color: #6f5e5e;
-    border-radius: 3px;
-    display: none;
-    position: fixed;
-    z-index: 2;
+  background-color: var(--bmBgClr);
+  border-width: 1px 2px 2px 1px;
+  border-style: outset;
+  border-color: #6f5e5e;
+  border-radius: 3px;
+  display: none;
+  position: fixed;
+  z-index: 2;
 }
 
 #gwindow input {
-    width: 20em;
+  width: 20em;
 }
 
 #gwindow tr > td:first-child {
-    text-align: right;
+  text-align: right;
 }
 
 #loading {
-    display: none;
-    margin: 2ex 0.3em;
-    text-align: center;
+  display: none;
+  margin: 2ex 2em;
+  text-align: center;
+  white-space: nowrap;
+}
+
+#loading.error {
+  color: red;
+  margin: 4ex 3em;
 }
 
 #suggest {
-    background-color: white;
-    border: 1px solid gray;
-    cursor: default;
-    display: none;
-    position: fixed;
-    z-index: 2;
-    overflow: auto;
+  background-color: white;
+  border: 1px solid gray;
+  cursor: default;
+  display: none;
+  position: fixed;
+  z-index: 2;
+  overflow: auto;
 }
 
 #suggest > .currentSuggest {
-    background-color: #86abd9;
+  background-color: #86abd9;
 }
 
 #transparentLayer {
-    display: none;
-    background-color: rgba(255, 255, 255, 0.5);
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 1;
+  display: none;
+  background-color: rgba(255, 255, 255, 0.5);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
 }
 
 ::-webkit-scrollbar {
-    background-color: #e2dbdb;
-    border: 1px solid #ccc;
-    height: 0;
-    width: var(--scrollbar-width);
-
+  background-color: #e2dbdb;
+  border: 1px solid #ccc;
+  height: 0;
+  width: var(--scrollbar-width);
 }
 
 ::-webkit-scrollbar-thumb:vertical {
-    background-image: -webkit-gradient(linear, left top, right top, from(#ccc), to(gray));
+  background: linear-gradient(90deg, #ccc, gray);
 }
 
-li[type]:hover > span, .enabled:hover > span, .hover > span {
-    color: var(--activeBmFntClr);
-    background: linear-gradient(var(--activeBmBgClrFrom), var(--activeBmBgClrTo));
+li[type]:hover > span,
+.enabled:hover > span,
+.hover > span {
+  color: var(--activeBmFntClr);
+  background: linear-gradient(var(--activeBmBgClrFrom), var(--activeBmBgClrTo));
 }
 
 .noicon {
-    padding-left: var(--padding-for-noicon);
+  padding-left: var(--padding-for-noicon);
 }
