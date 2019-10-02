@@ -82,6 +82,103 @@ describe('popup.html', () => {
     expect(bookmarksMenu.children(':nth(2)')).is('#2[type=bookmark]:visible');
   });
 
+  describe('folder content', () => {
+    it('only folder name must be visible', () => {
+      const firstInFolder = bookmark();
+      const secondInFolder = bookmark();
+      const first = bookmark(50);
+
+      const folder = givenFolder(100, firstInFolder, secondInFolder);
+      givenBookmakrs([folder, first]);
+
+      expect(bookmarksMenu.children()).toHaveLength(3);
+      expect(bookmarksMenu.children(':nth(0)')).is('#100[type=folder]:visible');
+      expect($('#100 > ul')).toHaveLength(0);
+      expect(bookmarksMenu.children(':nth(1)')).is(
+        '#50[type=bookmark]:visible'
+      );
+      expect(bookmarksMenu.children(':nth(2)')).is('.separator:not(:visible)');
+    });
+
+    it('show folder content', () => {
+      const firstInFolder = bookmark();
+      const secondInFolder = bookmark();
+      const first = bookmark(50);
+
+      const folder = givenFolder(100, firstInFolder, secondInFolder);
+      givenBookmakrs([folder, first]);
+
+      expect(bookmarksMenu.children()).toHaveLength(3);
+      expect(bookmarksMenu.children(':nth(0)')).is('#100[type=folder]:visible');
+      expect($('#100 > ul')).toHaveLength(0);
+
+      mouseOver(folder);
+
+      const folderContent = $('#100 > ul');
+      expect(folderContent).toHaveLength(1);
+      expect(folderContent).is(':visible');
+
+      expect(folderContent.children()).toHaveLength(4);
+      expect(folderContent.children(':nth(0)')).is('#1[type=bookmark]:visible');
+      expect(folderContent.children(':nth(1)')).is('#2[type=bookmark]:visible');
+      expect(folderContent.children(':nth(2)')).is('.separator:visible');
+      expect(folderContent.children(':nth(3)')).is(
+        '[type=openAllInTabs]:visible'
+      );
+    });
+
+    it('show folder content with one bookmark', () => {
+      const firstInFolder = bookmark();
+      const first = bookmark(50);
+
+      const folder = givenFolder(100, firstInFolder);
+      givenBookmakrs([folder, first]);
+
+      expect(bookmarksMenu.children()).toHaveLength(3);
+      expect(bookmarksMenu.children(':nth(0)')).is('#100[type=folder]:visible');
+      expect($('#100 > ul')).toHaveLength(0);
+
+      mouseOver(folder);
+
+      const folderContent = $('#100 > ul');
+      expect(folderContent).toHaveLength(1);
+      expect(folderContent).is(':visible');
+
+      expect(folderContent.children()).toHaveLength(1);
+      expect(folderContent.children()).is('#1[type=bookmark]:visible');
+    });
+
+    it('empty folder', () => {
+      const first = bookmark(50);
+      const folder = givenFolder(100);
+      givenBookmakrs([folder, first]);
+
+      expect(bookmarksMenu.children()).toHaveLength(3);
+      expect(bookmarksMenu.children()).is('#100[type=folder]:visible');
+      expect($('#100 > ul')).toHaveLength(0);
+
+      mouseOver(folder);
+
+      const folderContent = $('#100 > ul');
+      expect(folderContent).toHaveLength(1);
+      expect(folderContent).is(':visible');
+
+      expect(folderContent.children()).toHaveLength(1);
+      expect(folderContent.children().children()).is('.empty:visible');
+    });
+
+    it('move mouse to another bookmark', () => {
+      const first = bookmark(50);
+      const folder = givenFolder(100);
+      givenBookmakrs([folder, first]);
+
+      mouseOver(folder);
+      mouseOver(first);
+
+      expect($('#100 > ul')).is(':not(:visible)');
+    });
+  });
+
   describe('click on bookmark', () => {
     it('open bookmark', () => {
       const first = bookmark();
@@ -152,6 +249,15 @@ describe('popup.html', () => {
     document.getElementById(bookmark.id).dispatchEvent(evt);
   }
 
+  function mouseOver(item: BookmarkTreeNode, eventInit: MouseEventInit = {}) {
+    const evt = new MouseEvent('mouseover', {
+      cancelable: true,
+      bubbles: true,
+      ...eventInit
+    });
+    document.getElementById(item.id).dispatchEvent(evt);
+  }
+
   function bookmark(
     id = bookmark.nextId++,
     title = randomAlphanumeric(),
@@ -164,6 +270,17 @@ describe('popup.html', () => {
     };
   }
   bookmark.nextId = 1;
+
+  function givenFolder(
+    id: number,
+    ...children: BookmarkTreeNode[]
+  ): BookmarkTreeNode {
+    return {
+      id: '' + id,
+      title: randomAlphanumeric(),
+      children
+    };
+  }
 
   function givenBookmakrs(
     quick: BookmarkTreeNode[],
