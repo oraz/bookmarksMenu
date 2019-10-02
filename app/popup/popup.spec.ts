@@ -50,6 +50,7 @@ describe('popup.html', () => {
     $(document.documentElement).empty();
     chrome.reset();
     window.close = nativeWindowClose;
+    localStorage.clear();
   });
 
   describe('root folder content', () => {
@@ -183,182 +184,193 @@ describe('popup.html', () => {
     });
   });
 
-  describe('click on bookmark (left button)', () => {
-    it('open bookmark', () => {
-      const first = bookmark();
-      givenBookmakrs([], [first, bookmark()]);
-      chrome.tabs.update = jest.fn();
-      window.close = jest.fn();
-
-      clickOn(first);
-
-      expect(chrome.tabs.update).toHaveBeenCalledWith({ url: first.url });
-      expect(window.close).toHaveBeenCalled();
-    });
-
-    it('open bookmark: js', () => {
-      const first = bookmark(1, 'alert', 'javascript:alert("Hello")');
-      givenBookmakrs([], [first, bookmark()]);
-      chrome.tabs.executeScript = jest.fn();
-      window.close = jest.fn();
-
-      clickOn(first);
-
-      expect(chrome.tabs.executeScript).toHaveBeenCalledWith({
-        code: 'alert("Hello")'
+  describe.each([[0, 1, 2], [1, 2, 0], [2, 0, 1]])(
+    'click with buttonsConfig = [%p, %p, %p]',
+    (leftButton, middleButton, rightButton) => {
+      beforeEach(() => {
+        localStorage[leftButton] = 0;
+        localStorage[middleButton] = 1;
+        localStorage[rightButton] = 2;
       });
-      expect(window.close).toHaveBeenCalled();
-    });
 
-    it('open bookmark with ctrlKey', () => {
-      const first = bookmark();
-      const second = bookmark();
-      givenBookmakrs([], [first, second]);
-      chrome.tabs.create = jest.fn();
-      window.close = jest.fn();
+      describe('click on bookmark (left button)', () => {
+        it('open bookmark', () => {
+          const first = bookmark();
+          givenBookmakrs([], [first, bookmark()]);
+          chrome.tabs.update = jest.fn();
+          window.close = jest.fn();
 
-      clickOn(second, { ctrlKey: true });
+          clickOn(first, { button: leftButton });
 
-      expect(chrome.tabs.create).toHaveBeenCalledWith({
-        url: second.url,
-        active: false
-      });
-      expect(window.close).toHaveBeenCalled();
-    });
-
-    it('open bookmark with shiftKey', () => {
-      const first = bookmark();
-      const second = bookmark();
-      givenBookmakrs([], [first, second]);
-      chrome.windows.create = jest.fn();
-      window.close = jest.fn();
-
-      clickOn(second, { shiftKey: true });
-
-      expect(chrome.windows.create).toHaveBeenCalledWith({
-        url: second.url,
-        incognito: undefined
-      });
-      expect(window.close).toHaveBeenCalled();
-    });
-
-    it('open all', () => {
-      const first = bookmark();
-      const second = bookmark();
-      const third = bookmark();
-      const folder = givenFolder(100, first, second, third);
-      givenBookmakrs([folder, bookmark()], [bookmark(), bookmark()]);
-      window.close = jest.fn();
-      chrome.tabs.update = jest.fn();
-      chrome.tabs.create = jest.fn();
-
-      mouseOver(folder);
-      clickOpenAll(folder);
-
-      expect(chrome.tabs.update).toBeCalledWith({ url: first.url });
-      expect(chrome.tabs.create).toBeCalledTimes(2);
-      expect(chrome.tabs.create).toHaveBeenNthCalledWith(1, {
-        url: second.url,
-        selected: false
-      });
-      expect(chrome.tabs.create).toHaveBeenNthCalledWith(2, {
-        url: third.url,
-        selected: false
-      });
-      expect(window.close).toBeCalled();
-    });
-  });
-
-  describe('click on bookmark (middle button)', () => {
-    it.each([
-      [false, false, false],
-      [false, true, true],
-      [true, false, true],
-      [true, true, true]
-    ])(
-      'settingSwitchToNewTab = %p, shiftKey: %p => expectedNewTabActive: %p',
-      (settingSwitchToNewTab, shiftKey, expectedNewTabActive) => {
-        localStorage.switchToNewTab = settingSwitchToNewTab;
-        const first = bookmark();
-        givenBookmakrs([bookmark(), first, bookmark()]);
-        chrome.tabs.create = jest.fn();
-        window.close = jest.fn();
-
-        clickOn(first, { button: 1, shiftKey });
-
-        expect(chrome.tabs.create).toBeCalledWith({
-          url: first.url,
-          active: expectedNewTabActive
+          expect(chrome.tabs.update).toHaveBeenCalledWith({ url: first.url });
+          expect(window.close).toHaveBeenCalled();
         });
-        expect(window.close).toBeCalled();
-      }
-    );
 
-    it.each([
-      ['click open all in tabs', clickOpenAll],
-      ['click open all (click on folder)', clickOn]
-    ])(
-      '%s:%p',
-      (
-        testName,
-        clickAction: (
-          folder: BookmarkTreeNode,
-          eventInit: MouseEventInit
-        ) => void
-      ) => {
-        const first = bookmark();
-        const second = bookmark();
-        const third = bookmark();
-        const folder = givenFolder(100, first, second, third);
-        givenBookmakrs([folder, bookmark()], [bookmark(), bookmark()]);
-        window.close = jest.fn();
-        chrome.tabs.create = jest.fn();
+        it('open bookmark: js', () => {
+          const first = bookmark(1, 'alert', 'javascript:alert("Hello")');
+          givenBookmakrs([], [first, bookmark()]);
+          chrome.tabs.executeScript = jest.fn();
+          window.close = jest.fn();
 
-        mouseOver(folder);
-        clickAction(folder, { button: 1 });
+          clickOn(first, { button: leftButton });
 
-        expect(chrome.tabs.create).toBeCalledTimes(3);
-        expect(chrome.tabs.create).toHaveBeenNthCalledWith(1, {
-          url: first.url,
-          selected: true
+          expect(chrome.tabs.executeScript).toHaveBeenCalledWith({
+            code: 'alert("Hello")'
+          });
+          expect(window.close).toHaveBeenCalled();
         });
-        expect(chrome.tabs.create).toHaveBeenNthCalledWith(2, {
-          url: second.url,
-          selected: false
+
+        it('open bookmark with ctrlKey', () => {
+          const first = bookmark();
+          const second = bookmark();
+          givenBookmakrs([], [first, second]);
+          chrome.tabs.create = jest.fn();
+          window.close = jest.fn();
+
+          clickOn(second, { button: leftButton, ctrlKey: true });
+
+          expect(chrome.tabs.create).toHaveBeenCalledWith({
+            url: second.url,
+            active: false
+          });
+          expect(window.close).toHaveBeenCalled();
         });
-        expect(chrome.tabs.create).toHaveBeenNthCalledWith(3, {
-          url: third.url,
-          selected: false
+
+        it('open bookmark with shiftKey', () => {
+          const first = bookmark();
+          const second = bookmark();
+          givenBookmakrs([], [first, second]);
+          chrome.windows.create = jest.fn();
+          window.close = jest.fn();
+
+          clickOn(second, { button: leftButton, shiftKey: true });
+
+          expect(chrome.windows.create).toHaveBeenCalledWith({
+            url: second.url,
+            incognito: undefined
+          });
+          expect(window.close).toHaveBeenCalled();
         });
-        expect(window.close).toBeCalled();
-      }
-    );
-  });
 
-  describe('click on bookmark (right button)', () => {
-    it('context menu for bookmark must be shown', () => {
-      const first = bookmark();
-      const second = bookmark();
-      const third = bookmark();
-      givenBookmakrs([first, second], [third, bookmark()]);
+        it('open all', () => {
+          const first = bookmark();
+          const second = bookmark();
+          const third = bookmark();
+          const folder = givenFolder(100, first, second, third);
+          givenBookmakrs([folder, bookmark()], [bookmark(), bookmark()]);
+          window.close = jest.fn();
+          chrome.tabs.update = jest.fn();
+          chrome.tabs.create = jest.fn();
 
-      clickOn(second, { button: 2 });
+          mouseOver(folder);
+          clickOpenAll(folder, { button: leftButton });
 
-      expect($(`#${second.id}`)).is('.hover');
-      expect($('#contextMenu')).is('[for=bookmark]:visible');
-    });
+          expect(chrome.tabs.update).toBeCalledWith({ url: first.url });
+          expect(chrome.tabs.create).toBeCalledTimes(2);
+          expect(chrome.tabs.create).toHaveBeenNthCalledWith(1, {
+            url: second.url,
+            selected: false
+          });
+          expect(chrome.tabs.create).toHaveBeenNthCalledWith(2, {
+            url: third.url,
+            selected: false
+          });
+          expect(window.close).toBeCalled();
+        });
+      });
 
-    it('context menu for folder must be shown', () => {
-      const folder = givenFolder(100, bookmark(), bookmark());
-      givenBookmakrs([bookmark(), bookmark()], [folder, bookmark()]);
+      describe('click on bookmark (middle button)', () => {
+        it.each([
+          [false, false, false],
+          [false, true, true],
+          [true, false, true],
+          [true, true, true]
+        ])(
+          'settingSwitchToNewTab = %p, shiftKey: %p => expectedNewTabActive: %p',
+          (settingSwitchToNewTab, shiftKey, expectedNewTabActive) => {
+            localStorage.switchToNewTab = settingSwitchToNewTab;
+            const first = bookmark();
+            givenBookmakrs([bookmark(), first, bookmark()]);
+            chrome.tabs.create = jest.fn();
+            window.close = jest.fn();
 
-      mouseOver(folder);
-      clickOn(folder, { button: 2 });
+            clickOn(first, { button: middleButton, shiftKey });
 
-      expect($(`#${folder.id}`)).is('.hover');
-      expect($('#contextMenu')).is('[for=folder]:visible');
-    });
-  });
+            expect(chrome.tabs.create).toBeCalledWith({
+              url: first.url,
+              active: expectedNewTabActive
+            });
+            expect(window.close).toBeCalled();
+          }
+        );
+
+        it.each([
+          ['click open all in tabs', clickOpenAll],
+          ['click open all (click on folder)', clickOn]
+        ])(
+          '%s:%p',
+          (
+            testName,
+            clickAction: (
+              folder: BookmarkTreeNode,
+              eventInit: MouseEventInit
+            ) => void
+          ) => {
+            const first = bookmark();
+            const second = bookmark();
+            const third = bookmark();
+            const folder = givenFolder(100, first, second, third);
+            givenBookmakrs([folder, bookmark()], [bookmark(), bookmark()]);
+            window.close = jest.fn();
+            chrome.tabs.create = jest.fn();
+
+            mouseOver(folder);
+            clickAction(folder, { button: middleButton });
+
+            expect(chrome.tabs.create).toBeCalledTimes(3);
+            expect(chrome.tabs.create).toHaveBeenNthCalledWith(1, {
+              url: first.url,
+              selected: true
+            });
+            expect(chrome.tabs.create).toHaveBeenNthCalledWith(2, {
+              url: second.url,
+              selected: false
+            });
+            expect(chrome.tabs.create).toHaveBeenNthCalledWith(3, {
+              url: third.url,
+              selected: false
+            });
+            expect(window.close).toBeCalled();
+          }
+        );
+      });
+
+      describe('click on bookmark (right button)', () => {
+        it('context menu for bookmark must be shown', () => {
+          const first = bookmark();
+          const second = bookmark();
+          const third = bookmark();
+          givenBookmakrs([first, second], [third, bookmark()]);
+
+          clickOn(second, { button: rightButton });
+
+          expect($(`#${second.id}`)).is('.hover');
+          expect($('#contextMenu')).is('[for=bookmark]:visible');
+        });
+
+        it('context menu for folder must be shown', () => {
+          const folder = givenFolder(100, bookmark(), bookmark());
+          givenBookmakrs([bookmark(), bookmark()], [folder, bookmark()]);
+
+          mouseOver(folder);
+          clickOn(folder, { button: rightButton });
+
+          expect($(`#${folder.id}`)).is('.hover');
+          expect($('#contextMenu')).is('[for=folder]:visible');
+        });
+      });
+    }
+  );
 
   function clickOn(bookmark: BookmarkTreeNode, eventInit: MouseEventInit = {}) {
     const evt = new MouseEvent('mouseup', {
