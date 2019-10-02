@@ -9,7 +9,6 @@ import { simulateCustomeElements } from '../test-utils/simulate-custom-elements'
 import { randomAlphanumeric } from '../test-utils/random-utils';
 import { Chrome } from '../test-utils/chrome';
 import { BookmarkTreeNode } from '../test-utils/apis/bookmarks-api';
-import { Settings } from '../common/settings';
 
 const chrome = new Chrome();
 window['chrome'] = chrome;
@@ -36,6 +35,7 @@ describe('popup.html', () => {
   });
 
   let bookmarksMenu: JQuery<HTMLElement>;
+  const nativeWindowClose = window.close;
   beforeEach(() => {
     document.documentElement.innerHTML = html;
     document.dispatchEvent(new Event('DOMContentLoaded'));
@@ -49,38 +49,41 @@ describe('popup.html', () => {
   afterEach(() => {
     $(document.documentElement).empty();
     chrome.reset();
+    window.close = nativeWindowClose;
   });
 
-  it('#bookmarksMenu exists', () => {
-    expect(bookmarksMenu).toHaveLength(1);
-    expect(bookmarksMenu).is(':visible');
-  });
+  describe('root folder content', () => {
+    it('#bookmarksMenu exists', () => {
+      expect(bookmarksMenu).toHaveLength(1);
+      expect(bookmarksMenu).is(':visible');
+    });
 
-  it('with bookmarks in toolbar', () => {
-    givenBookmakrs([bookmark(), bookmark()]);
+    it('with bookmarks in toolbar', () => {
+      givenBookmakrs([bookmark(), bookmark()]);
 
-    expect(bookmarksMenu.children()).toHaveLength(3);
-    expect(bookmarksMenu.children(':nth(0)')).is('#1[type=bookmark]:visible');
-    expect(bookmarksMenu.children(':nth(1)')).is('#2[type=bookmark]:visible');
-    expect(bookmarksMenu.children(':nth(2)')).is('.separator:not(:visible)');
-  });
+      expect(bookmarksMenu.children()).toHaveLength(3);
+      expect(bookmarksMenu.children(':nth(0)')).is('#1[type=bookmark]:visible');
+      expect(bookmarksMenu.children(':nth(1)')).is('#2[type=bookmark]:visible');
+      expect(bookmarksMenu.children(':nth(2)')).is('.separator:not(:visible)');
+    });
 
-  it('with bookmarks in both parts', () => {
-    givenBookmakrs([bookmark()], [bookmark()]);
+    it('with bookmarks in both parts', () => {
+      givenBookmakrs([bookmark()], [bookmark()]);
 
-    expect(bookmarksMenu.children()).toHaveLength(3);
-    expect(bookmarksMenu.children(':nth(0)')).is('#1[type=bookmark]:visible');
-    expect(bookmarksMenu.children(':nth(1)')).is('.separator:visible');
-    expect(bookmarksMenu.children(':nth(2)')).is('#2[type=bookmark]:visible');
-  });
+      expect(bookmarksMenu.children()).toHaveLength(3);
+      expect(bookmarksMenu.children(':nth(0)')).is('#1[type=bookmark]:visible');
+      expect(bookmarksMenu.children(':nth(1)')).is('.separator:visible');
+      expect(bookmarksMenu.children(':nth(2)')).is('#2[type=bookmark]:visible');
+    });
 
-  it('with bookmarks only in other part', () => {
-    givenBookmakrs([], [bookmark(), bookmark()]);
+    it('with bookmarks only in other part', () => {
+      givenBookmakrs([], [bookmark(), bookmark()]);
 
-    expect(bookmarksMenu.children()).toHaveLength(3);
-    expect(bookmarksMenu.children(':nth(0)')).is('.separator:not(:visible)');
-    expect(bookmarksMenu.children(':nth(1)')).is('#1[type=bookmark]:visible');
-    expect(bookmarksMenu.children(':nth(2)')).is('#2[type=bookmark]:visible');
+      expect(bookmarksMenu.children()).toHaveLength(3);
+      expect(bookmarksMenu.children(':nth(0)')).is('.separator:not(:visible)');
+      expect(bookmarksMenu.children(':nth(1)')).is('#1[type=bookmark]:visible');
+      expect(bookmarksMenu.children(':nth(2)')).is('#2[type=bookmark]:visible');
+    });
   });
 
   describe('folder content', () => {
@@ -330,6 +333,31 @@ describe('popup.html', () => {
         expect(window.close).toBeCalled();
       }
     );
+  });
+
+  describe('click on bookmark (right button)', () => {
+    it('context menu for bookmark must be shown', () => {
+      const first = bookmark();
+      const second = bookmark();
+      const third = bookmark();
+      givenBookmakrs([first, second], [third, bookmark()]);
+
+      clickOn(second, { button: 2 });
+
+      expect($(`#${second.id}`)).is('.hover');
+      expect($('#contextMenu')).is('[for=bookmark]:visible');
+    });
+
+    it('context menu for folder must be shown', () => {
+      const folder = givenFolder(100, bookmark(), bookmark());
+      givenBookmakrs([bookmark(), bookmark()], [folder, bookmark()]);
+
+      mouseOver(folder);
+      clickOn(folder, { button: 2 });
+
+      expect($(`#${folder.id}`)).is('.hover');
+      expect($('#contextMenu')).is('[for=folder]:visible');
+    });
   });
 
   function clickOn(bookmark: BookmarkTreeNode, eventInit: MouseEventInit = {}) {
