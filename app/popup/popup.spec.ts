@@ -206,7 +206,7 @@ describe('popup.html', () => {
       expect(window.close).toHaveBeenCalled();
     });
 
-    it('open bookmark in new tab', () => {
+    it('open bookmark with ctrlKey', () => {
       const first = bookmark();
       const second = bookmark();
       givenBookmakrs([], [first, second]);
@@ -222,7 +222,7 @@ describe('popup.html', () => {
       expect(window.close).toHaveBeenCalled();
     });
 
-    it('open bookmark in new window', () => {
+    it('open bookmark with shiftKey', () => {
       const first = bookmark();
       const second = bookmark();
       givenBookmakrs([], [first, second]);
@@ -237,6 +237,32 @@ describe('popup.html', () => {
       });
       expect(window.close).toHaveBeenCalled();
     });
+
+    it('open all (left button click)', () => {
+      const first = bookmark();
+      const second = bookmark();
+      const third = bookmark();
+      const folder = givenFolder(100, first, second, third);
+      givenBookmakrs([folder, bookmark()], [bookmark(), bookmark()]);
+      window.close = jest.fn();
+      chrome.tabs.update = jest.fn();
+      chrome.tabs.create = jest.fn();
+
+      mouseOver(folder);
+      clickOpenAll(folder);
+
+      expect(chrome.tabs.update).toBeCalledWith({ url: first.url });
+      expect(chrome.tabs.create).toBeCalledTimes(2);
+      expect(chrome.tabs.create).toHaveBeenNthCalledWith(1, {
+        url: second.url,
+        selected: false
+      });
+      expect(chrome.tabs.create).toHaveBeenNthCalledWith(2, {
+        url: third.url,
+        selected: false
+      });
+      expect(window.close).toBeCalled();
+    });
   });
 
   function clickOn(bookmark: BookmarkTreeNode, eventInit: MouseEventInit = {}) {
@@ -247,6 +273,22 @@ describe('popup.html', () => {
       ...eventInit
     });
     document.getElementById(bookmark.id).dispatchEvent(evt);
+  }
+
+  function clickOpenAll(
+    folder: BookmarkTreeNode,
+    eventInit: MouseEventInit = {}
+  ) {
+    const evt = new MouseEvent('mouseup', {
+      button: 0,
+      cancelable: true,
+      bubbles: true,
+      ...eventInit
+    });
+    document
+      .getElementById(folder.id)
+      .querySelector('ul > li[type=openAllInTabs]')
+      .dispatchEvent(evt);
   }
 
   function mouseOver(item: BookmarkTreeNode, eventInit: MouseEventInit = {}) {
