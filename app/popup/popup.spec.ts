@@ -7,7 +7,8 @@ import {
 } from '../test-utils/expect-jquery';
 import { simulateCustomeElements } from '../test-utils/simulate-custom-elements';
 import { randomAlphanumeric } from '../test-utils/random-utils';
-import { BookmarkTreeNode, Chrome } from '../test-utils/chrome';
+import { Chrome } from '../test-utils/chrome';
+import { BookmarkTreeNode } from '../test-utils/apis/bookmarks-api';
 
 const chrome = new Chrome();
 window['chrome'] = chrome;
@@ -90,8 +91,20 @@ describe('popup.html', () => {
 
       clickOn(first);
 
-      expect(chrome.tabs.update).toHaveBeenCalledWith(null, {
-        url: first.url
+      expect(chrome.tabs.update).toHaveBeenCalledWith({ url: first.url });
+      expect(window.close).toHaveBeenCalled();
+    });
+
+    it('open bookmark: js', () => {
+      const first = bookmark(1, 'alert', 'javascript:alert("Hello")');
+      givenBookmakrs([], [first, bookmark()]);
+      chrome.tabs.executeScript = jest.fn();
+      window.close = jest.fn();
+
+      clickOn(first);
+
+      expect(chrome.tabs.executeScript).toHaveBeenCalledWith({
+        code: 'alert("Hello")'
       });
       expect(window.close).toHaveBeenCalled();
     });
