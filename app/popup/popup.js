@@ -143,11 +143,11 @@ class Bookmark extends HTMLLIElement {
   }
 
   openAllInTabs(firstInCurrentTab) {
-    this.getBookmarksInFolder().forEach((bookmark, idx) => {
-      if (idx == 0 && firstInCurrentTab) {
+    this.getBookmarksInFolder().forEach((/** @type Bookmark */bookmark, idx) => {
+      if (idx === 0 && firstInCurrentTab) {
         bookmark.open();
       } else {
-        chrome.tabs.create({ url: bookmark.url, selected: idx == 0 });
+        chrome.tabs.create({ url: bookmark.url, selected: idx === 0 });
       }
     });
     closePopup();
@@ -164,6 +164,7 @@ class Bookmark extends HTMLLIElement {
     this.openAllInNewWindow(true);
   }
 
+  /** @returns Bookmark[] */
   getBookmarksInFolder() {
     return this.querySelectorAll(
       'li[id="' + this.id + '"]>ul>li[type="bookmark"]'
@@ -838,6 +839,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   var rootFolder = $('bookmarksMenu');
   rootFolder.onmouseup = function (ev) {
+    /** @type Bookmark */
     var bookmark = ev.srcElement;
     while (!(bookmark instanceof HTMLLIElement)) {
       bookmark = bookmark.parentElement;
