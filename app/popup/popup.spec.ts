@@ -65,7 +65,7 @@ describe('popup.html', () => {
       expect(bookmarksMenu.children()).toHaveLength(3);
       expect(bookmarksMenu.children(':nth(0)')).is('#1[type=bookmark]:visible');
       expect(bookmarksMenu.children(':nth(1)')).is('#2[type=bookmark]:visible');
-      expect(bookmarksMenu.children(':nth(2)')).is('.separator:not(:visible)');
+      expect(bookmarksMenu.children(':nth(2)')).is('.separator:hidden');
     });
 
     it('with bookmarks in both parts', () => {
@@ -81,7 +81,7 @@ describe('popup.html', () => {
       givenBookmakrs([], [bookmark(), bookmark()]);
 
       expect(bookmarksMenu.children()).toHaveLength(3);
-      expect(bookmarksMenu.children(':nth(0)')).is('.separator:not(:visible)');
+      expect(bookmarksMenu.children(':nth(0)')).is('.separator:hidden');
       expect(bookmarksMenu.children(':nth(1)')).is('#1[type=bookmark]:visible');
       expect(bookmarksMenu.children(':nth(2)')).is('#2[type=bookmark]:visible');
     });
@@ -102,7 +102,7 @@ describe('popup.html', () => {
       expect(bookmarksMenu.children(':nth(1)')).is(
         '#50[type=bookmark]:visible'
       );
-      expect(bookmarksMenu.children(':nth(2)')).is('.separator:not(:visible)');
+      expect(bookmarksMenu.children(':nth(2)')).is('.separator:hidden');
     });
 
     it('show folder content', () => {
@@ -180,7 +180,7 @@ describe('popup.html', () => {
       mouseOver(folder);
       mouseOver(first);
 
-      expect($('#100 > ul')).is(':not(:visible)');
+      expect($('#100 > ul')).is(':hidden');
     });
   });
 

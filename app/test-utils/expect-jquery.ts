@@ -1,8 +1,17 @@
 import $ from 'jquery';
 
 $.extend($.expr[':'], {
-  visible: (el: HTMLElement) => $(el).css('display') !== 'none',
-  hidden: (el: HTMLElement) => $(el).css('display') === 'none'
+  visible: (el: HTMLElement) => {
+    const el$ = $(el);
+    return (
+      el$.css('display') !== 'none' &&
+      el$
+        .parents()
+        .toArray()
+        .every(each => $(each).css('display') !== 'none')
+    );
+  },
+  hidden: (el: HTMLElement) => $(el).is(':not(:visible)')
 });
 
 export const jQueryExtensionForExpect = {
