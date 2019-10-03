@@ -1,5 +1,7 @@
 import $ from 'jquery';
 
+// just import this module e.g. import '../test-utils/expect-jquery'
+
 $.extend($.expr[':'], {
   visible: (el: HTMLElement) => {
     const el$ = $(el);
@@ -14,25 +16,20 @@ $.extend($.expr[':'], {
   hidden: (el: HTMLElement) => $(el).is(':not(:visible)')
 });
 
-export const jQueryExtensionForExpect = {
+expect.extend({
   is(el: JQuery<HTMLElement>, selector: string) {
     return {
       message: () =>
         `expected ${el.get().map(each => each.outerHTML)} to be '${selector}'`,
       pass: el.is(selector)
     };
-  },
-
-  toBeVisible(el: JQuery<HTMLElement>) {
-    return {
-      message: () =>
-        `expected ${el.get().map(each => each.outerHTML)} has not display none`,
-      pass: el.css('display') !== 'none'
-    };
   }
-};
+});
 
-export interface JQueryMatchers<R> {
-  is(selector: string): R;
-  toBeVisible(): R;
+declare global {
+  namespace jest {
+    interface Matchers<R> {
+      is(selector: string): R;
+    }
+  }
 }

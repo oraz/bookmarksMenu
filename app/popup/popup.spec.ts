@@ -1,10 +1,7 @@
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
 import $ from 'jquery';
-import {
-  JQueryMatchers,
-  jQueryExtensionForExpect
-} from '../test-utils/expect-jquery';
+import '../test-utils/expect-jquery';
 import { simulateCustomeElements } from '../test-utils/simulate-custom-elements';
 import { randomAlphanumeric } from '../test-utils/random-utils';
 import { Chrome } from '../test-utils/chrome';
@@ -12,13 +9,6 @@ import { BookmarkTreeNode } from '../test-utils/apis/bookmarks-api';
 
 const chrome = new Chrome();
 window['chrome'] = chrome;
-
-expect.extend(jQueryExtensionForExpect);
-declare global {
-  namespace jest {
-    interface Matchers<R> extends JQueryMatchers<R> {}
-  }
-}
 
 describe('popup.html', () => {
   const css = readFileSync(resolve(__dirname, 'popup.css'), 'utf-8');

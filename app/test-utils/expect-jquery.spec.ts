@@ -1,17 +1,7 @@
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
 import $ from 'jquery';
-import {
-  JQueryMatchers,
-  jQueryExtensionForExpect
-} from '../test-utils/expect-jquery';
-
-expect.extend(jQueryExtensionForExpect);
-declare global {
-  namespace jest {
-    interface Matchers<R> extends JQueryMatchers<R> {}
-  }
-}
+import '../test-utils/expect-jquery';
 
 describe('jQueryExtensionForExpect', () => {
   beforeAll(() => {
