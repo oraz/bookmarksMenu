@@ -1,0 +1,26 @@
+<head>
+  <style>
+    .invisible_by_style {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="invisible_by_style" class="invisible_by_style">
+    <div id="invisible_by_style__first" style="display: block;">
+      <div id="invisible_by_style__first__first" style="display: block;">
+        Text
+      </div>
+    </div>
+  </div>
+  <div id="visible_block">
+    <div id="visible_block__invisible_by_style" class="invisible_by_style">
+      <div id="visible_block__invisible_by_style__first">
+        Test
+      </div>
+    </div>
+    <div id="visible_block__first">
+      First
+    </div>
+  </div>
+</body>
