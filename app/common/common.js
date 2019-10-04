@@ -21,19 +21,15 @@ HTMLElement.prototype.hide = function() {
   this.style.display = 'none';
 };
 
-chrome.i18n.initElement = function(el) {
+chrome.i18n.initElement = function(/** @type HTMLElement */ el) {
   el.appendChild(
-    document.createTextNode(
-      chrome.i18n.getMessage(el.getAttribute('data-i18n'))
-    )
+    document.createTextNode(chrome.i18n.getMessage(el.dataset.i18n))
   );
   el.removeAttribute('data-i18n');
 };
 
-chrome.i18n.initAll = function(el) {
-  (el ? el : document)
-    .querySelectorAll('[data-i18n]')
-    .forEach(this.initElement);
+chrome.i18n.initAll = function(/** @type HTMLElement|Document*/ el = document) {
+  el.querySelectorAll('[data-i18n]').forEach(this.initElement);
 };
 
 export const MESSAGES = {
