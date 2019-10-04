@@ -7,7 +7,8 @@ import {
   changeBookmarkMode,
   MESSAGES,
   getFavicon,
-  i18nUtils
+  i18nUtils,
+  E
 } from '../common/common.js';
 import { Settings } from '../common/settings.js';
 
@@ -74,7 +75,7 @@ function setUseGoogleBookmarks(useGoogleBookmarks) {
 
 function clearGoogleBookmarksDiv() {
   const gbookmarksSettings = $('googleBookmarksSettings');
-  gbookmarksSettings.querySelector('div.bookmark').hide();
+  E.hide(gbookmarksSettings.querySelector('div.bookmark'));
   gbookmarksSettings
     .querySelectorAll('div.gbookmark')
     .forEach(each => each.parentElement.removeChild(each));
@@ -122,11 +123,11 @@ function addBookmark(divSettings, bookmark, useGoogleBookmarks) {
 
 function processResponse(response, port) {
   if (response == MESSAGES.RESP_NEED_TO_LOAD) {
-    $('loadingError').hide();
-    $('loading').show();
+    E.hide($('loadingError'));
+    E.show($('loading'));
     port.postMessage(MESSAGES.REQ_LOAD_BOOKMARKS);
   } else if (response == MESSAGES.RESP_TREE_IS_READY) {
-    $('loading').hide();
+    E.hide($('loading'));
     const GBookmarksTree = chrome.extension.getBackgroundPage().GBookmarksTree;
     const googleBookmarksSettings = $('googleBookmarksSettings');
     googleBookmarksSettings.querySelector('div.bookmark').show();
@@ -134,8 +135,8 @@ function processResponse(response, port) {
       addBookmark(googleBookmarksSettings, bookmark, true)
     );
   } else if (response == MESSAGES.RESP_FAILED) {
-    $('loading').hide();
-    $('loadingError').show();
+    E.hide($('loading'));
+    E.show($('loadingError'));
   }
 }
 
@@ -144,8 +145,8 @@ function setLabelSeparator() {
   if (this.validity.valid && this.value != Settings.getLabelSeparator()) {
     localStorage.setItem('labelSeparator', this.value);
     clearGoogleBookmarksDiv();
-    $('loadingError').hide();
-    $('loading').show();
+    E.hide($('loadingError'));
+    E.show($('loading'));
     const port = chrome.extension.connect();
     port.onMessage.addListener(processResponse);
     port.postMessage(MESSAGES.REQ_FORCE_LOAD_BOOKMARKS);
@@ -156,7 +157,7 @@ function showTab() {
   /* jshint validthis: true */
   const currentTab = this.parentNode.querySelector('li.fgTab');
   currentTab.setAttribute('class', 'bgTab');
-  $(currentTab.dataset.tab).hide();
+  E.hide($(currentTab.dataset.tab));
   this.setAttribute('class', 'fgTab');
   $(this.dataset.tab).show();
 }

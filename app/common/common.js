@@ -17,9 +17,15 @@ HTMLElement.prototype.show = function() {
   this.style.display = 'block';
 };
 
-HTMLElement.prototype.hide = function() {
-  this.style.display = 'none';
-};
+export class E {
+  static show(/** @type HTMLElement */ el) {
+    el.style.display = 'block';
+  }
+
+  static hide(/** @type HTMLElement */ el) {
+    el.style.display = 'none';
+  }
+}
 
 export const i18nUtils = {
   init(/** @type HTMLElement */ el) {

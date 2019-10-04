@@ -7,7 +7,8 @@ import {
   MESSAGES,
   getFavicon,
   isBookmarklet,
-  i18nUtils
+  i18nUtils,
+  E
 } from '../common/common.js';
 import { Settings } from '../common/settings.js';
 
@@ -244,18 +245,18 @@ class Bookmark extends HTMLLIElement {
             'li[data-action="openInIncognitoWindow"],' +
               ' li[data-action="openAllInIncognitoWindow"]'
           )
-          .forEach(each => each.hide());
+          .forEach(E.hide);
       }
       if (Settings.isHideCMModeSwitcher()) {
         if (!config.useGoogleBookmarks) {
-          contextMenu
-            .querySelector('li[data-action="useGoogleBookmarks"]')
-            .hide();
-          contextMenu.querySelectorAll('li.separator')[1].hide();
+          E.hide(
+            contextMenu.querySelector('li[data-action="useGoogleBookmarks"]')
+          );
+          E.hide(contextMenu.querySelectorAll('li.separator')[1]);
         } else {
-          contextMenu
-            .querySelector('li[data-action="useChromeBookmarks"]')
-            .hide();
+          E.hide(
+            contextMenu.querySelector('li[data-action="useChromeBookmarks"]')
+          );
         }
       }
     }
@@ -442,7 +443,7 @@ class FolderContent extends HTMLUListElement {
               config.useGoogleBookmarks
             )
           ) {
-            bookmark.hide();
+            E.hide(bookmark);
             bookmark.isBookmarkHidden = true;
             bookmark.removeAttribute('type');
           } else {
@@ -499,9 +500,9 @@ customElements.define('ext-folder-content', FolderContent, { extends: 'ul' });
 function unSelect() {
   const contextMenu = $('contextMenu');
   contextMenu.selectedBookmark.unHighlight();
-  contextMenu.hide();
-  $('transparentLayer').hide();
-  $('gwindow').hide();
+  E.hide(contextMenu);
+  E.hide($('transparentLayer'));
+  E.hide($('gwindow'));
 }
 
 function processMenu(ev) {
@@ -594,7 +595,7 @@ function suggestLabel() {
     .replace(/(^\s+)|(\s+$)/g, '')
     .toLocaleLowerCase();
   if (newLabel == '') {
-    suggestDiv.hide();
+    E.hide(suggestDiv);
     suggestDiv
       .querySelectorAll('div > div[class]')
       .forEach(each => each.removeAttribute('class'));
@@ -606,14 +607,14 @@ function suggestLabel() {
       mustBeShown = true;
       each.show();
     } else {
-      each.hide();
+      E.hide(each);
       each.removeAttribute('class');
     }
   });
   if (mustBeShown) {
-    suggestDiv.show();
+    E.show(suggestDiv);
   } else {
-    suggestDiv.hide();
+    E.hide(suggestDiv);
   }
 }
 
@@ -678,7 +679,7 @@ function fillFolderBySuggest(div) {
     (nextComma == -1 ? '' : value.substr(nextComma)) +
     (value.search(/,\s*$/) == -1 ? ', ' : '');
   div.removeAttribute('class');
-  $('suggest').hide();
+  E.hide($('suggest'));
 }
 
 function showGoogleBookmarkDialog(initalLabel) {
@@ -721,7 +722,7 @@ function showGoogleBookmarkDialog(initalLabel) {
   gbLabel.focus();
   var suggest = win.querySelector('#suggest');
   suggest.style.width = suggest.style.maxWidth = gbLabel.clientWidth + 'px';
-  suggest.hide();
+  E.hide(suggest);
   var labels = chrome.extension.getBackgroundPage().GBookmarksTree.labels;
   labels.sort();
   var suggestDiv = $('suggest');
@@ -785,7 +786,7 @@ function reloadGBookmarks() {
   var port = chrome.extension.connect();
   port.onMessage.addListener(function(response) {
     if (response == MESSAGES.RESP_TREE_IS_READY) {
-      loading.hide();
+      E.hide(loading);
       var rootFolder = $('bookmarksMenu');
       rootFolder.fillFolderContent(
         chrome.extension.getBackgroundPage().GBookmarksTree.children
@@ -908,7 +909,7 @@ function loadBookmarks() {
     var port = chrome.extension.connect();
     port.onMessage.addListener(function(response) {
       if (response == MESSAGES.RESP_TREE_IS_READY) {
-        loading.hide();
+        E.hide(loading);
         initBookmarksMenu();
       } else if (response == MESSAGES.RESP_NEED_TO_LOAD) {
         i18nUtils.init(loading);
@@ -939,12 +940,12 @@ function initBookmarksMenu(nodes) {
     rootFolder.addSeparator();
     var separator = rootFolder.lastChild;
     if (!rootFolder.hasVisibleBookmarks) {
-      separator.hide();
+      E.hide(separator);
     }
     rootFolder.hasVisibleBookmarks = false;
     rootFolder.fillFolderContent(nodesChildren[1].children);
     if (!rootFolder.hasVisibleBookmarks) {
-      separator.hide();
+      E.hide(separator);
     }
   }
   delete rootFolder.hasVisibleBookmarks;
