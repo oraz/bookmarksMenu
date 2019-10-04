@@ -21,15 +21,17 @@ HTMLElement.prototype.hide = function() {
   this.style.display = 'none';
 };
 
-chrome.i18n.initElement = function(/** @type HTMLElement */ el) {
-  el.appendChild(
-    document.createTextNode(chrome.i18n.getMessage(el.dataset.i18n))
-  );
-  el.removeAttribute('data-i18n');
-};
+export const i18nUtils = {
+  init(/** @type HTMLElement */ el) {
+    el.appendChild(
+      document.createTextNode(chrome.i18n.getMessage(el.dataset.i18n))
+    );
+    el.removeAttribute('data-i18n');
+  },
 
-chrome.i18n.initAll = function(/** @type HTMLElement|Document*/ el = document) {
-  el.querySelectorAll('[data-i18n]').forEach(this.initElement);
+  initAll(/** @type HTMLElement|Document*/ el = document) {
+    el.querySelectorAll('[data-i18n]').forEach(i18nUtils.init);
+  }
 };
 
 export const MESSAGES = {

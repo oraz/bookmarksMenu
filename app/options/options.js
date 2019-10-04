@@ -6,7 +6,8 @@ import {
   one,
   changeBookmarkMode,
   MESSAGES,
-  getFavicon
+  getFavicon,
+  i18nUtils
 } from '../common/common.js';
 import { Settings } from '../common/settings.js';
 
@@ -223,7 +224,7 @@ document.addEventListener('DOMContentLoaded', () => {
   $('fontFamily').on('change', setFontFamily);
   $('maxWidthMesure').on('change', setMenuMaxWidthMesure);
   $('labelSeparator').on('input', setLabelSeparator);
-  chrome.i18n.initAll();
+  i18nUtils.initAll();
   showTab.apply(one('li.fgTab'));
 
   // init Bookmarks tab

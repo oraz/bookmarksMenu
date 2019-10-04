@@ -6,7 +6,8 @@ import {
   changeBookmarkMode,
   MESSAGES,
   getFavicon,
-  isBookmarklet
+  isBookmarklet,
+  i18nUtils
 } from '../common/common.js';
 import { Settings } from '../common/settings.js';
 
@@ -231,7 +232,7 @@ class Bookmark extends HTMLLIElement {
   showContextMenu(ev) {
     const contextMenu = $('contextMenu');
     if (!contextMenu.initialized) {
-      chrome.i18n.initAll(contextMenu);
+      i18nUtils.initAll(contextMenu);
       contextMenu.initialized = true;
 
       if (Settings.isHideCMOpenIncognito()) {
@@ -682,7 +683,7 @@ function showGoogleBookmarkDialog(initalLabel) {
   $('transparentLayer').show();
   var win = $('gwindow');
   if (!win.initialized) {
-    chrome.i18n.initAll(win);
+    i18nUtils.initAll(win);
     $('gbLabel').onkeyup = function(e) {
       if (e.keyCode == 37 || e.keyCode == 39) {
         suggestLabel.apply(this);
@@ -761,7 +762,7 @@ function reloadGBookmarks() {
   clearBookmarksMenu();
   var loading = $('loading');
   if (loading.hasAttribute('data-i18n')) {
-    chrome.i18n.initElement(loading);
+    i18nUtils.init(loading);
   }
   loading.style.position = 'fixed';
   loading.show();
@@ -903,7 +904,7 @@ function loadBookmarks() {
         loading.hide();
         initBookmarksMenu();
       } else if (response == MESSAGES.RESP_NEED_TO_LOAD) {
-        chrome.i18n.initElement(loading);
+        i18nUtils.init(loading);
         loading.show();
         port.postMessage(MESSAGES.REQ_LOAD_BOOKMARKS);
       } else {
