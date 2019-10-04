@@ -13,10 +13,6 @@ NodeList.prototype.on = function(evt, callback) {
 
 HTMLElement.prototype.on = HTMLElement.prototype.addEventListener;
 
-HTMLElement.prototype.show = function() {
-  this.style.display = 'block';
-};
-
 export class E {
   static show(/** @type HTMLElement */ el) {
     el.style.display = 'block';
