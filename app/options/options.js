@@ -130,7 +130,7 @@ function processResponse(response, port) {
     E.hide($('loading'));
     const GBookmarksTree = chrome.extension.getBackgroundPage().GBookmarksTree;
     const googleBookmarksSettings = $('googleBookmarksSettings');
-    googleBookmarksSettings.querySelector('div.bookmark').show();
+    E.show(googleBookmarksSettings.querySelector('div.bookmark'));
     GBookmarksTree.children.forEach(bookmark =>
       addBookmark(googleBookmarksSettings, bookmark, true)
     );
@@ -159,7 +159,7 @@ function showTab() {
   currentTab.setAttribute('class', 'bgTab');
   E.hide($(currentTab.dataset.tab));
   this.setAttribute('class', 'fgTab');
-  $(this.dataset.tab).show();
+  E.show($(this.dataset.tab));
 }
 
 function resetWindowSettings() {

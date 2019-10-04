@@ -282,7 +282,7 @@ class Bookmark extends HTMLLIElement {
         'enabled',
         this.isBookmark || (this.isFolder && this.isEmpty === true)
       );
-    contextMenu.show();
+    E.show(contextMenu);
 
     const body = document.body;
     let bodyWidth = body.clientWidth;
@@ -319,7 +319,7 @@ class Bookmark extends HTMLLIElement {
 
     const transparentLayer = $('transparentLayer');
     transparentLayer.style.right = (scrollBarWidth > 0 ? 1 : 0) + 'px';
-    transparentLayer.show();
+    E.show(transparentLayer);
   }
 
   remove() {
@@ -605,7 +605,7 @@ function suggestLabel() {
   suggestDiv.querySelectorAll('div > div').forEach(each => {
     if (each.textContent.toLocaleLowerCase().indexOf(newLabel) == 0) {
       mustBeShown = true;
-      each.show();
+      E.show(each);
     } else {
       E.hide(each);
       each.removeAttribute('class');
@@ -688,7 +688,7 @@ function showGoogleBookmarkDialog(initalLabel) {
     $('gbURL').value = tab.url;
     isGBookmarkDataReady();
   });
-  $('transparentLayer').show();
+  E.show($('transparentLayer'));
   var win = $('gwindow');
   if (!win.initialized) {
     i18nUtils.initAll(win);
@@ -699,7 +699,7 @@ function showGoogleBookmarkDialog(initalLabel) {
     };
     win.initialized = true;
   }
-  win.show();
+  E.show(win);
   var body = document.body;
   var winWidth = win.clientWidth,
     bodyWidth = body.clientWidth;
@@ -773,7 +773,7 @@ function reloadGBookmarks() {
     i18nUtils.init(loading);
   }
   loading.style.position = 'fixed';
-  loading.show();
+  E.show(loading);
   var body = document.body;
   var loadingWidth = loading.clientWidth,
     bodyWidth = body.clientWidth;
@@ -913,7 +913,7 @@ function loadBookmarks() {
         initBookmarksMenu();
       } else if (response == MESSAGES.RESP_NEED_TO_LOAD) {
         i18nUtils.init(loading);
-        loading.show();
+        E.show(loading);
         port.postMessage(MESSAGES.REQ_LOAD_BOOKMARKS);
       } else {
         loading.classList.add('error');
