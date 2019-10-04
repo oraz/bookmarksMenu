@@ -89,7 +89,10 @@ class Bookmark extends HTMLLIElement {
   }
 
   fillFolder() {
-    this.folderContent = document.createElement('ul');
+    /** @type FolderContent */
+    this.folderContent = document.createElement('ul', {
+      is: 'ext-folder-content'
+    });
     this.appendChild(this.folderContent);
     this.folderContent.fillFolderContent(this.childBookmarks);
     this.childBookmarks = undefined;
@@ -422,72 +425,76 @@ customElements.define('ext-bookmark', Bookmark, { extends: 'li' });
 
 Bookmark.autoId = 1; // id for google bookmarks
 
-HTMLUListElement.prototype.fillFolderContent = function(childBookmarks) {
-  const len = childBookmarks.length;
-  if (len > 0) {
-    this.numberOfBookmarks = 0;
-    for (let i = 0; i < len; i++) {
-      /** @type Bookmark */
-      const bookmark = document.createElement('li', { is: 'ext-bookmark' });
-      bookmark.init(childBookmarks[i]);
-      this.appendChild(bookmark);
-      if (this.isRoot) {
-        if (
-          Settings.isBookmarkHidden(
-            childBookmarks[i].title,
-            config.useGoogleBookmarks
-          )
-        ) {
-          bookmark.hide();
-          bookmark.isBookmarkHidden = true;
-          bookmark.removeAttribute('type');
+class FolderContent extends HTMLUListElement {
+  fillFolderContent(childBookmarks) {
+    const len = childBookmarks.length;
+    if (len > 0) {
+      this.numberOfBookmarks = 0;
+      for (let i = 0; i < len; i++) {
+        /** @type Bookmark */
+        const bookmark = document.createElement('li', { is: 'ext-bookmark' });
+        bookmark.init(childBookmarks[i]);
+        this.appendChild(bookmark);
+        if (this.isRoot) {
+          if (
+            Settings.isBookmarkHidden(
+              childBookmarks[i].title,
+              config.useGoogleBookmarks
+            )
+          ) {
+            bookmark.hide();
+            bookmark.isBookmarkHidden = true;
+            bookmark.removeAttribute('type');
+          } else {
+            this.hasVisibleBookmarks = true;
+          }
+          bookmark.parentFolder = bookmark.rootFolder = this;
         } else {
-          this.hasVisibleBookmarks = true;
-        }
-        bookmark.parentFolder = bookmark.rootFolder = this;
-      } else {
-        bookmark.parentFolder = this.parentElement;
-        bookmark.rootFolder = bookmark.parentFolder.rootFolder;
-        if (bookmark.isBookmark) {
-          this.numberOfBookmarks++;
-        } else {
-          bookmark.parentFolder.hasSubFolders = true;
-          bookmark.fillFolder();
+          bookmark.parentFolder = this.parentElement;
+          bookmark.rootFolder = bookmark.parentFolder.rootFolder;
+          if (bookmark.isBookmark) {
+            this.numberOfBookmarks++;
+          } else {
+            bookmark.parentFolder.hasSubFolders = true;
+            bookmark.fillFolder();
+          }
         }
       }
+      if (this.numberOfBookmarks > 1) {
+        this.addSeparator();
+        /** @type Bookmark */
+        const openAllInTabs = document.createElement('li', {
+          is: 'ext-bookmark'
+        });
+        openAllInTabs.initAsOpenAll(this.parentElement);
+        this.appendChild(openAllInTabs);
+      }
+    } else if (!this.isRoot) {
+      this.fillAsEmpty();
     }
-    if (this.numberOfBookmarks > 1) {
-      this.addSeparator();
-      /** @type Bookmark */
-      const openAllInTabs = document.createElement('li', {
-        is: 'ext-bookmark'
-      });
-      openAllInTabs.initAsOpenAll(this.parentElement);
-      this.appendChild(openAllInTabs);
-    }
-  } else if (!this.isRoot) {
-    this.fillAsEmpty();
   }
-};
 
-HTMLUListElement.prototype.fillAsEmpty = function() {
-  this.parentElement.isEmpty = true;
-  const li = document.createElement('li');
-  const span = document.createElement('span');
-  span.className = 'empty';
-  span.appendChild(
-    document.createTextNode('(' + chrome.i18n.getMessage('empty') + ')')
-  );
-  li.appendChild(span);
-  this.appendChild(li);
-};
+  fillAsEmpty() {
+    this.parentElement.isEmpty = true;
+    const li = document.createElement('li');
+    const span = document.createElement('span');
+    span.className = 'empty';
+    span.appendChild(
+      document.createTextNode('(' + chrome.i18n.getMessage('empty') + ')')
+    );
+    li.appendChild(span);
+    this.appendChild(li);
+  }
 
-HTMLUListElement.prototype.addSeparator = function() {
-  const separator = document.createElement('li');
-  separator.className = 'separator';
-  separator.isSeparator = true;
-  this.appendChild(separator);
-};
+  addSeparator() {
+    const separator = document.createElement('li');
+    separator.className = 'separator';
+    separator.isSeparator = true;
+    this.appendChild(separator);
+  }
+}
+
+customElements.define('ext-folder-content', FolderContent, { extends: 'ul' });
 
 function unSelect() {
   const contextMenu = $('contextMenu');
@@ -919,6 +926,7 @@ function loadBookmarks() {
 }
 
 function initBookmarksMenu(nodes) {
+  /** @type FolderContent */
   var rootFolder = $('bookmarksMenu');
   rootFolder.isRoot = true;
   if (config.useGoogleBookmarks) {
