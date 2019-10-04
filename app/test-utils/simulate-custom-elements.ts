@@ -40,4 +40,25 @@ export function simulateCustomeElements(): void {
       return Object.setPrototypeOf(el, definition.clazz.prototype);
     }
   };
+
+  const nativeGetElementById = document.getElementById.bind(document);
+  document.getElementById = (id: string) => {
+    const found: HTMLElement = nativeGetElementById(id);
+    const is = found.getAttribute('is');
+    if (is === null) {
+      return found;
+    }
+    const definition = customElementsDefinitions.find(
+      each =>
+        each.customTagName === is &&
+        each.config.extends.toLowerCase() === found.tagName.toLowerCase()
+    );
+    if (
+      definition !== undefined &&
+      Object.getPrototypeOf(found) !== definition.clazz.prototype
+    ) {
+      return Object.setPrototypeOf(found, definition.clazz.prototype);
+    }
+    return found;
+  };
 }
