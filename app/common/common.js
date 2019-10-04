@@ -66,7 +66,5 @@ export function getFavicon(url) {
     ? '../../icons/' + (isWindows ? 'folder-win.png' : 'folder.png')
     : isBookmarklet(url)
     ? '../../icons/js.png'
-    : url.startsWith('file:')
-    ? '../../icons/html.png'
     : 'chrome://favicon/' + url;
 }
