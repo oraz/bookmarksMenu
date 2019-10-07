@@ -9,4 +9,4 @@ node_modules/
 package-lock.json
 pnpm-lock.yaml
 bookmarksmenu.zip
-app/options/options.css
+**/*.css
