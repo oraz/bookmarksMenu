@@ -27,18 +27,38 @@ table {
 
 #tabs {
   padding-left: 0;
-}
 
-#tabs > li {
-  float: left;
-  font-size: 14px;
-  border-width: 1px;
-  border-style: solid;
-  border-radius: 0.6em 0.6em 0 0;
-  padding: 0.4ex 0.6em;
-  margin-left: -1px;
-  position: relative;
-  left: 1px;
+  > li {
+    float: left;
+    font-size: 14px;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 0.6em 0.6em 0 0;
+    padding: 0.4ex 0.6em;
+    margin-left: -1px;
+    position: relative;
+    left: 1px;
+
+    &.bgTab {
+      background-color: #ece9e9;
+      border-color: #a39e9e;
+      border-bottom-color: #6f5e5e;
+      cursor: pointer;
+      z-index: 0;
+
+      &:hover {
+        background-color: #dadada;
+      }
+    }
+
+    &.fgTab {
+      background-color: white;
+      border-color: #6f5e5e;
+      border-bottom-color: white;
+      cursor: default;
+      z-index: 1;
+    }
+  }
 }
 
 td:first-child {
@@ -107,30 +127,6 @@ div.tabs {
 input:invalid {
   color: red;
   border: 1px solid red;
-}
-
-input.color {
-  width: 6em;
-}
-
-li.bgTab {
-  background-color: #ece9e9;
-  border-color: #a39e9e;
-  border-bottom-color: #6f5e5e;
-  cursor: pointer;
-  z-index: 0;
-}
-
-li.bgTab:hover {
-  background-color: #dadada;
-}
-
-li.fgTab {
-  background-color: white;
-  border-color: #6f5e5e;
-  border-bottom-color: white;
-  cursor: default;
-  z-index: 1;
 }
 
 #labelSeparator {
