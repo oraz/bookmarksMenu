@@ -2,7 +2,6 @@ body {
 	font-family: "DejaVu Sans", Arial, Verdana, Geneva, Tahoma, sans-serif;
 }
 
-
 h2>img {
 	margin-right: .4em;
 	vertical-align: bottom;
@@ -29,7 +28,6 @@ table {
 }
 
 #tabs>li {
-	display: inline;
 	float: left;
 	font-size: 14px;
 	border-width: 1px;
