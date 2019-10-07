@@ -98,8 +98,8 @@ ul {
 
 #contextMenu.forChromeBookmarks > .forGoogleBookmarks,
 #contextMenu.forGoogleBookmarks > .forChromeBookmarks,
-#contextMenu[for="bookmark"] > .forFolder,
-#contextMenu[for="folder"] > .forBookmark {
+#contextMenu[for='bookmark'] > .forFolder,
+#contextMenu[for='folder'] > .forBookmark {
   display: none;
 }
 
