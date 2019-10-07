@@ -3,5 +3,15 @@
   "[javascript]": {
     "editor.formatOnSave": true
   },
-  "editor.minimap.enabled": false
+  "editor.minimap.enabled": false,
+  "runOnSave.statusMessageTimeout": 3000,
+  "runOnSave.commands": [
+    {
+      "match": ".*\\.scss$",
+      "command": "${workspaceFolder}/node_modules/.bin/node-sass --output-style expanded --indent-type tab --indent-width 1 ${file} ${fileDirname}/${fileBasenameNoExtension}.css",
+      "runIn": "backend",
+      "runningStatusMessage": "Compiling ${fileBasename}",
+      "finishStatusMessage": "${fileBasename} compiled"
+    }
+  ]
 }
