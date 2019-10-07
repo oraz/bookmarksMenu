@@ -194,13 +194,13 @@ class Bookmark extends HTMLLIElement {
       this.fillFolder();
     }
 
-    var body = document.body,
-      bodyStyle = body.style;
-    var posY = this.getY();
-    var contentHeight = this.folderContent.offsetHeight,
-      offset = 1;
+    const body = document.body;
+    const bodyStyle = body.style;
+    const posY = this.getY();
+    const contentHeight = this.folderContent.offsetHeight;
+    let offset = 1;
     if (posY + contentHeight > body.scrollTop + config.winMaxHeight) {
-      offset = posY + contentHeight - config.winMaxHeight - body.scrollTop;
+      offset = posY + 1 + contentHeight - config.winMaxHeight - body.scrollTop;
       if (offset > posY - body.scrollTop) {
         offset = posY - body.scrollTop;
       }
@@ -221,8 +221,7 @@ class Bookmark extends HTMLLIElement {
     }
     // Since using html5 doctype we retreive the width of vscrollbar from computed styles
     width +=
-      this.folderContent.clientWidth +
-      2 -
+      this.folderContent.offsetWidth +
       parseInt(window.getComputedStyle(body).marginRight);
     if (width <= config.winMaxWidth && body.clientWidth < width) {
       bodyStyle.width = width + 'px';
@@ -243,7 +242,7 @@ class Bookmark extends HTMLLIElement {
         contextMenu
           .querySelectorAll(
             'li[data-action="openInIncognitoWindow"],' +
-              ' li[data-action="openAllInIncognitoWindow"]'
+            ' li[data-action="openAllInIncognitoWindow"]'
           )
           .forEach(E.hide);
       }
@@ -399,7 +398,7 @@ class Bookmark extends HTMLLIElement {
       folderContent.removeChild(child);
     } while (folderContent.hasChildNodes());
 
-    bookmarks.sort(function(b1, b2) {
+    bookmarks.sort(function (b1, b2) {
       if (b1.isFolder && b2.isBookmark) {
         return -1;
       }
@@ -524,9 +523,9 @@ function processMenu(ev) {
           bookmark.isBookmark && bookmark.parentFolder.isRoot
             ? ''
             : (bookmark.isFolder
-                ? bookmark
-                : bookmark.parentFolder
-              ).getAttribute('gid');
+              ? bookmark
+              : bookmark.parentFolder
+            ).getAttribute('gid');
         unSelect();
         showGoogleBookmarkDialog(label);
       } else if (
@@ -545,10 +544,10 @@ function processMenu(ev) {
       } else if (action === 'openBookmarkManager') {
         chrome.tabs.query(
           { currentWindow: true, url: 'chrome://bookmarks/*' },
-          function(tabs) {
+          function (tabs) {
             var folderId = bookmark.isFolder
-                ? bookmark.id
-                : bookmark.parentFolderId,
+              ? bookmark.id
+              : bookmark.parentFolderId,
               bookmarkManagerUrl = 'chrome://bookmarks/#' + folderId;
             if (tabs.length === 0) {
               chrome.tabs.create(
@@ -683,7 +682,7 @@ function fillFolderBySuggest(div) {
 }
 
 function showGoogleBookmarkDialog(initalLabel) {
-  chrome.tabs.getSelected(null, function(tab) {
+  chrome.tabs.getSelected(null, function (tab) {
     $('gbTitle').value = tab.title;
     $('gbURL').value = tab.url;
     isGBookmarkDataReady();
@@ -692,7 +691,7 @@ function showGoogleBookmarkDialog(initalLabel) {
   var win = $('gwindow');
   if (!win.initialized) {
     i18nUtils.initAll(win);
-    $('gbLabel').onkeyup = function(e) {
+    $('gbLabel').onkeyup = function (e) {
       if (e.keyCode == 37 || e.keyCode == 39) {
         suggestLabel.apply(this);
       }
@@ -746,7 +745,7 @@ function showGoogleBookmarkDialog(initalLabel) {
 
 function addGoogleBookmark() {
   var port = chrome.extension.connect();
-  port.onMessage.addListener(function(response) {
+  port.onMessage.addListener(function (response) {
     if (response == MESSAGES.RESP_TREE_IS_READY) {
       unSelect();
       clearBookmarksMenu();
@@ -784,7 +783,7 @@ function reloadGBookmarks() {
     loading.style.left = bodyWidth / 2 - loadingWidth / 2 + 'px';
   }
   var port = chrome.extension.connect();
-  port.onMessage.addListener(function(response) {
+  port.onMessage.addListener(function (response) {
     if (response == MESSAGES.RESP_TREE_IS_READY) {
       E.hide(loading);
       var rootFolder = $('bookmarksMenu');
@@ -799,7 +798,7 @@ function reloadGBookmarks() {
   port.postMessage(MESSAGES.REQ_FORCE_LOAD_BOOKMARKS);
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   function returnFalse() {
     return false;
   }
@@ -850,7 +849,7 @@ document.addEventListener('DOMContentLoaded', function() {
   loadBookmarks();
 
   var rootFolder = $('bookmarksMenu');
-  rootFolder.onmouseup = function(ev) {
+  rootFolder.onmouseup = function (ev) {
     /** @type Bookmark */
     var bookmark = ev.srcElement;
     while (!(bookmark instanceof HTMLLIElement)) {
@@ -907,7 +906,7 @@ function loadBookmarks() {
   if (config.useGoogleBookmarks) {
     var loading = $('loading');
     var port = chrome.extension.connect();
-    port.onMessage.addListener(function(response) {
+    port.onMessage.addListener(function (response) {
       if (response == MESSAGES.RESP_TREE_IS_READY) {
         E.hide(loading);
         initBookmarksMenu();
