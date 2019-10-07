@@ -1,9 +1,9 @@
 body {
-	font-family: "DejaVu Sans", Arial, Verdana, Geneva, Tahoma, sans-serif;
+	font-family: 'DejaVu Sans', Arial, Verdana, Geneva, Tahoma, sans-serif;
 }
 
-h2>img {
-	margin-right: .4em;
+h2 > img {
+	margin-right: 0.4em;
 	vertical-align: bottom;
 }
 
@@ -14,7 +14,9 @@ hr {
 	margin-top: 3px;
 }
 
-input[type=color], input[type=text], input[type=number] {
+input[type='color'],
+input[type='text'],
+input[type='number'] {
 	width: 5em;
 }
 
@@ -27,13 +29,13 @@ table {
 	padding-left: 0;
 }
 
-#tabs>li {
+#tabs > li {
 	float: left;
 	font-size: 14px;
 	border-width: 1px;
 	border-style: solid;
-	border-radius: .6em .6em 0 0;
-	padding: .4ex .6em;
+	border-radius: 0.6em 0.6em 0 0;
+	padding: 0.4ex 0.6em;
 	margin-left: -1px;
 	position: relative;
 	left: 1px;
@@ -53,13 +55,14 @@ td {
 	padding: 2px;
 }
 
-div.tabs>ul {
+div.tabs > ul {
 	list-style: none;
 	position: relative;
 	z-index: 1;
 }
 
-div.bookmark, div.gbookmark {
+div.bookmark,
+div.gbookmark {
 	max-width: 40em;
 	padding-top: 1px;
 	padding-bottom: 1px;
@@ -135,7 +138,8 @@ li.fgTab {
 	margin-left: 3px;
 }
 
-#loading, #loadingError {
+#loading,
+#loadingError {
 	display: none;
 	width: 100%;
 	margin: 8ex 0;
@@ -147,19 +151,19 @@ li.fgTab {
 	color: red;
 }
 
-button.paypal:hover {
-	background: #edb530;
-	cursor: pointer;
-}
-
 button.paypal {
 	display: inline-flex;
 	background: #ffc439;
 	align-items: center;
-	border-radius: .4em;
+	border-radius: 0.4em;
 	border: none;
-	transition: .1s ease-in-out;
+	transition: 0.1s ease-in-out;
 	padding: 1ex 1em;
+}
+
+button.paypal:hover {
+	background: #edb530;
+	cursor: pointer;
 }
 
 button.paypal img {
