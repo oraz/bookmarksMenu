@@ -172,6 +172,22 @@ describe('popup.html', () => {
 
       expect($('#100 > ul')).is(':hidden');
     });
+
+    it('Bug: first folder has empty folder', () => {
+      const emptyFolder = givenFolder(101);
+      const folder = givenFolder(102, emptyFolder, bookmark());
+      const first = bookmark();
+      const second = bookmark();
+      givenBookmakrs([first, second], [folder, bookmark()]);
+
+      mouseOver(first);
+      mouseOver(second);
+      mouseOver(folder);
+
+      expect($('#102 > ul')).is(':visible');
+      expect($('#101')).is(':visible');
+      expect($('#101 > ul')).is(':not(:visible)');
+    });
   });
 
   describe.each([[0, 1, 2], [1, 2, 0], [2, 0, 1]])(
