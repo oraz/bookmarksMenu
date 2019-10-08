@@ -1,9 +1,7 @@
 {
   "editor.formatOnSave": true,
-  "[javascript]": {
-    "editor.formatOnSave": true
-  },
   "editor.minimap.enabled": false,
+
   "runOnSave.statusMessageTimeout": 3000,
   "runOnSave.commands": [
     {
@@ -13,5 +11,12 @@
       "runningStatusMessage": "Compiling ${fileBasename}",
       "finishStatusMessage": "${fileBasename} compiled"
     }
-  ]
+  ],
+
+  "code-runner.executorMapByGlob": {
+    "*.spec.ts": "$workspaceRoot/node_modules/.bin/jest $fileName"
+  },
+  "code-runner.executorMapByFileExtension": {
+    ".scss": "cd $dir && $workspaceRoot/node_modules/.bin/node-sass --output-style expanded --indent-type tab --indent-width 1 $fileName $fileNameWithoutExt.css"
+  }
 }
