@@ -242,7 +242,7 @@ class Bookmark extends HTMLLIElement {
         contextMenu
           .querySelectorAll(
             'li[data-action="openInIncognitoWindow"],' +
-            ' li[data-action="openAllInIncognitoWindow"]'
+              ' li[data-action="openAllInIncognitoWindow"]'
           )
           .forEach(E.hide);
       }
@@ -398,7 +398,7 @@ class Bookmark extends HTMLLIElement {
       folderContent.removeChild(child);
     } while (folderContent.hasChildNodes());
 
-    bookmarks.sort(function (b1, b2) {
+    bookmarks.sort(function(b1, b2) {
       if (b1.isFolder && b2.isBookmark) {
         return -1;
       }
@@ -436,18 +436,6 @@ class FolderContent extends HTMLUListElement {
         bookmark.init(childBookmarks[i]);
         this.appendChild(bookmark);
         if (this.isRoot) {
-          if (
-            Settings.isBookmarkHidden(
-              childBookmarks[i].title,
-              config.useGoogleBookmarks
-            )
-          ) {
-            E.hide(bookmark);
-            bookmark.isBookmarkHidden = true;
-            bookmark.removeAttribute('type');
-          } else {
-            this.hasVisibleBookmarks = true;
-          }
           bookmark.parentFolder = bookmark.rootFolder = this;
         } else {
           bookmark.parentFolder = this.parentElement;
@@ -523,9 +511,9 @@ function processMenu(ev) {
           bookmark.isBookmark && bookmark.parentFolder.isRoot
             ? ''
             : (bookmark.isFolder
-              ? bookmark
-              : bookmark.parentFolder
-            ).getAttribute('gid');
+                ? bookmark
+                : bookmark.parentFolder
+              ).getAttribute('gid');
         unSelect();
         showGoogleBookmarkDialog(label);
       } else if (
@@ -544,10 +532,10 @@ function processMenu(ev) {
       } else if (action === 'openBookmarkManager') {
         chrome.tabs.query(
           { currentWindow: true, url: 'chrome://bookmarks/*' },
-          function (tabs) {
+          function(tabs) {
             var folderId = bookmark.isFolder
-              ? bookmark.id
-              : bookmark.parentFolderId,
+                ? bookmark.id
+                : bookmark.parentFolderId,
               bookmarkManagerUrl = 'chrome://bookmarks/#' + folderId;
             if (tabs.length === 0) {
               chrome.tabs.create(
@@ -682,7 +670,7 @@ function fillFolderBySuggest(div) {
 }
 
 function showGoogleBookmarkDialog(initalLabel) {
-  chrome.tabs.getSelected(null, function (tab) {
+  chrome.tabs.getSelected(null, function(tab) {
     $('gbTitle').value = tab.title;
     $('gbURL').value = tab.url;
     isGBookmarkDataReady();
@@ -691,7 +679,7 @@ function showGoogleBookmarkDialog(initalLabel) {
   var win = $('gwindow');
   if (!win.initialized) {
     i18nUtils.initAll(win);
-    $('gbLabel').onkeyup = function (e) {
+    $('gbLabel').onkeyup = function(e) {
       if (e.keyCode == 37 || e.keyCode == 39) {
         suggestLabel.apply(this);
       }
@@ -745,7 +733,7 @@ function showGoogleBookmarkDialog(initalLabel) {
 
 function addGoogleBookmark() {
   var port = chrome.extension.connect();
-  port.onMessage.addListener(function (response) {
+  port.onMessage.addListener(function(response) {
     if (response == MESSAGES.RESP_TREE_IS_READY) {
       unSelect();
       clearBookmarksMenu();
@@ -783,7 +771,7 @@ function reloadGBookmarks() {
     loading.style.left = bodyWidth / 2 - loadingWidth / 2 + 'px';
   }
   var port = chrome.extension.connect();
-  port.onMessage.addListener(function (response) {
+  port.onMessage.addListener(function(response) {
     if (response == MESSAGES.RESP_TREE_IS_READY) {
       E.hide(loading);
       var rootFolder = $('bookmarksMenu');
@@ -798,7 +786,7 @@ function reloadGBookmarks() {
   port.postMessage(MESSAGES.REQ_FORCE_LOAD_BOOKMARKS);
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function() {
   function returnFalse() {
     return false;
   }
@@ -849,7 +837,7 @@ document.addEventListener('DOMContentLoaded', function () {
   loadBookmarks();
 
   var rootFolder = $('bookmarksMenu');
-  rootFolder.onmouseup = function (ev) {
+  rootFolder.onmouseup = function(ev) {
     /** @type Bookmark */
     var bookmark = ev.srcElement;
     while (!(bookmark instanceof HTMLLIElement)) {
@@ -906,7 +894,7 @@ function loadBookmarks() {
   if (config.useGoogleBookmarks) {
     var loading = $('loading');
     var port = chrome.extension.connect();
-    port.onMessage.addListener(function (response) {
+    port.onMessage.addListener(function(response) {
       if (response == MESSAGES.RESP_TREE_IS_READY) {
         E.hide(loading);
         initBookmarksMenu();
@@ -926,28 +914,20 @@ function loadBookmarks() {
 }
 
 function initBookmarksMenu(nodes) {
+  const onlyVisibleBookmarks = each =>
+    !Settings.isBookmarkHidden(each.title, config.useGoogleBookmarks);
   /** @type FolderContent */
-  var rootFolder = $('bookmarksMenu');
+  const rootFolder = $('bookmarksMenu');
   rootFolder.isRoot = true;
   if (config.useGoogleBookmarks) {
-    rootFolder.fillFolderContent(
-      chrome.extension.getBackgroundPage().GBookmarksTree.children
-    );
+    const tree = chrome.extension.getBackgroundPage().GBookmarksTree;
+    rootFolder.fillFolderContent(tree.children.filter(onlyVisibleBookmarks));
   } else {
-    var nodesChildren = nodes[0].children;
-    rootFolder.fillFolderContent(nodesChildren[0].children);
+    const tree = nodes[0].children;
+    rootFolder.fillFolderContent(tree[0].children.filter(onlyVisibleBookmarks));
     rootFolder.addSeparator();
-    var separator = rootFolder.lastChild;
-    if (!rootFolder.hasVisibleBookmarks) {
-      E.hide(separator);
-    }
-    rootFolder.hasVisibleBookmarks = false;
-    rootFolder.fillFolderContent(nodesChildren[1].children);
-    if (!rootFolder.hasVisibleBookmarks) {
-      E.hide(separator);
-    }
+    rootFolder.fillFolderContent(tree[1].children.filter(onlyVisibleBookmarks));
   }
-  delete rootFolder.hasVisibleBookmarks;
 
   if (!rootFolder.noIconCSSAdded) {
     const favIcon = rootFolder.querySelector('li[type] img');

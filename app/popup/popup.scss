@@ -81,10 +81,15 @@ ul {
 
 #bookmarksMenu {
   float: right;
-}
 
-#bookmarksMenu span {
-  max-width: var(--bookmark-max-width);
+  > .separator:first-child,
+  > .separator:last-child {
+    display: none;
+  }
+
+  span {
+    max-width: var(--bookmark-max-width);
+  }
 }
 
 #contextMenu {
