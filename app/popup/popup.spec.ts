@@ -6,6 +6,7 @@ import { simulateCustomeElements } from '../test-utils/simulate-custom-elements'
 import { randomAlphanumeric } from '../test-utils/random-utils';
 import { Chrome } from '../test-utils/chrome';
 import { BookmarkTreeNode } from '../test-utils/apis/bookmarks-api';
+import { Settings } from '../common/settings';
 
 const chrome = new Chrome();
 window['chrome'] = chrome;
@@ -74,6 +75,82 @@ describe('popup.html', () => {
       expect(bookmarksMenu.children(':nth(0)')).is('.separator:hidden');
       expect(bookmarksMenu.children(':nth(1)')).is('#1[type=bookmark]:visible');
       expect(bookmarksMenu.children(':nth(2)')).is('#2[type=bookmark]:visible');
+    });
+
+    it('with hidden bookmarks in toolbar', () => {
+      const first = bookmark();
+      hideBookmarks(first);
+
+      givenBookmakrs([first, bookmark()]);
+
+      expect(bookmarksMenu.children()).toHaveLength(3);
+      expect(bookmarksMenu.children(':nth(0)')).is('#1:hidden');
+      expect(bookmarksMenu.children(':nth(1)')).is('#2[type=bookmark]:visible');
+      expect(bookmarksMenu.children(':nth(2)')).is('.separator:hidden');
+    });
+
+    it('with hidden bookmarks in both parts', () => {
+      const first = bookmark();
+      const second = bookmark();
+      const third = bookmark();
+      const fourth = bookmark();
+      hideBookmarks(first, third);
+
+      givenBookmakrs([first, second], [third, fourth]);
+
+      expect(bookmarksMenu.children()).toHaveLength(5);
+      expect(bookmarksMenu.children(':nth(0)')).is('#1:hidden');
+      expect(bookmarksMenu.children(':nth(1)')).is('#2[type=bookmark]:visible');
+      expect(bookmarksMenu.children(':nth(2)')).is('.separator:visible');
+      expect(bookmarksMenu.children(':nth(3)')).is('#3:hidden');
+      expect(bookmarksMenu.children(':nth(4)')).is('#4[type=bookmark]:visible');
+    });
+
+    it('with hidden bookmarks only in other part', () => {
+      const first = bookmark();
+      const second = bookmark();
+      hideBookmarks(second);
+
+      givenBookmakrs([], [first, second]);
+
+      expect(bookmarksMenu.children()).toHaveLength(3);
+      expect(bookmarksMenu.children(':nth(0)')).is('.separator:hidden');
+      expect(bookmarksMenu.children(':nth(1)')).is('#1[type=bookmark]:visible');
+      expect(bookmarksMenu.children(':nth(2)')).is('#2:hidden');
+    });
+
+    it('all bookmarks in toolbar are hidden', () => {
+      const first = bookmark();
+      const second = bookmark();
+      const third = bookmark();
+      const fourth = bookmark();
+      hideBookmarks(first, second, third);
+
+      givenBookmakrs([first, second], [third, fourth]);
+
+      expect(bookmarksMenu.children()).toHaveLength(5);
+      expect(bookmarksMenu.children(':nth(0)')).is('#1:hidden');
+      expect(bookmarksMenu.children(':nth(1)')).is('#2:hidden');
+      expect(bookmarksMenu.children(':nth(2)')).is('.separator:hidden');
+      expect(bookmarksMenu.children(':nth(3)')).is('#3:hidden');
+      expect(bookmarksMenu.children(':nth(4)')).is('#4[type=bookmark]:visible');
+    });
+
+    it('all bookmarks in other part are hidden', () => {
+      const first = bookmark();
+      const second = bookmark();
+      const third = bookmark();
+      const fourth = bookmark();
+      hideBookmarks(third, fourth);
+
+      givenBookmakrs([first, second], [third, fourth]);
+
+      expect(bookmarksMenu.children()).toHaveLength(5);
+      expect(bookmarksMenu.children(':nth(0)')).is('#1[type=bookmark]:visible');
+      expect(bookmarksMenu.children(':nth(1)')).is('#2[type=bookmark]:visible');
+      expect(bookmarksMenu.children(':nth(2)')).is('.separator:hidden');
+      expect(bookmarksMenu.children(':nth(3)')).is('#3:hidden');
+      expect(bookmarksMenu.children(':nth(4)')).is('#4:hidden');
     });
   });
 
@@ -459,5 +536,11 @@ describe('popup.html', () => {
         ]
       }
     ]);
+  }
+
+  function hideBookmarks(...bookmarks: BookmarkTreeNode[]) {
+    bookmarks.forEach(each =>
+      Settings.setBookmarkHidden(each.title, false, true)
+    );
   }
 });
