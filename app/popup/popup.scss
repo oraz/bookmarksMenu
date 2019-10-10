@@ -163,10 +163,10 @@ ul {
   border: 1px solid #ccc;
   height: 0;
   width: var(--scrollbar-width);
-}
 
-::-webkit-scrollbar-thumb:vertical {
-  background: linear-gradient(90deg, #ccc, gray);
+  &-thumb:vertical {
+    background: linear-gradient(90deg, #ccc, gray);
+  }
 }
 
 li[type]:hover > span,
