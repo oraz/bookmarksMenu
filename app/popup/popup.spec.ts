@@ -83,10 +83,9 @@ describe('popup.html', () => {
 
       givenBookmakrs([first, bookmark()]);
 
-      expect(bookmarksMenu.children()).toHaveLength(3);
-      expect(bookmarksMenu.children(':nth(0)')).is('#1:hidden');
-      expect(bookmarksMenu.children(':nth(1)')).is('#2[type=bookmark]:visible');
-      expect(bookmarksMenu.children(':nth(2)')).is('.separator:hidden');
+      expect(bookmarksMenu.children()).toHaveLength(2);
+      expect(bookmarksMenu.children(':nth(0)')).is('#2[type=bookmark]:visible');
+      expect(bookmarksMenu.children(':nth(1)')).is('.separator:hidden');
     });
 
     it('with hidden bookmarks in both parts', () => {
@@ -98,12 +97,10 @@ describe('popup.html', () => {
 
       givenBookmakrs([first, second], [third, fourth]);
 
-      expect(bookmarksMenu.children()).toHaveLength(5);
-      expect(bookmarksMenu.children(':nth(0)')).is('#1:hidden');
-      expect(bookmarksMenu.children(':nth(1)')).is('#2[type=bookmark]:visible');
-      expect(bookmarksMenu.children(':nth(2)')).is('.separator:visible');
-      expect(bookmarksMenu.children(':nth(3)')).is('#3:hidden');
-      expect(bookmarksMenu.children(':nth(4)')).is('#4[type=bookmark]:visible');
+      expect(bookmarksMenu.children()).toHaveLength(3);
+      expect(bookmarksMenu.children(':nth(0)')).is('#2[type=bookmark]:visible');
+      expect(bookmarksMenu.children(':nth(1)')).is('.separator:visible');
+      expect(bookmarksMenu.children(':nth(2)')).is('#4[type=bookmark]:visible');
     });
 
     it('with hidden bookmarks only in other part', () => {
@@ -113,10 +110,9 @@ describe('popup.html', () => {
 
       givenBookmakrs([], [first, second]);
 
-      expect(bookmarksMenu.children()).toHaveLength(3);
+      expect(bookmarksMenu.children()).toHaveLength(2);
       expect(bookmarksMenu.children(':nth(0)')).is('.separator:hidden');
       expect(bookmarksMenu.children(':nth(1)')).is('#1[type=bookmark]:visible');
-      expect(bookmarksMenu.children(':nth(2)')).is('#2:hidden');
     });
 
     it('all bookmarks in toolbar are hidden', () => {
@@ -128,12 +124,9 @@ describe('popup.html', () => {
 
       givenBookmakrs([first, second], [third, fourth]);
 
-      expect(bookmarksMenu.children()).toHaveLength(5);
-      expect(bookmarksMenu.children(':nth(0)')).is('#1:hidden');
-      expect(bookmarksMenu.children(':nth(1)')).is('#2:hidden');
-      expect(bookmarksMenu.children(':nth(2)')).is('.separator:hidden');
-      expect(bookmarksMenu.children(':nth(3)')).is('#3:hidden');
-      expect(bookmarksMenu.children(':nth(4)')).is('#4[type=bookmark]:visible');
+      expect(bookmarksMenu.children()).toHaveLength(2);
+      expect(bookmarksMenu.children(':nth(0)')).is('.separator:hidden');
+      expect(bookmarksMenu.children(':nth(1)')).is('#4[type=bookmark]:visible');
     });
 
     it('all bookmarks in other part are hidden', () => {
@@ -145,12 +138,10 @@ describe('popup.html', () => {
 
       givenBookmakrs([first, second], [third, fourth]);
 
-      expect(bookmarksMenu.children()).toHaveLength(5);
+      expect(bookmarksMenu.children()).toHaveLength(3);
       expect(bookmarksMenu.children(':nth(0)')).is('#1[type=bookmark]:visible');
       expect(bookmarksMenu.children(':nth(1)')).is('#2[type=bookmark]:visible');
       expect(bookmarksMenu.children(':nth(2)')).is('.separator:hidden');
-      expect(bookmarksMenu.children(':nth(3)')).is('#3:hidden');
-      expect(bookmarksMenu.children(':nth(4)')).is('#4:hidden');
     });
   });
 
