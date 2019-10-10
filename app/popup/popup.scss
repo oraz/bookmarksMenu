@@ -37,6 +37,22 @@ li ul {
   position: absolute;
   top: -1px;
   right: 100%;
+
+  > .empty-marker:not(:first-child) {
+    display: none;
+  }
+
+  li.separator,
+  li[type='openAllInTabs'] {
+    display: none;
+  }
+
+  li[type='bookmark'] ~ li[type='bookmark'] ~ {
+    li.separator,
+    li[type='openAllInTabs'] {
+      display: list-item;
+    }
+  }
 }
 
 span {

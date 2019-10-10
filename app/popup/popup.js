@@ -360,13 +360,6 @@ class Bookmark extends HTMLLIElement {
           folderContent.parentElement.displayFolderContent();
         }
       }
-    } else if (
-      folderContent.numberOfBookmarks-- <= 2 &&
-      folderContent.lastElementChild.isOpenAll
-    ) {
-      // remove "open all" and separator
-      folderContent.removeChild(folderContent.lastElementChild);
-      folderContent.removeChild(folderContent.lastElementChild);
     }
   }
 
@@ -427,27 +420,40 @@ Bookmark.autoId = 1; // id for google bookmarks
 
 class FolderContent extends HTMLUListElement {
   fillFolderContent(childBookmarks) {
-    const len = childBookmarks.length;
-    if (len > 0) {
-      this.numberOfBookmarks = 0;
-      for (let i = 0; i < len; i++) {
-        /** @type Bookmark */
-        const bookmark = document.createElement('li', { is: 'ext-bookmark' });
-        bookmark.init(childBookmarks[i]);
-        this.appendChild(bookmark);
-        if (this.isRoot) {
-          bookmark.parentFolder = bookmark.rootFolder = this;
+    this.numberOfBookmarks = 0;
+    childBookmarks.forEach(each => {
+      /** @type Bookmark */
+      const bookmark = document.createElement('li', { is: 'ext-bookmark' });
+      bookmark.init(each);
+      this.appendChild(bookmark);
+      if (this.isRoot) {
+        bookmark.parentFolder = bookmark.rootFolder = this;
+      } else {
+        bookmark.parentFolder = this.parentElement;
+        bookmark.rootFolder = bookmark.parentFolder.rootFolder;
+        if (bookmark.isBookmark) {
+          this.numberOfBookmarks++;
         } else {
-          bookmark.parentFolder = this.parentElement;
-          bookmark.rootFolder = bookmark.parentFolder.rootFolder;
-          if (bookmark.isBookmark) {
-            this.numberOfBookmarks++;
-          } else {
-            bookmark.parentFolder.hasSubFolders = true;
-            bookmark.fillFolder();
-          }
+          bookmark.parentFolder.hasSubFolders = true;
+          bookmark.fillFolder();
         }
       }
+    });
+
+    if (!this.isRoot) {
+      if (childBookmarks.length === 0) {
+        this.fillAsEmpty();
+      }
+      const liEmpty = document.createElement('li');
+      liEmpty.className = 'empty-marker';
+      const span = document.createElement('span');
+      span.className = 'empty';
+      span.appendChild(
+        document.createTextNode('(' + chrome.i18n.getMessage('empty') + ')')
+      );
+      liEmpty.appendChild(span);
+      this.appendChild(liEmpty);
+
       if (this.numberOfBookmarks > 1) {
         this.addSeparator();
         /** @type Bookmark */
@@ -457,21 +463,11 @@ class FolderContent extends HTMLUListElement {
         openAllInTabs.initAsOpenAll(this.parentElement);
         this.appendChild(openAllInTabs);
       }
-    } else if (!this.isRoot) {
-      this.fillAsEmpty();
     }
   }
 
   fillAsEmpty() {
     this.parentElement.isEmpty = true;
-    const li = document.createElement('li');
-    const span = document.createElement('span');
-    span.className = 'empty';
-    span.appendChild(
-      document.createTextNode('(' + chrome.i18n.getMessage('empty') + ')')
-    );
-    li.appendChild(span);
-    this.appendChild(li);
   }
 
   addSeparator() {
