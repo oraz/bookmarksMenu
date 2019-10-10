@@ -181,12 +181,13 @@ describe('popup.html', () => {
       expect(folderContent).toHaveLength(1);
       expect(folderContent).is(':visible');
 
-      expect(folderContent.children()).toHaveLength(5);
+      expect(folderContent.children()).toHaveLength(4);
       expect(folderContent.children(':nth(0)')).is('#1[type=bookmark]:visible');
       expect(folderContent.children(':nth(1)')).is('#2[type=bookmark]:visible');
-      expect(folderContent.children(':nth(2)')).is('.empty-marker:hidden');
-      expect(folderContent.children(':nth(3)')).is('.separator:visible');
-      expect(folderContent.children(':nth(4)')).is('[type=openAllInTabs]:visible');
+      expect(folderContent.children(':nth(2)')).is('.separator:visible');
+      expect(folderContent.children(':nth(3)')).is(
+        '[type=openAllInTabs]:visible'
+      );
     });
 
     it('show folder content with one bookmark', () => {
@@ -206,9 +207,8 @@ describe('popup.html', () => {
       expect(folderContent).toHaveLength(1);
       expect(folderContent).is(':visible');
 
-      expect(folderContent.children()).toHaveLength(2);
-      expect(folderContent.children(':first')).is('#1[type=bookmark]:visible');
-      expect(folderContent.children(':last')).is('li.empty-marker:hidden');
+      expect(folderContent.children()).toHaveLength(1);
+      expect(folderContent.children()).is('#1[type=bookmark]:visible');
     });
 
     it('empty folder', () => {
