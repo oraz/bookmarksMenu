@@ -18,6 +18,15 @@ export const Settings = {
   isBookmarkHidden: (title, useGoogleBookmarks) =>
     isTrue((useGoogleBookmarks ? 'g_' : '') + 'bookmark_' + title),
 
+  setBookmarkHidden: (/** @type String */title, /** @type Boolean */useGoogleBookmarks, /** @type Boolean */hidden) => {
+    const key = (useGoogleBookmarks ? 'g_' : '') + 'bookmark_' + title;
+    if (hidden) {
+      localStorage.setItem(key, true);
+    } else {
+      localStorage.removeItem(key);
+    }
+  },
+
   isSwitchToNewTab: () => isTrue('switchToNewTab'),
 
   getFontFamily: () => setting('fontFamily', 'Verdana'),

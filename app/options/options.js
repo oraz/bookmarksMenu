@@ -40,15 +40,6 @@ function setMenuMaxWidthMesure() {
   localStorage.setItem('maxWidthMesure', this.value);
 }
 
-function setBookmarkHidden(title, useGoogleBookmarks, hidden) {
-  const key = (useGoogleBookmarks ? 'g_' : '') + 'bookmark_' + title;
-  if (hidden == true) {
-    localStorage[key] = true;
-  } else {
-    delete localStorage[key];
-  }
-}
-
 function setColor() {
   /* jshint validthis: true */
   if (/^#[0-9A-F]{6}$/i.test(this.value)) {
@@ -105,8 +96,8 @@ function addBookmark(divSettings, bookmark, useGoogleBookmarks) {
   if (!Settings.isBookmarkHidden(bookmark.title, useGoogleBookmarks)) {
     checkbox.setAttribute('checked', 'checked');
   }
-  checkbox.onchange = function() {
-    setBookmarkHidden(bookmark.title, useGoogleBookmarks, !this.checked);
+  checkbox.onchange = function () {
+    Settings.setBookmarkHidden(bookmark.title, useGoogleBookmarks, !this.checked);
   };
 
   var label = document.createElement('label');
@@ -177,7 +168,7 @@ function resetWindowSettings() {
   initWindowSettingsTab();
 }
 
-HTMLSelectElement.prototype.selectByValue = function(value) {
+HTMLSelectElement.prototype.selectByValue = function (value) {
   this.selectedIndex = document.evaluate(
     'count(option[@value="' + value + '"]/preceding-sibling::option)',
     this,
@@ -255,7 +246,7 @@ document.addEventListener('DOMContentLoaded', () => {
     $('switchToNewTab').checked = true;
   }
 
-  chrome.fontSettings.getFontList(function(fonts) {
+  chrome.fontSettings.getFontList(function (fonts) {
     const fontList = $('fontFamily').options,
       defaultFont = Settings.getFontFamily();
     fonts.forEach(each => {
