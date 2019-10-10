@@ -737,9 +737,7 @@ function addGoogleBookmark() {
     if (response == MESSAGES.RESP_TREE_IS_READY) {
       unSelect();
       clearBookmarksMenu();
-      $('bookmarksMenu').fillFolderContent(
-        chrome.extension.getBackgroundPage().GBookmarksTree.children
-      );
+      initBookmarksMenu();
     } else {
       // todo some error
       unSelect();
@@ -774,10 +772,7 @@ function reloadGBookmarks() {
   port.onMessage.addListener(function(response) {
     if (response == MESSAGES.RESP_TREE_IS_READY) {
       E.hide(loading);
-      var rootFolder = $('bookmarksMenu');
-      rootFolder.fillFolderContent(
-        chrome.extension.getBackgroundPage().GBookmarksTree.children
-      );
+      initBookmarksMenu();
     } else {
       loading.classList.add('error');
       loading.innerHTML = chrome.i18n.getMessage('failedRetrieveGBookmakrs');
