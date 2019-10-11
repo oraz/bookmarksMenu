@@ -371,7 +371,7 @@ class Bookmark extends HTMLLIElement {
   }
 
   reorder(beforeSeparator) {
-    var folderContent = this.parentElement;
+    const folderContent = this.parentElement;
     if (this.parentFolder.isRoot && beforeSeparator == undefined) {
       if (!folderContent.firstChild.isSeparator)
         folderContent.firstChild.reorder(true);
@@ -382,10 +382,10 @@ class Bookmark extends HTMLLIElement {
     if (beforeSeparator == undefined) {
       beforeSeparator = true;
     }
-    var bookmarks = [],
-      separator = null;
+    const bookmarks = [];
+    let separator = null;
     do {
-      var child = beforeSeparator
+      const child = beforeSeparator
         ? folderContent.firstChild
         : folderContent.lastChild;
       if (child.isSeparator) {
@@ -398,7 +398,7 @@ class Bookmark extends HTMLLIElement {
       folderContent.removeChild(child);
     } while (folderContent.hasChildNodes());
 
-    bookmarks.sort(function(b1, b2) {
+    bookmarks.sort((b1, b2) => {
       if (b1.isFolder && b2.isBookmark) {
         return -1;
       }
@@ -406,18 +406,15 @@ class Bookmark extends HTMLLIElement {
         return 1;
       }
 
-      var t1 = b1.firstChild.innerText.toLowerCase(),
-        t2 = b2.firstChild.innerText.toLowerCase();
+      const t1 = b1.firstChild.textContent.toLowerCase();
+      const t2 = b2.firstChild.textContent.toLowerCase();
       return t1 > t2 ? 1 : t1 < t2 ? -1 : 0;
     });
 
-    for (var idx = 0, len = bookmarks.length; idx < len; idx++) {
-      folderContent.insertBefore(bookmarks[idx], separator);
-      chrome.bookmarks.move(bookmarks[idx].id, {
-        parentId: this.parentFolderId,
-        index: idx
-      });
-    }
+    bookmarks.forEach((each, idx) => {
+      folderContent.insertBefore(each, separator);
+      chrome.bookmarks.move(each.id, { index: idx });
+    });
   }
 }
 
