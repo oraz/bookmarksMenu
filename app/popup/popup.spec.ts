@@ -446,6 +446,66 @@ describe('popup.html', () => {
     }
   );
 
+  describe('Context Menu', () => {
+    describe('show', () => {
+      it('show for bookmark', () => {
+        const first = bookmark();
+        givenBookmakrs([first, bookmark()], [bookmark(), bookmark()]);
+
+        mouseOver(first);
+        clickOn(first, { button: 2 });
+
+        expect($('#transparentLayer')).is(':visible');
+        expect($('#contextMenu')).is(':visible');
+        const expectedItems = [
+          '.enabled.forBookmark[data-action="openInNewTab"]',
+          '.enabled.forBookmark[data-action="openInNewWindow"]',
+          '.enabled.forBookmark[data-action="openInIncognitoWindow"]',
+          '.separator',
+          '.enabled.forChromeBookmarks[data-action="reorder"]',
+          '.enabled[data-action="remove"]',
+          '.enabled.forChromeBookmarks[data-action="openBookmarkManager"]',
+          '.separator',
+          '.enabled.forChromeBookmarks[data-action="useGoogleBookmarks"]'
+        ];
+        const visibleItems = $('#contextMenu > :visible');
+        expect(visibleItems).toHaveLength(expectedItems.length);
+        expectedItems.forEach((expectedItem, idx) => {
+          const item = $(visibleItems.get(idx));
+          expect(item).is(expectedItem);
+        });
+      });
+
+      it('show for not empty folder', () => {
+        const folder = givenFolder(100, bookmark(), bookmark());
+        givenBookmakrs([folder, bookmark()], [bookmark(), bookmark()]);
+
+        mouseOver(folder);
+        clickOn(folder, { button: 2 });
+
+        expect($('#transparentLayer')).is(':visible');
+        expect($('#contextMenu')).is(':visible');
+        const expectedItems = [
+          '.enabled.forFolder[data-action="openAllInTabs"]',
+          '.enabled.forFolder[data-action="openAllInNewWindow"]',
+          '.enabled.forFolder[data-action="openAllInIncognitoWindow"]',
+          '.separator',
+          '.enabled.forChromeBookmarks[data-action="reorder"]',
+          ':not(.enabled)[data-action="remove"]',
+          '.enabled.forChromeBookmarks[data-action="openBookmarkManager"]',
+          '.separator',
+          '.enabled.forChromeBookmarks[data-action="useGoogleBookmarks"]'
+        ];
+        const visibleItems = $('#contextMenu > :visible');
+        expect(visibleItems).toHaveLength(expectedItems.length);
+        expectedItems.forEach((expectedItem, idx) => {
+          const item = $(visibleItems.get(idx));
+          expect(item).is(expectedItem);
+        });
+      });
+    });
+  });
+
   function clickOn(bookmark: BookmarkTreeNode, eventInit: MouseEventInit = {}) {
     const evt = new MouseEvent('mouseup', {
       button: 0,
