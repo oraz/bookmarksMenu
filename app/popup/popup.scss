@@ -30,13 +30,17 @@ img {
 
 li {
   position: relative;
-}
 
-li ul {
-  display: none;
-  position: absolute;
-  top: -1px;
-  right: 100%;
+  ul {
+    display: none;
+    position: absolute;
+    top: -1px;
+    right: 100%;
+  }
+
+  &.hover > ul {
+    display: block;
+  }
 }
 
 span {
@@ -56,21 +60,9 @@ ul {
   background-color: var(--bmBgClr);
 }
 
-#contextMenu > li:not(.enabled) span {
-  color: var(--disabledItemFntClr);
-}
-
-#contextMenu > li:not(.enabled) img {
-  opacity: 0.5;
-}
-
 .empty {
   padding: 3px 0.6em;
   color: var(--disabledItemFntClr);
-}
-
-.hover > ul {
-  display: block;
 }
 
 .separator {
@@ -99,13 +91,23 @@ ul {
   border-color: #6f5e5e;
   position: absolute;
   z-index: 2;
-}
 
-#contextMenu.forChromeBookmarks > .forGoogleBookmarks,
-#contextMenu.forGoogleBookmarks > .forChromeBookmarks,
-#contextMenu[for='bookmark'] > .forFolder,
-#contextMenu[for='folder'] > .forBookmark {
-  display: none;
+  &.forChromeBookmarks > .forGoogleBookmarks,
+  &.forGoogleBookmarks > .forChromeBookmarks,
+  &[for='bookmark'] > .forFolder,
+  &[for='folder'] > .forBookmark {
+    display: none;
+  }
+
+  > li:not(.enabled) {
+    img {
+      opacity: 0.5;
+    }
+
+    span {
+      color: var(--disabledItemFntClr);
+    }
+  }
 }
 
 #gwindow {
@@ -117,14 +119,14 @@ ul {
   display: none;
   position: fixed;
   z-index: 2;
-}
 
-#gwindow input {
-  width: 20em;
-}
+  input {
+    width: 20em;
+  }
 
-#gwindow tr > td:first-child {
-  text-align: right;
+  tr > td:first-child {
+    text-align: right;
+  }
 }
 
 #loading {
@@ -132,11 +134,11 @@ ul {
   margin: 2ex 2em;
   text-align: center;
   white-space: nowrap;
-}
 
-#loading.error {
-  color: red;
-  margin: 4ex 3em;
+  &.error {
+    color: red;
+    margin: 4ex 3em;
+  }
 }
 
 #suggest {
@@ -147,10 +149,10 @@ ul {
   position: fixed;
   z-index: 2;
   overflow: auto;
-}
 
-#suggest > .currentSuggest {
-  background-color: #86abd9;
+  > .currentSuggest {
+    background-color: #86abd9;
+  }
 }
 
 #transparentLayer {
