@@ -1,3 +1,7 @@
+/**
+ * @see https://developer.chrome.com/extensions/bookmarks#toc
+ */
+
 export interface BookmarkTreeNode {
   id: string;
   title: string;
@@ -11,7 +15,7 @@ export interface BookmarkTreeNode {
 
 export class BookmarksApi {
   private getTreeCallback: (nodes: BookmarkTreeNode[]) => void = nodes => {
-    throw Error('Not implemented!');
+    throw new Error('Not implemented!');
   };
 
   getTree(callback: (nodes: BookmarkTreeNode[]) => void) {
@@ -20,5 +24,15 @@ export class BookmarksApi {
 
   givenBookmarks(bookmarks: BookmarkTreeNode[]) {
     this.getTreeCallback(bookmarks);
+  }
+
+  move(
+    id: string,
+    destination: {
+      parentId?: string;
+      index?: number;
+    }
+  ): void {
+    throw new Error('Not implemented!');
   }
 }

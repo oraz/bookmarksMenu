@@ -690,16 +690,186 @@ describe('popup.html', () => {
         });
       });
     });
+
+    describe('reorder', () => {
+      it('sort bookmarks only', () => {
+        const first = bookmark(1, 'abc');
+        const second = bookmark(4, 'defg');
+        const third = bookmark(3, 'hij');
+        const fourth = bookmark(2, 'xyz');
+        const folder = givenFolder(10, third, first, fourth, second);
+        givenBookmakrs([folder]);
+        chrome.bookmarks.move = jest.fn();
+
+        mouseOver(folder);
+        mouseOverAndClickOn(third, { button: 2 });
+        chooseContextMenuItem(ContextMenuItem.Reorder);
+
+        const folderContent = $('#10 > ul');
+        expect(folderContent).toHaveLength(1);
+        expect(folderContent).is(':visible');
+
+        expect(folderContent.children()).toHaveLength(6);
+        expect(chrome.bookmarks.move).toBeCalledTimes(4);
+        expect(chrome.bookmarks.move).toHaveBeenNthCalledWith(1, '1', {
+          index: 0
+        });
+        expect(chrome.bookmarks.move).toHaveBeenNthCalledWith(2, '4', {
+          index: 1
+        });
+        expect(chrome.bookmarks.move).toHaveBeenNthCalledWith(3, '3', {
+          index: 2
+        });
+        expect(chrome.bookmarks.move).toHaveBeenNthCalledWith(4, '2', {
+          index: 3
+        });
+        expect(folderContent.children(':nth(0)')).is(
+          '#1[type=bookmark]:contains("abc"):visible'
+        );
+        expect(folderContent.children(':nth(1)')).is(
+          '#4[type=bookmark]:contains("defg"):visible'
+        );
+        expect(folderContent.children(':nth(2)')).is(
+          '#3[type=bookmark]:contains("hij"):visible'
+        );
+        expect(folderContent.children(':nth(3)')).is(
+          '#2[type=bookmark]:contains("xyz"):visible'
+        );
+        expect(folderContent.children(':nth(4)')).is('.separator:visible');
+        expect(folderContent.children(':nth(5)')).is(
+          '[type=openAllInTabs]:visible'
+        );
+      });
+
+      it('sort bookmarks and folders', () => {
+        const first = bookmark(1, 'abc');
+        const second = bookmark(4, 'defg');
+        const third = bookmark(3, 'hij');
+        const fourth = bookmark(2, 'xyz');
+        const firstFolder = givenFolder(101);
+        firstFolder.title = 'first';
+        const secondFolder = givenFolder(102);
+        secondFolder.title = 'second';
+        const thirdFolder = givenFolder(100);
+        thirdFolder.title = 'xyz';
+
+        const folder = givenFolder(
+          10,
+          third,
+          first,
+          firstFolder,
+          thirdFolder,
+          fourth,
+          second,
+          secondFolder
+        );
+        givenBookmakrs([folder]);
+        chrome.bookmarks.move = jest.fn();
+
+        mouseOver(folder);
+        mouseOverAndClickOn(third, { button: 2 });
+        chooseContextMenuItem(ContextMenuItem.Reorder);
+
+        const folderContent = $('#10 > ul');
+        expect(folderContent).toHaveLength(1);
+        expect(folderContent).is(':visible');
+
+        expect(folderContent.children()).toHaveLength(9);
+        expect(chrome.bookmarks.move).toBeCalledTimes(7);
+        expect(chrome.bookmarks.move).toHaveBeenNthCalledWith(1, '101', {
+          index: 0
+        });
+        expect(chrome.bookmarks.move).toHaveBeenNthCalledWith(2, '102', {
+          index: 1
+        });
+        expect(chrome.bookmarks.move).toHaveBeenNthCalledWith(3, '100', {
+          index: 2
+        });
+        expect(chrome.bookmarks.move).toHaveBeenNthCalledWith(4, '1', {
+          index: 3
+        });
+        expect(chrome.bookmarks.move).toHaveBeenNthCalledWith(5, '4', {
+          index: 4
+        });
+        expect(chrome.bookmarks.move).toHaveBeenNthCalledWith(6, '3', {
+          index: 5
+        });
+        expect(chrome.bookmarks.move).toHaveBeenNthCalledWith(7, '2', {
+          index: 6
+        });
+        expect(folderContent.children(':nth(0)')).is(
+          '#101[type=folder]:contains("first"):visible'
+        );
+        expect(folderContent.children(':nth(1)')).is(
+          '#102[type=folder]:contains("second"):visible'
+        );
+        expect(folderContent.children(':nth(2)')).is(
+          '#100[type=folder]:contains("xyz"):visible'
+        );
+        expect(folderContent.children(':nth(3)')).is(
+          '#1[type=bookmark]:contains("abc"):visible'
+        );
+        expect(folderContent.children(':nth(4)')).is(
+          '#4[type=bookmark]:contains("defg"):visible'
+        );
+        expect(folderContent.children(':nth(5)')).is(
+          '#3[type=bookmark]:contains("hij"):visible'
+        );
+        expect(folderContent.children(':nth(6)')).is(
+          '#2[type=bookmark]:contains("xyz"):visible'
+        );
+        expect(folderContent.children(':nth(7)')).is('.separator:visible');
+        expect(folderContent.children(':nth(8)')).is(
+          '[type=openAllInTabs]:visible'
+        );
+      });
+    });
   });
 
-  function clickOn(bookmark: BookmarkTreeNode, eventInit: MouseEventInit = {}) {
+  enum ContextMenuItem {
+    Reorder
+  }
+
+  function chooseContextMenuItem(item: ContextMenuItem) {
+    let dataAction;
+    if (item === ContextMenuItem.Reorder) {
+      dataAction = 'reorder';
+    } else {
+      throw new Error('Not supported ContextMenuItem: ' + item);
+    }
+    const el = $(
+      `#contextMenu > .enabled.forChromeBookmarks[data-action="${dataAction}"]:visible`
+    );
+    mouseOverAndClickOn(el);
+  }
+
+  function mouseOverAndClickOn(
+    bookmark: BookmarkTreeNode | JQuery<HTMLElement>,
+    eventInit: MouseEventInit = {}
+  ) {
+    mouseOver(bookmark);
+    clickOn(bookmark, eventInit);
+  }
+
+  function clickOn(
+    bookmark: BookmarkTreeNode | JQuery<HTMLElement>,
+    eventInit: MouseEventInit = {}
+  ) {
     const evt = new MouseEvent('mouseup', {
       button: 0,
       cancelable: true,
       bubbles: true,
       ...eventInit
     });
-    document.getElementById(bookmark.id).dispatchEvent(evt);
+    if (isJQueryObject(bookmark)) {
+      bookmark.get(0).dispatchEvent(evt);
+    } else {
+      document.getElementById(bookmark.id).dispatchEvent(evt);
+    }
+  }
+
+  function isJQueryObject(obj: any): obj is JQuery<HTMLElement> {
+    return !!obj.jquery;
   }
 
   function clickOpenAll(
@@ -718,13 +888,20 @@ describe('popup.html', () => {
       .dispatchEvent(evt);
   }
 
-  function mouseOver(item: BookmarkTreeNode, eventInit: MouseEventInit = {}) {
+  function mouseOver(
+    item: BookmarkTreeNode | JQuery<HTMLElement>,
+    eventInit: MouseEventInit = {}
+  ) {
     const evt = new MouseEvent('mouseover', {
       cancelable: true,
       bubbles: true,
       ...eventInit
     });
-    document.getElementById(item.id).dispatchEvent(evt);
+    if (isJQueryObject(item)) {
+      item.get(0).dispatchEvent(evt);
+    } else {
+      document.getElementById(item.id).dispatchEvent(evt);
+    }
   }
 
   function bookmark(
@@ -741,11 +918,13 @@ describe('popup.html', () => {
   bookmark.nextId = 1;
 
   function givenFolder(
-    id: number,
+    folderId: number,
     ...children: BookmarkTreeNode[]
   ): BookmarkTreeNode {
+    const id = '' + folderId;
+    children.forEach(each => (each.parentId = id));
     return {
-      id: '' + id,
+      id,
       title: randomAlphanumeric(),
       children
     };
@@ -755,6 +934,8 @@ describe('popup.html', () => {
     quick: BookmarkTreeNode[],
     other: BookmarkTreeNode[] = []
   ) {
+    quick.forEach(each => (each.parentId = 'quick'));
+    other.forEach(each => (each.parentId = 'other'));
     chrome.bookmarks.givenBookmarks([
       {
         id: 'root',
