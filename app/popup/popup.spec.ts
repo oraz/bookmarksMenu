@@ -476,6 +476,69 @@ describe('popup.html', () => {
         });
       });
 
+      it('show for the only bookmark in folder', () => {
+        const first = bookmark();
+        const folder = givenFolder(100, first);
+        givenBookmakrs([folder, bookmark()], [bookmark(), bookmark()]);
+
+        mouseOver(folder);
+        mouseOver(first);
+        clickOn(first, { button: 2 });
+
+        expect($('#transparentLayer')).is(':visible');
+        expect($('#contextMenu')).is(':visible');
+        const expectedItems = [
+          '.enabled.forBookmark[data-action="openInNewTab"]',
+          '.enabled.forBookmark[data-action="openInNewWindow"]',
+          '.enabled.forBookmark[data-action="openInIncognitoWindow"]',
+          '.separator',
+          ':not(.enabled).forChromeBookmarks[data-action="reorder"]',
+          '.enabled[data-action="remove"]',
+          '.enabled.forChromeBookmarks[data-action="openBookmarkManager"]',
+          '.separator',
+          '.enabled.forChromeBookmarks[data-action="useGoogleBookmarks"]'
+        ];
+        const visibleItems = $('#contextMenu > :visible');
+        expect(visibleItems).toHaveLength(expectedItems.length);
+        expectedItems.forEach((expectedItem, idx) => {
+          const item = $(visibleItems.get(idx));
+          expect(item).is(expectedItem);
+        });
+      });
+
+      xit.each([['toolbar', bookmark(), true], ['other', bookmark(), false]])(
+        'show for the only bookmark in %s',
+        (testName, bookmark: BookmarkTreeNode, inToolbar: boolean) => {
+          givenBookmakrs(
+            inToolbar ? [bookmark] : [],
+            inToolbar ? [] : [bookmark]
+          );
+
+          mouseOver(bookmark);
+          clickOn(bookmark, { button: 2 });
+
+          expect($('#transparentLayer')).is(':visible');
+          expect($('#contextMenu')).is(':visible');
+          const expectedItems = [
+            '.enabled.forBookmark[data-action="openInNewTab"]',
+            '.enabled.forBookmark[data-action="openInNewWindow"]',
+            '.enabled.forBookmark[data-action="openInIncognitoWindow"]',
+            '.separator',
+            ':not(.enabled).forChromeBookmarks[data-action="reorder"]',
+            '.enabled[data-action="remove"]',
+            '.enabled.forChromeBookmarks[data-action="openBookmarkManager"]',
+            '.separator',
+            '.enabled.forChromeBookmarks[data-action="useGoogleBookmarks"]'
+          ];
+          const visibleItems = $('#contextMenu > :visible');
+          expect(visibleItems).toHaveLength(expectedItems.length);
+          expectedItems.forEach((expectedItem, idx) => {
+            const item = $(visibleItems.get(idx));
+            expect(item).is(expectedItem);
+          });
+        }
+      );
+
       it('show for not empty folder', () => {
         const folder = givenFolder(100, bookmark(), bookmark());
         givenBookmakrs([folder, bookmark()], [bookmark(), bookmark()]);
@@ -492,6 +555,127 @@ describe('popup.html', () => {
           '.separator',
           '.enabled.forChromeBookmarks[data-action="reorder"]',
           ':not(.enabled)[data-action="remove"]',
+          '.enabled.forChromeBookmarks[data-action="openBookmarkManager"]',
+          '.separator',
+          '.enabled.forChromeBookmarks[data-action="useGoogleBookmarks"]'
+        ];
+        const visibleItems = $('#contextMenu > :visible');
+        expect(visibleItems).toHaveLength(expectedItems.length);
+        expectedItems.forEach((expectedItem, idx) => {
+          const item = $(visibleItems.get(idx));
+          expect(item).is(expectedItem);
+        });
+      });
+
+      it('show for the only folder in folder', () => {
+        const subFolder = givenFolder(100, bookmark());
+        const folder = givenFolder(101, subFolder);
+        givenBookmakrs([folder, bookmark()], [bookmark(), bookmark()]);
+
+        mouseOver(folder);
+        mouseOver(subFolder);
+        clickOn(subFolder, { button: 2 });
+
+        expect($('#transparentLayer')).is(':visible');
+        expect($('#contextMenu')).is(':visible');
+        const expectedItems = [
+          '.enabled.forFolder[data-action="openAllInTabs"]',
+          '.enabled.forFolder[data-action="openAllInNewWindow"]',
+          '.enabled.forFolder[data-action="openAllInIncognitoWindow"]',
+          '.separator',
+          ':not(.enabled).forChromeBookmarks[data-action="reorder"]',
+          ':not(.enabled)[data-action="remove"]',
+          '.enabled.forChromeBookmarks[data-action="openBookmarkManager"]',
+          '.separator',
+          '.enabled.forChromeBookmarks[data-action="useGoogleBookmarks"]'
+        ];
+        const visibleItems = $('#contextMenu > :visible');
+        expect(visibleItems).toHaveLength(expectedItems.length);
+        expectedItems.forEach((expectedItem, idx) => {
+          const item = $(visibleItems.get(idx));
+          expect(item).is(expectedItem);
+        });
+      });
+
+      it('show for the only folder(empty) in folder', () => {
+        const subFolder = givenFolder(100);
+        const folder = givenFolder(101, subFolder);
+        givenBookmakrs([folder, bookmark()], [bookmark(), bookmark()]);
+
+        mouseOver(folder);
+        mouseOver(subFolder);
+        clickOn(subFolder, { button: 2 });
+
+        expect($('#transparentLayer')).is(':visible');
+        expect($('#contextMenu')).is(':visible');
+        const expectedItems = [
+          ':not(.enabled).forFolder[data-action="openAllInTabs"]',
+          ':not(.enabled).forFolder[data-action="openAllInNewWindow"]',
+          ':not(.enabled).forFolder[data-action="openAllInIncognitoWindow"]',
+          '.separator',
+          ':not(.enabled).forChromeBookmarks[data-action="reorder"]',
+          '.enabled[data-action="remove"]',
+          '.enabled.forChromeBookmarks[data-action="openBookmarkManager"]',
+          '.separator',
+          '.enabled.forChromeBookmarks[data-action="useGoogleBookmarks"]'
+        ];
+        const visibleItems = $('#contextMenu > :visible');
+        expect(visibleItems).toHaveLength(expectedItems.length);
+        expectedItems.forEach((expectedItem, idx) => {
+          const item = $(visibleItems.get(idx));
+          expect(item).is(expectedItem);
+        });
+      });
+
+      xit.each([
+        ['toolbar', givenFolder(100), true],
+        ['other', givenFolder(100), false]
+      ])(
+        'show for the only folder in %s',
+        (testName, folder: BookmarkTreeNode, inToolbar: boolean) => {
+          givenBookmakrs(inToolbar ? [folder] : [], inToolbar ? [] : [folder]);
+
+          mouseOver(folder);
+          clickOn(folder, { button: 2 });
+
+          expect($('#transparentLayer')).is(':visible');
+          expect($('#contextMenu')).is(':visible');
+          const expectedItems = [
+            ':not(.enabled).forFolder[data-action="openAllInTabs"]',
+            ':not(.enabled).forFolder[data-action="openAllInNewWindow"]',
+            ':not(.enabled).forFolder[data-action="openAllInIncognitoWindow"]',
+            '.separator',
+            ':not(.enabled).forChromeBookmarks[data-action="reorder"]',
+            '.enabled[data-action="remove"]',
+            '.enabled.forChromeBookmarks[data-action="openBookmarkManager"]',
+            '.separator',
+            '.enabled.forChromeBookmarks[data-action="useGoogleBookmarks"]'
+          ];
+          const visibleItems = $('#contextMenu > :visible');
+          expect(visibleItems).toHaveLength(expectedItems.length);
+          expectedItems.forEach((expectedItem, idx) => {
+            const item = $(visibleItems.get(idx));
+            expect(item).is(expectedItem);
+          });
+        }
+      );
+
+      it('show for empty folder', () => {
+        const folder = givenFolder(100);
+        givenBookmakrs([folder, bookmark()], [bookmark(), bookmark()]);
+
+        mouseOver(folder);
+        clickOn(folder, { button: 2 });
+
+        expect($('#transparentLayer')).is(':visible');
+        expect($('#contextMenu')).is(':visible');
+        const expectedItems = [
+          ':not(.enabled).forFolder[data-action="openAllInTabs"]',
+          ':not(.enabled).forFolder[data-action="openAllInNewWindow"]',
+          ':not(.enabled).forFolder[data-action="openAllInIncognitoWindow"]',
+          '.separator',
+          '.enabled.forChromeBookmarks[data-action="reorder"]',
+          '.enabled[data-action="remove"]',
           '.enabled.forChromeBookmarks[data-action="openBookmarkManager"]',
           '.separator',
           '.enabled.forChromeBookmarks[data-action="useGoogleBookmarks"]'
