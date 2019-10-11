@@ -705,24 +705,21 @@ describe('popup.html', () => {
         mouseOverAndClickOn(third, { button: 2 });
         chooseContextMenuItem(ContextMenuItem.Reorder);
 
+        const expectedIdOrder = [1, 4, 3, 2];
+        expect(chrome.bookmarks.move).toBeCalledTimes(expectedIdOrder.length);
+        expectedIdOrder.forEach((id, index) => {
+          const nthCall = index + 1;
+          expect(chrome.bookmarks.move).toHaveBeenNthCalledWith(
+            nthCall,
+            id.toString(),
+            { index }
+          );
+        });
+
         const folderContent = $('#10 > ul');
         expect(folderContent).toHaveLength(1);
         expect(folderContent).is(':visible');
-
         expect(folderContent.children()).toHaveLength(6);
-        expect(chrome.bookmarks.move).toBeCalledTimes(4);
-        expect(chrome.bookmarks.move).toHaveBeenNthCalledWith(1, '1', {
-          index: 0
-        });
-        expect(chrome.bookmarks.move).toHaveBeenNthCalledWith(2, '4', {
-          index: 1
-        });
-        expect(chrome.bookmarks.move).toHaveBeenNthCalledWith(3, '3', {
-          index: 2
-        });
-        expect(chrome.bookmarks.move).toHaveBeenNthCalledWith(4, '2', {
-          index: 3
-        });
         expect(folderContent.children(':nth(0)')).is(
           '#1[type=bookmark]:contains("abc"):visible'
         );
@@ -770,33 +767,22 @@ describe('popup.html', () => {
         mouseOverAndClickOn(third, { button: 2 });
         chooseContextMenuItem(ContextMenuItem.Reorder);
 
+        const expectedIdOrder = [101, 102, 100, 1, 4, 3, 2];
+        expect(chrome.bookmarks.move).toBeCalledTimes(expectedIdOrder.length);
+        expectedIdOrder.forEach((id, index) => {
+          const nthCall = index + 1;
+          expect(chrome.bookmarks.move).toHaveBeenNthCalledWith(
+            nthCall,
+            id.toString(),
+            { index }
+          );
+        });
+
         const folderContent = $('#10 > ul');
         expect(folderContent).toHaveLength(1);
         expect(folderContent).is(':visible');
-
         expect(folderContent.children()).toHaveLength(9);
-        expect(chrome.bookmarks.move).toBeCalledTimes(7);
-        expect(chrome.bookmarks.move).toHaveBeenNthCalledWith(1, '101', {
-          index: 0
-        });
-        expect(chrome.bookmarks.move).toHaveBeenNthCalledWith(2, '102', {
-          index: 1
-        });
-        expect(chrome.bookmarks.move).toHaveBeenNthCalledWith(3, '100', {
-          index: 2
-        });
-        expect(chrome.bookmarks.move).toHaveBeenNthCalledWith(4, '1', {
-          index: 3
-        });
-        expect(chrome.bookmarks.move).toHaveBeenNthCalledWith(5, '4', {
-          index: 4
-        });
-        expect(chrome.bookmarks.move).toHaveBeenNthCalledWith(6, '3', {
-          index: 5
-        });
-        expect(chrome.bookmarks.move).toHaveBeenNthCalledWith(7, '2', {
-          index: 6
-        });
+
         expect(folderContent.children(':nth(0)')).is(
           '#101[type=folder]:contains("first"):visible'
         );
