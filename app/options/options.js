@@ -1,21 +1,11 @@
 'use strict';
 
-import {
-  $,
-  all,
-  one,
-  changeBookmarkMode,
-  MESSAGES,
-  getFavicon,
-  i18nUtils,
-  E
-} from '../common/common.js';
+import { $, all, one, changeBookmarkMode, MESSAGES, getFavicon, i18nUtils, E } from '../common/common.js';
 import { Settings } from '../common/settings.js';
 
 function setMouseButtonAction(/** @type {Event} */ evt) {
   const el = evt.target;
-  localStorage[parseInt(el.getAttribute('data-button-number'))] =
-    el.selectedIndex;
+  localStorage[parseInt(el.getAttribute('data-button-number'))] = el.selectedIndex;
 }
 
 function setIntProperty() {
@@ -49,12 +39,8 @@ function setColor() {
 
 function setUseGoogleBookmarks(useGoogleBookmarks) {
   localStorage.setItem('useGoogleBookmarks', useGoogleBookmarks);
-  $('chromeBookmarksSettings').style.display = useGoogleBookmarks
-    ? 'none'
-    : 'block';
-  $('googleBookmarksSettings').style.display = useGoogleBookmarks
-    ? 'block'
-    : 'none';
+  $('chromeBookmarksSettings').style.display = useGoogleBookmarks ? 'none' : 'block';
+  $('googleBookmarksSettings').style.display = useGoogleBookmarks ? 'block' : 'none';
   changeBookmarkMode(useGoogleBookmarks);
   if (useGoogleBookmarks) {
     clearGoogleBookmarksDiv();
@@ -67,24 +53,20 @@ function setUseGoogleBookmarks(useGoogleBookmarks) {
 function clearGoogleBookmarksDiv() {
   const gbookmarksSettings = $('googleBookmarksSettings');
   E.hide(gbookmarksSettings.querySelector('div.bookmark'));
-  gbookmarksSettings
-    .querySelectorAll('div.gbookmark')
-    .forEach(each => each.parentElement.removeChild(each));
+  gbookmarksSettings.querySelectorAll('div.gbookmark').forEach(each => each.parentElement.removeChild(each));
 }
 
 function selectAllBookmarks() {
   /* jshint validthis: true */
   const checked = this.checked;
-  this.parentElement.parentElement.parentElement
-    .querySelectorAll('input[type="checkbox"]')
-    .forEach((chk, idx) => {
-      if (idx > 0) {
-        chk.checked = checked;
-        const evt = document.createEvent('HTMLEvents');
-        evt.initEvent('change', true, true);
-        chk.dispatchEvent(evt);
-      }
-    });
+  this.parentElement.parentElement.parentElement.querySelectorAll('input[type="checkbox"]').forEach((chk, idx) => {
+    if (idx > 0) {
+      chk.checked = checked;
+      const evt = document.createEvent('HTMLEvents');
+      evt.initEvent('change', true, true);
+      chk.dispatchEvent(evt);
+    }
+  });
 }
 
 function addBookmark(divSettings, bookmark, useGoogleBookmarks) {
@@ -96,7 +78,7 @@ function addBookmark(divSettings, bookmark, useGoogleBookmarks) {
   if (!Settings.isBookmarkHidden(bookmark.title, useGoogleBookmarks)) {
     checkbox.setAttribute('checked', 'checked');
   }
-  checkbox.onchange = function () {
+  checkbox.onchange = function() {
     Settings.setBookmarkHidden(bookmark.title, useGoogleBookmarks, !this.checked);
   };
 
@@ -122,9 +104,7 @@ function processResponse(response, port) {
     const GBookmarksTree = chrome.extension.getBackgroundPage().GBookmarksTree;
     const googleBookmarksSettings = $('googleBookmarksSettings');
     E.show(googleBookmarksSettings.querySelector('div.bookmark'));
-    GBookmarksTree.children.forEach(bookmark =>
-      addBookmark(googleBookmarksSettings, bookmark, true)
-    );
+    GBookmarksTree.children.forEach(bookmark => addBookmark(googleBookmarksSettings, bookmark, true));
   } else if (response == MESSAGES.RESP_FAILED) {
     E.hide($('loading'));
     E.show($('loadingError'));
@@ -168,21 +148,12 @@ function resetWindowSettings() {
   initWindowSettingsTab();
 }
 
-HTMLSelectElement.prototype.selectByValue = function (value) {
-  this.selectedIndex = document.evaluate(
-    'count(option[@value="' + value + '"]/preceding-sibling::option)',
-    this,
-    null,
-    XPathResult.NUMBER_TYPE,
-    null
-  ).numberValue;
+HTMLSelectElement.prototype.selectByValue = function(value) {
+  this.selectedIndex = document.evaluate('count(option[@value="' + value + '"]/preceding-sibling::option)', this, null, XPathResult.NUMBER_TYPE, null).numberValue;
 };
 
 function initWindowSettingsTab() {
-  $('version').innerHTML = chrome.i18n.getMessage(
-    'version',
-    chrome.runtime.getManifest().version
-  );
+  $('version').innerHTML = chrome.i18n.getMessage('version', chrome.runtime.getManifest().version);
   $('fontFamily').selectByValue(Settings.getFontFamily());
   $('fontSize').value = Settings.getFontSize();
   $('favIconWidth').value = Settings.getFavIconWidth();
@@ -205,10 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   all('#uiConfig input[type=number]').on('input', setIntProperty);
 
-  all('#uiConfig input[type=checkbox], #switchToNewTab').on(
-    'change',
-    setBoolProperty
-  );
+  all('#uiConfig input[type=checkbox], #switchToNewTab').on('change', setBoolProperty);
   all('#uiConfig input[type=color]').on('change', setColor);
   all('#mouseConfig select').on('change', setMouseButtonAction);
 
@@ -221,17 +189,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // init Bookmarks tab
   const useGoogleBookmarks = Settings.isUseGoogleBookmarks();
-  $(
-    useGoogleBookmarks ? 'useGoogleBookmarks' : 'useChromeBookmarks'
-  ).checked = true;
+  $(useGoogleBookmarks ? 'useGoogleBookmarks' : 'useChromeBookmarks').checked = true;
   setUseGoogleBookmarks(useGoogleBookmarks);
   $('labelSeparator').value = Settings.getLabelSeparator();
   chrome.bookmarks.getTree(nodes => {
     const chromeBookmarksSettings = $('chromeBookmarksSettings');
     nodes[0].children.slice(0, 2).forEach(child => {
-      child.children.forEach(bookmark =>
-        addBookmark(chromeBookmarksSettings, bookmark, false)
-      );
+      child.children.forEach(bookmark => addBookmark(chromeBookmarksSettings, bookmark, false));
     });
   });
 
@@ -246,18 +210,11 @@ document.addEventListener('DOMContentLoaded', () => {
     $('switchToNewTab').checked = true;
   }
 
-  chrome.fontSettings.getFontList(function (fonts) {
+  chrome.fontSettings.getFontList(function(fonts) {
     const fontList = $('fontFamily').options,
       defaultFont = Settings.getFontFamily();
     fonts.forEach(each => {
-      fontList.add(
-        new Option(
-          each.displayName,
-          each.fontId,
-          false,
-          each.fontId === defaultFont
-        )
-      );
+      fontList.add(new Option(each.displayName, each.fontId, false, each.fontId === defaultFont));
     });
   });
 

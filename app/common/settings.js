@@ -15,10 +15,9 @@ export const Settings = {
 
   getMaxWidthMesure: () => setting('maxWidthMesure', 'em'),
 
-  isBookmarkHidden: (title, useGoogleBookmarks) =>
-    isTrue((useGoogleBookmarks ? 'g_' : '') + 'bookmark_' + title),
+  isBookmarkHidden: (title, useGoogleBookmarks) => isTrue((useGoogleBookmarks ? 'g_' : '') + 'bookmark_' + title),
 
-  setBookmarkHidden: (/** @type String */title, /** @type Boolean */useGoogleBookmarks, /** @type Boolean */hidden) => {
+  setBookmarkHidden: (/** @type String */ title, /** @type Boolean */ useGoogleBookmarks, /** @type Boolean */ hidden) => {
     const key = (useGoogleBookmarks ? 'g_' : '') + 'bookmark_' + title;
     if (hidden) {
       localStorage.setItem(key, true);
