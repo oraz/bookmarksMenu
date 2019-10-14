@@ -1,15 +1,6 @@
 'use strict';
 
-import {
-  $,
-  all,
-  changeBookmarkMode,
-  MESSAGES,
-  getFavicon,
-  isBookmarklet,
-  i18nUtils,
-  E
-} from '../common/common.js';
+import { $, all, changeBookmarkMode, MESSAGES, getFavicon, isBookmarklet, i18nUtils, E } from '../common/common.js';
 import { Settings } from '../common/settings.js';
 
 var config; // will be initialized in DOMContentLoaded handler
@@ -50,9 +41,7 @@ class Bookmark extends HTMLLIElement {
     this.isOpenAll = true;
     const span = document.createElement('span');
     span.className = 'noicon';
-    span.appendChild(
-      document.createTextNode(chrome.i18n.getMessage('openAllInTabs'))
-    );
+    span.appendChild(document.createTextNode(chrome.i18n.getMessage('openAllInTabs')));
     this.appendChild(span);
     this.onmouseover = this.highlight;
   }
@@ -107,11 +96,7 @@ class Bookmark extends HTMLLIElement {
       let treeDepth = 1;
       this.treeDepth = treeDepth;
       let parentFolder = this.parentFolder;
-      while (
-        !parentFolder.isRoot &&
-        (parentFolder.treeDepth == undefined ||
-          treeDepth > parentFolder.treeDepth)
-      ) {
+      while (!parentFolder.isRoot && (parentFolder.treeDepth == undefined || treeDepth > parentFolder.treeDepth)) {
         parentFolder.treeDepth = ++treeDepth;
         parentFolder = parentFolder.parentFolder;
       }
@@ -148,10 +133,7 @@ class Bookmark extends HTMLLIElement {
   }
 
   openAllInTabs(firstInCurrentTab) {
-    this.getBookmarksInFolder().forEach((
-      /** @type Bookmark */ bookmark,
-      idx
-    ) => {
+    this.getBookmarksInFolder().forEach((/** @type Bookmark */ bookmark, idx) => {
       if (idx === 0 && firstInCurrentTab) {
         bookmark.open();
       } else {
@@ -174,9 +156,7 @@ class Bookmark extends HTMLLIElement {
 
   /** @returns Bookmark[] */
   getBookmarksInFolder() {
-    return this.querySelectorAll(
-      'li[id="' + this.id + '"]>ul>li[type="bookmark"]'
-    );
+    return this.querySelectorAll('li[id="' + this.id + '"]>ul>li[type="bookmark"]');
   }
 
   getY() {
@@ -220,15 +200,12 @@ class Bookmark extends HTMLLIElement {
       }
     }
     // Since using html5 doctype we retreive the width of vscrollbar from computed styles
-    width +=
-      this.folderContent.offsetWidth +
-      parseInt(window.getComputedStyle(body).marginRight);
+    width += this.folderContent.offsetWidth + parseInt(window.getComputedStyle(body).marginRight);
     if (width <= config.winMaxWidth && body.clientWidth < width) {
       bodyStyle.width = width + 'px';
     } else if (width > config.winMaxWidth) {
       bodyStyle.width = config.winMaxWidth + 'px';
-      this.folderContent.style.width =
-        this.folderContent.clientWidth - (width - config.winMaxWidth) + 'px';
+      this.folderContent.style.width = this.folderContent.clientWidth - (width - config.winMaxWidth) + 'px';
     }
   }
 
@@ -239,48 +216,28 @@ class Bookmark extends HTMLLIElement {
       contextMenu.initialized = true;
 
       if (Settings.isHideCMOpenIncognito()) {
-        contextMenu
-          .querySelectorAll(
-            'li[data-action="openInIncognitoWindow"],' +
-              ' li[data-action="openAllInIncognitoWindow"]'
-          )
-          .forEach(E.hide);
+        contextMenu.querySelectorAll('li[data-action="openInIncognitoWindow"], li[data-action="openAllInIncognitoWindow"]').forEach(E.hide);
       }
       if (Settings.isHideCMModeSwitcher()) {
         if (!config.useGoogleBookmarks) {
-          E.hide(
-            contextMenu.querySelector('li[data-action="useGoogleBookmarks"]')
-          );
+          E.hide(contextMenu.querySelector('li[data-action="useGoogleBookmarks"]'));
           E.hide(contextMenu.querySelectorAll('li.separator')[1]);
         } else {
-          E.hide(
-            contextMenu.querySelector('li[data-action="useChromeBookmarks"]')
-          );
+          E.hide(contextMenu.querySelector('li[data-action="useChromeBookmarks"]'));
         }
       }
     }
-    contextMenu.className = config.useGoogleBookmarks
-      ? 'forGoogleBookmarks'
-      : 'forChromeBookmarks';
+    contextMenu.className = config.useGoogleBookmarks ? 'forGoogleBookmarks' : 'forChromeBookmarks';
 
     contextMenu.selectedBookmark = this;
     contextMenu.setAttribute('for', this.getAttribute('type'));
     if (this.isFolder) {
       const hasChildren = this.lastChild.numberOfBookmarks > 0;
-      contextMenu
-        .querySelectorAll('.forFolder')
-        .forEach(each => each.classList.toggle('enabled', hasChildren));
+      contextMenu.querySelectorAll('.forFolder').forEach(each => each.classList.toggle('enabled', hasChildren));
     }
 
-    contextMenu
-      .querySelector('li[data-action="reorder"]')
-      .classList.toggle('enabled', this.parentElement.childElementCount > 1);
-    contextMenu
-      .querySelector('li[data-action="remove"]')
-      .classList.toggle(
-        'enabled',
-        this.isBookmark || (this.isFolder && this.isEmpty === true)
-      );
+    contextMenu.querySelector('li[data-action="reorder"]').classList.toggle('enabled', this.parentElement.childElementCount > 1);
+    contextMenu.querySelector('li[data-action="remove"]').classList.toggle('enabled', this.isBookmark || (this.isFolder && this.isEmpty === true));
     E.show(contextMenu);
 
     const body = document.body;
@@ -301,16 +258,12 @@ class Bookmark extends HTMLLIElement {
     }
 
     if (ev.clientY + contextMenu.clientHeight > body.clientHeight) {
-      if (
-        contextMenu.clientHeight > body.clientHeight ||
-        ev.clientY < contextMenu.clientHeight
-      ) {
+      if (contextMenu.clientHeight > body.clientHeight || ev.clientY < contextMenu.clientHeight) {
         const bodyHeight = ev.clientY + contextMenu.clientHeight + 5;
         body.style.height = bodyHeight + 'px';
         contextMenuStyle.top = ev.clientY + 'px';
       } else {
-        contextMenuStyle.top =
-          ev.clientY + body.scrollTop - contextMenu.clientHeight + 'px';
+        contextMenuStyle.top = ev.clientY + body.scrollTop - contextMenu.clientHeight + 'px';
       }
     } else {
       contextMenuStyle.top = ev.clientY + body.scrollTop + 'px';
@@ -349,9 +302,7 @@ class Bookmark extends HTMLLIElement {
         do {
           var folder = folderContent.parentElement;
           folderContent = folder.parentElement;
-          chrome.extension
-            .getBackgroundPage()
-            .remove(folder.getAttribute('gid'));
+          chrome.extension.getBackgroundPage().remove(folder.getAttribute('gid'));
           folderContent.removeChild(folder);
         } while (!folderContent.isRoot && folderContent.childElementCount == 0);
         this.parentFolder.exists = false;
@@ -360,10 +311,7 @@ class Bookmark extends HTMLLIElement {
           folderContent.parentElement.displayFolderContent();
         }
       }
-    } else if (
-      folderContent.numberOfBookmarks-- <= 2 &&
-      folderContent.lastElementChild.isOpenAll
-    ) {
+    } else if (folderContent.numberOfBookmarks-- <= 2 && folderContent.lastElementChild.isOpenAll) {
       // remove "open all" and separator
       folderContent.removeChild(folderContent.lastElementChild);
       folderContent.removeChild(folderContent.lastElementChild);
@@ -373,10 +321,8 @@ class Bookmark extends HTMLLIElement {
   reorder(beforeSeparator) {
     const folderContent = this.parentElement;
     if (this.parentFolder.isRoot && beforeSeparator == undefined) {
-      if (!folderContent.firstChild.isSeparator)
-        folderContent.firstChild.reorder(true);
-      if (!folderContent.lastChild.isSeparator)
-        folderContent.lastChild.reorder(false);
+      if (!folderContent.firstChild.isSeparator) folderContent.firstChild.reorder(true);
+      if (!folderContent.lastChild.isSeparator) folderContent.lastChild.reorder(false);
       return;
     }
     if (beforeSeparator == undefined) {
@@ -385,9 +331,7 @@ class Bookmark extends HTMLLIElement {
     const bookmarks = [];
     let separator = null;
     do {
-      const child = beforeSeparator
-        ? folderContent.firstChild
-        : folderContent.lastChild;
+      const child = beforeSeparator ? folderContent.firstChild : folderContent.lastChild;
       if (child.isSeparator) {
         if (beforeSeparator) {
           separator = child;
@@ -464,9 +408,7 @@ class FolderContent extends HTMLUListElement {
     const li = document.createElement('li');
     const span = document.createElement('span');
     span.className = 'empty';
-    span.appendChild(
-      document.createTextNode('(' + chrome.i18n.getMessage('empty') + ')')
-    );
+    span.appendChild(document.createTextNode('(' + chrome.i18n.getMessage('empty') + ')'));
     li.appendChild(span);
     this.appendChild(li);
   }
@@ -504,19 +446,10 @@ function processMenu(ev) {
         unSelect();
         reloadGBookmarks();
       } else if (action == 'addGBookmark') {
-        var label =
-          bookmark.isBookmark && bookmark.parentFolder.isRoot
-            ? ''
-            : (bookmark.isFolder
-                ? bookmark
-                : bookmark.parentFolder
-              ).getAttribute('gid');
+        var label = bookmark.isBookmark && bookmark.parentFolder.isRoot ? '' : (bookmark.isFolder ? bookmark : bookmark.parentFolder).getAttribute('gid');
         unSelect();
         showGoogleBookmarkDialog(label);
-      } else if (
-        action == 'useGoogleBookmarks' ||
-        action == 'useChromeBookmarks'
-      ) {
+      } else if (action == 'useGoogleBookmarks' || action == 'useChromeBookmarks') {
         config.useGoogleBookmarks = !config.useGoogleBookmarks;
         changeBookmarkMode(config.useGoogleBookmarks);
         localStorage.setItem('useGoogleBookmarks', config.useGoogleBookmarks);
@@ -527,27 +460,15 @@ function processMenu(ev) {
         document.body.style.overflowY = 'visible';
         loadBookmarks();
       } else if (action === 'openBookmarkManager') {
-        chrome.tabs.query(
-          { currentWindow: true, url: 'chrome://bookmarks/*' },
-          function(tabs) {
-            var folderId = bookmark.isFolder
-                ? bookmark.id
-                : bookmark.parentFolderId,
-              bookmarkManagerUrl = 'chrome://bookmarks/#' + folderId;
-            if (tabs.length === 0) {
-              chrome.tabs.create(
-                { url: bookmarkManagerUrl, selected: true },
-                closePopup
-              );
-            } else {
-              chrome.tabs.update(
-                tabs[0].id,
-                { url: bookmarkManagerUrl, active: true },
-                closePopup
-              );
-            }
+        chrome.tabs.query({ currentWindow: true, url: 'chrome://bookmarks/*' }, function(tabs) {
+          var folderId = bookmark.isFolder ? bookmark.id : bookmark.parentFolderId,
+            bookmarkManagerUrl = 'chrome://bookmarks/#' + folderId;
+          if (tabs.length === 0) {
+            chrome.tabs.create({ url: bookmarkManagerUrl, selected: true }, closePopup);
+          } else {
+            chrome.tabs.update(tabs[0].id, { url: bookmarkManagerUrl, active: true }, closePopup);
           }
-        );
+        });
       } else {
         bookmark[action].call(bookmark);
         unSelect();
@@ -558,8 +479,7 @@ function processMenu(ev) {
 
 function isGBookmarkDataReady() {
   var regexp = /^\s*$/;
-  $('btnAdd').disabled =
-    regexp.test($('gbTitle').value) || regexp.test($('gbURL').value);
+  $('btnAdd').disabled = regexp.test($('gbTitle').value) || regexp.test($('gbURL').value);
 }
 
 function suggestLabel() {
@@ -567,12 +487,7 @@ function suggestLabel() {
   var suggestDiv = $('suggest');
   var cursorPos = this.selectionStart;
   var labelValue = this.value;
-  var precededComma = labelValue.lastIndexOf(
-    ',',
-    labelValue.charAt(cursorPos) == ',' && cursorPos > 0
-      ? cursorPos - 1
-      : cursorPos
-  );
+  var precededComma = labelValue.lastIndexOf(',', labelValue.charAt(cursorPos) == ',' && cursorPos > 0 ? cursorPos - 1 : cursorPos);
   var nextComma = labelValue.indexOf(',', cursorPos);
   var newLabel = labelValue
     .substring(precededComma + 1, nextComma == -1 ? undefined : nextComma)
@@ -580,9 +495,7 @@ function suggestLabel() {
     .toLocaleLowerCase();
   if (newLabel == '') {
     E.hide(suggestDiv);
-    suggestDiv
-      .querySelectorAll('div > div[class]')
-      .forEach(each => each.removeAttribute('class'));
+    suggestDiv.querySelectorAll('div > div[class]').forEach(each => each.removeAttribute('class'));
     return;
   }
   var mustBeShown = false;
@@ -651,13 +564,10 @@ function fillFolderBySuggest(div) {
   var label = $('gbLabel');
   var value = label.value;
   var cursorPos = label.selectionStart;
-  var precededComma = value.lastIndexOf(
-    ',',
-    value.charAt(cursorPos) == ',' && cursorPos > 0 ? cursorPos - 1 : cursorPos
-  );
+  var precededComma = value.lastIndexOf(',', value.charAt(cursorPos) == ',' && cursorPos > 0 ? cursorPos - 1 : cursorPos);
   var nextComma = value.indexOf(',', cursorPos);
   label.value =
-    value.substr(0, precededComma + 1) +
+    value.substr(0, precededComma + 1) + //
     (precededComma == -1 ? '' : ' ') +
     div.textContent +
     (nextComma == -1 ? '' : value.substr(nextComma)) +
@@ -710,15 +620,9 @@ function showGoogleBookmarkDialog(initalLabel) {
   var labels = chrome.extension.getBackgroundPage().GBookmarksTree.labels;
   labels.sort();
   var suggestDiv = $('suggest');
-  suggestDiv
-    .querySelectorAll('div > *')
-    .forEach(each => each.parentElement.removeChild(each));
+  suggestDiv.querySelectorAll('div > *').forEach(each => each.parentElement.removeChild(each));
   var gbLabelStyles = window.getComputedStyle(gbLabel);
-  suggestDiv.style.marginLeft =
-    parseInt(gbLabelStyles.marginLeft) +
-    parseInt(gbLabelStyles.borderLeftWidth) -
-    1 +
-    'px';
+  suggestDiv.style.marginLeft = parseInt(gbLabelStyles.marginLeft) + parseInt(gbLabelStyles.borderLeftWidth) - 1 + 'px';
   labels.forEach(each => {
     const div = document.createElement('div');
     div.appendChild(document.createTextNode(each));
@@ -806,25 +710,13 @@ document.addEventListener('DOMContentLoaded', function() {
   };
 
   const style = document.documentElement.style;
-  [
-    'bodyClr',
-    'fntClr',
-    'bmBgClr',
-    'disabledItemFntClr',
-    'activeBmFntClr',
-    'activeBmBgClrFrom',
-    'activeBmBgClrTo'
-  ].forEach(each => style.setProperty(`--${each}`, Settings.getColor(each)));
+  ['bodyClr', 'fntClr', 'bmBgClr', 'disabledItemFntClr', 'activeBmFntClr', 'activeBmBgClrFrom', 'activeBmBgClrTo'].forEach(each => {
+    style.setProperty(`--${each}`, Settings.getColor(each));
+  });
   style.setProperty('--fav-icon-width', Settings.getFavIconWidth() + 'px');
   style.setProperty('--scrollbar-width', Settings.getScrollBarWidth() + 'px');
-  style.setProperty(
-    '--font',
-    `${Settings.getFontSize()}px "${Settings.getFontFamily()}"`
-  );
-  style.setProperty(
-    '--bookmark-max-width',
-    Settings.getMaxWidth() + Settings.getMaxWidthMesure()
-  );
+  style.setProperty('--font', `${Settings.getFontSize()}px "${Settings.getFontFamily()}"`);
+  style.setProperty('--bookmark-max-width', Settings.getMaxWidth() + Settings.getMaxWidthMesure());
 
   loadBookmarks();
 
@@ -856,10 +748,7 @@ document.addEventListener('DOMContentLoaded', function() {
           bookmark.openInNewTab(ev.shiftKey);
         } else if (bookmark.isOpenAll) {
           bookmark.parentFolder.openAllInTabs(false);
-        } else if (
-          bookmark.isFolder &&
-          bookmark.lastChild.numberOfBookmarks > 0
-        ) {
+        } else if (bookmark.isFolder && bookmark.lastChild.numberOfBookmarks > 0) {
           bookmark.openAllInTabs(false);
         }
         break;
@@ -906,8 +795,7 @@ function loadBookmarks() {
 }
 
 function initBookmarksMenu(nodes) {
-  const onlyVisibleBookmarks = each =>
-    !Settings.isBookmarkHidden(each.title, config.useGoogleBookmarks);
+  const onlyVisibleBookmarks = each => !Settings.isBookmarkHidden(each.title, config.useGoogleBookmarks);
   /** @type FolderContent */
   const rootFolder = $('bookmarksMenu');
   rootFolder.isRoot = true;
@@ -924,12 +812,8 @@ function initBookmarksMenu(nodes) {
   if (!rootFolder.noIconCSSAdded) {
     const favIcon = rootFolder.querySelector('li[type] img');
     const iconMarginRight = window.getComputedStyle(favIcon).marginRight; // contains '3px'
-    const textPaddingLeft =
-      favIcon.offsetLeft + favIcon.scrollWidth + parseInt(iconMarginRight);
-    document.documentElement.style.setProperty(
-      '--padding-for-noicon',
-      textPaddingLeft + 'px'
-    );
+    const textPaddingLeft = favIcon.offsetLeft + favIcon.scrollWidth + parseInt(iconMarginRight);
+    document.documentElement.style.setProperty('--padding-for-noicon', textPaddingLeft + 'px');
     rootFolder.noIconCSSAdded = true;
   }
 }

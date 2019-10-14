@@ -11,9 +11,7 @@ function GBookmarkFolder(names, parentFolder) {
   this.children = [];
   if (parentFolder) {
     this.title = names.shift();
-    this.id = !parentFolder.isRoot
-      ? parentFolder.id + window.GBookmarksTree.labelSeparator + this.title
-      : this.title;
+    this.id = !parentFolder.isRoot ? parentFolder.id + window.GBookmarksTree.labelSeparator + this.title : this.title;
     parentFolder.addChild(this);
     if (!window.GBookmarksTree.labels) {
       window.GBookmarksTree.labels = [];
@@ -27,15 +25,12 @@ function GBookmarkFolder(names, parentFolder) {
   return names.length > 0 ? new GBookmarkFolder(names, this) : this;
 }
 
-GBookmarkFolder.prototype.addChild = function (child) {
+GBookmarkFolder.prototype.addChild = function(child) {
   this.children.push(child);
 };
 
-GBookmarkFolder.prototype.findFolder = function (fullName) {
-  var names =
-    typeof fullName == 'string'
-      ? fullName.split(window.GBookmarksTree.labelSeparator)
-      : fullName;
+GBookmarkFolder.prototype.findFolder = function(fullName) {
+  var names = typeof fullName == 'string' ? fullName.split(window.GBookmarksTree.labelSeparator) : fullName;
   var name = names.shift();
   for (var idx = 0, len = this.children.length; idx < len; idx++) {
     var child = this.children[idx];
@@ -47,7 +42,7 @@ GBookmarkFolder.prototype.findFolder = function (fullName) {
   return new GBookmarkFolder(names, this);
 };
 
-GBookmarkFolder.prototype.removeBookmark = function (id) {
+GBookmarkFolder.prototype.removeBookmark = function(id) {
   var children = this.children;
   for (var idx = 0, len = children.length; idx < len; idx++) {
     var child = children[idx];
@@ -67,7 +62,7 @@ GBookmarkFolder.prototype.removeBookmark = function (id) {
   return null;
 };
 
-GBookmarkFolder.prototype.sort = function () {
+GBookmarkFolder.prototype.sort = function() {
   var children = this.children;
   if (children) {
     children.sort(sorting);
@@ -108,15 +103,13 @@ function createBookmark(node) {
   }
 }
 
-XMLHttpRequest.prototype.processBookmarks = function () {
+XMLHttpRequest.prototype.processBookmarks = function() {
   if (this.readyState == 4 && this.status == 200) {
     clearTimeout(this.timeout);
     if (this.responseXML !== null) {
       delete this.timeout;
       window.GBookmarksTree = new GBookmarkFolder();
-      window.GBookmarksTree.signature = this.responseXML.querySelector(
-        'channel > signature'
-      ).textContent;
+      window.GBookmarksTree.signature = this.responseXML.querySelector('channel > signature').textContent;
       this.responseXML.querySelectorAll('channel > item').forEach(createBookmark);
       window.GBookmarksTree.sort();
       this.port.postMessage(MESSAGES.RESP_TREE_IS_READY);
@@ -128,7 +121,7 @@ XMLHttpRequest.prototype.processBookmarks = function () {
   }
 };
 
-XMLHttpRequest.prototype.processAbort = function () {
+XMLHttpRequest.prototype.processAbort = function() {
   if (this.port.disconnected) {
     clearTimeout(this.timeout);
   } else {
@@ -142,16 +135,7 @@ window.remove = id => {
   var child = window.GBookmarksTree.removeBookmark(id);
   if (child) {
     var xhr = new XMLHttpRequest();
-    xhr.open(
-      'GET',
-      GBookmarkUrl +
-      'mark?' +
-      'dlq=' +
-      encodeURIComponent(id) +
-      '&sig=' +
-      encodeURIComponent(window.GBookmarksTree.signature),
-      true
-    );
+    xhr.open('GET', GBookmarkUrl + 'mark?' + 'dlq=' + encodeURIComponent(id) + '&sig=' + encodeURIComponent(window.GBookmarksTree.signature), true);
     xhr.send();
   }
 };
@@ -166,10 +150,7 @@ function onIncomingMessage(req, port) {
   if (req == MESSAGES.REQ_LOAD_BOOKMARKS && window.GBookmarksTree) {
     port.postMessage(MESSAGES.RESP_TREE_IS_READY);
     port.disconnect();
-  } else if (
-    (req == MESSAGES.REQ_LOAD_BOOKMARKS && !window.GBookmarksTree) ||
-    req == MESSAGES.REQ_FORCE_LOAD_BOOKMARKS
-  ) {
+  } else if ((req == MESSAGES.REQ_LOAD_BOOKMARKS && !window.GBookmarksTree) || req == MESSAGES.REQ_FORCE_LOAD_BOOKMARKS) {
     window.GBookmarksTree = null;
     const xhr = new XMLHttpRequest();
     xhr.port = port;
@@ -185,17 +166,13 @@ function onIncomingMessage(req, port) {
     xhr.open('GET', GBookmarkUrl + '?output=rss&num=10000', true);
     xhr.send();
   } else if (req == MESSAGES.REQ_GET_TREE_STATUS) {
-    port.postMessage(
-      window.GBookmarksTree
-        ? MESSAGES.RESP_TREE_IS_READY
-        : MESSAGES.RESP_NEED_TO_LOAD
-    );
+    port.postMessage(window.GBookmarksTree ? MESSAGES.RESP_TREE_IS_READY : MESSAGES.RESP_NEED_TO_LOAD);
     if (window.GBookmarksTree) {
       port.disconnect();
     }
   } else if (req.msg == MESSAGES.REQ_ADD_GOOGLE_BOOKMARK) {
     const xhr = new XMLHttpRequest();
-    port.onDisconnect.addListener(function () {
+    port.onDisconnect.addListener(function() {
       port.disconnected = true;
     });
     const label = req.label
@@ -203,7 +180,7 @@ function onIncomingMessage(req, port) {
       .replace(/\s*,\s*/g, ',')
       .replace(/,{2,}/g, ',')
       .replace(/(^,)|(,$)/g, '');
-    xhr.onreadystatechange = function () {
+    xhr.onreadystatechange = function() {
       if (xhr.readyState == 4 && xhr.status == 200) {
         var bm = {
           title: req.title,
@@ -240,13 +217,13 @@ function onIncomingMessage(req, port) {
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.send(
       'bkmk=' +
-      encodeURIComponent(req.url) +
-      '&title=' +
-      encodeURIComponent(req.title) +
-      '&labels=' +
-      encodeURIComponent(label) +
-      '&sig=' +
-      encodeURIComponent(window.GBookmarksTree.signature)
+      encodeURIComponent(req.url) + //
+        '&title=' +
+        encodeURIComponent(req.title) +
+        '&labels=' +
+        encodeURIComponent(label) +
+        '&sig=' +
+        encodeURIComponent(window.GBookmarksTree.signature)
     );
   }
 }
@@ -259,10 +236,10 @@ function showOptionsPageOnce() {
   }
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function() {
   chrome.browserAction.setBadgeBackgroundColor({ color: [24, 135, 185, 255] });
   changeBookmarkMode(Settings.isUseGoogleBookmarks());
-  chrome.extension.onConnect.addListener(function (port) {
+  chrome.extension.onConnect.addListener(function(port) {
     port.onMessage.addListener(onIncomingMessage);
   });
 
