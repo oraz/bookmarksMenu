@@ -783,7 +783,7 @@ describe('popup.html', () => {
         expect(folderContent.children(':nth(13)')).is('#4[type=bookmark]:contains("stuv"):visible');
       });
 
-      xit('in root folder with hidden bookmarks or folders', () => {
+      it('in root folder with hidden bookmarks or folders', () => {
         const firstFolder = givenFolder(100, 'xyz');
         const secondFolder = givenFolder(101, 'abcd');
         const thirdFolder = givenFolder(102, 'efg');
@@ -828,6 +828,39 @@ describe('popup.html', () => {
         expectedIdOrder.forEach((id, index) => {
           const nthCall = index + 1;
           const expectedPosition = index >= 6 ? index - 6 : index;
+          expect(chrome.bookmarks.move).toHaveBeenNthCalledWith(nthCall, id.toString(), { index: expectedPosition });
+        });
+      });
+
+      it('in root folder when all items in toolbar are hidden', () => {
+        const firstFolder = givenFolder(100, 'xyz');
+        const secondFolder = givenFolder(101, 'abcd');
+        const thirdFolder = givenFolder(102, 'efg');
+        const firstFolderInOthers = givenFolder(110, 'stuv');
+        const secondFolderInOthers = givenFolder(111, 'bcde');
+        const thirdFolderInOthers = givenFolder(112, 'opqrst');
+        [firstFolder, secondFolder, thirdFolder].forEach(each => {
+          Settings.setBookmarkHidden(each.title, false, true);
+        });
+        givenBookmakrs([firstFolder, secondFolder, thirdFolder], [firstFolderInOthers, thirdFolderInOthers, secondFolderInOthers]);
+        chrome.bookmarks.move = jest.fn();
+
+        mouseOverAndClickOn(firstFolderInOthers, { button: 2 });
+        chooseContextMenuItem(ContextMenuItem.Reorder);
+
+        const folderContent = $('#bookmarksMenu');
+        expect(folderContent).toHaveLength(1);
+        expect(folderContent).is(':visible');
+        expect(folderContent.children()).toHaveLength(4);
+        expect(folderContent.children(':nth(0)')).is('.separator:hidden');
+        expect(folderContent.children(':nth(1)')).is('#111[type=folder]:contains("bcde"):visible');
+        expect(folderContent.children(':nth(2)')).is('#112[type=folder]:contains("opqrst"):visible');
+        expect(folderContent.children(':nth(3)')).is('#110[type=folder]:contains("stuv"):visible');
+        const expectedIdOrder = [101, 102, 100, 111, 112, 110];
+        expect(chrome.bookmarks.move).toBeCalledTimes(expectedIdOrder.length);
+        expectedIdOrder.forEach((id, index) => {
+          const nthCall = index + 1;
+          const expectedPosition = index >= 3 ? index - 3 : index;
           expect(chrome.bookmarks.move).toHaveBeenNthCalledWith(nthCall, id.toString(), { index: expectedPosition });
         });
       });
