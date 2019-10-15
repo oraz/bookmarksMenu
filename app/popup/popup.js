@@ -459,7 +459,7 @@ function processMenu(ev) {
       } else if (action === 'openBookmarkManager') {
         chrome.tabs.query({ currentWindow: true, url: 'chrome://bookmarks/*' }, function(tabs) {
           const folderId = bookmark.isFolder ? bookmark.id : bookmark.parentFolderId,
-            bookmarkManagerUrl = 'chrome://bookmarks/#' + folderId;
+            bookmarkManagerUrl = 'chrome://bookmarks/?id=' + folderId;
           if (tabs.length === 0) {
             chrome.tabs.create({ url: bookmarkManagerUrl, selected: true }, closePopup);
           } else {
