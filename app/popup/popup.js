@@ -343,10 +343,7 @@ class Bookmark extends HTMLLIElement {
       if (b1.url !== undefined && b2.url === undefined) {
         return 1;
       }
-
-      const t1 = b1.title.toLowerCase();
-      const t2 = b2.title.toLowerCase();
-      return t1 > t2 ? 1 : t1 < t2 ? -1 : 0;
+      return b1.title.localeCompare(b2.title);
     });
 
     childBookmarks.forEach((each, idx) => {
@@ -471,6 +468,7 @@ function processMenu(ev) {
         if (bookmark.parentFolder.isRoot) {
           bookmark.reorder(false);
         }
+        unSelect();
       } else {
         bookmark[action].call(bookmark);
         unSelect();
