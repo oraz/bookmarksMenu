@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="UTF-8">
-<link rel="stylesheet" href="options.css">
-<script src="options.js" type="module"></script>
-<title data-i18n="mainHeader"></title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="options.css">
+	<script src="options.js" type="module"></script>
+	<title data-i18n="mainHeader"></title>
 </head>
+
 <body>
-	<div
-		style="display: flex; justify-content: space-between; align-content: space-around; margin: 2ex 7em;">
+	<div style="display: flex; justify-content: space-between; align-content: space-around; margin: 2ex 7em;">
 		<div style="display: table; min-height: 40em;">
 			<h2 data-i18n="mainHeader">
 				<img src="../../icons/icon-24.png" />
@@ -17,8 +18,7 @@
 
 			<div class="tabs">
 				<ul id="tabs">
-					<li class="fgTab" data-tab="bookmarksShowHide"
-						data-i18n="tabBookmarks"></li>
+					<li class="fgTab" data-tab="bookmarksShowHide" data-i18n="tabBookmarks"></li>
 					<li class="bgTab" data-tab="uiConfig" data-i18n="tabWindow"></li>
 					<li class="bgTab" data-tab="mouseConfig" data-i18n="tabMouse"></li>
 				</ul>
@@ -29,43 +29,39 @@
 						</tr>
 						<tr>
 							<td><label for="btn0" data-i18n="tmLeftBtn"></label></td>
-							<td align="left"><select size="1" id="btn0"
-								data-button-number="0">
+							<td align="left"><select size="1" id="btn0" data-button-number="0">
 									<option data-i18n="tmOpenInCurTab"></option>
 									<option data-i18n="tmOpenInNewTab"></option>
 									<option data-i18n="tmShowContextMenu"></option>
-							</select></td>
+								</select></td>
 						</tr>
 						<tr>
 							<td><label for="btn1" data-i18n="tmMiddleBtn"></label></td>
-							<td align="left"><select size="1" id="btn1"
-								data-button-number="1">
+							<td align="left"><select size="1" id="btn1" data-button-number="1">
 									<option data-i18n="tmOpenInCurTab"></option>
 									<option data-i18n="tmOpenInNewTab"></option>
 									<option data-i18n="tmShowContextMenu"></option>
-							</select></td>
+								</select></td>
 						</tr>
 						<tr>
 							<td><label for="btn2" data-i18n="tmRightBtn"></label></td>
-							<td align="left"><select size="1" id="btn2"
-								data-button-number="2">
+							<td align="left"><select size="1" id="btn2" data-button-number="2">
 									<option data-i18n="tmOpenInCurTab"></option>
 									<option data-i18n="tmOpenInNewTab"></option>
 									<option data-i18n="tmShowContextMenu"></option>
-							</select></td>
+								</select></td>
 						</tr>
 					</table>
-					<label data-i18n="tmSwitchToNewTab"><input type="checkbox"
-						id="switchToNewTab">&nbsp;</label>
+					<label data-i18n="tmSwitchToNewTab"><input type="checkbox" id="switchToNewTab">&nbsp;</label>
 				</div>
 				<div class="config" id="bookmarksShowHide">
 					<div class="header">
-						<label data-i18n="tbUseChrome"><input type="radio"
-							id="useChromeBookmarks" name="useGoolgeBookmarks" />&nbsp;</label>
+						<label data-i18n="tbUseChrome"><input type="radio" id="useChromeBookmarks"
+								name="useGoolgeBookmarks" />&nbsp;</label>
 					</div>
 					<div>
-						<label data-i18n="tbUseGoogle"><input type="radio"
-							id="useGoogleBookmarks" name="useGoolgeBookmarks" />&nbsp;</label>
+						<label data-i18n="tbUseGoogle"><input type="radio" id="useGoogleBookmarks"
+								name="useGoolgeBookmarks" />&nbsp;</label>
 					</div>
 					<div id="googleBookmarksSettings">
 						<div class="header" style="padding-bottom: 0;">
@@ -76,17 +72,15 @@
 						<div id="loading" data-i18n="loadingIndicator"></div>
 						<div id="loadingError" data-i18n="failedRetrieveGBookmakrs"></div>
 						<div class="bookmark">
-							<label data-i18n="tbSelectAllBookmarks"><input
-								class="selectAllBookmarks" type="checkbox"
-								style="margin-right: 3px;"></label>
+							<label data-i18n="tbSelectAllBookmarks"><input class="selectAllBookmarks" type="checkbox"
+									style="margin-right: 3px;"></label>
 						</div>
 					</div>
 					<div id="chromeBookmarksSettings">
 						<div class="header" data-i18n="tbSelectBookmarks"></div>
 						<div class="bookmark">
-							<label data-i18n="tbSelectAllBookmarks"><input
-								class="selectAllBookmarks" type="checkbox"
-								style="margin-right: 3px;"></label>
+							<label data-i18n="tbSelectAllBookmarks"><input class="selectAllBookmarks" type="checkbox"
+									style="margin-right: 3px;"></label>
 						</div>
 					</div>
 				</div>
@@ -98,17 +92,17 @@
 						<tr>
 							<td><label for="fontFamily" data-i18n="twFont"></label></td>
 							<td><select size="1" id="fontFamily" style="width: 14em;">
-							</select></td>
+								</select></td>
 						</tr>
 						<tr>
 							<td><label for="fontSize" data-i18n="twFontSize"></label></td>
-							<td data-i18n="twMesurePX"><input type="number"
-								id="fontSize" min="3" max="99" required />&nbsp;</td>
+							<td data-i18n="twMesurePX"><input type="number" id="fontSize" min="3" max="99"
+									required />&nbsp;</td>
 						</tr>
 						<tr>
 							<td><label for="favIconWidth" data-i18n="twFaviconSize"></label></td>
-							<td data-i18n="twMesurePX"><input type="number"
-								id="favIconWidth" min="3" max="40" required />&nbsp;</td>
+							<td data-i18n="twMesurePX"><input type="number" id="favIconWidth" min="3" max="40"
+									required />&nbsp;</td>
 						</tr>
 						<tr>
 							<td><label for="maxWidth" data-i18n="twMaxBookmarkWidth"></label></td>
@@ -119,35 +113,34 @@
 									<option data-i18n="twMaxBookmarkWidthIN" value="in"></option>
 									<option data-i18n="twMaxBookmarkWidthCM" value="cm"></option>
 									<option data-i18n="twMaxBookmarkWidthMM" value="mm"></option>
-							</select></td>
+								</select></td>
 						</tr>
 						<tr>
 							<td><label for="scrollBarWidth" data-i18n="twScrollBarWidth"></label></td>
-							<td data-i18n="twMesurePX"><input type="number"
-								id="scrollBarWidth" min="1" max="25" required />&nbsp;</td>
+							<td data-i18n="twMesurePX"><input type="number" id="scrollBarWidth" min="1" max="25"
+									required />&nbsp;</td>
 						</tr>
 						<tr>
 							<td colspan="2" style="padding-top: 1ex; text-align: left;"><label
-								data-i18n="twShowTooltip"><input type="checkbox"
-									id="showTooltip" />&nbsp;</label></td>
+									data-i18n="twShowTooltip"><input type="checkbox" id="showTooltip" />&nbsp;</label>
+							</td>
 						</tr>
 						<tr>
 							<td colspan="2" style="padding-top: 1ex; text-align: left;"><label
-								data-i18n="twShowURL"><input type="checkbox"
-									id="showURL" />&nbsp;</label></td>
+									data-i18n="twShowURL"><input type="checkbox" id="showURL" />&nbsp;</label></td>
 						</tr>
 						<tr>
 							<th data-i18n="twContextMenu" colspan="2"></th>
 						</tr>
 						<tr>
 							<td colspan="2" style="padding-top: 1ex; text-align: left;"><label
-								data-i18n="twHideCMOpenIncognito"><input type="checkbox"
-									id="hideCMOpenIncognito" />&nbsp;</label></td>
+									data-i18n="twHideCMOpenIncognito"><input type="checkbox"
+										id="hideCMOpenIncognito" />&nbsp;</label></td>
 						</tr>
 						<tr>
 							<td colspan="2" style="padding-top: 1ex; text-align: left;"><label
-								data-i18n="twHideCMModeSwitcher"><input type="checkbox"
-									id="hideCMModeSwitcher" />&nbsp;</label></td>
+									data-i18n="twHideCMModeSwitcher"><input type="checkbox"
+										id="hideCMModeSwitcher" />&nbsp;</label></td>
 						</tr>
 						<tr>
 							<th data-i18n="twColorScheme" colspan="2"></th>
@@ -165,8 +158,7 @@
 							<td><input id="bmBgClr" type="color" /></td>
 						</tr>
 						<tr>
-							<td><label data-i18n="twDisabledItemFntClr"
-								for="disabledItemFntClr"></label></td>
+							<td><label data-i18n="twDisabledItemFntClr" for="disabledItemFntClr"></label></td>
 							<td><input id="disabledItemFntClr" type="color" /></td>
 						</tr>
 						<tr>
@@ -174,18 +166,15 @@
 							<td><input id="activeBmFntClr" type="color" /></td>
 						</tr>
 						<tr>
-							<td><label data-i18n="twActiveBmBgClr"
-								for="activeBmBgClrFrom"></label></td>
+							<td><label data-i18n="twActiveBmBgClr" for="activeBmBgClrFrom"></label></td>
 							<td>
 								<table>
 									<tr>
-										<td><label data-i18n="twActiveBmBgClrFrom"
-											for="activeBmBgClrFrom"></label></td>
+										<td><label data-i18n="twActiveBmBgClrFrom" for="activeBmBgClrFrom"></label></td>
 										<td><input id="activeBmBgClrFrom" type="color" /></td>
 									</tr>
 									<tr>
-										<td><label data-i18n="twActiveBmBgClrTo"
-											for="activeBmBgClrTo"></label></td>
+										<td><label data-i18n="twActiveBmBgClrTo" for="activeBmBgClrTo"></label></td>
 										<td><input id="activeBmBgClrTo" type="color" /></td>
 									</tr>
 								</table>
@@ -193,24 +182,20 @@
 						</tr>
 					</table>
 					<hr />
-					<button id="resetWindowSettings" style="margin-top: 3px;"
-						data-i18n="twRestoreDflt"></button>
+					<button id="resetWindowSettings" style="margin-top: 3px;" data-i18n="twRestoreDflt"></button>
 				</div>
 			</div>
 		</div>
 		<div id="donateNG" style="display: table;">
-			<span id="version" style="float: right; margin-right: .7em;"></span><br
-				style="clear: both;" /> <a href="../../changelog.txt"
-				data-i18n="changelog" style="float: right; margin-right: .7em;"></a>
+			<span id="version" style="float: right; margin-right: .7em;"></span><br style="clear: both;" /> <a
+				href="../../changelog.txt" data-i18n="changelog" style="float: right; margin-right: .7em;"></a>
 			<br style="clear: both;" /> <br />
-			<form action="https://www.paypal.com/cgi-bin/webscr" method="post"
-				target="_blank">
+			<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
 				<label for="currency_code" data-i18n="donateQuestion"></label> <br />
-				<input type="hidden" name="business" value="oraz.ra@gmail.com" /> <input
-					type="hidden" name="cmd" value="_donations" /> <input
-					type="hidden" name="item_name" value="Donate Bookmarks Menu" /> <input
-					type="hidden" id="paypal_locale" name="lc" value="en_US" /> <select
-					name="currency_code" id="currency_code">
+				<input type="hidden" name="business" value="oraz.ra@gmail.com" /> <input type="hidden" name="cmd"
+					value="_donations" /> <input type="hidden" name="item_name" value="Donate Bookmarks Menu" /> <input
+					type="hidden" id="paypal_locale" name="lc" value="en_US" /> <select name="currency_code"
+					id="currency_code">
 					<!-- If you change it, change also options.js. There is locale-based currency choice. -->
 					<option value="EUR" selected="selected">EUR €</option>
 					<option value="RUB">RUB ₽</option>
@@ -222,11 +207,11 @@
 					<img alt="paypal"
 						src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjMyIiB2aWV3Qm94PSIwIDAgMTAwIDMyIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHByZXNlcnZlQXNwZWN0UmF0aW89InhNaW5ZTWluIG1lZXQiPgogICAgPHBhdGggZmlsbD0iIzAwMzA4NyIgZD0iTSAxMiA0LjkxNyBMIDQuMiA0LjkxNyBDIDMuNyA0LjkxNyAzLjIgNS4zMTcgMy4xIDUuODE3IEwgMCAyNS44MTcgQyAtMC4xIDI2LjIxNyAwLjIgMjYuNTE3IDAuNiAyNi41MTcgTCA0LjMgMjYuNTE3IEMgNC44IDI2LjUxNyA1LjMgMjYuMTE3IDUuNCAyNS42MTcgTCA2LjIgMjAuMjE3IEMgNi4zIDE5LjcxNyA2LjcgMTkuMzE3IDcuMyAxOS4zMTcgTCA5LjggMTkuMzE3IEMgMTQuOSAxOS4zMTcgMTcuOSAxNi44MTcgMTguNyAxMS45MTcgQyAxOSA5LjgxNyAxOC43IDguMTE3IDE3LjcgNi45MTcgQyAxNi42IDUuNjE3IDE0LjYgNC45MTcgMTIgNC45MTcgWiBNIDEyLjkgMTIuMjE3IEMgMTIuNSAxNS4wMTcgMTAuMyAxNS4wMTcgOC4zIDE1LjAxNyBMIDcuMSAxNS4wMTcgTCA3LjkgOS44MTcgQyA3LjkgOS41MTcgOC4yIDkuMzE3IDguNSA5LjMxNyBMIDkgOS4zMTcgQyAxMC40IDkuMzE3IDExLjcgOS4zMTcgMTIuNCAxMC4xMTcgQyAxMi45IDEwLjUxNyAxMy4xIDExLjIxNyAxMi45IDEyLjIxNyBaIj48L3BhdGg+CiAgICA8cGF0aCBmaWxsPSIjMDAzMDg3IiBkPSJNIDM1LjIgMTIuMTE3IEwgMzEuNSAxMi4xMTcgQyAzMS4yIDEyLjExNyAzMC45IDEyLjMxNyAzMC45IDEyLjYxNyBMIDMwLjcgMTMuNjE3IEwgMzAuNCAxMy4yMTcgQyAyOS42IDEyLjAxNyAyNy44IDExLjYxNyAyNiAxMS42MTcgQyAyMS45IDExLjYxNyAxOC40IDE0LjcxNyAxNy43IDE5LjExNyBDIDE3LjMgMjEuMzE3IDE3LjggMjMuNDE3IDE5LjEgMjQuODE3IEMgMjAuMiAyNi4xMTcgMjEuOSAyNi43MTcgMjMuOCAyNi43MTcgQyAyNy4xIDI2LjcxNyAyOSAyNC42MTcgMjkgMjQuNjE3IEwgMjguOCAyNS42MTcgQyAyOC43IDI2LjAxNyAyOSAyNi40MTcgMjkuNCAyNi40MTcgTCAzMi44IDI2LjQxNyBDIDMzLjMgMjYuNDE3IDMzLjggMjYuMDE3IDMzLjkgMjUuNTE3IEwgMzUuOSAxMi43MTcgQyAzNiAxMi41MTcgMzUuNiAxMi4xMTcgMzUuMiAxMi4xMTcgWiBNIDMwLjEgMTkuMzE3IEMgMjkuNyAyMS40MTcgMjguMSAyMi45MTcgMjUuOSAyMi45MTcgQyAyNC44IDIyLjkxNyAyNCAyMi42MTcgMjMuNCAyMS45MTcgQyAyMi44IDIxLjIxNyAyMi42IDIwLjMxNyAyMi44IDE5LjMxNyBDIDIzLjEgMTcuMjE3IDI0LjkgMTUuNzE3IDI3IDE1LjcxNyBDIDI4LjEgMTUuNzE3IDI4LjkgMTYuMTE3IDI5LjUgMTYuNzE3IEMgMzAgMTcuNDE3IDMwLjIgMTguMzE3IDMwLjEgMTkuMzE3IFoiPjwvcGF0aD4KICAgIDxwYXRoIGZpbGw9IiMwMDMwODciIGQ9Ik0gNTUuMSAxMi4xMTcgTCA1MS40IDEyLjExNyBDIDUxIDEyLjExNyA1MC43IDEyLjMxNyA1MC41IDEyLjYxNyBMIDQ1LjMgMjAuMjE3IEwgNDMuMSAxMi45MTcgQyA0MyAxMi40MTcgNDIuNSAxMi4xMTcgNDIuMSAxMi4xMTcgTCAzOC40IDEyLjExNyBDIDM4IDEyLjExNyAzNy42IDEyLjUxNyAzNy44IDEzLjAxNyBMIDQxLjkgMjUuMTE3IEwgMzggMzAuNTE3IEMgMzcuNyAzMC45MTcgMzggMzEuNTE3IDM4LjUgMzEuNTE3IEwgNDIuMiAzMS41MTcgQyA0Mi42IDMxLjUxNyA0Mi45IDMxLjMxNyA0My4xIDMxLjAxNyBMIDU1LjYgMTMuMDE3IEMgNTUuOSAxMi43MTcgNTUuNiAxMi4xMTcgNTUuMSAxMi4xMTcgWiI+PC9wYXRoPgogICAgPHBhdGggZmlsbD0iIzAwOWNkZSIgZD0iTSA2Ny41IDQuOTE3IEwgNTkuNyA0LjkxNyBDIDU5LjIgNC45MTcgNTguNyA1LjMxNyA1OC42IDUuODE3IEwgNTUuNSAyNS43MTcgQyA1NS40IDI2LjExNyA1NS43IDI2LjQxNyA1Ni4xIDI2LjQxNyBMIDYwLjEgMjYuNDE3IEMgNjAuNSAyNi40MTcgNjAuOCAyNi4xMTcgNjAuOCAyNS44MTcgTCA2MS43IDIwLjExNyBDIDYxLjggMTkuNjE3IDYyLjIgMTkuMjE3IDYyLjggMTkuMjE3IEwgNjUuMyAxOS4yMTcgQyA3MC40IDE5LjIxNyA3My40IDE2LjcxNyA3NC4yIDExLjgxNyBDIDc0LjUgOS43MTcgNzQuMiA4LjAxNyA3My4yIDYuODE3IEMgNzIgNS42MTcgNzAuMSA0LjkxNyA2Ny41IDQuOTE3IFogTSA2OC40IDEyLjIxNyBDIDY4IDE1LjAxNyA2NS44IDE1LjAxNyA2My44IDE1LjAxNyBMIDYyLjYgMTUuMDE3IEwgNjMuNCA5LjgxNyBDIDYzLjQgOS41MTcgNjMuNyA5LjMxNyA2NCA5LjMxNyBMIDY0LjUgOS4zMTcgQyA2NS45IDkuMzE3IDY3LjIgOS4zMTcgNjcuOSAxMC4xMTcgQyA2OC40IDEwLjUxNyA2OC41IDExLjIxNyA2OC40IDEyLjIxNyBaIj48L3BhdGg+CiAgICA8cGF0aCBmaWxsPSIjMDA5Y2RlIiBkPSJNIDkwLjcgMTIuMTE3IEwgODcgMTIuMTE3IEMgODYuNyAxMi4xMTcgODYuNCAxMi4zMTcgODYuNCAxMi42MTcgTCA4Ni4yIDEzLjYxNyBMIDg1LjkgMTMuMjE3IEMgODUuMSAxMi4wMTcgODMuMyAxMS42MTcgODEuNSAxMS42MTcgQyA3Ny40IDExLjYxNyA3My45IDE0LjcxNyA3My4yIDE5LjExNyBDIDcyLjggMjEuMzE3IDczLjMgMjMuNDE3IDc0LjYgMjQuODE3IEMgNzUuNyAyNi4xMTcgNzcuNCAyNi43MTcgNzkuMyAyNi43MTcgQyA4Mi42IDI2LjcxNyA4NC41IDI0LjYxNyA4NC41IDI0LjYxNyBMIDg0LjMgMjUuNjE3IEMgODQuMiAyNi4wMTcgODQuNSAyNi40MTcgODQuOSAyNi40MTcgTCA4OC4zIDI2LjQxNyBDIDg4LjggMjYuNDE3IDg5LjMgMjYuMDE3IDg5LjQgMjUuNTE3IEwgOTEuNCAxMi43MTcgQyA5MS40IDEyLjUxNyA5MS4xIDEyLjExNyA5MC43IDEyLjExNyBaIE0gODUuNSAxOS4zMTcgQyA4NS4xIDIxLjQxNyA4My41IDIyLjkxNyA4MS4zIDIyLjkxNyBDIDgwLjIgMjIuOTE3IDc5LjQgMjIuNjE3IDc4LjggMjEuOTE3IEMgNzguMiAyMS4yMTcgNzggMjAuMzE3IDc4LjIgMTkuMzE3IEMgNzguNSAxNy4yMTcgODAuMyAxNS43MTcgODIuNCAxNS43MTcgQyA4My41IDE1LjcxNyA4NC4zIDE2LjExNyA4NC45IDE2LjcxNyBDIDg1LjUgMTcuNDE3IDg1LjcgMTguMzE3IDg1LjUgMTkuMzE3IFoiPjwvcGF0aD4KICAgIDxwYXRoIGZpbGw9IiMwMDljZGUiIGQ9Ik0gOTUuMSA1LjQxNyBMIDkxLjkgMjUuNzE3IEMgOTEuOCAyNi4xMTcgOTIuMSAyNi40MTcgOTIuNSAyNi40MTcgTCA5NS43IDI2LjQxNyBDIDk2LjIgMjYuNDE3IDk2LjcgMjYuMDE3IDk2LjggMjUuNTE3IEwgMTAwIDUuNjE3IEMgMTAwLjEgNS4yMTcgOTkuOCA0LjkxNyA5OS40IDQuOTE3IEwgOTUuOCA0LjkxNyBDIDk1LjQgNC45MTcgOTUuMiA1LjExNyA5NS4xIDUuNDE3IFoiPjwvcGF0aD4KPC9zdmc+Cg==">
 				</button>
-				<img alt="" width="1" height="1"
-					src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" />
+				<img alt="" width="1" height="1" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" />
 			</form>
 
 		</div>
 	</div>
 </body>
+
 </html>
