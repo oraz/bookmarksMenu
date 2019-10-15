@@ -1,7 +1,16 @@
 {
   "editor.formatOnSave": true,
   "editor.minimap.enabled": false,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  //"editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[html]": {
+    "editor.defaultFormatter": "vscode.html-language-features"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
 
   "runOnSave.statusMessageTimeout": 3000,
   "runOnSave.commands": [
