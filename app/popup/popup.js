@@ -85,6 +85,7 @@ class Bookmark extends HTMLLIElement {
     });
     this.appendChild(this.folderContent);
     this.folderContent.fillFolderContent(this.childBookmarks);
+    this.folderContent.childBookmarks = this.childBookmarks;
     this.childBookmarks = undefined;
     if (!this.hasSubFolders) {
       this.fillTreeDepth();
@@ -318,16 +319,9 @@ class Bookmark extends HTMLLIElement {
     }
   }
 
-  reorder(beforeSeparator) {
+  reorder(/** @type Boolean */ beforeSeparator) {
     const folderContent = this.parentElement;
-    if (this.parentFolder.isRoot && beforeSeparator == undefined) {
-      if (!folderContent.firstChild.isSeparator) folderContent.firstChild.reorder(true);
-      if (!folderContent.lastChild.isSeparator) folderContent.lastChild.reorder(false);
-      return;
-    }
-    if (beforeSeparator == undefined) {
-      beforeSeparator = true;
-    }
+    const childBookmarks = this.parentFolder.isRoot ? folderContent.childBookmarks[beforeSeparator ? 0 : 1] : folderContent.childBookmarks;
     const bookmarks = [];
     let separator = null;
     do {
@@ -342,22 +336,25 @@ class Bookmark extends HTMLLIElement {
       folderContent.removeChild(child);
     } while (folderContent.hasChildNodes());
 
-    bookmarks.sort((b1, b2) => {
-      if (b1.isFolder && b2.isBookmark) {
+    childBookmarks.sort((b1, b2) => {
+      if (b1.url === undefined && b2.url !== undefined) {
         return -1;
       }
-      if (b2.isFolder && b1.isBookmark) {
+      if (b1.url !== undefined && b2.url === undefined) {
         return 1;
       }
 
-      const t1 = b1.firstChild.textContent.toLowerCase();
-      const t2 = b2.firstChild.textContent.toLowerCase();
+      const t1 = b1.title.toLowerCase();
+      const t2 = b2.title.toLowerCase();
       return t1 > t2 ? 1 : t1 < t2 ? -1 : 0;
     });
 
-    bookmarks.forEach((each, idx) => {
-      folderContent.insertBefore(each, separator);
+    childBookmarks.forEach((each, idx) => {
       chrome.bookmarks.move(each.id, { index: idx });
+      const bookmark = bookmarks.find(b => b.id === each.id);
+      if (bookmark !== undefined) {
+        folderContent.insertBefore(bookmark, separator);
+      }
     });
   }
 }
@@ -432,21 +429,21 @@ function unSelect() {
 }
 
 function processMenu(ev) {
-  /* jshint validthis: true */
-  var item = ev.srcElement,
-    contextMenu = this;
+  var item = ev.srcElement;
+  const contextMenu = this;
   if (item != contextMenu) {
     while (!(item instanceof HTMLLIElement)) {
       item = item.parentElement;
     }
     if (item.classList.contains('enabled')) {
-      var action = item.getAttribute('data-action'),
-        bookmark = contextMenu.selectedBookmark;
+      const action = item.getAttribute('data-action');
+      /** @type Bookmark */
+      const bookmark = contextMenu.selectedBookmark;
       if (action == 'reload') {
         unSelect();
         reloadGBookmarks();
       } else if (action == 'addGBookmark') {
-        var label = bookmark.isBookmark && bookmark.parentFolder.isRoot ? '' : (bookmark.isFolder ? bookmark : bookmark.parentFolder).getAttribute('gid');
+        const label = bookmark.isBookmark && bookmark.parentFolder.isRoot ? '' : (bookmark.isFolder ? bookmark : bookmark.parentFolder).getAttribute('gid');
         unSelect();
         showGoogleBookmarkDialog(label);
       } else if (action == 'useGoogleBookmarks' || action == 'useChromeBookmarks') {
@@ -461,7 +458,7 @@ function processMenu(ev) {
         loadBookmarks();
       } else if (action === 'openBookmarkManager') {
         chrome.tabs.query({ currentWindow: true, url: 'chrome://bookmarks/*' }, function(tabs) {
-          var folderId = bookmark.isFolder ? bookmark.id : bookmark.parentFolderId,
+          const folderId = bookmark.isFolder ? bookmark.id : bookmark.parentFolderId,
             bookmarkManagerUrl = 'chrome://bookmarks/#' + folderId;
           if (tabs.length === 0) {
             chrome.tabs.create({ url: bookmarkManagerUrl, selected: true }, closePopup);
@@ -469,6 +466,11 @@ function processMenu(ev) {
             chrome.tabs.update(tabs[0].id, { url: bookmarkManagerUrl, active: true }, closePopup);
           }
         });
+      } else if (action === 'reorder') {
+        bookmark.reorder(true);
+        if (bookmark.parentFolder.isRoot) {
+          bookmark.reorder(false);
+        }
       } else {
         bookmark[action].call(bookmark);
         unSelect();
@@ -807,6 +809,7 @@ function initBookmarksMenu(nodes) {
     rootFolder.fillFolderContent(tree[0].children.filter(onlyVisibleBookmarks));
     rootFolder.addSeparator();
     rootFolder.fillFolderContent(tree[1].children.filter(onlyVisibleBookmarks));
+    rootFolder.childBookmarks = [tree[0].children, tree[1].children];
   }
 
   if (!rootFolder.noIconCSSAdded) {
