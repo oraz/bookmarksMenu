@@ -1,210 +1,210 @@
 {
-    "addBookmark": {
-        "message": "이 페이지를 북마크 하기"
-    },
-    "btnAdd": {
-        "message": "확인"
-    },
-    "btnCancel": {
-        "message": "취소"
-    },
-    "btnDonate": {
-        "message": "PayPal로 기부하기"
-    },
-    "changelog": {
-        "message": "Changelog 보기"
-    },
-    "donateHeader": {
-        "message": "이 확장프로그램을 사용해 주셔서 감사합니다. 마음에 드시다면 작은 기부를 부탁드립니다. 많은 도움이 될것입니다. 감사합니다!"
-    },
-    "empty": {
-        "message": "비어있음"
-    },
-    "extDescription": {
-        "message": "북마크 메뉴 보기. 크롬 또는 구글 북마크를 사용할 수 있습니다."
-    },
-    "extTitle": {
-        "message": "북마크"
-    },
-    "extTitleGoogle": {
-        "message": "구글 북마크"
-    },
-    "failedRetrieveGBookmakrs": {
-        "message": "구글 북마크를 가져오는데 실패했습니다."
-    },
-    "lblLabel": {
-        "message": "라벨:"
-    },
-    "lblTitle": {
-        "message": "제목:"
-    },
-    "lblURL": {
-        "message": "URL:"
-    },
-    "loadingIndicator": {
-        "message": "로딩중..."
-    },
-    "mainHeader": {
-        "message": "'Bookmarks menu' 설정"
-    },
-    "openAllBookmarks": {
-        "message": "모든 북마크 열기"
-    },
-    "openAllBookmarksInIncognitoWindow": {
-        "message": "시크릿 창에서 모든 북마크 열기"
-    },
-    "openAllBookmarksInNewWindow": {
-        "message": "새 창에서 모든 북마크 열기"
-    },
-    "openAllInTabs": {
-        "message": "탭에서 모두 열기"
-    },
-    "openInIncognitoWindow": {
-        "message": "시크릿 창에서 열기"
-    },
-    "openInNewTab": {
-        "message": "새 탭에서 열기"
-    },
-    "openInNewWindow": {
-        "message": "새 창에서 열기"
-    },
-    "reloadGBookmarks": {
-        "message": "구글 북마크 다시 가져오기"
-    },
-    "remove": {
-        "message": "삭제"
-    },
-    "openBookmarkManager": { "message": "북마크 관리자" },
-    "reorder": {
-        "message": "제목순으로 정렬"
-    },
-    "tabBookmarks": {
-        "message": "북마크"
-    },
-    "tabMouse": {
-        "message": "마우스"
-    },
-    "tabWindow": {
-        "message": "UI 설정"
-    },
-    "tbLabelSeparator": {
-        "message": "라벨 구분자:"
-    },
-    "tbSelectAllBookmarks": {
-        "message": "모든 북마크 선택/해제"
-    },
-    "tbSelectBookmarks": {
-        "message": "표시하고자 하는 북마크를 선택하세요."
-    },
-    "tbUseChrome": {
-        "message": "크롬 북마크 사용하기"
-    },
-    "tbUseGoogle": {
-        "message": "구글 북마크 사용하기"
-    },
-    "tmLeftBtn": {
-        "message": "왼쪽 버튼"
-    },
-    "tmMiddleBtn": {
-        "message": "가운데 버튼"
-    },
-    "tmMouseConfig": {
-        "message": "마우스 설정"
-    },
-    "tmOpenInCurTab": {
-        "message": "현재 탭에서 열기"
-    },
-    "tmOpenInNewTab": {
-        "message": "새 탭에서 열기"
-    },
-    "tmRightBtn": {
-        "message": "오른쪽 버튼"
-    },
-    "tmShowContextMenu": {
-        "message": "컨텍스트 메뉴 보기"
-    },
-    "tmSwitchToNewTab": {
-        "message": "새 탭에서 북마크를 열때, 즉시 이동하기"
-    },
-    "twActiveBmBgClr": {
-        "message": "선택된 북마크 배경색:"
-    },
-    "twActiveBmBgClrFrom": {
-        "message": "Gradient 시작:"
-    },
-    "twActiveBmBgClrTo": {
-        "message": "Gradient 끝:"
-    },
-    "twActiveBmFntClr": {
-        "message": "선택된 북마크 글자색:"
-    },
-    "twBmBgColor": {
-        "message": "북마크 배경색:"
-    },
-    "twBodyColor": {
-        "message": "창 배경색:"
-    },
-    "twColorScheme": {
-        "message": "색깔 정책"
-    },
-    "twContextMenu": {
-        "message": "컨텍스트 메뉴 설정"
-    },
-    "twDisabledItemFntClr": {
-        "message": "비활성화된 메뉴의 글자색:"
-    },
-    "twFaviconSize": {
-        "message": "Favicon 넓이, 높이:"
-    },
-    "twFont": {
-        "message": "글자:"
-    },
-    "twFontColor": {
-        "message": "글자 색:"
-    },
-    "twFontSize": {
-        "message": "글자 크기:"
-    },
-    "twHideCMModeSwitcher": {
-        "message": "'크롬/구글 북마크 사용' 메뉴 숨기기"
-    },
-    "twHideCMOpenIncognito": {
-        "message": "'시크릿 창에서 열기' 메뉴 숨기기"
-    },
-    "twMaxBookmarkWidth": {
-        "message": "북마크 최대 넓이:"
-    },
-    "twMaxBookmarkWidthCM": {
-        "message": "센치미터"
-    },
-    "twMaxBookmarkWidthEM": {
-        "message": "'m' 심볼"
-    },
-    "twMaxBookmarkWidthIN": {
-        "message": "인치"
-    },
-    "twMaxBookmarkWidthMM": {
-        "message": "밀리미터"
-    },
-    "twMaxBookmarkWidthPX": {
-        "message": "픽셀"
-    },
-    "twMenuConfig": {
-        "message": "Bookmarks menu 설정"
-    },
-    "twMesurePX": {
-        "message": "px"
-    },
-    "twRestoreDflt": {
-        "message": "기본값 가져오기"
-    },
-    "twScrollBarWidth": {
-        "message": "스크롤바 넓이:"
-    },
-    "twShowTooltip": {
-        "message": "긴 북마크 이름은 툴팁으로 보기"
-    },
-    "twShowURL": {
-        "message": "북마크 위치 툴팁으로 보기"
-    }
+  "addBookmark": {
+    "message": "이 페이지를 북마크 하기"
+  },
+  "btnAdd": {
+    "message": "확인"
+  },
+  "btnCancel": {
+    "message": "취소"
+  },
+  "btnDonate": {
+    "message": "PayPal로 기부하기"
+  },
+  "changelog": {
+    "message": "Changelog 보기"
+  },
+  "donateHeader": {
+    "message": "이 확장프로그램을 사용해 주셔서 감사합니다. 마음에 드시다면 작은 기부를 부탁드립니다. 많은 도움이 될것입니다. 감사합니다!"
+  },
+  "empty": {
+    "message": "비어있음"
+  },
+  "extDescription": {
+    "message": "북마크 메뉴 보기. 크롬 또는 구글 북마크를 사용할 수 있습니다."
+  },
+  "extTitle": {
+    "message": "북마크"
+  },
+  "extTitleGoogle": {
+    "message": "구글 북마크"
+  },
+  "failedRetrieveGBookmakrs_usedEnglischVersion": {
+    "message": "구글 북마크를 가져오는데 실패했습니다."
+  },
+  "lblLabel": {
+    "message": "라벨:"
+  },
+  "lblTitle": {
+    "message": "제목:"
+  },
+  "lblURL": {
+    "message": "URL:"
+  },
+  "loadingIndicator": {
+    "message": "로딩중..."
+  },
+  "mainHeader": {
+    "message": "'Bookmarks menu' 설정"
+  },
+  "openAllBookmarks": {
+    "message": "모든 북마크 열기"
+  },
+  "openAllBookmarksInIncognitoWindow": {
+    "message": "시크릿 창에서 모든 북마크 열기"
+  },
+  "openAllBookmarksInNewWindow": {
+    "message": "새 창에서 모든 북마크 열기"
+  },
+  "openAllInTabs": {
+    "message": "탭에서 모두 열기"
+  },
+  "openInIncognitoWindow": {
+    "message": "시크릿 창에서 열기"
+  },
+  "openInNewTab": {
+    "message": "새 탭에서 열기"
+  },
+  "openInNewWindow": {
+    "message": "새 창에서 열기"
+  },
+  "reloadGBookmarks": {
+    "message": "구글 북마크 다시 가져오기"
+  },
+  "remove": {
+    "message": "삭제"
+  },
+  "openBookmarkManager": { "message": "북마크 관리자" },
+  "reorder": {
+    "message": "제목순으로 정렬"
+  },
+  "tabBookmarks": {
+    "message": "북마크"
+  },
+  "tabMouse": {
+    "message": "마우스"
+  },
+  "tabWindow": {
+    "message": "UI 설정"
+  },
+  "tbLabelSeparator": {
+    "message": "라벨 구분자:"
+  },
+  "tbSelectAllBookmarks": {
+    "message": "모든 북마크 선택/해제"
+  },
+  "tbSelectBookmarks": {
+    "message": "표시하고자 하는 북마크를 선택하세요."
+  },
+  "tbUseChrome": {
+    "message": "크롬 북마크 사용하기"
+  },
+  "tbUseGoogle": {
+    "message": "구글 북마크 사용하기"
+  },
+  "tmLeftBtn": {
+    "message": "왼쪽 버튼"
+  },
+  "tmMiddleBtn": {
+    "message": "가운데 버튼"
+  },
+  "tmMouseConfig": {
+    "message": "마우스 설정"
+  },
+  "tmOpenInCurTab": {
+    "message": "현재 탭에서 열기"
+  },
+  "tmOpenInNewTab": {
+    "message": "새 탭에서 열기"
+  },
+  "tmRightBtn": {
+    "message": "오른쪽 버튼"
+  },
+  "tmShowContextMenu": {
+    "message": "컨텍스트 메뉴 보기"
+  },
+  "tmSwitchToNewTab": {
+    "message": "새 탭에서 북마크를 열때, 즉시 이동하기"
+  },
+  "twActiveBmBgClr": {
+    "message": "선택된 북마크 배경색:"
+  },
+  "twActiveBmBgClrFrom": {
+    "message": "Gradient 시작:"
+  },
+  "twActiveBmBgClrTo": {
+    "message": "Gradient 끝:"
+  },
+  "twActiveBmFntClr": {
+    "message": "선택된 북마크 글자색:"
+  },
+  "twBmBgColor": {
+    "message": "북마크 배경색:"
+  },
+  "twBodyColor": {
+    "message": "창 배경색:"
+  },
+  "twColorScheme": {
+    "message": "색깔 정책"
+  },
+  "twContextMenu": {
+    "message": "컨텍스트 메뉴 설정"
+  },
+  "twDisabledItemFntClr": {
+    "message": "비활성화된 메뉴의 글자색:"
+  },
+  "twFaviconSize": {
+    "message": "Favicon 넓이, 높이:"
+  },
+  "twFont": {
+    "message": "글자:"
+  },
+  "twFontColor": {
+    "message": "글자 색:"
+  },
+  "twFontSize": {
+    "message": "글자 크기:"
+  },
+  "twHideCMModeSwitcher": {
+    "message": "'크롬/구글 북마크 사용' 메뉴 숨기기"
+  },
+  "twHideCMOpenIncognito": {
+    "message": "'시크릿 창에서 열기' 메뉴 숨기기"
+  },
+  "twMaxBookmarkWidth": {
+    "message": "북마크 최대 넓이:"
+  },
+  "twMaxBookmarkWidthCM": {
+    "message": "센치미터"
+  },
+  "twMaxBookmarkWidthEM": {
+    "message": "'m' 심볼"
+  },
+  "twMaxBookmarkWidthIN": {
+    "message": "인치"
+  },
+  "twMaxBookmarkWidthMM": {
+    "message": "밀리미터"
+  },
+  "twMaxBookmarkWidthPX": {
+    "message": "픽셀"
+  },
+  "twMenuConfig": {
+    "message": "Bookmarks menu 설정"
+  },
+  "twMesurePX": {
+    "message": "px"
+  },
+  "twRestoreDflt": {
+    "message": "기본값 가져오기"
+  },
+  "twScrollBarWidth": {
+    "message": "스크롤바 넓이:"
+  },
+  "twShowTooltip": {
+    "message": "긴 북마크 이름은 툴팁으로 보기"
+  },
+  "twShowURL": {
+    "message": "북마크 위치 툴팁으로 보기"
+  }
 }

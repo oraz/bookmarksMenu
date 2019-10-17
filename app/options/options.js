@@ -78,7 +78,7 @@ function addBookmark(divSettings, bookmark, useGoogleBookmarks) {
   if (!Settings.isBookmarkHidden(bookmark.title, useGoogleBookmarks)) {
     checkbox.setAttribute('checked', 'checked');
   }
-  checkbox.onchange = function() {
+  checkbox.onchange = function () {
     Settings.setBookmarkHidden(bookmark.title, useGoogleBookmarks, !this.checked);
   };
 
@@ -148,7 +148,7 @@ function resetWindowSettings() {
   initWindowSettingsTab();
 }
 
-HTMLSelectElement.prototype.selectByValue = function(value) {
+HTMLSelectElement.prototype.selectByValue = function (value) {
   this.selectedIndex = document.evaluate('count(option[@value="' + value + '"]/preceding-sibling::option)', this, null, XPathResult.NUMBER_TYPE, null).numberValue;
 };
 
@@ -184,6 +184,10 @@ document.addEventListener('DOMContentLoaded', () => {
   $('fontFamily').on('change', setFontFamily);
   $('maxWidthMesure').on('change', setMenuMaxWidthMesure);
   $('labelSeparator').on('input', setLabelSeparator);
+
+  const loadingError = $('loadingError');
+  loadingError.innerHTML = chrome.i18n.getMessage(loadingError.dataset.i18n);
+  delete loadingError.dataset.i18n;
   i18nUtils.initAll();
   showTab.apply(one('li.fgTab'));
 
@@ -210,7 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
     $('switchToNewTab').checked = true;
   }
 
-  chrome.fontSettings.getFontList(function(fonts) {
+  chrome.fontSettings.getFontList(function (fonts) {
     const fontList = $('fontFamily').options,
       defaultFont = Settings.getFontFamily();
     fonts.forEach(each => {
