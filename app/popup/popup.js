@@ -3,7 +3,13 @@
 import { $, all, changeBookmarkMode, MESSAGES, getFavicon, isBookmarklet, i18nUtils, E } from '../common/common.js';
 import { Settings } from '../common/settings.js';
 
-var config; // will be initialized in DOMContentLoaded handler
+const config = {
+  winMaxWidth: 800,
+  winMaxHeight: 600,
+  showTooltip: Settings.isShowTooltip(),
+  showURL: Settings.isShowURL(),
+  useGoogleBookmarks: Settings.isUseGoogleBookmarks()
+};
 
 class Bookmark extends HTMLLIElement {
   init(bookmarkNode) {
@@ -433,45 +439,54 @@ function processMenu(ev) {
       item = item.parentElement;
     }
     if (item.classList.contains('enabled')) {
-      const action = item.getAttribute('data-action');
+      const action = item.dataset.action;
       /** @type Bookmark */
       const bookmark = contextMenu.selectedBookmark;
-      if (action == 'reload') {
-        unSelect();
-        reloadGBookmarks();
-      } else if (action == 'addGBookmark') {
-        const label = bookmark.isBookmark && bookmark.parentFolder.isRoot ? '' : (bookmark.isFolder ? bookmark : bookmark.parentFolder).getAttribute('gid');
-        unSelect();
-        showGoogleBookmarkDialog(label);
-      } else if (action == 'useGoogleBookmarks' || action == 'useChromeBookmarks') {
-        config.useGoogleBookmarks = !config.useGoogleBookmarks;
-        changeBookmarkMode(config.useGoogleBookmarks);
-        localStorage.setItem('useGoogleBookmarks', config.useGoogleBookmarks);
-
-        clearBookmarksMenu();
-        unSelect();
-
-        document.body.style.overflowY = 'visible';
-        loadBookmarks();
-      } else if (action === 'openBookmarkManager') {
-        chrome.tabs.query({ currentWindow: true, url: 'chrome://bookmarks/*' }, function(tabs) {
-          const folderId = bookmark.isFolder ? bookmark.id : bookmark.parentFolderId,
-            bookmarkManagerUrl = 'chrome://bookmarks/?id=' + folderId;
-          if (tabs.length === 0) {
-            chrome.tabs.create({ url: bookmarkManagerUrl, selected: true }, closePopup);
-          } else {
-            chrome.tabs.update(tabs[0].id, { url: bookmarkManagerUrl, active: true }, closePopup);
-          }
-        });
-      } else if (action === 'reorder') {
-        bookmark.reorder(true);
-        if (bookmark.parentFolder.isRoot) {
-          bookmark.reorder(false);
+      switch (action) {
+        case 'reload':
+          unSelect();
+          reloadGBookmarks();
+          break;
+        case 'addGBookmark': {
+          const label = bookmark.isBookmark && bookmark.parentFolder.isRoot ? //
+            '' : (bookmark.isFolder ? bookmark : bookmark.parentFolder).getAttribute('gid');
+          unSelect();
+          showGoogleBookmarkDialog(label);
+          break;
         }
-        unSelect();
-      } else {
-        bookmark[action].call(bookmark);
-        unSelect();
+        case 'useGoogleBookmarks':
+        case 'useChromeBookmarks':
+          config.useGoogleBookmarks = !config.useGoogleBookmarks;
+          changeBookmarkMode(config.useGoogleBookmarks);
+          localStorage.setItem('useGoogleBookmarks', config.useGoogleBookmarks);
+
+          clearBookmarksMenu();
+          unSelect();
+
+          document.body.style.overflowY = 'visible';
+          loadBookmarks();
+          break;
+        case 'openBookmarkManager':
+          chrome.tabs.query({ currentWindow: true, url: 'chrome://bookmarks/*' }, function (tabs) {
+            const folderId = bookmark.isFolder ? bookmark.id : bookmark.parentFolderId,
+              bookmarkManagerUrl = 'chrome://bookmarks/?id=' + folderId;
+            if (tabs.length === 0) {
+              chrome.tabs.create({ url: bookmarkManagerUrl, selected: true }, closePopup);
+            } else {
+              chrome.tabs.update(tabs[0].id, { url: bookmarkManagerUrl, active: true }, closePopup);
+            }
+          });
+          break;
+        case 'reorder':
+          bookmark.reorder(true);
+          if (bookmark.parentFolder.isRoot) {
+            bookmark.reorder(false);
+          }
+          unSelect();
+          break;
+        default:
+          bookmark[action].call(bookmark);
+          unSelect();
       }
     }
   }
@@ -483,7 +498,6 @@ function isGBookmarkDataReady() {
 }
 
 function suggestLabel() {
-  /* jshint validthis: true */
   var suggestDiv = $('suggest');
   var cursorPos = this.selectionStart;
   var labelValue = this.value;
@@ -577,7 +591,7 @@ function fillFolderBySuggest(div) {
 }
 
 function showGoogleBookmarkDialog(initalLabel) {
-  chrome.tabs.getSelected(null, function(tab) {
+  chrome.tabs.getSelected(null, function (tab) {
     $('gbTitle').value = tab.title;
     $('gbURL').value = tab.url;
     isGBookmarkDataReady();
@@ -586,7 +600,7 @@ function showGoogleBookmarkDialog(initalLabel) {
   var win = $('gwindow');
   if (!win.initialized) {
     i18nUtils.initAll(win);
-    $('gbLabel').onkeyup = function(e) {
+    $('gbLabel').onkeyup = function (e) {
       if (e.keyCode == 37 || e.keyCode == 39) {
         suggestLabel.apply(this);
       }
@@ -634,7 +648,7 @@ function showGoogleBookmarkDialog(initalLabel) {
 
 function addGoogleBookmark() {
   var port = chrome.extension.connect();
-  port.onMessage.addListener(function(response) {
+  port.onMessage.addListener(function (response) {
     if (response == MESSAGES.RESP_TREE_IS_READY) {
       unSelect();
       clearBookmarksMenu();
@@ -670,7 +684,7 @@ function reloadGBookmarks() {
     loading.style.left = bodyWidth / 2 - loadingWidth / 2 + 'px';
   }
   var port = chrome.extension.connect();
-  port.onMessage.addListener(function(response) {
+  port.onMessage.addListener(function (response) {
     if (response == MESSAGES.RESP_TREE_IS_READY) {
       E.hide(loading);
       initBookmarksMenu();
@@ -682,7 +696,7 @@ function reloadGBookmarks() {
   port.postMessage(MESSAGES.REQ_FORCE_LOAD_BOOKMARKS);
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   function returnFalse() {
     return false;
   }
@@ -701,13 +715,6 @@ document.addEventListener('DOMContentLoaded', function() {
   all('#gwindow #gbLabel')
     .on('input', suggestLabel)
     .on('keydown', selectSuggestion);
-  config = {
-    winMaxWidth: 800,
-    winMaxHeight: 600,
-    showTooltip: Settings.isShowTooltip(),
-    showURL: Settings.isShowURL(),
-    useGoogleBookmarks: Settings.isUseGoogleBookmarks()
-  };
 
   const style = document.documentElement.style;
   ['bodyClr', 'fntClr', 'bmBgClr', 'disabledItemFntClr', 'activeBmFntClr', 'activeBmBgClrFrom', 'activeBmBgClrTo'].forEach(each => {
@@ -721,7 +728,7 @@ document.addEventListener('DOMContentLoaded', function() {
   loadBookmarks();
 
   var rootFolder = $('bookmarksMenu');
-  rootFolder.onmouseup = function(ev) {
+  rootFolder.onmouseup = function (ev) {
     /** @type Bookmark */
     var bookmark = ev.srcElement;
     while (!(bookmark instanceof HTMLLIElement)) {
@@ -775,7 +782,7 @@ function loadBookmarks() {
   if (config.useGoogleBookmarks) {
     var loading = $('loading');
     var port = chrome.extension.connect();
-    port.onMessage.addListener(function(response) {
+    port.onMessage.addListener(function (response) {
       if (response == MESSAGES.RESP_TREE_IS_READY) {
         E.hide(loading);
         initBookmarksMenu();
