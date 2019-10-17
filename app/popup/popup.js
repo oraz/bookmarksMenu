@@ -28,22 +28,22 @@ class Bookmark extends HTMLLIElement {
     this.appendChild(span);
 
     if (bookmarkNode.url === undefined) {
+      this.classList.add('folder');
       this.isFolder = true;
-      this.setAttribute('type', 'folder');
       this.childBookmarks = bookmarkNode.children;
       this.onmouseover = this.displayFolderContent;
     } else {
+      this.classList.add('bookmark');
       this.isBookmark = true;
-      this.setAttribute('type', 'bookmark');
       this.url = bookmarkNode.url;
       this.onmouseover = this.highlight;
     }
   }
 
   initAsOpenAll(/** @type Bookmark */ parentElement) {
+    this.classList.add('openAllInTabs');
     this.parentFolder = parentElement;
     this.rootFolder = parentElement.rootFolder;
-    this.setAttribute('type', 'openAllInTabs');
     this.isOpenAll = true;
     const span = document.createElement('span');
     span.className = 'noicon';
@@ -163,7 +163,7 @@ class Bookmark extends HTMLLIElement {
 
   /** @returns Bookmark[] */
   getBookmarksInFolder() {
-    return this.querySelectorAll('li[id="' + this.id + '"]>ul>li[type="bookmark"]');
+    return this.querySelectorAll('li[id="' + this.id + '"]>ul>li.bookmark');
   }
 
   getY() {
@@ -238,7 +238,7 @@ class Bookmark extends HTMLLIElement {
     contextMenu.classList.toggle('forChromeBookmarks', !config.useGoogleBookmarks);
 
     contextMenu.selectedBookmark = this;
-    contextMenu.setAttribute('for', this.getAttribute('type'));
+    contextMenu.setAttribute('for', this.classList.contains('bookmark') ? 'bookmark' : 'folder');
     if (this.isFolder) {
       const hasChildren = this.lastChild.numberOfBookmarks > 0;
       contextMenu.querySelectorAll('.forFolder').forEach(each => each.classList.toggle('enabled', hasChildren));
@@ -819,7 +819,7 @@ function initBookmarksMenu(nodes) {
   }
 
   if (!rootFolder.noIconCSSAdded) {
-    const favIcon = rootFolder.querySelector('li[type] img');
+    const favIcon = rootFolder.querySelector('li img');
     const iconMarginRight = window.getComputedStyle(favIcon).marginRight; // contains '3px'
     const textPaddingLeft = favIcon.offsetLeft + favIcon.scrollWidth + parseInt(iconMarginRight);
     document.documentElement.style.setProperty('--padding-for-noicon', textPaddingLeft + 'px');

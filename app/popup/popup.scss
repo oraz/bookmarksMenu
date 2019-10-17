@@ -87,7 +87,9 @@ ul {
       }
     }
 
-    &[type]:hover > span,
+    &.bookmark:hover > span,
+    &.folder:hover > span,
+    &.openAllInTabs:hover > span,
     &.enabled:hover > span,
     &.hover > span {
       color: var(--activeBmFntClr);
