@@ -55,7 +55,7 @@ class Bookmark extends HTMLLIElement {
   highlight() {
     this.unHighlightActiveFolder();
     if (this.isFolder) {
-      this.setAttribute('class', 'hover');
+      this.classList.add('hover');
     }
     const span = this.firstChild;
     if ((config.showTooltip || config.showURL) && span.title == '') {
@@ -69,7 +69,7 @@ class Bookmark extends HTMLLIElement {
   }
 
   unHighlight() {
-    this.removeAttribute('class');
+    this.classList.remove('hover');
   }
 
   unHighlightActiveFolder() {
@@ -172,7 +172,7 @@ class Bookmark extends HTMLLIElement {
   }
 
   displayFolderContent() {
-    if (this.getAttribute('class') == 'hover') {
+    if (this.classList.contains('hover')) {
       return;
     }
     this.highlight();
@@ -234,7 +234,8 @@ class Bookmark extends HTMLLIElement {
         }
       }
     }
-    contextMenu.className = config.useGoogleBookmarks ? 'forGoogleBookmarks' : 'forChromeBookmarks';
+    contextMenu.classList.toggle('forGoogleBookmarks', config.useGoogleBookmarks);
+    contextMenu.classList.toggle('forChromeBookmarks', !config.useGoogleBookmarks);
 
     contextMenu.selectedBookmark = this;
     contextMenu.setAttribute('for', this.getAttribute('type'));
@@ -762,7 +763,7 @@ document.addEventListener('DOMContentLoaded', function () {
       case 2: // open context menu
         if (bookmark.isBookmark || bookmark.isFolder) {
           if (bookmark.isBookmark) {
-            bookmark.className = 'hover';
+            bookmark.classList.add('hover');
           }
           bookmark.showContextMenu(ev);
         }
