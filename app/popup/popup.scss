@@ -56,6 +56,26 @@ ul {
       position: absolute;
       top: -1px;
       right: 100%;
+
+      .separator,
+      .openAllInTabs {
+        display: none;
+      }
+
+      .bookmark ~ .bookmark ~ .separator,
+      .bookmark ~ .bookmark ~ .openAllInTabs {
+        display: block;
+      }
+
+      .bookmark ~ .empty,
+      .folder ~ .empty {
+        display: none;
+      }
+
+      .empty span {
+        padding: 3px 0.6em;
+        color: var(--disabledItemFntClr);
+      }
     }
 
     &.hover > ul {
@@ -72,11 +92,6 @@ ul {
 
       &.noicon {
         padding-left: var(--padding-for-noicon);
-      }
-
-      &.empty {
-        padding: 3px 0.6em;
-        color: var(--disabledItemFntClr);
       }
 
       img {

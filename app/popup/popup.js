@@ -240,12 +240,12 @@ class Bookmark extends HTMLLIElement {
     contextMenu.selectedBookmark = this;
     contextMenu.setAttribute('for', this.classList.contains('bookmark') ? 'bookmark' : 'folder');
     if (this.isFolder) {
-      const hasChildren = this.lastChild.numberOfBookmarks > 0;
-      contextMenu.querySelectorAll('.forFolder').forEach(each => each.classList.toggle('enabled', hasChildren));
+      const hasBookmarks = this.hasBookmarks;
+      contextMenu.querySelectorAll('.forFolder').forEach(each => each.classList.toggle('enabled', hasBookmarks));
     }
 
-    contextMenu.querySelector('li[data-action="reorder"]').classList.toggle('enabled', this.parentElement.childElementCount > 1);
-    contextMenu.querySelector('li[data-action="remove"]').classList.toggle('enabled', this.isBookmark || (this.isFolder && this.isEmpty === true));
+    contextMenu.querySelector('li[data-action="reorder"]').classList.toggle('enabled', this.canBeReordered);
+    contextMenu.querySelector('li[data-action="remove"]').classList.toggle('enabled', this.isBookmark || this.isEmptyFolder);
     E.show(contextMenu);
 
     const body = document.body;
@@ -282,48 +282,18 @@ class Bookmark extends HTMLLIElement {
     E.show(transparentLayer);
   }
 
-  remove() {
-    if (!config.useGoogleBookmarks) {
-      chrome.bookmarks.remove(this.id);
-      this.removeFromUI();
-    } else {
-      const gid = this.getAttribute('gid');
-      chrome.extension.getBackgroundPage().remove(gid);
-      all('li[gid="' + gid + '"]').forEach(each => each.removeFromUI());
-    }
-    // replace folder content after removing bookmark
-    const parentFolder = this.parentFolder;
-    if (!parentFolder.isRoot && parentFolder.exists !== false) {
-      parentFolder.unHighlight();
-      parentFolder.displayFolderContent();
-    }
+  get isEmptyFolder() {
+    return this.isFolder && this.folderContent.childBookmarks.length === 0;
   }
 
-  removeFromUI() {
-    var folderContent = this.parentElement;
-    folderContent.removeChild(this);
-    if (folderContent.childElementCount == 0) {
-      if (!config.useGoogleBookmarks) {
-        folderContent.fillAsEmpty();
-      } else {
-        // remove folder if it's empty
-        do {
-          var folder = folderContent.parentElement;
-          folderContent = folder.parentElement;
-          chrome.extension.getBackgroundPage().remove(folder.getAttribute('gid'));
-          folderContent.removeChild(folder);
-        } while (!folderContent.isRoot && folderContent.childElementCount == 0);
-        this.parentFolder.exists = false;
-        if (!folderContent.isRoot) {
-          folderContent.parentElement.unHighlight();
-          folderContent.parentElement.displayFolderContent();
-        }
-      }
-    } else if (folderContent.numberOfBookmarks-- <= 2 && folderContent.lastElementChild.isOpenAll) {
-      // remove "open all" and separator
-      folderContent.removeChild(folderContent.lastElementChild);
-      folderContent.removeChild(folderContent.lastElementChild);
-    }
+  get canBeReordered() {
+    /** @type FolderContent */
+    const folderContent = this.parentElement;
+    return folderContent.canBeReordered;
+  }
+
+  get hasBookmarks() {
+    return this.isFolder && this.folderContent.childBookmarks.some(bookmark => bookmark.url !== undefined);
   }
 }
 
@@ -333,46 +303,42 @@ Bookmark.autoId = 1; // id for google bookmarks
 
 class FolderContent extends HTMLUListElement {
   fillFolderContent(childBookmarks) {
-    const len = childBookmarks.length;
-    if (len > 0) {
-      this.numberOfBookmarks = 0;
-      for (let i = 0; i < len; i++) {
-        /** @type Bookmark */
-        const bookmark = document.createElement('li', { is: 'ext-bookmark' });
-        bookmark.init(childBookmarks[i]);
-        this.appendChild(bookmark);
-        if (this.isRoot) {
-          bookmark.parentFolder = bookmark.rootFolder = this;
-        } else {
-          bookmark.parentFolder = this.parentElement;
-          bookmark.rootFolder = bookmark.parentFolder.rootFolder;
-          if (bookmark.isBookmark) {
-            this.numberOfBookmarks++;
-          } else {
-            bookmark.parentFolder.hasSubFolders = true;
-            bookmark.fillFolder();
-          }
+    childBookmarks.forEach(each => {
+      /**@type Bookmark */
+      const bookmark = document.createElement('li', { is: 'ext-bookmark' });
+      bookmark.init(each);
+      this.appendChild(bookmark);
+      if (this.isRoot) {
+        bookmark.parentFolder = bookmark.rootFolder = this;
+      } else {
+        bookmark.parentFolder = this.parentElement;
+        bookmark.rootFolder = bookmark.parentFolder.rootFolder;
+        if (bookmark.isFolder) {
+          bookmark.parentFolder.hasSubFolders = true;
+          bookmark.fillFolder();
         }
       }
-      if (this.numberOfBookmarks > 1) {
-        this.addSeparator();
-        /** @type Bookmark */
-        const openAllInTabs = document.createElement('li', {
-          is: 'ext-bookmark'
-        });
-        openAllInTabs.initAsOpenAll(this.parentElement);
-        this.appendChild(openAllInTabs);
-      }
-    } else if (!this.isRoot) {
-      this.fillAsEmpty();
+    });
+    if (!this.isRoot) {
+      this.addSeparator();
+      this._addOpenAllInTabs();
+      this._addEmpty();
     }
   }
 
-  fillAsEmpty() {
-    this.parentElement.isEmpty = true;
+  _addOpenAllInTabs() {
+    /** @type Bookmark */
+    const openAllInTabs = document.createElement('li', {
+      is: 'ext-bookmark'
+    });
+    openAllInTabs.initAsOpenAll(this.parentElement);
+    this.appendChild(openAllInTabs);
+  }
+
+  _addEmpty() {
     const li = document.createElement('li');
+    li.classList.add('empty');
     const span = document.createElement('span');
-    span.className = 'empty';
     span.appendChild(document.createTextNode('(' + chrome.i18n.getMessage('empty') + ')'));
     li.appendChild(span);
     this.appendChild(li);
@@ -385,6 +351,9 @@ class FolderContent extends HTMLUListElement {
     this.appendChild(separator);
   }
 
+  get canBeReordered() {
+    return this.isRoot ? this.childElementCount >= 3 : this.childBookmarks.length > 1;
+  }
   reorder(/** @type Boolean */ beforeSeparator) {
     const childBookmarks = this.isRoot ? this.childBookmarks[beforeSeparator ? 0 : 1] : this.childBookmarks;
     const bookmarks = [];
@@ -418,6 +387,40 @@ class FolderContent extends HTMLUListElement {
         this.insertBefore(bookmark, separator);
       }
     });
+  }
+
+  remove(/** @type Bookmark */bookmark) {
+    if (!config.useGoogleBookmarks) {
+      chrome.bookmarks.remove(bookmark.id);
+      this._removeFromUI(bookmark);
+      if (!this.isRoot) {
+        /**@type Bookmark */
+        const parentFolder = this.parentElement;
+        parentFolder.unHighlight();
+        parentFolder.displayFolderContent();
+      }
+    } else {
+      const gid = bookmark.getAttribute('gid');
+      chrome.extension.getBackgroundPage().remove(gid);
+      all('li[gid="' + gid + '"]').forEach(/**@type Bookmark */each => {
+        /** @type FolderContent */
+        const folderContent = each.parentElement;
+        folderContent._removeFromUI(each);
+      });
+    }
+  }
+
+  _removeFromUI(/** @type Bookmark */bookmark) {
+    this.removeChild(bookmark);
+    const bookmarkId = config.useGoogleBookmarks ? bookmark.getAttribute('gid') : bookmark.id;
+    this.childBookmarks.splice(this.childBookmarks.findIndex(each => each.id === bookmarkId), 1);
+    if (config.useGoogleBookmarks && !this.isRoot && this.childBookmarks.length === 0) {
+      /**@type Bookmark */
+      const folder = this.parentElement;
+      /**@type FolderContent */
+      const folderContent = folder.parentElement;
+      folderContent.remove(folder);
+    }
   }
 }
 
@@ -758,7 +761,7 @@ document.addEventListener('DOMContentLoaded', function () {
           bookmark.openInNewTab(ev.shiftKey);
         } else if (bookmark.isOpenAll) {
           bookmark.parentFolder.openAllInTabs(false);
-        } else if (bookmark.isFolder && bookmark.lastChild.numberOfBookmarks > 0) {
+        } else if (bookmark.isFolder && bookmark.hasBookmarks) {
           bookmark.openAllInTabs(false);
         }
         break;
