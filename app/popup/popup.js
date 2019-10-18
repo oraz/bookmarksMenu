@@ -177,7 +177,7 @@ class Bookmark extends HTMLLIElement {
     }
     this.highlight();
     this.rootFolder.activeFolder = this;
-    if (this.childBookmarks != undefined) {
+    if (this.childBookmarks !== undefined) {
       this.fillFolder();
     }
 
@@ -325,42 +325,6 @@ class Bookmark extends HTMLLIElement {
       folderContent.removeChild(folderContent.lastElementChild);
     }
   }
-
-  reorder(/** @type Boolean */ beforeSeparator) {
-    const folderContent = this.parentElement;
-    const childBookmarks = this.parentFolder.isRoot ? folderContent.childBookmarks[beforeSeparator ? 0 : 1] : folderContent.childBookmarks;
-    const bookmarks = [];
-    let separator = null;
-    do {
-      const child = beforeSeparator ? folderContent.firstChild : folderContent.lastChild;
-      if (child.isSeparator) {
-        if (beforeSeparator) {
-          separator = child;
-        }
-        break;
-      }
-      bookmarks.push(child);
-      folderContent.removeChild(child);
-    } while (folderContent.hasChildNodes());
-
-    childBookmarks.sort((b1, b2) => {
-      if (b1.url === undefined && b2.url !== undefined) {
-        return -1;
-      }
-      if (b1.url !== undefined && b2.url === undefined) {
-        return 1;
-      }
-      return b1.title.localeCompare(b2.title);
-    });
-
-    childBookmarks.forEach((each, idx) => {
-      chrome.bookmarks.move(each.id, { index: idx });
-      const bookmark = bookmarks.find(b => b.id === each.id);
-      if (bookmark !== undefined) {
-        folderContent.insertBefore(bookmark, separator);
-      }
-    });
-  }
 }
 
 customElements.define('ext-bookmark', Bookmark, { extends: 'li' });
@@ -420,6 +384,41 @@ class FolderContent extends HTMLUListElement {
     separator.isSeparator = true;
     this.appendChild(separator);
   }
+
+  reorder(/** @type Boolean */ beforeSeparator) {
+    const childBookmarks = this.isRoot ? this.childBookmarks[beforeSeparator ? 0 : 1] : this.childBookmarks;
+    const bookmarks = [];
+    let separator = null;
+    do {
+      const child = beforeSeparator ? this.firstChild : this.lastChild;
+      if (child.isSeparator) {
+        if (beforeSeparator) {
+          separator = child;
+        }
+        break;
+      }
+      bookmarks.push(child);
+      this.removeChild(child);
+    } while (this.hasChildNodes());
+
+    childBookmarks.sort((b1, b2) => {
+      if (b1.url === undefined && b2.url !== undefined) {
+        return -1;
+      }
+      if (b1.url !== undefined && b2.url === undefined) {
+        return 1;
+      }
+      return b1.title.localeCompare(b2.title);
+    });
+
+    childBookmarks.forEach((each, idx) => {
+      chrome.bookmarks.move(each.id, { index: idx });
+      const bookmark = bookmarks.find(b => b.id === each.id);
+      if (bookmark !== undefined) {
+        this.insertBefore(bookmark, separator);
+      }
+    });
+  }
 }
 
 customElements.define('ext-folder-content', FolderContent, { extends: 'ul' });
@@ -478,13 +477,16 @@ function processMenu(ev) {
             }
           });
           break;
-        case 'reorder':
-          bookmark.reorder(true);
-          if (bookmark.parentFolder.isRoot) {
-            bookmark.reorder(false);
+        case 'reorder': {
+          /**@type FolderContent */
+          const folderContent = bookmark.parentElement;
+          folderContent.reorder(true);
+          if (folderContent.isRoot) {
+            folderContent.reorder(false);
           }
           unSelect();
           break;
+        }
         default:
           bookmark[action].call(bookmark);
           unSelect();
