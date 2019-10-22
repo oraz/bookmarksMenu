@@ -40,18 +40,6 @@ class Bookmark extends HTMLLIElement {
     }
   }
 
-  initAsOpenAll(/** @type Bookmark */ parentElement) {
-    this.classList.add('openAllInTabs');
-    this.parentFolder = parentElement;
-    this.rootFolder = parentElement.rootFolder;
-    this.isOpenAll = true;
-    const span = document.createElement('span');
-    span.className = 'noicon';
-    span.appendChild(document.createTextNode(chrome.i18n.getMessage('openAllInTabs')));
-    this.appendChild(span);
-    this.onmouseover = this.highlight;
-  }
-
   highlight() {
     this.unHighlightActiveFolder();
     if (this.isFolder) {
@@ -267,10 +255,46 @@ class Bookmark extends HTMLLIElement {
     return this.isFolder && this.folderContent.childBookmarks.some(bookmark => bookmark.url !== undefined);
   }
 }
-
 customElements.define('ext-bookmark', Bookmark, { extends: 'li' });
-
 Bookmark.autoId = 1; // id for google bookmarks
+
+class OpenAllItem extends HTMLLIElement {
+  static create(/** @type FolderContent */ containingFolderContent) {
+    /**@type OpenAllItem */
+    const openAll = document.createElement('li', { is: 'ext-open-all' });
+    openAll._init(containingFolderContent);
+    return openAll;
+  }
+
+  _init(/** @type FolderContent */ containingFolderContent) {
+    this.containingFolderContent = containingFolderContent;
+    this.classList.add('openAllInTabs');
+    const span = document.createElement('span');
+    span.className = 'noicon';
+    span.appendChild(document.createTextNode(chrome.i18n.getMessage('openAllInTabs')));
+    this.appendChild(span);
+    this.onmouseup = this._onClick;
+    this.onmouseover = this._onMouseOver;
+  }
+
+  _onClick(/** @type MouseEvent */evt) {
+    evt.stopImmediatePropagation();
+    const action = parseInt(Settings.getButtonAction(evt.button));
+    if (action === 0) {
+      this.containingFolderContent.openAllInTabs(true);
+    } else if (action === 1) {
+      this.containingFolderContent.openAllInTabs();
+    }
+  }
+
+  _onMouseOver() {
+    const span = this.firstElementChild;
+    if (config.showTooltip && span.title === '' && span.offsetWidth < span.scrollWidth) {
+      span.title = span.innerText;
+    }
+  }
+}
+customElements.define('ext-open-all', OpenAllItem, { extends: 'li' });
 
 class FolderContent extends HTMLUListElement {
   fillFolderContent(childBookmarks) {
@@ -292,7 +316,7 @@ class FolderContent extends HTMLUListElement {
     });
     if (!this.isRoot) {
       this.addSeparator();
-      this._addOpenAllInTabs();
+      this.appendChild(OpenAllItem.create(this));
       this._addEmpty();
     }
   }
@@ -316,15 +340,6 @@ class FolderContent extends HTMLUListElement {
 
   openAllInIncognitoWindow() {
     this.openAllInNewWindow(true);
-  }
-
-  _addOpenAllInTabs() {
-    /** @type Bookmark */
-    const openAllInTabs = document.createElement('li', {
-      is: 'ext-bookmark'
-    });
-    openAllInTabs.initAsOpenAll(this.parentElement);
-    this.appendChild(openAllInTabs);
   }
 
   _addEmpty() {
@@ -753,16 +768,12 @@ document.addEventListener('DOMContentLoaded', function () {
           } else {
             bookmark.open();
           }
-        } else if (bookmark.isOpenAll) {
-          bookmark.parentElement.openAllInTabs(true);
         }
         break;
       case 1: // open in new tab
         if (bookmark.isBookmark) {
           // switch to new tab if shift key pressed
           bookmark.openInNewTab(ev.shiftKey);
-        } else if (bookmark.isOpenAll) {
-          bookmark.parentElement.openAllInTabs();
         } else if (bookmark.isFolder && bookmark.hasBookmarks) {
           bookmark.folderContent.openAllInTabs();
         }
