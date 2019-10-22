@@ -110,16 +110,14 @@ class Bookmark extends HTMLLIElement {
     }
   }
 
-  open(closeAfterOpen) {
+  open() {
     const url = this.url;
     if (isBookmarklet(url)) {
       chrome.tabs.executeScript({ code: decodeURI(url.substr(11)) });
     } else {
       chrome.tabs.update({ url: url });
     }
-    if (closeAfterOpen) {
-      closePopup();
-    }
+    closePopup();
   }
 
   openInNewTab(switchToNewTab) {
@@ -130,40 +128,13 @@ class Bookmark extends HTMLLIElement {
     closePopup();
   }
 
-  openInNewWindow(incognito) {
+  openInNewWindow(incognito = false) {
     chrome.windows.create({ url: this.url, incognito: incognito });
     closePopup();
   }
 
   openInIncognitoWindow() {
     this.openInNewWindow(true);
-  }
-
-  openAllInTabs(firstInCurrentTab) {
-    this.getBookmarksInFolder().forEach((/** @type Bookmark */ bookmark, idx) => {
-      if (idx === 0 && firstInCurrentTab) {
-        bookmark.open();
-      } else {
-        chrome.tabs.create({ url: bookmark.url, selected: idx === 0 });
-      }
-    });
-    closePopup();
-  }
-
-  openAllInNewWindow(incognito) {
-    const urls = [];
-    this.getBookmarksInFolder().forEach(bookmark => urls.push(bookmark.url));
-    chrome.windows.create({ url: urls, incognito: incognito });
-    closePopup();
-  }
-
-  openAllInIncognitoWindow() {
-    this.openAllInNewWindow(true);
-  }
-
-  /** @returns Bookmark[] */
-  getBookmarksInFolder() {
-    return this.querySelectorAll('li[id="' + this.id + '"]>ul>li.bookmark');
   }
 
   getY() {
@@ -326,6 +297,27 @@ class FolderContent extends HTMLUListElement {
     }
   }
 
+  openAllInTabs(firstInCurrentTab = false) {
+    this.childBookmarks.filter(each => each.url !== undefined).forEach((each, idx) => {
+      if (idx === 0 && firstInCurrentTab) {
+        chrome.tabs.update({ url: each.url });
+      } else {
+        chrome.tabs.create({ url: each.url, selected: idx === 0 });
+      }
+    });
+    closePopup();
+  }
+
+  openAllInNewWindow(incognito = false) {
+    const urls = this.childBookmarks.filter(each => each.url !== undefined).map(each => each.url);
+    chrome.windows.create({ url: urls, incognito: incognito });
+    closePopup();
+  }
+
+  openAllInIncognitoWindow() {
+    this.openAllInNewWindow(true);
+  }
+
   _addOpenAllInTabs() {
     /** @type Bookmark */
     const openAllInTabs = document.createElement('li', {
@@ -354,6 +346,7 @@ class FolderContent extends HTMLUListElement {
   get canBeReordered() {
     return this.isRoot ? this.childElementCount >= 3 : this.childBookmarks.length > 1;
   }
+
   reorder(/** @type Boolean */ beforeSeparator) {
     const childBookmarks = this.isRoot ? this.childBookmarks[beforeSeparator ? 0 : 1] : this.childBookmarks;
     const bookmarks = [];
@@ -490,6 +483,15 @@ function processMenu(ev) {
           unSelect();
           break;
         }
+        case 'openAllInTabs':
+          bookmark.folderContent.openAllInTabs();
+          break;
+        case 'openAllInNewWindow':
+          bookmark.folderContent.openAllInNewWindow();
+          break;
+        case 'openAllInIncognitoWindow':
+          bookmark.folderContent.openAllInIncognitoWindow();
+          break;
         default:
           bookmark[action].call(bookmark);
           unSelect();
@@ -749,10 +751,10 @@ document.addEventListener('DOMContentLoaded', function () {
           } else if (ev.shiftKey) {
             bookmark.openInNewWindow();
           } else {
-            bookmark.open(true);
+            bookmark.open();
           }
         } else if (bookmark.isOpenAll) {
-          bookmark.parentFolder.openAllInTabs(true);
+          bookmark.parentElement.openAllInTabs(true);
         }
         break;
       case 1: // open in new tab
@@ -760,9 +762,9 @@ document.addEventListener('DOMContentLoaded', function () {
           // switch to new tab if shift key pressed
           bookmark.openInNewTab(ev.shiftKey);
         } else if (bookmark.isOpenAll) {
-          bookmark.parentFolder.openAllInTabs(false);
+          bookmark.parentElement.openAllInTabs();
         } else if (bookmark.isFolder && bookmark.hasBookmarks) {
-          bookmark.openAllInTabs(false);
+          bookmark.folderContent.openAllInTabs();
         }
         break;
       case 2: // open context menu

@@ -321,7 +321,7 @@ describe('popup.html', () => {
 
         expect(chrome.windows.create).toHaveBeenCalledWith({
           url: second.url,
-          incognito: undefined
+          incognito: false
         });
         expect(window.close).toHaveBeenCalled();
       });
@@ -895,7 +895,7 @@ describe('popup.html', () => {
       });
 
       it.each([
-        ['in new window', ContextMenuItem.OpenInNewWindow, undefined],
+        ['in new window', ContextMenuItem.OpenInNewWindow, false],
         ['in incognito window', ContextMenuItem.OpenInIncognitoWindow, true],
       ])('%s', (testName, contextMenuItem: ContextMenuItem, expectedInIncognito) => {
         const first = bookmark();
@@ -933,7 +933,7 @@ describe('popup.html', () => {
       });
 
       it.each([
-        ['in new window', ContextMenuItem.OpenAllInNewWindow, undefined],
+        ['in new window', ContextMenuItem.OpenAllInNewWindow, false],
         ['in incognito window', ContextMenuItem.OpenAllInIncognitoWindow, true],
       ])('%s', (testName, contextMenuItem: ContextMenuItem, expectedInIncognito) => {
         const first = bookmark();
