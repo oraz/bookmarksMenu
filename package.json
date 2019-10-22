@@ -4,7 +4,7 @@
   "description": "Chrome extension which shows bookmarks menu. Works with Chrome and Google bookmarks.",
   "scripts": {
     "css": "echo SCSS... && node-sass --output-style expanded --indent-type tab --indent-width 1 -r app -o app",
-    "lint": "echo ESLint... && eslint app",
+    "lint": "echo ESLint... && eslint --cache app",
     "pretest": "npm run lint && npm run css",
     "test": "echo Jest... && jest",
     "prepack": "npm test",
