@@ -5,7 +5,7 @@
   "scripts": {
     "css": "echo SCSS... && node-sass --output-style expanded --indent-type tab --indent-width 1 -r app -o app",
     "lint": "echo ESLint... && eslint app",
-    "pretest": "npm run css lint",
+    "pretest": "npm run lint && npm run css",
     "test": "echo Jest... && jest",
     "prepack": "npm test",
     "pack": "echo Pack... && npm-pack-zip"
