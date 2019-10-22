@@ -12,6 +12,16 @@ const chrome = new Chrome();
 window['chrome'] = chrome;
 
 describe('popup.html', () => {
+  enum ContextMenuItem {
+    Reorder = 'reorder',
+    OpenInNewTab = 'openInNewTab',
+    OpenInNewWindow = 'openInNewWindow',
+    OpenInIncognitoWindow = 'openInIncognitoWindow',
+    OpenAllInTabs = 'openAllInTabs',
+    OpenAllInNewWindow = 'openAllInNewWindow',
+    OpenAllInIncognitoWindow = 'openAllInIncognitoWindow',
+  }
+
   const css = readFileSync(resolve(__dirname, 'popup.css'), 'utf-8');
   const html = `<style>${css}</style>` + readFileSync(resolve(__dirname, 'popup.html'), 'utf-8').replace(/(<!DOCTYPE.*$|<\/?html>)$/gm, '<!-- $1 -->');
 
@@ -46,7 +56,7 @@ describe('popup.html', () => {
     });
 
     it('with bookmarks in toolbar', () => {
-      givenBookmakrs([bookmark(), bookmark()]);
+      givenBookmarks([bookmark(), bookmark()]);
 
       expect(bookmarksMenu.children()).toHaveLength(3);
       expect(bookmarksMenu.children(':nth(0)')).is('#1.bookmark:visible');
@@ -55,7 +65,7 @@ describe('popup.html', () => {
     });
 
     it('with bookmarks in both parts', () => {
-      givenBookmakrs([bookmark()], [bookmark()]);
+      givenBookmarks([bookmark()], [bookmark()]);
 
       expect(bookmarksMenu.children()).toHaveLength(3);
       expect(bookmarksMenu.children(':nth(0)')).is('#1.bookmark:visible');
@@ -64,7 +74,7 @@ describe('popup.html', () => {
     });
 
     it('with bookmarks only in other part', () => {
-      givenBookmakrs([], [bookmark(), bookmark()]);
+      givenBookmarks([], [bookmark(), bookmark()]);
 
       expect(bookmarksMenu.children()).toHaveLength(3);
       expect(bookmarksMenu.children(':nth(0)')).is('.separator:hidden');
@@ -76,7 +86,7 @@ describe('popup.html', () => {
       const first = bookmark();
       hideBookmarks(first);
 
-      givenBookmakrs([first, bookmark()]);
+      givenBookmarks([first, bookmark()]);
 
       expect(bookmarksMenu.children()).toHaveLength(2);
       expect(bookmarksMenu.children(':nth(0)')).is('#2.bookmark:visible');
@@ -90,7 +100,7 @@ describe('popup.html', () => {
       const fourth = bookmark();
       hideBookmarks(first, third);
 
-      givenBookmakrs([first, second], [third, fourth]);
+      givenBookmarks([first, second], [third, fourth]);
 
       expect(bookmarksMenu.children()).toHaveLength(3);
       expect(bookmarksMenu.children(':nth(0)')).is('#2.bookmark:visible');
@@ -103,7 +113,7 @@ describe('popup.html', () => {
       const second = bookmark();
       hideBookmarks(second);
 
-      givenBookmakrs([], [first, second]);
+      givenBookmarks([], [first, second]);
 
       expect(bookmarksMenu.children()).toHaveLength(2);
       expect(bookmarksMenu.children(':nth(0)')).is('.separator:hidden');
@@ -117,7 +127,7 @@ describe('popup.html', () => {
       const fourth = bookmark();
       hideBookmarks(first, second, third);
 
-      givenBookmakrs([first, second], [third, fourth]);
+      givenBookmarks([first, second], [third, fourth]);
 
       expect(bookmarksMenu.children()).toHaveLength(2);
       expect(bookmarksMenu.children(':nth(0)')).is('.separator:hidden');
@@ -131,7 +141,7 @@ describe('popup.html', () => {
       const fourth = bookmark();
       hideBookmarks(third, fourth);
 
-      givenBookmakrs([first, second], [third, fourth]);
+      givenBookmarks([first, second], [third, fourth]);
 
       expect(bookmarksMenu.children()).toHaveLength(3);
       expect(bookmarksMenu.children(':nth(0)')).is('#1.bookmark:visible');
@@ -147,7 +157,7 @@ describe('popup.html', () => {
       const first = bookmark(50);
 
       const folder = givenFolder(100, 'folder', firstInFolder, secondInFolder);
-      givenBookmakrs([folder, first]);
+      givenBookmarks([folder, first]);
 
       expect(bookmarksMenu.children()).toHaveLength(3);
       expect(bookmarksMenu.children(':nth(0)')).is('#100.folder:visible');
@@ -162,7 +172,7 @@ describe('popup.html', () => {
       const first = bookmark(50);
 
       const folder = givenFolder(100, 'folder', firstInFolder, secondInFolder);
-      givenBookmakrs([folder, first]);
+      givenBookmarks([folder, first]);
 
       expect(bookmarksMenu.children()).toHaveLength(3);
       expect(bookmarksMenu.children(':nth(0)')).is('#100.folder:visible');
@@ -187,7 +197,7 @@ describe('popup.html', () => {
       const first = bookmark(50);
 
       const folder = givenFolder(100, 'folder', firstInFolder);
-      givenBookmakrs([folder, first]);
+      givenBookmarks([folder, first]);
 
       expect(bookmarksMenu.children()).toHaveLength(3);
       expect(bookmarksMenu.children(':nth(0)')).is('#100.folder:visible');
@@ -206,7 +216,7 @@ describe('popup.html', () => {
     it('empty folder', () => {
       const first = bookmark(50);
       const folder = givenFolder(100);
-      givenBookmakrs([folder, first]);
+      givenBookmarks([folder, first]);
 
       expect(bookmarksMenu.children()).toHaveLength(3);
       expect(bookmarksMenu.children()).is('#100.folder:visible');
@@ -225,7 +235,7 @@ describe('popup.html', () => {
     it('move mouse to another bookmark', () => {
       const first = bookmark(50);
       const folder = givenFolder(100);
-      givenBookmakrs([folder, first]);
+      givenBookmarks([folder, first]);
 
       mouseOver(folder);
       mouseOver(first);
@@ -238,7 +248,7 @@ describe('popup.html', () => {
       const folder = givenFolder(102, 'folder', emptyFolder, bookmark());
       const first = bookmark();
       const second = bookmark();
-      givenBookmakrs([first, second], [folder, bookmark()]);
+      givenBookmarks([first, second], [folder, bookmark()]);
 
       mouseOver(first);
       mouseOver(second);
@@ -260,7 +270,7 @@ describe('popup.html', () => {
     describe('click on bookmark (left button)', () => {
       it('open bookmark', () => {
         const first = bookmark();
-        givenBookmakrs([], [first, bookmark()]);
+        givenBookmarks([], [first, bookmark()]);
         chrome.tabs.update = jest.fn();
         window.close = jest.fn();
 
@@ -272,7 +282,7 @@ describe('popup.html', () => {
 
       it('open bookmark: js', () => {
         const first = bookmark(1, 'alert', 'javascript:alert("Hello")');
-        givenBookmakrs([], [first, bookmark()]);
+        givenBookmarks([], [first, bookmark()]);
         chrome.tabs.executeScript = jest.fn();
         window.close = jest.fn();
 
@@ -287,7 +297,7 @@ describe('popup.html', () => {
       it('open bookmark with ctrlKey', () => {
         const first = bookmark();
         const second = bookmark();
-        givenBookmakrs([], [first, second]);
+        givenBookmarks([], [first, second]);
         chrome.tabs.create = jest.fn();
         window.close = jest.fn();
 
@@ -303,7 +313,7 @@ describe('popup.html', () => {
       it('open bookmark with shiftKey', () => {
         const first = bookmark();
         const second = bookmark();
-        givenBookmakrs([], [first, second]);
+        givenBookmarks([], [first, second]);
         chrome.windows.create = jest.fn();
         window.close = jest.fn();
 
@@ -321,7 +331,7 @@ describe('popup.html', () => {
         const second = bookmark();
         const third = bookmark();
         const folder = givenFolder(100, 'folder', first, second, third);
-        givenBookmakrs([folder, bookmark()], [bookmark(), bookmark()]);
+        givenBookmarks([folder, bookmark()], [bookmark(), bookmark()]);
         window.close = jest.fn();
         chrome.tabs.update = jest.fn();
         chrome.tabs.create = jest.fn();
@@ -349,7 +359,7 @@ describe('popup.html', () => {
         (settingSwitchToNewTab, shiftKey, expectedNewTabActive) => {
           localStorage.switchToNewTab = settingSwitchToNewTab;
           const first = bookmark();
-          givenBookmakrs([bookmark(), first, bookmark()]);
+          givenBookmarks([bookmark(), first, bookmark()]);
           chrome.tabs.create = jest.fn();
           window.close = jest.fn();
 
@@ -370,7 +380,7 @@ describe('popup.html', () => {
           const second = bookmark();
           const third = bookmark();
           const folder = givenFolder(100, 'folder', first, second, third);
-          givenBookmakrs([folder, bookmark()], [bookmark(), bookmark()]);
+          givenBookmarks([folder, bookmark()], [bookmark(), bookmark()]);
           window.close = jest.fn();
           chrome.tabs.create = jest.fn();
 
@@ -400,7 +410,7 @@ describe('popup.html', () => {
         const first = bookmark();
         const second = bookmark();
         const third = bookmark();
-        givenBookmakrs([first, second], [third, bookmark()]);
+        givenBookmarks([first, second], [third, bookmark()]);
 
         clickOn(second, { button: rightButton });
 
@@ -410,7 +420,7 @@ describe('popup.html', () => {
 
       it('context menu for folder must be shown', () => {
         const folder = givenFolder(100, 'folder', bookmark(), bookmark());
-        givenBookmakrs([bookmark(), bookmark()], [folder, bookmark()]);
+        givenBookmarks([bookmark(), bookmark()], [folder, bookmark()]);
 
         mouseOver(folder);
         clickOn(folder, { button: rightButton });
@@ -425,7 +435,7 @@ describe('popup.html', () => {
     describe('show', () => {
       it('show for bookmark', () => {
         const first = bookmark();
-        givenBookmakrs([first, bookmark()], [bookmark(), bookmark()]);
+        givenBookmarks([first, bookmark()], [bookmark(), bookmark()]);
 
         mouseOver(first);
         clickOn(first, { button: 2 });
@@ -454,7 +464,7 @@ describe('popup.html', () => {
       it('show for the only bookmark in folder', () => {
         const first = bookmark();
         const folder = givenFolder(100, 'folder', first);
-        givenBookmakrs([folder, bookmark()], [bookmark(), bookmark()]);
+        givenBookmarks([folder, bookmark()], [bookmark(), bookmark()]);
 
         mouseOver(folder);
         mouseOver(first);
@@ -485,7 +495,7 @@ describe('popup.html', () => {
         ['toolbar', bookmark(), true], //
         ['other', bookmark(), false]
       ])('show for the only bookmark in %s', (testName, bookmark: BookmarkTreeNode, inToolbar: boolean) => {
-        givenBookmakrs(inToolbar ? [bookmark] : [], inToolbar ? [] : [bookmark]);
+        givenBookmarks(inToolbar ? [bookmark] : [], inToolbar ? [] : [bookmark]);
 
         mouseOver(bookmark);
         clickOn(bookmark, { button: 2 });
@@ -513,7 +523,7 @@ describe('popup.html', () => {
 
       it('show for not empty folder', () => {
         const folder = givenFolder(100, 'folder', bookmark(), bookmark());
-        givenBookmakrs([folder, bookmark()], [bookmark(), bookmark()]);
+        givenBookmarks([folder, bookmark()], [bookmark(), bookmark()]);
 
         mouseOver(folder);
         clickOn(folder, { button: 2 });
@@ -542,7 +552,7 @@ describe('popup.html', () => {
       it('show for the only folder in folder', () => {
         const subFolder = givenFolder(100, 'subfolder', bookmark());
         const folder = givenFolder(101, 'folder', subFolder);
-        givenBookmakrs([folder, bookmark()], [bookmark(), bookmark()]);
+        givenBookmarks([folder, bookmark()], [bookmark(), bookmark()]);
 
         mouseOver(folder);
         mouseOver(subFolder);
@@ -572,7 +582,7 @@ describe('popup.html', () => {
       it('show for the only folder(empty) in folder', () => {
         const subFolder = givenFolder(100);
         const folder = givenFolder(101, 'folder', subFolder);
-        givenBookmakrs([folder, bookmark()], [bookmark(), bookmark()]);
+        givenBookmarks([folder, bookmark()], [bookmark(), bookmark()]);
 
         mouseOver(folder);
         mouseOver(subFolder);
@@ -603,7 +613,7 @@ describe('popup.html', () => {
         ['toolbar', givenFolder(100), true], //
         ['other', givenFolder(100), false]
       ])('show for the only folder in %s', (testName, folder: BookmarkTreeNode, inToolbar: boolean) => {
-        givenBookmakrs(inToolbar ? [folder] : [], inToolbar ? [] : [folder]);
+        givenBookmarks(inToolbar ? [folder] : [], inToolbar ? [] : [folder]);
 
         mouseOver(folder);
         clickOn(folder, { button: 2 });
@@ -631,7 +641,7 @@ describe('popup.html', () => {
 
       it('show for empty folder', () => {
         const folder = givenFolder(100);
-        givenBookmakrs([folder, bookmark()], [bookmark(), bookmark()]);
+        givenBookmarks([folder, bookmark()], [bookmark(), bookmark()]);
 
         mouseOver(folder);
         clickOn(folder, { button: 2 });
@@ -665,7 +675,7 @@ describe('popup.html', () => {
         const third = bookmark(3, 'hij');
         const fourth = bookmark(2, 'xyz');
         const folder = givenFolder(10, 'folder', third, first, fourth, second);
-        givenBookmakrs([folder]);
+        givenBookmarks([folder]);
         chrome.bookmarks.move = jest.fn();
 
         mouseOver(folder);
@@ -702,7 +712,7 @@ describe('popup.html', () => {
         const thirdFolder = givenFolder(100, 'xyz');
 
         const folder = givenFolder(10, 'folder', third, first, firstFolder, thirdFolder, fourth, second, secondFolder);
-        givenBookmakrs([folder]);
+        givenBookmarks([folder]);
         chrome.bookmarks.move = jest.fn();
 
         mouseOver(folder);
@@ -747,7 +757,7 @@ describe('popup.html', () => {
         const secondInOthers = bookmark(5, 'bcde');
         const thirdInOthers = bookmark(6, 'opq');
         const fourthInOthers = bookmark(7, 'abc');
-        givenBookmakrs(
+        givenBookmarks(
           [firstFolder, first, second, secondFolder, thirdFolder, third],
           [firstInOthers, fourthInOthers, firstFolderInOthers, thirdFolderInOthers, secondInOthers, thirdInOthers, secondFolderInOthers]
         );
@@ -801,7 +811,7 @@ describe('popup.html', () => {
         [secondFolder, first, thirdFolderInOthers, fourthInOthers].forEach(each => {
           Settings.setBookmarkHidden(each.title, false, true);
         });
-        givenBookmakrs(
+        givenBookmarks(
           [firstFolder, first, second, secondFolder, thirdFolder, third],
           [firstInOthers, fourthInOthers, firstFolderInOthers, thirdFolderInOthers, secondInOthers, thirdInOthers, secondFolderInOthers]
         );
@@ -843,7 +853,7 @@ describe('popup.html', () => {
         [firstFolder, secondFolder, thirdFolder].forEach(each => {
           Settings.setBookmarkHidden(each.title, false, true);
         });
-        givenBookmakrs([firstFolder, secondFolder, thirdFolder], [firstFolderInOthers, thirdFolderInOthers, secondFolderInOthers]);
+        givenBookmarks([firstFolder, secondFolder, thirdFolder], [firstFolderInOthers, thirdFolderInOthers, secondFolderInOthers]);
         chrome.bookmarks.move = jest.fn();
 
         mouseOverAndClickOn(firstFolderInOthers, { button: 2 });
@@ -865,21 +875,87 @@ describe('popup.html', () => {
           expect(chrome.bookmarks.move).toHaveBeenNthCalledWith(nthCall, id.toString(), { index: expectedPosition });
         });
       });
+
+    });
+
+    describe('open bookmark', () => {
+      it.each([false, true])('just open when option switchToNewTab = %p', (optionSwitchToNewTab: Boolean) => {
+        localStorage.switchToNewTab = optionSwitchToNewTab;
+        const first = bookmark();
+        givenBookmarks([bookmark(), first, bookmark()]);
+        window.close = jest.fn();
+        chrome.tabs.create = jest.fn();
+
+        mouseOverAndClickOn(first, { button: 2 });
+        chooseContextMenuItem(ContextMenuItem.OpenInNewTab);
+
+        expect(chrome.tabs.create).toBeCalledTimes(1);
+        expect(chrome.tabs.create).toHaveBeenNthCalledWith(1, { url: first.url, active: optionSwitchToNewTab });
+        expect(window.close).toHaveBeenCalled();
+      });
+
+      it.each([
+        ['in new window', ContextMenuItem.OpenInNewWindow, undefined],
+        ['in incognito window', ContextMenuItem.OpenInIncognitoWindow, true],
+      ])('%s', (testName, contextMenuItem: ContextMenuItem, expectedInIncognito) => {
+        const first = bookmark();
+        givenBookmarks([bookmark(), first, bookmark()]);
+        window.close = jest.fn();
+        chrome.windows.create = jest.fn();
+
+        mouseOverAndClickOn(first, { button: 2 });
+        chooseContextMenuItem(contextMenuItem);
+
+        expect(chrome.windows.create).toBeCalledTimes(1);
+        expect(chrome.windows.create).toHaveBeenCalledWith({ url: first.url, incognito: expectedInIncognito });
+        expect(window.close).toHaveBeenCalled();
+      });
+    });
+
+    describe('open all bookmakrs', () => {
+      it('in tabs', () => {
+        const first = bookmark();
+        const second = bookmark();
+        const third = bookmark();
+        const folder = givenFolder(100, 'some folder', first, second, third, givenFolder(101, 'sub folder', bookmark(), bookmark()));
+        givenBookmarks([folder, givenFolder(102, 'yet another folder', bookmark(), bookmark())]);
+        chrome.tabs.create = jest.fn();
+        window.close = jest.fn();
+
+        mouseOverAndClickOn(folder, { button: 2 });
+        chooseContextMenuItem(ContextMenuItem.OpenAllInTabs);
+
+        expect(chrome.tabs.create).toBeCalledTimes(3);
+        expect(chrome.tabs.create).toHaveBeenNthCalledWith(1, { url: first.url, selected: true });
+        expect(chrome.tabs.create).toHaveBeenNthCalledWith(2, { url: second.url, selected: false });
+        expect(chrome.tabs.create).toHaveBeenNthCalledWith(3, { url: third.url, selected: false });
+        expect(window.close).toHaveBeenCalled();
+      });
+
+      it.each([
+        ['in new window', ContextMenuItem.OpenAllInNewWindow, undefined],
+        ['in incognito window', ContextMenuItem.OpenAllInIncognitoWindow, true],
+      ])('%s', (testName, contextMenuItem: ContextMenuItem, expectedInIncognito) => {
+        const first = bookmark();
+        const second = bookmark();
+        const third = bookmark();
+        const folder = givenFolder(100, 'some folder', first, second, third, givenFolder(101, 'sub folder', bookmark(), bookmark()));
+        givenBookmarks([folder, givenFolder(102, 'yet another folder', bookmark(), bookmark())]);
+        chrome.windows.create = jest.fn();
+        window.close = jest.fn();
+
+        mouseOverAndClickOn(folder, { button: 2 });
+        chooseContextMenuItem(contextMenuItem);
+
+        expect(chrome.windows.create).toBeCalledTimes(1);
+        expect(chrome.windows.create).toHaveBeenCalledWith({ url: [first.url, second.url, third.url], incognito: expectedInIncognito });
+        expect(window.close).toHaveBeenCalled();
+      });
     });
   });
 
-  enum ContextMenuItem {
-    Reorder
-  }
-
   function chooseContextMenuItem(item: ContextMenuItem) {
-    let dataAction;
-    if (item === ContextMenuItem.Reorder) {
-      dataAction = 'reorder';
-    } else {
-      throw new Error('Not supported ContextMenuItem: ' + item);
-    }
-    const el = $(`#contextMenu > .enabled.forChromeBookmarks[data-action="${dataAction}"]:visible`);
+    const el = $(`#contextMenu > .enabled[data-action="${item}"]:visible`);
     mouseOverAndClickOn(el);
   }
 
@@ -951,7 +1027,7 @@ describe('popup.html', () => {
     };
   }
 
-  function givenBookmakrs(quick: BookmarkTreeNode[], other: BookmarkTreeNode[] = []) {
+  function givenBookmarks(quick: BookmarkTreeNode[], other: BookmarkTreeNode[] = []) {
     quick.forEach(each => (each.parentId = 'quick'));
     other.forEach(each => (each.parentId = 'other'));
     chrome.bookmarks.givenBookmarks([
