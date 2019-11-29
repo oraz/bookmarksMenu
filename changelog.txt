@@ -1,3 +1,8 @@
+Changelog 2019.12.01
+- Fixed issue with scrollbar
+- Code refactoring
+- Fix: no error message shown when failed to load google bookmarks
+
 Changelog 2019.09.16
 - Fix: suggestions for google bookmarks doesn't work
 - Fix: open all in incognito window requires additional setting for the extension
