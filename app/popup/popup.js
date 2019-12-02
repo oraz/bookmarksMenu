@@ -398,6 +398,7 @@ class FolderContent extends HTMLUListElement {
   }
 
   remove(/** @type Bookmark */bookmark) {
+    unSelect();
     if (!config.useGoogleBookmarks) {
       chrome.bookmarks.remove(bookmark.id);
       this._removeFromUI(bookmark);
@@ -507,6 +508,12 @@ function processMenu(ev) {
         case 'openAllInIncognitoWindow':
           bookmark.folderContent.openAllInIncognitoWindow();
           break;
+        case 'remove': {
+          /**@type FolderContent */
+          const folderContent = bookmark.parentElement;
+          folderContent.remove(bookmark);
+          break;
+        }
         default:
           bookmark[action].call(bookmark);
           unSelect();

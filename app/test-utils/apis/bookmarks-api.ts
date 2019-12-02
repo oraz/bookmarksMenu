@@ -35,4 +35,8 @@ export class BookmarksApi {
   ): void {
     throw new Error('Not implemented!');
   }
+
+  remove(id: String, callback: () => void) {
+    throw new Error('Not implemented!');
+  }
 }
