@@ -20,6 +20,7 @@ describe('popup.html', () => {
     OpenAllInTabs = 'openAllInTabs',
     OpenAllInNewWindow = 'openAllInNewWindow',
     OpenAllInIncognitoWindow = 'openAllInIncognitoWindow',
+    Remove = 'remove'
   }
 
   const css = readFileSync(resolve(__dirname, 'popup.css'), 'utf-8');
@@ -952,6 +953,29 @@ describe('popup.html', () => {
         expect(window.close).toHaveBeenCalled();
       });
     });
+
+    describe('remove', () => {
+      it('remove bookmark', () => {
+        const first = bookmark(1, "first");
+        const second = bookmark(2, "second");
+        const third = bookmark(3, 'third');
+
+        chrome.bookmarks.remove = jest.fn()
+
+        givenBookmarks([first, second, third]);
+
+        mouseOverAndClickOn(second, { button: 2 })
+        chooseContextMenuItem(ContextMenuItem.Remove)
+
+        expect(chrome.bookmarks.remove).toBeCalledWith(second.id)
+        const folderContent = $('#bookmarksMenu');
+        expect(folderContent).is(':visible');
+        expect(folderContent.children()).toHaveLength(3);
+        expect(folderContent.children(':nth(0)')).is('#1.bookmark:contains("first"):visible');
+        expect(folderContent.children(':nth(1)')).is('#3.bookmark:contains("third"):visible');
+        expect(folderContent.children(':nth(2)')).is('.separator:hidden');
+      })
+    })
   });
 
   function chooseContextMenuItem(item: ContextMenuItem) {

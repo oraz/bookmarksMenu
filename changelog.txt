@@ -1,3 +1,6 @@
+Changelog 2019.12.02
+- Fix: ContextMenu 'remove' does nothing
+
 Changelog 2019.12.01
 - Fixed issue with scrollbar
 - Code refactoring
