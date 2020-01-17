@@ -433,6 +433,14 @@ describe('popup.html', () => {
   });
 
   describe('Context Menu', () => {
+    it('all children must be .separtor or .contextMenuItem', () => {
+      const contextMenu = $('#contextMenu');
+      contextMenu.children().each((_, el) => {
+        const each = $(el);
+        expect(each.is('.separator:not(.contextMenuItem)') || each.is('.contextMenuItem:not(.separator)')).toBeTruthy()
+      });
+    });
+
     describe('show', () => {
       it('show for bookmark', () => {
         const first = bookmark();

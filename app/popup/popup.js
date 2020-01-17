@@ -20,19 +20,19 @@ class Bookmark extends HTMLLIElement {
       this.id = bookmarkNode.id;
       this.parentFolderId = bookmarkNode.parentId;
     }
-    const span = document.createElement('span');
-    const favicon = document.createElement('img');
-    favicon.src = getFavicon(bookmarkNode.url);
-    span.appendChild(favicon);
-    span.appendChild(document.createTextNode(bookmarkNode.title));
-    this.appendChild(span);
+
+    this.bookmarkTitle = bookmarkNode.title;
 
     if (bookmarkNode.url === undefined) {
+      const span = document.createElement('span');
+      this.addFaviconAndTitle(bookmarkNode, span);
+      this.appendChild(span);
       this.classList.add('folder');
       this.isFolder = true;
       this.childBookmarks = bookmarkNode.children;
       this.onmouseover = this.displayFolderContent;
     } else {
+      this.addFaviconAndTitle(bookmarkNode);
       this.classList.add('bookmark');
       this.isBookmark = true;
       this.url = bookmarkNode.url;
@@ -40,18 +40,29 @@ class Bookmark extends HTMLLIElement {
     }
   }
 
+  addFaviconAndTitle(bookmarkNode, /** @type Node */ target = this) {
+    const favicon = document.createElement('img');
+    favicon.src = getFavicon(bookmarkNode.url);
+    target.appendChild(favicon);
+    target.appendChild(document.createTextNode(bookmarkNode.title));
+  }
+
   highlight() {
     this.unHighlightActiveFolder();
     if (this.isFolder) {
       this.classList.add('hover');
-    }
-    const span = this.firstChild;
-    if ((config.showTooltip || config.showURL) && span.title == '') {
-      if (config.showTooltip && span.offsetWidth < span.scrollWidth) {
-        span.title = span.innerText;
+      const span = this.firstChild;
+      if (config.showTooltip && span.title == '' && span.offsetWidth < span.scrollWidth) {
+        span.title = this.bookmarkTitle;
       }
-      if (config.showURL && this.isBookmark) {
-        span.title += (span.title == '' ? '' : '\n') + this.url;
+    } else {
+      if ((config.showTooltip || config.showURL) && this.title == '') {
+        if (config.showTooltip && this.offsetWidth < this.scrollWidth) {
+          this.title = this.bookmarkTitle;
+        }
+        if (config.showURL && this.isBookmark) {
+          this.title += (this.title == '' ? '' : '\n') + this.url;
+        }
       }
     }
   }
@@ -268,11 +279,8 @@ class OpenAllItem extends HTMLLIElement {
 
   _init(/** @type FolderContent */ containingFolderContent) {
     this.containingFolderContent = containingFolderContent;
-    this.classList.add('openAllInTabs');
-    const span = document.createElement('span');
-    span.className = 'noicon';
-    span.appendChild(document.createTextNode(chrome.i18n.getMessage('openAllInTabs')));
-    this.appendChild(span);
+    this.classList.add('openAllInTabs', 'noicon');
+    this.appendChild(document.createTextNode(chrome.i18n.getMessage('openAllInTabs')));
     this.onmouseup = this._onClick;
     this.onmouseover = this._onMouseOver;
   }
@@ -345,9 +353,7 @@ class FolderContent extends HTMLUListElement {
   _addEmpty() {
     const li = document.createElement('li');
     li.classList.add('empty');
-    const span = document.createElement('span');
-    span.appendChild(document.createTextNode('(' + chrome.i18n.getMessage('empty') + ')'));
-    li.appendChild(span);
+    li.appendChild(document.createTextNode('(' + chrome.i18n.getMessage('empty') + ')'));
     this.appendChild(li);
   }
 
