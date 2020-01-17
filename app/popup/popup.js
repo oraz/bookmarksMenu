@@ -455,10 +455,34 @@ function processMenu(ev) {
       /** @type Bookmark */
       const bookmark = contextMenu.selectedBookmark;
       switch (action) {
-        case 'reload':
-          unSelect();
-          reloadGBookmarks();
+        case 'openInNewTab':
+          bookmark.openInNewTab();
           break;
+        case 'openInNewWindow':
+          bookmark.openInNewWindow();
+          break;
+        case 'openInIncognitoWindow':
+          bookmark.openInNewWindow(true);
+          break;
+        case 'openAllInTabs':
+          bookmark.folderContent.openAllInTabs();
+          break;
+        case 'openAllInNewWindow':
+          bookmark.folderContent.openAllInNewWindow();
+          break;
+        case 'openAllInIncognitoWindow':
+          bookmark.folderContent.openAllInIncognitoWindow();
+          break;
+        case 'reorder': {
+          /**@type FolderContent */
+          const folderContent = bookmark.parentElement;
+          folderContent.reorder(true);
+          if (folderContent.isRoot) {
+            folderContent.reorder(false);
+          }
+          unSelect();
+          break;
+        }
         case 'addGBookmark': {
           const label = bookmark.isBookmark && bookmark.parentFolder.isRoot ? //
             '' : (bookmark.isFolder ? bookmark : bookmark.parentFolder).getAttribute('gid');
@@ -466,6 +490,27 @@ function processMenu(ev) {
           showGoogleBookmarkDialog(label);
           break;
         }
+        case 'remove': {
+          /**@type FolderContent */
+          const folderContent = bookmark.parentElement;
+          folderContent.remove(bookmark);
+          break;
+        }
+        case 'openBookmarkManager':
+          chrome.tabs.query({ currentWindow: true, url: 'chrome://bookmarks/*' }, function (tabs) {
+            const folderId = bookmark.isFolder ? bookmark.id : bookmark.parentFolderId,
+              bookmarkManagerUrl = 'chrome://bookmarks/?id=' + folderId;
+            if (tabs.length === 0) {
+              chrome.tabs.create({ url: bookmarkManagerUrl, selected: true }, closePopup);
+            } else {
+              chrome.tabs.update(tabs[0].id, { url: bookmarkManagerUrl, active: true }, closePopup);
+            }
+          });
+          break;
+        case 'reload':
+          unSelect();
+          reloadGBookmarks();
+          break;
         case 'useGoogleBookmarks':
         case 'useChromeBookmarks':
           config.useGoogleBookmarks = !config.useGoogleBookmarks;
@@ -478,45 +523,8 @@ function processMenu(ev) {
           document.body.style.overflowY = 'visible';
           loadBookmarks();
           break;
-        case 'openBookmarkManager':
-          chrome.tabs.query({ currentWindow: true, url: 'chrome://bookmarks/*' }, function (tabs) {
-            const folderId = bookmark.isFolder ? bookmark.id : bookmark.parentFolderId,
-              bookmarkManagerUrl = 'chrome://bookmarks/?id=' + folderId;
-            if (tabs.length === 0) {
-              chrome.tabs.create({ url: bookmarkManagerUrl, selected: true }, closePopup);
-            } else {
-              chrome.tabs.update(tabs[0].id, { url: bookmarkManagerUrl, active: true }, closePopup);
-            }
-          });
-          break;
-        case 'reorder': {
-          /**@type FolderContent */
-          const folderContent = bookmark.parentElement;
-          folderContent.reorder(true);
-          if (folderContent.isRoot) {
-            folderContent.reorder(false);
-          }
-          unSelect();
-          break;
-        }
-        case 'openAllInTabs':
-          bookmark.folderContent.openAllInTabs();
-          break;
-        case 'openAllInNewWindow':
-          bookmark.folderContent.openAllInNewWindow();
-          break;
-        case 'openAllInIncognitoWindow':
-          bookmark.folderContent.openAllInIncognitoWindow();
-          break;
-        case 'remove': {
-          /**@type FolderContent */
-          const folderContent = bookmark.parentElement;
-          folderContent.remove(bookmark);
-          break;
-        }
         default:
-          bookmark[action].call(bookmark);
-          unSelect();
+          throw Error(action + ' is not yet implemented');
       }
     }
   }
