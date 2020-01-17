@@ -37,13 +37,27 @@ ul {
       display: none;
     }
 
-    span {
+    .bookmark,
+    .folder > span,
+    .openAllInTabs,
+    .empty {
       max-width: var(--bookmark-max-width);
     }
   }
 
   li {
     position: relative;
+    &.bookmark,
+    &.folder > span,
+    &.contextMenuItem,
+    &.openAllInTabs {
+      display: block;
+      cursor: default;
+      padding: 3px 1em 3px 3px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
 
     &.separator {
       background-color: #ccc;
@@ -72,7 +86,7 @@ ul {
         display: none;
       }
 
-      .empty span {
+      .empty {
         padding: 3px 0.6em;
         color: var(--disabledItemFntClr);
       }
@@ -82,31 +96,23 @@ ul {
       display: block;
     }
 
-    span {
-      display: block;
-      cursor: default;
-      padding: 3px 1em 3px 3px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-
-      &.noicon {
-        padding-left: var(--padding-for-noicon);
-      }
-
-      img {
-        margin-right: 0.3em;
-        vertical-align: bottom;
-        width: var(--fav-icon-width);
-        height: var(--fav-icon-width);
-      }
+    &.noicon {
+      padding-left: var(--padding-for-noicon);
     }
 
-    &.bookmark:hover > span,
+    img {
+      margin-right: 0.3em;
+      vertical-align: bottom;
+      width: var(--fav-icon-width);
+      height: var(--fav-icon-width);
+    }
+
+    &.bookmark:hover,
+    &.bookmark.hover,
     &.folder:hover > span,
-    &.openAllInTabs:hover > span,
-    &.enabled:hover > span,
-    &.hover > span {
+    &.folder.hover > span,
+    &.openAllInTabs:hover,
+    &.contextMenuItem.enabled:hover {
       color: var(--activeBmFntClr);
       background: linear-gradient(var(--activeBmBgClrFrom), var(--activeBmBgClrTo));
     }
@@ -128,14 +134,11 @@ ul {
     display: none;
   }
 
-  > li:not(.enabled) {
+  li:not(.enabled) {
     img {
       opacity: 0.5;
     }
-
-    span {
-      color: var(--disabledItemFntClr);
-    }
+    color: var(--disabledItemFntClr);
   }
 }
 

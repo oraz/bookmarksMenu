@@ -10,47 +10,32 @@
 <body>
   <div id="transparentLayer"></div>
   <ul id="contextMenu">
-    <li data-action="openInNewTab" class="enabled forBookmark">
-      <span data-i18n="openInNewTab"><img src="../../icons/tab-new.png" /></span>
-    </li>
-    <li data-action="openInNewWindow" class="enabled forBookmark">
-      <span data-i18n="openInNewWindow"><img src="../../icons/window-new.png" /></span>
-    </li>
-    <li data-action="openInIncognitoWindow" class="enabled forBookmark">
-      <span data-i18n="openInIncognitoWindow"><img src="../../icons/window-incognito.png" /></span>
-    </li>
-    <li data-action="openAllInTabs" class="forFolder">
-      <span data-i18n="openAllBookmarks" class="noicon"></span>
-    </li>
-    <li data-action="openAllInNewWindow" class="forFolder">
-      <span data-i18n="openAllBookmarksInNewWindow" class="noicon"></span>
-    </li>
-    <li data-action="openAllInIncognitoWindow" class="forFolder">
-      <span data-i18n="openAllBookmarksInIncognitoWindow"><img src="../../icons/window-incognito.png" /></span>
-    </li>
+    <li data-action="openInNewTab" class="enabled forBookmark contextMenuItem" data-i18n="openInNewTab"><img
+        src="../../icons/tab-new.png" /></li>
+    <li data-action="openInNewWindow" class="enabled forBookmark contextMenuItem" data-i18n="openInNewWindow"><img
+        src="../../icons/window-new.png" /></li>
+    <li data-action="openInIncognitoWindow" class="enabled forBookmark contextMenuItem"
+      data-i18n="openInIncognitoWindow"><img src="../../icons/window-incognito.png" /></li>
+    <li data-action="openAllInTabs" class="forFolder noicon contextMenuItem" data-i18n="openAllBookmarks" class=""></li>
+    <li data-action="openAllInNewWindow" class="forFolder noicon contextMenuItem"
+      data-i18n="openAllBookmarksInNewWindow" class=""></li>
+    <li data-action="openAllInIncognitoWindow" class="forFolder contextMenuItem"
+      data-i18n="openAllBookmarksInIncognitoWindow"><img src="../../icons/window-incognito.png" /></li>
     <li class="separator"></li>
-    <li data-action="reorder" class="forChromeBookmarks">
-      <span data-i18n="reorder"><img src="../../icons/reorder.png" /></span>
-    </li>
-    <li data-action="addGBookmark" class="enabled forGoogleBookmarks">
-      <span data-i18n="addBookmark"><img src="../../icons/icon-16.png" /></span>
-    </li>
-    <li data-action="remove">
-      <span data-i18n="remove"><img src="../../icons/icon_delete.png" /></span>
-    </li>
-    <li data-action="openBookmarkManager" class="enabled forChromeBookmarks">
-      <span data-i18n="openBookmarkManager"><img src="../../icons/bookmark_manager.png" /></span>
-    </li>
+    <li data-action="reorder" class="forChromeBookmarks contextMenuItem" data-i18n="reorder"><img
+        src="../../icons/reorder.png" /></li>
+    <li data-action="addGBookmark" class="enabled forGoogleBookmarks contextMenuItem" data-i18n="addBookmark"><img
+        src="../../icons/icon-16.png" /></li>
+    <li data-action="remove" data-i18n="remove" class="contextMenuItem"><img src="../../icons/icon_delete.png" /></li>
+    <li data-action="openBookmarkManager" class="enabled forChromeBookmarks contextMenuItem"
+      data-i18n="openBookmarkManager"><img src="../../icons/bookmark_manager.png" /></li>
     <li class="separator"></li>
-    <li data-action="reload" class="enabled forGoogleBookmarks">
-      <span data-i18n="reloadGBookmarks"><img src="../../icons/refresh.png" /></span>
-    </li>
-    <li data-action="useGoogleBookmarks" class="enabled forChromeBookmarks">
-      <span class="noicon" data-i18n="tbUseGoogle"></span>
-    </li>
-    <li data-action="useChromeBookmarks" class="enabled forGoogleBookmarks">
-      <span class="noicon" data-i18n="tbUseChrome"></span>
-    </li>
+    <li data-action="reload" class="enabled forGoogleBookmarks contextMenuItem" data-i18n="reloadGBookmarks"><img
+        src="../../icons/refresh.png" /></li>
+    <li data-action="useGoogleBookmarks" class="enabled forChromeBookmarks noicon contextMenuItem"
+      data-i18n="tbUseGoogle"></li>
+    <li data-action="useChromeBookmarks" class="enabled forGoogleBookmarks noicon contextMenuItem"
+      data-i18n="tbUseChrome"></li>
   </ul>
   <ul id="bookmarksMenu" is="ext-folder-content"></ul>
   <div id="loading" data-i18n="loadingIndicator"></div>
