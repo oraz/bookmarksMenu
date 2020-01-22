@@ -25,14 +25,14 @@ class Bookmark extends HTMLLIElement {
 
     if (bookmarkNode.url === undefined) {
       const span = document.createElement('span');
-      this.addFaviconAndTitle(bookmarkNode, span);
+      Bookmark.addFaviconAndTitle(bookmarkNode, span);
       this.appendChild(span);
       this.classList.add('folder');
       this.isFolder = true;
       this.childBookmarks = bookmarkNode.children;
       this.onmouseover = this.displayFolderContent;
     } else {
-      this.addFaviconAndTitle(bookmarkNode);
+      Bookmark.addFaviconAndTitle(bookmarkNode, this);
       this.classList.add('bookmark');
       this.isBookmark = true;
       this.url = bookmarkNode.url;
@@ -40,7 +40,7 @@ class Bookmark extends HTMLLIElement {
     }
   }
 
-  addFaviconAndTitle(bookmarkNode, /** @type Node */ target = this) {
+  static addFaviconAndTitle(bookmarkNode, /** @type Node */ target) {
     const favicon = document.createElement('img');
     favicon.src = getFavicon(bookmarkNode.url);
     target.appendChild(favicon);
