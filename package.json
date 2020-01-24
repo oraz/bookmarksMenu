@@ -5,8 +5,9 @@
   "scripts": {
     "css": "echo SCSS... && node-sass --output-style expanded --indent-type tab --indent-width 1 -r app -o app",
     "lint": "echo ESLint... && eslint --cache app --ext .js,.ts",
-    "tsc": "echo Typescript && tsc",
-    "pretest": "npm run tsc && npm run lint && npm run css",
+    "pretsc": "npm run lint",
+    "tsc": "echo Typescript... && tsc",
+    "pretest": "npm run tsc && npm run css",
     "test": "echo Jest... && jest",
     "prepack": "npm test",
     "pack": "echo Pack... && npm-pack-zip"
