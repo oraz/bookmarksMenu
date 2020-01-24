@@ -5,7 +5,7 @@ beforeEach(() => {
 });
 
 it('getMaxWidth() default', () => {
-  expect(Settings.getMaxWidth()).toBe(30);
+  expect(Settings.getMaxWidth()).toBe('30');
 });
 
 it('getMaxWith() with saved value', () => {
