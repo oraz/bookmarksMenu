@@ -12,3 +12,4 @@ bookmarksmenu.zip
 **/*.css
 .eslintcache
 app/common/settings.js
+app/common/common.js

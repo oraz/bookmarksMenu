@@ -4,6 +4,7 @@ interface ChromeInterface {
     tabs: TabsApi;
     bookmarks: BookmarksApi;
     windows: WindowsApi;
+    browserAction: BrowserActionApi;
 }
 
 declare var chrome: ChromeInterface;
@@ -89,4 +90,10 @@ interface WindowsCreateWindowData {
 
 interface WindowsApi {
     create(createData: WindowsCreateWindowData): void;
+}
+
+interface BrowserActionApi {
+    setTitle(data: { title: string }): void;
+
+    setBadgeText(data: { text: string }): void
 }
