@@ -1,1 +1,3 @@
 app/common/settings.js
+*.spec.ts
+app/test-utils
