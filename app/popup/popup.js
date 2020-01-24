@@ -296,9 +296,8 @@ class OpenAllItem extends HTMLLIElement {
   }
 
   _onMouseOver() {
-    const span = this.firstElementChild;
-    if (config.showTooltip && span.title === '' && span.offsetWidth < span.scrollWidth) {
-      span.title = span.innerText;
+    if (config.showTooltip && this.title === '' && this.offsetWidth < this.scrollWidth) {
+      this.title = this.innerText;
     }
   }
 }
