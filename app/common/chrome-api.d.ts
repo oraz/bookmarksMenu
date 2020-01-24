@@ -1,13 +1,13 @@
 
 interface ChromeInterface {
-    i18n: I18NApi;
-    tabs: TabsApi;
-    bookmarks: BookmarksApi;
-    windows: WindowsApi;
-    browserAction: BrowserActionApi;
+    readonly i18n: I18NApi;
+    readonly tabs: TabsApi;
+    readonly bookmarks: BookmarksApi;
+    readonly windows: WindowsApi;
+    readonly browserAction: BrowserActionApi;
 }
 
-declare var chrome: ChromeInterface;
+declare const chrome: ChromeInterface;
 
 /**
  * @see https://developer.chrome.com/extensions/i18n
