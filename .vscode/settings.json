@@ -37,5 +37,7 @@
   },
   "code-runner.executorMapByFileExtension": {
     ".scss": "cd $dir && $workspaceRoot/node_modules/.bin/node-sass --output-style expanded --indent-type tab --indent-width 1 $fileName $fileNameWithoutExt.css"
-  }
+  },
+
+  "eslint.lintTask.options": "--ext .js, .ts"
 }
