@@ -34,7 +34,7 @@ export const Settings = {
 
   getFavIconWidth: () => setting('favIconWidth', 16),
 
-  isShowTooltip: () => setting('showTooltip') == 'true',
+  isShowTooltip: () => setting('showTooltip', 'true') == 'true',
 
   isShowURL: () => isTrue('showURL'),
 
