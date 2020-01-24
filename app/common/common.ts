@@ -24,24 +24,24 @@ NodeList.prototype.on = function (evt: any, callback: any) {
 HTMLElement.prototype.on = HTMLElement.prototype.addEventListener;
 
 export class E {
-    static show(el: HTMLElement) {
+    static show(el: HTMLElement): void {
         el.style.display = 'block';
     }
 
-    static hide(el: HTMLElement) {
+    static hide(el: HTMLElement): void {
         el.style.display = 'none';
     }
 }
 
 export const i18nUtils = {
-    init(el: HTMLElement) {
+    init(el: HTMLElement): void {
         el.appendChild(
             document.createTextNode(chrome.i18n.getMessage(el.dataset.i18n as string))
         );
         el.removeAttribute('data-i18n');
     },
 
-    initAll(el: HTMLElement | Document = document) {
+    initAll(el: HTMLElement | Document = document): void {
         el.querySelectorAll('[data-i18n]').forEach(each => i18nUtils.init(each as HTMLElement));
     }
 };
