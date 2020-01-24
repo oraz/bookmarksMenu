@@ -22,13 +22,6 @@
       "runIn": "backend",
       "runningStatusMessage": "Compiling ${fileBasename}",
       "finishStatusMessage": "${fileBasename} compiled"
-    },
-    {
-      "match": "settings.ts$",
-      "command": "tsc",
-      "runIn": "terminal",
-      "runningStatusMessage": "Compiling ${fileBasename}",
-      "finishStatusMessage": "${fileBasename} compiled"
     }
   ],
 
