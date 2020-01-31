@@ -11,8 +11,8 @@
     "test": "echo Jest... && jest",
     "prepack": "npm test",
     "pack": "echo Pack... && npm-pack-zip",
-    "tscw": "npm run tsc -- -w",
-    "cssw": "npm run css -- -w"
+    "dev.tscw": "tsc -w",
+    "dev.cssw": "npm run css -- -w"
   },
   "repository": {
     "type": "git",
