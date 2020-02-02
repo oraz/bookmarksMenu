@@ -231,7 +231,7 @@ function onIncomingMessage(req, port) {
 function showOptionsPageOnce() {
   const version = chrome.runtime.getManifest().version;
   if (localStorage.getItem('optionsPageIsShownFor') !== version &&
-    localStorage.getItem('optionsPageIsShownFor') !== '2019.12.01') {
+    localStorage.getItem('optionsPageIsShownFor') !== '2020.02.02') {
     localStorage.setItem('optionsPageIsShownFor', version);
     chrome.runtime.openOptionsPage();
   }
