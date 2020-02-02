@@ -1,6 +1,6 @@
-Changelog DEV 2020.01.31
-- DOM optimsation: create <span> only for folders
-- Show tooltip for long bookmarks
+Changelog 2020.02.02
+- DOM optimisation: create <span> only for folders
+- Show tooltip for long bookmarks by default
 
 Changelog 2019.12.02
 - Fix: ContextMenu 'remove' does nothing
