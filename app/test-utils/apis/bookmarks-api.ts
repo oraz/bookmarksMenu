@@ -1,19 +1,9 @@
 /**
  * @see https://developer.chrome.com/extensions/bookmarks#toc
  */
+/// <reference path="../../common/chrome-api.d.ts"/>
 
-export interface BookmarkTreeNode {
-  id: string;
-  title: string;
-  children?: BookmarkTreeNode[];
-  parentId?: string;
-  index?: number;
-  url?: string;
-  dateAdded?: number;
-  dateGroupModified?: number;
-}
-
-export class BookmarksApi {
+export class BookmarksApiImpl implements BookmarksApi {
   private getTreeCallback: (nodes: BookmarkTreeNode[]) => void = nodes => {
     throw new Error('Not implemented!');
   };
@@ -26,13 +16,7 @@ export class BookmarksApi {
     this.getTreeCallback(bookmarks);
   }
 
-  move(
-    id: string,
-    destination: {
-      parentId?: string;
-      index?: number;
-    }
-  ): void {
+  move(id: string, destination: BookmarkMoveData): void {
     throw new Error('Not implemented!');
   }
 

@@ -5,11 +5,15 @@ import '../test-utils/expect-jquery';
 import { simulateCustomeElements } from '../test-utils/simulate-custom-elements';
 import { randomAlphanumeric } from '../test-utils/random-utils';
 import { Chrome } from '../test-utils/chrome';
-import { BookmarkTreeNode } from '../test-utils/apis/bookmarks-api';
 import { Settings } from '../common/settings';
 
 const chrome = new Chrome();
-window['chrome'] = chrome;
+declare global {
+  interface Window {
+    chrome: Chrome
+  }
+}
+window.chrome = chrome
 
 describe('popup.html', () => {
   enum ContextMenuItem {
