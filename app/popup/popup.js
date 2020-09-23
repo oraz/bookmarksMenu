@@ -80,6 +80,7 @@ class Bookmark extends HTMLLIElement {
         activeFolder.folderContent.style.top = '-1px';
         activeFolder = activeFolder.parentFolder;
       }
+      this.updateDisplayWidth(false);
     }
   }
 
@@ -141,6 +142,35 @@ class Bookmark extends HTMLLIElement {
     return this.getBoundingClientRect().top + body.scrollTop - body.clientTop;
   }
 
+  updateDisplayWidth(expand) {
+    const body = document.body;
+    const bodyStyle = body.style;
+    let width = 0;
+    let tmp = this;
+    do {
+      width += tmp.clientWidth + 1;
+      tmp = tmp.parentFolder;
+    } while (!tmp.isRoot);
+    if (width < config.winMaxWidth && this.treeDepth > 1) {
+      let contentWidth = (config.winMaxWidth - width) / this.treeDepth;
+      if (contentWidth < this.folderContent.clientWidth) {
+        this.folderContent.style.width = contentWidth + 'px';
+      }
+    }
+    // Since using html5 doctype we retreive the width of vscrollbar from computed styles
+    if (expand) {
+      width += this.folderContent.offsetWidth + parseInt(window.getComputedStyle(body).marginRight);
+    }
+    if (width <= config.winMaxWidth) {
+      bodyStyle.width = width + 'px';
+    } else if (width > config.winMaxWidth) {
+      bodyStyle.width = config.winMaxWidth + 'px';
+      if (expand) {
+        this.folderContent.style.width = this.folderContent.clientWidth - (width - config.winMaxWidth) + 'px';
+      }
+    }
+  }
+
   displayFolderContent() {
     if (this.classList.contains('hover')) {
       return;
@@ -152,7 +182,6 @@ class Bookmark extends HTMLLIElement {
     }
 
     const body = document.body;
-    const bodyStyle = body.style;
     const posY = this.getY();
     const contentHeight = this.folderContent.offsetHeight;
     let offset = 1;
@@ -164,26 +193,7 @@ class Bookmark extends HTMLLIElement {
       this.folderContent.style.top = '-' + offset + 'px';
     }
 
-    var width = 0,
-      tmp = this;
-    do {
-      width += tmp.clientWidth + 1;
-      tmp = tmp.parentFolder;
-    } while (!tmp.isRoot);
-    if (width < config.winMaxWidth && this.treeDepth > 1) {
-      var contentWidth = (config.winMaxWidth - width) / this.treeDepth;
-      if (contentWidth < this.folderContent.clientWidth) {
-        this.folderContent.style.width = contentWidth + 'px';
-      }
-    }
-    // Since using html5 doctype we retreive the width of vscrollbar from computed styles
-    width += this.folderContent.offsetWidth + parseInt(window.getComputedStyle(body).marginRight);
-    if (width <= config.winMaxWidth && body.clientWidth < width) {
-      bodyStyle.width = width + 'px';
-    } else if (width > config.winMaxWidth) {
-      bodyStyle.width = config.winMaxWidth + 'px';
-      this.folderContent.style.width = this.folderContent.clientWidth - (width - config.winMaxWidth) + 'px';
-    }
+    this.updateDisplayWidth(true);
   }
 
   showContextMenu(ev) {
