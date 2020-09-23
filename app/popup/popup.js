@@ -415,7 +415,7 @@ class FolderContent extends HTMLUListElement {
       }
     } else {
       const gid = bookmark.getAttribute('gid');
-      chrome.extension.getBackgroundPage().remove(gid);
+      removeGoogleBookmark(gid);
       all('li[gid="' + gid + '"]').forEach(/**@type Bookmark */each => {
         /** @type FolderContent */
         const folderContent = each.parentElement;
@@ -706,6 +706,14 @@ function addGoogleBookmark() {
     title: $('gbTitle').value,
     url: $('gbURL').value,
     label: $('gbLabel').value
+  });
+}
+
+function removeGoogleBookmark(id) {
+  const port = chrome.extension.connect();
+  port.postMessage({
+    msg: MESSAGES.REQ_REMOVE_GOOGLE_BOOKMARK,
+    id: id,
   });
 }
 

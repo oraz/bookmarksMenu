@@ -131,15 +131,6 @@ XMLHttpRequest.prototype.processAbort = function () {
   }
 };
 
-window.remove = id => {
-  var child = window.GBookmarksTree.removeBookmark(id);
-  if (child) {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', GBookmarkUrl + 'mark?' + 'dlq=' + encodeURIComponent(id) + '&sig=' + encodeURIComponent(window.GBookmarksTree.signature), true);
-    xhr.send();
-  }
-};
-
 function onDisconnect(port) {
   // fired when user closes popup window or options window
   port.disconnected = true;
@@ -225,6 +216,13 @@ function onIncomingMessage(req, port) {
       '&sig=' +
       encodeURIComponent(window.GBookmarksTree.signature)
     );
+  } else if (req.msg == MESSAGES.REQ_REMOVE_GOOGLE_BOOKMARK) {
+    const child = window.GBookmarksTree.removeBookmark(req.id);
+    if (child) {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', GBookmarkUrl + 'mark?' + 'dlq=' + encodeURIComponent(req.id) + '&sig=' + encodeURIComponent(window.GBookmarksTree.signature), true);
+      xhr.send();
+  }
   }
 }
 
