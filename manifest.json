@@ -19,5 +19,11 @@
     "page": "app/background/background.html"
   },
   "options_page": "app/options/options.html",
-  "permissions": ["bookmarks", "chrome://favicon/", "fontSettings", "https://www.google.com/bookmarks/*"]
+  "permissions": [
+    "bookmarks",
+    "chrome://favicon/",
+    "fontSettings",
+    "https://www.google.com/bookmarks/lookup",
+    "https://www.google.com/bookmarks/mark"
+  ]
 }
