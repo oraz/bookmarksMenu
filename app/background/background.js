@@ -163,7 +163,7 @@ function onIncomingMessage(req, port) {
                     xhr.abort();
                 }, 10 * 1000);
         */
-    xhr.open('GET', GBookmarkUrl + '?output=rss&num=10000', true);
+    xhr.open('GET', GBookmarkUrl + 'lookup?output=rss&num=10000', true);
     xhr.send();
   } else if (req == MESSAGES.REQ_GET_TREE_STATUS) {
     port.postMessage(window.GBookmarksTree ? MESSAGES.RESP_TREE_IS_READY : MESSAGES.RESP_NEED_TO_LOAD);

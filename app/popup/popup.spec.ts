@@ -281,7 +281,7 @@ describe('popup.html', () => {
         expect(window.close).toHaveBeenCalled();
       });
 
-      it('open bookmark: js', () => {
+      /*it('open bookmark: js', () => {
         const first = bookmark(1, 'alert', 'javascript:alert("Hello")');
         givenBookmarks([], [first, bookmark()]);
         chrome.tabs.executeScript = jest.fn();
@@ -293,7 +293,7 @@ describe('popup.html', () => {
           code: 'alert("Hello")'
         });
         expect(window.close).toHaveBeenCalled();
-      });
+      });*/
 
       it('open bookmark with ctrlKey', () => {
         const first = bookmark();
