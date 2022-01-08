@@ -1,6 +1,6 @@
 {
   "name": "Bookmarks Menu",
-  "version": "2020.02.02.1",
+  "version": "2022.01.08",
   "manifest_version": 2,
   "minimum_chrome_version": "64",
   "description": "__MSG_extDescription__",
@@ -19,5 +19,5 @@
     "page": "app/background/background.html"
   },
   "options_page": "app/options/options.html",
-  "permissions": ["bookmarks", "chrome://favicon/", "fontSettings", "activeTab", "https://www.google.com/bookmarks/*"]
+  "permissions": ["bookmarks", "chrome://favicon/", "fontSettings", "https://www.google.com/bookmarks/*"]
 }
