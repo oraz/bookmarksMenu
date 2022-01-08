@@ -1,3 +1,7 @@
+Changelog 2022.01.08
+- Do not use 'activeTab' permission anymore
+- Use permission google.com/bookmarks. Thanks to vapier
+
 Changelog 2020.02.02
 - DOM optimisation: create <span> only for folders
 - Show tooltip for long bookmarks by default
