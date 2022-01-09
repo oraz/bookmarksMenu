@@ -9,6 +9,7 @@ node_modules/
 package-lock.json
 pnpm-lock.yaml
 bookmarksmenu.zip
+bookmarksmenu-*.tgz
 **/*.css
 .eslintcache
 app/common/settings.js
