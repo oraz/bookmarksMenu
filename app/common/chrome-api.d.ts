@@ -92,8 +92,12 @@ interface WindowsApi {
     create(createData: WindowsCreateWindowData): void;
 }
 
+type ColorArray = Number[];
+
 interface BrowserActionApi {
     setTitle(data: { title: string }): void;
 
     setBadgeText(data: { text: string }): void
+
+    setBadgeBackgroundColor(details: { color: ColorArray }): void
 }
