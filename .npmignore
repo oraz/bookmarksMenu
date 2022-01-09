@@ -1,6 +1,8 @@
-**/*.ts
-bookmarksmenu.zip
 .*
-TODO
+*.ts
+*.scss
 app/test-utils
-**/*.scss
+bookmarksmenu.zip
+bookmarksmenu-*.tgz
+TODO
+tsconfig.json
