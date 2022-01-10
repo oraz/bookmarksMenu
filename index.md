@@ -1,37 +1,17 @@
-## Welcome to GitHub Pages
+Chrome extension which shows bookmarks menu. Works with Chrome and Google bookmarks.
 
-You can use the [editor on GitHub](https://github.com/oraz/bookmarksMenu/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+By default the extension works with Chrome bookmarks.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+To use Google bookmarks, open the options page and select 'Use Google bookmarks'. Don't forget to login on https://www.google.com/bookmarks
 
-### Markdown
+Usage:
+1. To open bookmark in current tab click by left mouse button.
+2. To open bookmark in new tab: click by middle mouse button or click by left mouse button with Ctrl key pressed.
+3. To open bookmark in new tab and switch to it click by middle mouse button with Shift key pressed.
+4. To open bookmark in new window click by left mouse button with Shift key pressed.
+5. To open all bookmarks in folder click by middle button on folder.
+6. To display context menu click by right mouse button.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+On options panel you can hide some bookmarks or folders. It might be useful if you use bookmark synchronization between different computers.
 
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/oraz/bookmarksMenu/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+If your monitor is too small, you can change popup window size and font size on options panel.
