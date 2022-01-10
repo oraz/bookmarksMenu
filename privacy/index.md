@@ -1,4 +1,4 @@
-## Privacy Policy
+# Privacy Policy
 
 The protection of your data is very important for me. Therfore I would like to inform you that I do not collect your personal information 
 (e.g. usernames, passwords, browser history etc...) for any purposes when you are using BookmarksMenu.
