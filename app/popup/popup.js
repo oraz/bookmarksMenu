@@ -1,6 +1,6 @@
 'use strict';
 
-import { $, all, changeBookmarkMode, MESSAGES, getFavicon, i18nUtils, E } from '../common/common.js';
+import { $, all, changeBookmarkMode, MESSAGES, getFavicon, isBookmarklet, i18nUtils, E } from '../common/common.js';
 import { Settings } from '../common/settings.js';
 
 const config = {
@@ -111,12 +111,11 @@ class Bookmark extends HTMLLIElement {
 
   open() {
     const url = this.url;
-    // bookmarklets are now disabled
-    /*if (isBookmarklet(url)) {
+    if (isBookmarklet(url)) {
       chrome.tabs.executeScript({ code: decodeURI(url.substr(11)) });
-    } else {*/
-    chrome.tabs.update({ url: url });
-    //}
+    } else {
+      chrome.tabs.update({ url: url });
+    }
     closePopup();
   }
 
