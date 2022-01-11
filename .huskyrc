@@ -1,7 +1,6 @@
 {
   "hooks": {
     "pre-commit": "npm test -s",
-    'pre-push': "npm test -s",
     "post-checkout": "npm run css -s",
     "post-merge": "npm run css -s"
   }
