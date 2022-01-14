@@ -9,7 +9,7 @@ describe('common.js', () => {
 
       expect(span.style.display).toBe('block');
     });
-
+    sss
     it('hide', () => {
       const span = document.createElement('span');
 
