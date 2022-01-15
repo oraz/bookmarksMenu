@@ -235,16 +235,15 @@ class Bookmark extends HTMLLIElement {
       contextMenuStyle.left = ev.clientX + 'px';
     }
 
-    if (ev.clientY + contextMenu.clientHeight > body.clientHeight) {
-      if (contextMenu.clientHeight > body.clientHeight || ev.clientY < contextMenu.clientHeight) {
-        const bodyHeight = ev.clientY + contextMenu.clientHeight + 5;
-        body.style.height = bodyHeight + 'px';
-        contextMenuStyle.top = ev.clientY + 'px';
-      } else {
-        contextMenuStyle.top = ev.clientY + body.scrollTop - contextMenu.clientHeight + 'px';
-      }
+    if (ev.clientY + contextMenu.clientHeight < window.innerHeight) {
+      contextMenuStyle.top = ev.pageY + 'px';
+    } else if (ev.clientY < contextMenu.clientHeight) {
+      // popup window is too small to display context menu and it must be resized
+      // and then there must be enough space to display menu below mouse
+      body.style.minHeight = ev.pageY + contextMenu.clientHeight + 5 + 'px';
+      contextMenuStyle.top = ev.pageY + 'px';
     } else {
-      contextMenuStyle.top = ev.clientY + body.scrollTop + 'px';
+      contextMenuStyle.top = ev.pageY - contextMenu.clientHeight + 'px';
     }
 
     const transparentLayer = $('transparentLayer');
