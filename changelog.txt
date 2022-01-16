@@ -1,9 +1,13 @@
+Changelog 2022.02.01
+- Fixed #37: Right click menu not appearing where it should.
+- added message to remove Google bookmark. Thanks to vapier
+
 Changelog 2022.01.08
 - Do not use 'activeTab' permission anymore
 - Use permission google.com/bookmarks. Thanks to vapier
 
 Changelog 2020.02.02
-- DOM optimisation: create <span> only for folders
+- DOM optimization: create <span> only for folders
 - Show tooltip for long bookmarks by default
 
 Changelog 2019.12.02
@@ -18,7 +22,7 @@ Changelog 2019.09.16
 - Fix: suggestions for google bookmarks doesn't work
 - Fix: open all in incognito window requires additional setting for the extension
 - started using js modules
-- removed monkeypatch (NodeList.forEach)
+- removed monkeypatch NodeList.forEach
 
 Changelog 2019.04.02
 - Fixed issue: context-menu item "Remove" is enabled for non-empty folders
