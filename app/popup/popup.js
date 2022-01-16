@@ -165,24 +165,25 @@ class Bookmark extends HTMLLIElement {
     }
 
     var width = 0,
+      scrollBarWidth = window.innerWidth - body.clientWidth, // do not use Settings.getScrollBarWidth() here
+      maxWidth = config.winMaxWidth - scrollBarWidth,
       tmp = this;
     do {
       width += tmp.clientWidth + 1;
       tmp = tmp.parentFolder;
     } while (!tmp.isRoot);
-    if (width < config.winMaxWidth && this.treeDepth > 1) {
-      var contentWidth = (config.winMaxWidth - width) / this.treeDepth;
+    if (width < maxWidth && this.treeDepth > 1) {
+      var contentWidth = (maxWidth - width) / this.treeDepth;
       if (contentWidth < this.folderContent.clientWidth) {
         this.folderContent.style.width = contentWidth + 'px';
       }
     }
-    // Since using html5 doctype we retreive the width of vscrollbar from computed styles
-    width += this.folderContent.offsetWidth + parseInt(window.getComputedStyle(body).marginRight);
-    if (width <= config.winMaxWidth && body.clientWidth < width) {
+    width += this.folderContent.offsetWidth;
+    if (width <= maxWidth && body.clientWidth < width) {
       bodyStyle.width = width + 'px';
-    } else if (width > config.winMaxWidth) {
-      bodyStyle.width = config.winMaxWidth + 'px';
-      this.folderContent.style.width = this.folderContent.clientWidth - (width - config.winMaxWidth) + 'px';
+    } else if (width > maxWidth) {
+      bodyStyle.width = maxWidth + 'px';
+      this.folderContent.style.width = this.folderContent.clientWidth - (width - maxWidth) + 'px';
     }
   }
 
