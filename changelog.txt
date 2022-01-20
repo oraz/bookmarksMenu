@@ -1,5 +1,6 @@
 Changelog 2022.02.01
 - Fixed #37: Right click menu not appearing where it should.
+- Fixed #45: BookmarksMenu has wrong position when scrollbar is visible
 - added message to remove Google bookmark. Thanks to vapier
 
 Changelog 2022.01.08
