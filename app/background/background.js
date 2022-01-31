@@ -105,9 +105,7 @@ function createBookmark(node) {
 
 XMLHttpRequest.prototype.processBookmarks = function () {
   if (this.readyState == 4 && this.status == 200) {
-    clearTimeout(this.timeout);
     if (this.responseXML !== null) {
-      delete this.timeout;
       window.GBookmarksTree = new GBookmarkFolder();
       window.GBookmarksTree.signature = this.responseXML.querySelector('channel > signature').textContent;
       this.responseXML.querySelectorAll('channel > item').forEach(createBookmark);
@@ -118,13 +116,16 @@ XMLHttpRequest.prototype.processBookmarks = function () {
       this.port.postMessage(MESSAGES.RESP_FAILED);
       this.port.disconnect();
     }
+  } else if (this.readyState == 4 && this.status == 0) {
+    // user is not logged in. Google sends redirect to accounts.google.com
+    this.port.postMessage(MESSAGES.RESP_FAILED);
+    this.port.disconnect();
+    this.abort();
   }
 };
 
 XMLHttpRequest.prototype.processAbort = function () {
-  if (this.port.disconnected) {
-    clearTimeout(this.timeout);
-  } else {
+  if (!this.port.disconnected) {
     this.port.postMessage(MESSAGES.RESP_FAILED);
     this.port.disconnect();
     window.console.error('xhr has been aborted');
@@ -149,11 +150,6 @@ function onIncomingMessage(req, port) {
     port.onDisconnect.addListener(onDisconnect);
     xhr.onreadystatechange = xhr.processBookmarks;
     xhr.onabort = xhr.processAbort;
-    /*
-                xhr.timeout = setTimeout(function () {
-                    xhr.abort();
-                }, 10 * 1000);
-        */
     xhr.open('GET', GBookmarkUrl + 'lookup?output=rss&num=10000', true);
     xhr.send();
   } else if (req == MESSAGES.REQ_GET_TREE_STATUS) {
@@ -222,7 +218,7 @@ function onIncomingMessage(req, port) {
       const xhr = new XMLHttpRequest();
       xhr.open('GET', GBookmarkUrl + 'mark?' + 'dlq=' + encodeURIComponent(req.id) + '&sig=' + encodeURIComponent(window.GBookmarksTree.signature), true);
       xhr.send();
-  }
+    }
   }
 }
 

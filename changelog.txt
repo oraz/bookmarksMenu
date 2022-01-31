@@ -1,6 +1,7 @@
 Changelog 2022.02.01
-- Fixed #37: Right click menu not appearing where it should.
-- Fixed #45: BookmarksMenu has wrong position when scrollbar is visible
+- Fixed https://github.com/oraz/bookmarksMenu/issues/37: Right click menu not appearing where it should.
+- Fixed https://github.com/oraz/bookmarksMenu/issues/45: BookmarksMenu has wrong position when scrollbar is visible
+- Fixed https://github.com/oraz/bookmarksMenu/issues/47: GoogleBookmarks: show error message when not logged in
 - added message to remove Google bookmark. Thanks to vapier
 
 Changelog 2022.01.08
