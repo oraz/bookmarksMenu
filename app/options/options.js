@@ -2,6 +2,7 @@
 
 import { $, all, one, changeBookmarkMode, MESSAGES, getFavicon, i18nUtils, E } from '../common/common.js';
 import { Settings } from '../common/settings.js';
+import { getCurrency } from './options_ts.js';
 
 function setMouseButtonAction(/** @type {Event} */ evt) {
   const el = evt.target;
@@ -222,17 +223,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  const lang = chrome.i18n.getUILanguage();
-  if (lang.startsWith('ru')) {
-    $('currency_code').selectedIndex = 1;
-    $('paypal_locale').value = 'ru_RU';
-  } else if (lang.startsWith('en')) {
-    $('currency_code').selectedIndex = 2;
-  } else if (lang.startsWith('de')) {
-    $('paypal_locale').value = 'de_DE';
-  } else if (lang.startsWith('fr')) {
-    $('paypal_locale').value = 'fr_FR';
-  } else if (lang.startsWith('es')) {
-    $('paypal_locale').value = 'es_ES';
-  }
+  chrome.i18n.getAcceptLanguages(acceptLanguages => {
+    const chromeLang = chrome.i18n.getUILanguage().toLowerCase();
+
+    $('currency_code').value = getCurrency(chromeLang, acceptLanguages);
+  });
 });

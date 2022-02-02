@@ -14,3 +14,4 @@ bookmarksmenu-*.tgz
 .eslintcache
 app/common/settings.js
 app/common/common.js
+app/options/options_ts.js
