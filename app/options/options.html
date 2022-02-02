@@ -194,11 +194,15 @@
 			<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
 				<label for="currency_code" data-i18n="donateQuestion"></label> <br />
 				<input type="hidden" name="business" value="oraz.ra+paypal@gmail.com" /> <input type="hidden" name="cmd"
-					value="_donations" /> <input type="hidden" name="item_name" value="Donate Bookmarks Menu" /> <input
-					type="hidden" id="paypal_locale" name="lc" value="en_US" /> <select name="currency_code"
-					id="currency_code">
+					value="_donations" /> <input type="hidden" name="item_name" value="Donate Bookmarks Menu" /> <select
+					name="currency_code" id="currency_code">
 					<!-- If you change it, change also options.js. There is locale-based currency choice. -->
-					<option value="EUR" selected="selected">EUR €</option>
+					<option value="AUD">AUD $</option>
+					<option value="CAD">CAD $</option>
+					<option value="CHF">CHF</option>
+					<option value="EUR">EUR €</option>
+					<option value="GBP">GBP £</option>
+					<option value="JPY">JPY ¥</option>
 					<option value="RUB">RUB ₽</option>
 					<option value="USD">USD $</option>
 				</select>
