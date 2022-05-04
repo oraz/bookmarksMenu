@@ -1,8 +1,4 @@
-Chrome extension which shows bookmarks menu. Works with Chrome and Google bookmarks.
-
-By default the extension works with Chrome bookmarks.
-
-To use Google bookmarks, open the options page and select 'Use Google bookmarks'. Don't forget to login on https://www.google.com/bookmarks
+Chrome extension which shows bookmarks menu.
 
 Usage:
 1. To open bookmark in current tab click by left mouse button.

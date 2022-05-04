@@ -1,6 +1,6 @@
 {
   "manifest_json": { "message": "___ JUST COMMENT ___" },
-  "extDescription": { "message": "Zeigt Lesezeichen. Funktioniert mit Chrome und Google Lesezeichen." },
+  "extDescription": { "message": "Zeigt Lesezeichen." },
   "extTitle": { "message": "Lesezeichen" },
   "extTitleGoogle": { "message": "Google Bookmarks" },
 

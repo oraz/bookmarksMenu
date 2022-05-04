@@ -22,48 +22,12 @@
     <li data-action="openAllInIncognitoWindow" class="forFolder contextMenuItem"
       data-i18n="openAllBookmarksInIncognitoWindow"><img src="../../icons/window-incognito.png" /></li>
     <li class="separator"></li>
-    <li data-action="reorder" class="forChromeBookmarks contextMenuItem" data-i18n="reorder"><img
-        src="../../icons/reorder.png" /></li>
-    <li data-action="addGBookmark" class="enabled forGoogleBookmarks contextMenuItem" data-i18n="addBookmark"><img
-        src="../../icons/icon-16.png" /></li>
+    <li data-action="reorder" class="contextMenuItem" data-i18n="reorder"><img src="../../icons/reorder.png" /></li>
     <li data-action="remove" data-i18n="remove" class="contextMenuItem"><img src="../../icons/icon_delete.png" /></li>
-    <li data-action="openBookmarkManager" class="enabled forChromeBookmarks contextMenuItem"
-      data-i18n="openBookmarkManager"><img src="../../icons/bookmark_manager.png" /></li>
-    <li class="separator"></li>
-    <li data-action="reload" class="enabled forGoogleBookmarks contextMenuItem" data-i18n="reloadGBookmarks"><img
-        src="../../icons/refresh.png" /></li>
-    <li data-action="useGoogleBookmarks" class="enabled forChromeBookmarks noicon contextMenuItem"
-      data-i18n="tbUseGoogle"></li>
-    <li data-action="useChromeBookmarks" class="enabled forGoogleBookmarks noicon contextMenuItem"
-      data-i18n="tbUseChrome"></li>
+    <li data-action="openBookmarkManager" class="enabled contextMenuItem" data-i18n="openBookmarkManager"><img
+        src="../../icons/bookmark_manager.png" /></li>
   </ul>
   <ul id="bookmarksMenu" is="ext-folder-content"></ul>
-  <div id="loading" data-i18n="loadingIndicator"></div>
-  <table id="gwindow">
-    <tr>
-      <td><label for="gbTitle" data-i18n="lblTitle"></label></td>
-      <td><input type="text" id="gbTitle" /></td>
-    </tr>
-    <tr>
-      <td><label for="gbURL" data-i18n="lblURL"></label></td>
-      <td><input type="url" id="gbURL" /></td>
-    </tr>
-    <tr>
-      <td><label for="gbLabel" data-i18n="lblLabel"></label></td>
-      <td>
-        <input type="text" id="gbLabel" />
-
-        <div id="suggest"></div>
-      </td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td>
-        <button id="btnAdd" data-i18n="btnAdd" style="margin-right: .3em;"></button>
-        <button id="btnCancel" data-i18n="btnCancel"></button>
-      </td>
-    </tr>
-  </table>
 </body>
 
 </html>

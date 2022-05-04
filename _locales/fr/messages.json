@@ -1,6 +1,6 @@
 {
   "manifest_json": { "message": "___ JUST COMMENT ___" },
-  "extDescription": { "message": "Montre le menu des favoris. Fonctionne avec les favoris de Chrome et ceux de Google." },
+  "extDescription": { "message": "Montre le menu des favoris." },
   "extTitle": { "message": "Favoris" },
   "extTitleGoogle": { "message": "Favoris de Google" },
 
