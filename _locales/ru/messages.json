@@ -1,6 +1,6 @@
 {
   "manifest_json": { "message": "___ JUST COMMENT ___" },
-  "extDescription": { "message": "Показывает меню закладок. Работает с закладками Chrome и Google." },
+  "extDescription": { "message": "Показывает меню закладок." },
   "extTitle": { "message": "Закладки" },
   "extTitleGoogle": { "message": "Закладки Google" },
 

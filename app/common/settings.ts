@@ -14,10 +14,10 @@ export const Settings = {
 
     getMaxWidthMesure: () => setting('maxWidthMesure', 'em'),
 
-    isBookmarkHidden: (title: string, useGoogleBookmarks: boolean) => isTrue((useGoogleBookmarks ? 'g_' : '') + 'bookmark_' + title),
+    isBookmarkHidden: (title: string) => isTrue('bookmark_' + title),
 
-    setBookmarkHidden: (title: string, useGoogleBookmarks: boolean, hidden: boolean) => {
-        const key = (useGoogleBookmarks ? 'g_' : '') + 'bookmark_' + title;
+    setBookmarkHidden: (title: string, hidden: boolean) => {
+        const key = 'bookmark_' + title;
         if (hidden) {
             localStorage[key] = true;
         } else {
@@ -61,12 +61,6 @@ export const Settings = {
     },
 
     getScrollBarWidth: () => setting('scrollBarWidth', '7'),
-
-    isUseGoogleBookmarks: () => isTrue('useGoogleBookmarks'),
-
-    getLabelSeparator: () => setting('labelSeparator', '>'),
-
-    isHideCMModeSwitcher: () => isTrue('hideCMModeSwitcher'),
 
     isHideCMOpenIncognito: () => isTrue('hideCMOpenIncognito')
 };

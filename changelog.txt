@@ -1,3 +1,7 @@
+Changelog 2022.05.05
+- GoogleBookmarks service is dead since 2021. RIP
+- Removed code for the Google Bookmarks
+
 Changelog 2022.02.02
 - Fixed https://github.com/oraz/bookmarksMenu/issues/37: Right click menu not appearing where it should.
 - Fixed https://github.com/oraz/bookmarksMenu/issues/45: BookmarksMenu has wrong position when scrollbar is visible
