@@ -30,27 +30,14 @@ it('isSwitchToNewTab() when false', () => {
   expect(Settings.isSwitchToNewTab()).toBeFalsy();
 });
 
-it.each([false, true])(
-  'isBookmarkHidden(something, %p)',
-  useGoogleBookmarks => {
-    expect(
-      Settings.isBookmarkHidden('some bookmark', useGoogleBookmarks)
-    ).toBeFalsy();
-  }
-);
+it('isBookmarkHidden(someBookmark) must be false by default', () => {
+  expect(Settings.isBookmarkHidden('some bookmark')).toBeFalsy();
+});
 
 it('isBookmarkHidden(something, chrome bookmark)', () => {
   localStorage.setItem('bookmark_some bookmark', 'true');
-  localStorage.setItem('g_bookmark_some bookmark', 'false');
 
-  expect(Settings.isBookmarkHidden('some bookmark', false)).toBeTruthy();
-});
-
-it('isBookmarkHidden(something, google bookmark)', () => {
-  localStorage.setItem('bookmark_some bookmark', 'false');
-  localStorage.setItem('g_bookmark_some bookmark', 'true');
-
-  expect(Settings.isBookmarkHidden('some bookmark', true)).toBeTruthy();
+  expect(Settings.isBookmarkHidden('some bookmark')).toBeTruthy();
 });
 
 it.each([

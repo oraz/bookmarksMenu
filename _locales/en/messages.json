@@ -1,6 +1,6 @@
 {
   "manifest_json": { "message": "___ JUST COMMENT ___" },
-  "extDescription": { "message": "Shows bookmarks menu. Works with Chrome and Google bookmarks." },
+  "extDescription": { "message": "Shows bookmarks menu." },
   "extTitle": { "message": "Bookmarks" },
   "extTitleGoogle": { "message": "Google Bookmarks" },
 

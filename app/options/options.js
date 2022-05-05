@@ -1,6 +1,6 @@
 'use strict';
 
-import { $, all, one, changeBookmarkMode, MESSAGES, getFavicon, i18nUtils, E } from '../common/common.js';
+import { $, all, one, getFavicon, i18nUtils, E } from '../common/common.js';
 import { Settings } from '../common/settings.js';
 import { getCurrency } from './options_ts.js';
 
@@ -38,25 +38,6 @@ function setColor() {
   }
 }
 
-function setUseGoogleBookmarks(useGoogleBookmarks) {
-  localStorage.setItem('useGoogleBookmarks', useGoogleBookmarks);
-  $('chromeBookmarksSettings').style.display = useGoogleBookmarks ? 'none' : 'block';
-  $('googleBookmarksSettings').style.display = useGoogleBookmarks ? 'block' : 'none';
-  changeBookmarkMode(useGoogleBookmarks);
-  if (useGoogleBookmarks) {
-    clearGoogleBookmarksDiv();
-    const port = chrome.extension.connect();
-    port.onMessage.addListener(processResponse);
-    port.postMessage(MESSAGES.REQ_GET_TREE_STATUS);
-  }
-}
-
-function clearGoogleBookmarksDiv() {
-  const gbookmarksSettings = $('googleBookmarksSettings');
-  E.hide(gbookmarksSettings.querySelector('div.bookmark'));
-  gbookmarksSettings.querySelectorAll('div.gbookmark').forEach(each => each.parentElement.removeChild(each));
-}
-
 function selectAllBookmarks() {
   /* jshint validthis: true */
   const checked = this.checked;
@@ -70,17 +51,17 @@ function selectAllBookmarks() {
   });
 }
 
-function addBookmark(divSettings, bookmark, useGoogleBookmarks) {
+function addBookmark(divSettings, bookmark) {
   var div = document.createElement('div');
-  div.setAttribute('class', useGoogleBookmarks ? 'gbookmark' : 'bookmark');
+  div.setAttribute('class', 'bookmark');
 
   var checkbox = document.createElement('input');
   checkbox.setAttribute('type', 'checkbox');
-  if (!Settings.isBookmarkHidden(bookmark.title, useGoogleBookmarks)) {
+  if (!Settings.isBookmarkHidden(bookmark.title)) {
     checkbox.setAttribute('checked', 'checked');
   }
   checkbox.onchange = function () {
-    Settings.setBookmarkHidden(bookmark.title, useGoogleBookmarks, !this.checked);
+    Settings.setBookmarkHidden(bookmark.title, !this.checked);
   };
 
   var label = document.createElement('label');
@@ -93,36 +74,6 @@ function addBookmark(divSettings, bookmark, useGoogleBookmarks) {
   label.appendChild(document.createTextNode(bookmark.title));
   div.appendChild(label);
   divSettings.appendChild(div);
-}
-
-function processResponse(response, port) {
-  if (response == MESSAGES.RESP_NEED_TO_LOAD) {
-    E.hide($('loadingError'));
-    E.show($('loading'));
-    port.postMessage(MESSAGES.REQ_LOAD_BOOKMARKS);
-  } else if (response == MESSAGES.RESP_TREE_IS_READY) {
-    E.hide($('loading'));
-    const GBookmarksTree = chrome.extension.getBackgroundPage().GBookmarksTree;
-    const googleBookmarksSettings = $('googleBookmarksSettings');
-    E.show(googleBookmarksSettings.querySelector('div.bookmark'));
-    GBookmarksTree.children.forEach(bookmark => addBookmark(googleBookmarksSettings, bookmark, true));
-  } else if (response == MESSAGES.RESP_FAILED) {
-    E.hide($('loading'));
-    E.show($('loadingError'));
-  }
-}
-
-function setLabelSeparator() {
-  /* jshint validthis: true */
-  if (this.validity.valid && this.value != Settings.getLabelSeparator()) {
-    localStorage.setItem('labelSeparator', this.value);
-    clearGoogleBookmarksDiv();
-    E.hide($('loadingError'));
-    E.show($('loading'));
-    const port = chrome.extension.connect();
-    port.onMessage.addListener(processResponse);
-    port.postMessage(MESSAGES.REQ_FORCE_LOAD_BOOKMARKS);
-  }
 }
 
 function showTab() {
@@ -144,7 +95,6 @@ function resetWindowSettings() {
   localStorage.removeItem('showTooltip');
   localStorage.removeItem('showURL');
   localStorage.removeItem('hideCMOpenIncognito');
-  localStorage.removeItem('hideCMModeSwitcher');
   all('input[type=color]').forEach(el => localStorage.removeItem(el.id));
   initWindowSettingsTab();
 }
@@ -164,14 +114,11 @@ function initWindowSettingsTab() {
   $('showTooltip').checked = Settings.isShowTooltip();
   $('showURL').checked = Settings.isShowURL();
   $('hideCMOpenIncognito').checked = Settings.isHideCMOpenIncognito();
-  $('hideCMModeSwitcher').checked = Settings.isHideCMModeSwitcher();
   all('input[type=color]').forEach(el => (el.value = Settings.getColor(el.id)));
 }
 
 document.addEventListener('DOMContentLoaded', () => {
   all('#tabs > li').on('click', showTab);
-  $('useChromeBookmarks').on('click', () => setUseGoogleBookmarks(false));
-  $('useGoogleBookmarks').on('click', () => setUseGoogleBookmarks(true));
 
   all('.selectAllBookmarks').on('click', selectAllBookmarks);
 
@@ -184,23 +131,14 @@ document.addEventListener('DOMContentLoaded', () => {
   $('resetWindowSettings').on('click', resetWindowSettings);
   $('fontFamily').on('change', setFontFamily);
   $('maxWidthMesure').on('change', setMenuMaxWidthMesure);
-  $('labelSeparator').on('input', setLabelSeparator);
 
-  const loadingError = $('loadingError');
-  loadingError.innerHTML = chrome.i18n.getMessage(loadingError.dataset.i18n);
-  delete loadingError.dataset.i18n;
   i18nUtils.initAll();
   showTab.apply(one('li.fgTab'));
 
-  // init Bookmarks tab
-  const useGoogleBookmarks = Settings.isUseGoogleBookmarks();
-  $(useGoogleBookmarks ? 'useGoogleBookmarks' : 'useChromeBookmarks').checked = true;
-  setUseGoogleBookmarks(useGoogleBookmarks);
-  $('labelSeparator').value = Settings.getLabelSeparator();
   chrome.bookmarks.getTree(nodes => {
     const chromeBookmarksSettings = $('chromeBookmarksSettings');
     nodes[0].children.slice(0, 2).forEach(child => {
-      child.children.forEach(bookmark => addBookmark(chromeBookmarksSettings, bookmark, false));
+      child.children.forEach(bookmark => addBookmark(chromeBookmarksSettings, bookmark));
     });
   });
 

@@ -18,7 +18,7 @@
 
 			<div class="tabs">
 				<ul id="tabs">
-					<li class="fgTab" data-tab="bookmarksShowHide" data-i18n="tabBookmarks"></li>
+					<li class="fgTab" data-tab="chromeBookmarksSettings" data-i18n="tabBookmarks"></li>
 					<li class="bgTab" data-tab="uiConfig" data-i18n="tabWindow"></li>
 					<li class="bgTab" data-tab="mouseConfig" data-i18n="tabMouse"></li>
 				</ul>
@@ -54,34 +54,11 @@
 					</table>
 					<label data-i18n="tmSwitchToNewTab"><input type="checkbox" id="switchToNewTab">&nbsp;</label>
 				</div>
-				<div class="config" id="bookmarksShowHide">
-					<div class="header">
-						<label data-i18n="tbUseChrome"><input type="radio" id="useChromeBookmarks"
-								name="useGoolgeBookmarks" />&nbsp;</label>
-					</div>
-					<div>
-						<label data-i18n="tbUseGoogle"><input type="radio" id="useGoogleBookmarks"
-								name="useGoolgeBookmarks" />&nbsp;</label>
-					</div>
-					<div id="googleBookmarksSettings">
-						<div class="header" style="padding-bottom: 0;">
-							<label for="labelSeparator" data-i18n="tbLabelSeparator"></label>
-							<input type="text" id="labelSeparator" maxlength="1" required />
-						</div>
-						<div class="header" data-i18n="tbSelectBookmarks"></div>
-						<div id="loading" data-i18n="loadingIndicator"></div>
-						<div id="loadingError" data-i18n="failedRetrieveGBookmakrs"></div>
-						<div class="bookmark">
-							<label data-i18n="tbSelectAllBookmarks"><input class="selectAllBookmarks" type="checkbox"
-									style="margin-right: 3px;"></label>
-						</div>
-					</div>
-					<div id="chromeBookmarksSettings">
-						<div class="header" data-i18n="tbSelectBookmarks"></div>
-						<div class="bookmark">
-							<label data-i18n="tbSelectAllBookmarks"><input class="selectAllBookmarks" type="checkbox"
-									style="margin-right: 3px;"></label>
-						</div>
+				<div class="config" id="chromeBookmarksSettings">
+					<div class="header" data-i18n="tbSelectBookmarks"></div>
+					<div class="bookmark">
+						<label data-i18n="tbSelectAllBookmarks"><input class="selectAllBookmarks" type="checkbox"
+								style="margin-right: 3px;"></label>
 					</div>
 				</div>
 				<div class="config" id="uiConfig">
@@ -137,11 +114,6 @@
 							<td colspan="2" style="padding-top: 1ex; text-align: left;"><label
 									data-i18n="twHideCMOpenIncognito"><input type="checkbox"
 										id="hideCMOpenIncognito" />&nbsp;</label></td>
-						</tr>
-						<tr>
-							<td colspan="2" style="padding-top: 1ex; text-align: left;"><label
-									data-i18n="twHideCMModeSwitcher"><input type="checkbox"
-										id="hideCMModeSwitcher" />&nbsp;</label></td>
 						</tr>
 						<tr>
 							<th data-i18n="twColorScheme" colspan="2"></th>

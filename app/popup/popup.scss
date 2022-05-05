@@ -32,13 +32,13 @@ ul {
   &#bookmarksMenu {
     float: right;
 
-    > .separator:first-child,
-    > .separator:last-child {
+    >.separator:first-child,
+    >.separator:last-child {
       display: none;
     }
 
     .bookmark,
-    .folder > span,
+    .folder>span,
     .openAllInTabs,
     .empty {
       max-width: var(--bookmark-max-width);
@@ -47,8 +47,9 @@ ul {
 
   li {
     position: relative;
+
     &.bookmark,
-    &.folder > span,
+    &.folder>span,
     &.contextMenuItem,
     &.openAllInTabs {
       display: block;
@@ -76,13 +77,13 @@ ul {
         display: none;
       }
 
-      .bookmark ~ .bookmark ~ .separator,
-      .bookmark ~ .bookmark ~ .openAllInTabs {
+      .bookmark~.bookmark~.separator,
+      .bookmark~.bookmark~.openAllInTabs {
         display: block;
       }
 
-      .bookmark ~ .empty,
-      .folder ~ .empty {
+      .bookmark~.empty,
+      .folder~.empty {
         display: none;
       }
 
@@ -92,7 +93,7 @@ ul {
       }
     }
 
-    &.hover > ul {
+    &.hover>ul {
       display: block;
     }
 
@@ -109,8 +110,8 @@ ul {
 
     &.bookmark:hover,
     &.bookmark.hover,
-    &.folder:hover > span,
-    &.folder.hover > span,
+    &.folder:hover>span,
+    &.folder.hover>span,
     &.openAllInTabs:hover,
     &.contextMenuItem.enabled:hover {
       color: var(--activeBmFntClr);
@@ -127,10 +128,8 @@ ul {
   position: absolute;
   z-index: 2;
 
-  &.forChromeBookmarks > .forGoogleBookmarks,
-  &.forGoogleBookmarks > .forChromeBookmarks,
-  &[for='bookmark'] > .forFolder,
-  &[for='folder'] > .forBookmark {
+  &[for='bookmark']>.forFolder,
+  &[for='folder']>.forBookmark {
     display: none;
   }
 
@@ -138,54 +137,11 @@ ul {
     img {
       opacity: 0.5;
     }
+
     color: var(--disabledItemFntClr);
   }
 }
 
-#gwindow {
-  background-color: var(--bmBgClr);
-  border-width: 1px 2px 2px 1px;
-  border-style: outset;
-  border-color: #6f5e5e;
-  border-radius: 3px;
-  display: none;
-  position: fixed;
-  z-index: 2;
-
-  input {
-    width: 20em;
-  }
-
-  tr > td:first-child {
-    text-align: right;
-  }
-
-  #suggest {
-    background-color: white;
-    border: 1px solid gray;
-    cursor: default;
-    display: none;
-    position: fixed;
-    z-index: 2;
-    overflow: auto;
-
-    > .currentSuggest {
-      background-color: #86abd9;
-    }
-  }
-}
-
-#loading {
-  display: none;
-  margin: 2ex 2em;
-  text-align: center;
-  white-space: nowrap;
-
-  &.error {
-    color: red;
-    margin: 4ex 3em;
-  }
-}
 
 #transparentLayer {
   display: none;

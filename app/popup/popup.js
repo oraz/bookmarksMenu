@@ -1,25 +1,20 @@
 'use strict';
 
-import { $, all, changeBookmarkMode, MESSAGES, getFavicon, isBookmarklet, i18nUtils, E } from '../common/common.js';
+import { $, all, getFavicon, isBookmarklet, i18nUtils, E } from '../common/common.js';
 import { Settings } from '../common/settings.js';
 
 const config = {
   winMaxWidth: 800,
   winMaxHeight: 600,
   showTooltip: Settings.isShowTooltip(),
-  showURL: Settings.isShowURL(),
-  useGoogleBookmarks: Settings.isUseGoogleBookmarks()
+  showURL: Settings.isShowURL()
 };
 
 class Bookmark extends HTMLLIElement {
   init(bookmarkNode) {
-    if (config.useGoogleBookmarks) {
-      this.id = Bookmark.autoId++;
-      this.setAttribute('gid', bookmarkNode.id);
-    } else {
-      this.id = bookmarkNode.id;
-      this.parentFolderId = bookmarkNode.parentId;
-    }
+    this.id = bookmarkNode.id;
+    this.parentFolderId = bookmarkNode.parentId;
+
 
     this.bookmarkTitle = bookmarkNode.title;
 
@@ -196,17 +191,7 @@ class Bookmark extends HTMLLIElement {
       if (Settings.isHideCMOpenIncognito()) {
         contextMenu.querySelectorAll('li[data-action="openInIncognitoWindow"], li[data-action="openAllInIncognitoWindow"]').forEach(E.hide);
       }
-      if (Settings.isHideCMModeSwitcher()) {
-        if (!config.useGoogleBookmarks) {
-          E.hide(contextMenu.querySelector('li[data-action="useGoogleBookmarks"]'));
-          E.hide(contextMenu.querySelectorAll('li.separator')[1]);
-        } else {
-          E.hide(contextMenu.querySelector('li[data-action="useChromeBookmarks"]'));
-        }
-      }
     }
-    contextMenu.classList.toggle('forGoogleBookmarks', config.useGoogleBookmarks);
-    contextMenu.classList.toggle('forChromeBookmarks', !config.useGoogleBookmarks);
 
     contextMenu.selectedBookmark = this;
     contextMenu.setAttribute('for', this.classList.contains('bookmark') ? 'bookmark' : 'folder');
@@ -267,7 +252,6 @@ class Bookmark extends HTMLLIElement {
   }
 }
 customElements.define('ext-bookmark', Bookmark, { extends: 'li' });
-Bookmark.autoId = 1; // id for google bookmarks
 
 class OpenAllItem extends HTMLLIElement {
   static create(/** @type FolderContent */ containingFolderContent) {
@@ -404,37 +388,20 @@ class FolderContent extends HTMLUListElement {
 
   remove(/** @type Bookmark */bookmark) {
     unSelect();
-    if (!config.useGoogleBookmarks) {
-      chrome.bookmarks.remove(bookmark.id);
-      this._removeFromUI(bookmark);
-      if (!this.isRoot) {
-        /**@type Bookmark */
-        const parentFolder = this.parentElement;
-        parentFolder.unHighlight();
-        parentFolder.displayFolderContent();
-      }
-    } else {
-      const gid = bookmark.getAttribute('gid');
-      removeGoogleBookmark(gid);
-      all('li[gid="' + gid + '"]').forEach(/**@type Bookmark */each => {
-        /** @type FolderContent */
-        const folderContent = each.parentElement;
-        folderContent._removeFromUI(each);
-      });
+    chrome.bookmarks.remove(bookmark.id);
+    this._removeFromUI(bookmark);
+    if (!this.isRoot) {
+      /**@type Bookmark */
+      const parentFolder = this.parentElement;
+      parentFolder.unHighlight();
+      parentFolder.displayFolderContent();
     }
   }
 
   _removeFromUI(/** @type Bookmark */bookmark) {
     this.removeChild(bookmark);
-    const bookmarkId = config.useGoogleBookmarks ? bookmark.getAttribute('gid') : bookmark.id;
+    const bookmarkId = bookmark.id;
     this.childBookmarks.splice(this.childBookmarks.findIndex(each => each.id === bookmarkId), 1);
-    if (config.useGoogleBookmarks && !this.isRoot && this.childBookmarks.length === 0) {
-      /**@type Bookmark */
-      const folder = this.parentElement;
-      /**@type FolderContent */
-      const folderContent = folder.parentElement;
-      folderContent.remove(folder);
-    }
   }
 }
 
@@ -445,7 +412,6 @@ function unSelect() {
   contextMenu.selectedBookmark.unHighlight();
   E.hide(contextMenu);
   E.hide($('transparentLayer'));
-  E.hide($('gwindow'));
 }
 
 function processMenu(ev) {
@@ -488,13 +454,6 @@ function processMenu(ev) {
           unSelect();
           break;
         }
-        case 'addGBookmark': {
-          const label = bookmark.isBookmark && bookmark.parentFolder.isRoot ? //
-            '' : (bookmark.isFolder ? bookmark : bookmark.parentFolder).getAttribute('gid');
-          unSelect();
-          showGoogleBookmarkDialog(label);
-          break;
-        }
         case 'remove': {
           /**@type FolderContent */
           const folderContent = bookmark.parentElement;
@@ -512,239 +471,11 @@ function processMenu(ev) {
             }
           });
           break;
-        case 'reload':
-          unSelect();
-          reloadGBookmarks();
-          break;
-        case 'useGoogleBookmarks':
-        case 'useChromeBookmarks':
-          config.useGoogleBookmarks = !config.useGoogleBookmarks;
-          changeBookmarkMode(config.useGoogleBookmarks);
-          localStorage.setItem('useGoogleBookmarks', config.useGoogleBookmarks);
-
-          clearBookmarksMenu();
-          unSelect();
-
-          document.body.style.overflowY = 'visible';
-          loadBookmarks();
-          break;
         default:
           throw Error(action + ' is not yet implemented');
       }
     }
   }
-}
-
-function isGBookmarkDataReady() {
-  var regexp = /^\s*$/;
-  $('btnAdd').disabled = regexp.test($('gbTitle').value) || regexp.test($('gbURL').value);
-}
-
-function suggestLabel() {
-  var suggestDiv = $('suggest');
-  var cursorPos = this.selectionStart;
-  var labelValue = this.value;
-  var precededComma = labelValue.lastIndexOf(',', labelValue.charAt(cursorPos) == ',' && cursorPos > 0 ? cursorPos - 1 : cursorPos);
-  var nextComma = labelValue.indexOf(',', cursorPos);
-  var newLabel = labelValue
-    .substring(precededComma + 1, nextComma == -1 ? undefined : nextComma)
-    .replace(/(^\s+)|(\s+$)/g, '')
-    .toLocaleLowerCase();
-  if (newLabel == '') {
-    E.hide(suggestDiv);
-    suggestDiv.querySelectorAll('div > div[class]').forEach(each => each.removeAttribute('class'));
-    return;
-  }
-  var mustBeShown = false;
-  suggestDiv.querySelectorAll('div > div').forEach(each => {
-    if (each.textContent.toLocaleLowerCase().indexOf(newLabel) == 0) {
-      mustBeShown = true;
-      E.show(each);
-    } else {
-      E.hide(each);
-      each.removeAttribute('class');
-    }
-  });
-  if (mustBeShown) {
-    E.show(suggestDiv);
-  } else {
-    E.hide(suggestDiv);
-  }
-}
-
-function onSuggestMouseOver(div) {
-  if (div.className == 'currentSuggest') {
-    return;
-  }
-  var currentSuggest = div.parentElement.querySelector('.currentSuggest');
-  if (currentSuggest) {
-    currentSuggest.removeAttribute('class');
-  }
-  div.className = 'currentSuggest';
-}
-
-function selectSuggestion(e) {
-  const suggestDiv = $('suggest');
-  if (suggestDiv.style.display == 'block') {
-    const keyCode = e.keyCode;
-    if (keyCode == 40 || keyCode == 38) {
-      const offset = keyCode == 40 ? 1 : -1;
-      const currentSuggest = suggestDiv.querySelector('.currentSuggest');
-      const divs = suggestDiv.querySelectorAll('div > div[style*="block"]');
-      if (!currentSuggest) {
-        onSuggestMouseOver(divs[offset == 1 ? 0 : divs.length - 1]);
-      } else {
-        for (let idx = 0, len = divs.length; idx < len; idx++) {
-          if (divs[idx].className == 'currentSuggest') {
-            idx += offset;
-            if (idx < 0) {
-              idx = len - 1;
-            } else if (idx >= len) {
-              idx = 0;
-            }
-            onSuggestMouseOver(divs[idx]);
-            break;
-          }
-        }
-      }
-      e.preventDefault();
-    } else if (keyCode == 13) {
-      const currentSuggest = suggestDiv.querySelector('.currentSuggest');
-      if (currentSuggest) {
-        fillFolderBySuggest(currentSuggest);
-      }
-    }
-  }
-}
-
-function fillFolderBySuggest(div) {
-  var label = $('gbLabel');
-  var value = label.value;
-  var cursorPos = label.selectionStart;
-  var precededComma = value.lastIndexOf(',', value.charAt(cursorPos) == ',' && cursorPos > 0 ? cursorPos - 1 : cursorPos);
-  var nextComma = value.indexOf(',', cursorPos);
-  label.value =
-    value.substr(0, precededComma + 1) + //
-    (precededComma == -1 ? '' : ' ') +
-    div.textContent +
-    (nextComma == -1 ? '' : value.substr(nextComma)) +
-    (value.search(/,\s*$/) == -1 ? ', ' : '');
-  div.removeAttribute('class');
-  E.hide($('suggest'));
-}
-
-function showGoogleBookmarkDialog(initalLabel) {
-  chrome.tabs.getSelected(null, function (tab) {
-    $('gbTitle').value = tab.title;
-    $('gbURL').value = tab.url;
-    isGBookmarkDataReady();
-  });
-  E.show($('transparentLayer'));
-  var win = $('gwindow');
-  if (!win.initialized) {
-    i18nUtils.initAll(win);
-    $('gbLabel').onkeyup = function (e) {
-      if (e.keyCode == 37 || e.keyCode == 39) {
-        suggestLabel.apply(this);
-      }
-    };
-    win.initialized = true;
-  }
-  E.show(win);
-  var body = document.body;
-  var winWidth = win.clientWidth,
-    bodyWidth = body.clientWidth;
-  if (bodyWidth <= winWidth + 10) {
-    win.style.left = '3px';
-    body.style.width = winWidth + 10 + 'px';
-  } else {
-    win.style.left = bodyWidth / 2 - winWidth / 2 + 'px';
-  }
-  var winHeight = win.clientHeight,
-    bodyHeight = body.clientHeight;
-  if (bodyHeight <= winHeight + 10) {
-    win.style.top = '3px';
-    body.style.height = winHeight + 10 + 'px';
-  } else {
-    win.style.top = bodyHeight / 2 - winHeight / 2 + 'px';
-  }
-  var gbLabel = $('gbLabel');
-  gbLabel.value = initalLabel + ', ';
-  gbLabel.focus();
-  var suggest = win.querySelector('#suggest');
-  suggest.style.width = suggest.style.maxWidth = gbLabel.clientWidth + 'px';
-  E.hide(suggest);
-  var labels = chrome.extension.getBackgroundPage().GBookmarksTree.labels;
-  labels.sort();
-  var suggestDiv = $('suggest');
-  suggestDiv.querySelectorAll('div > *').forEach(each => each.parentElement.removeChild(each));
-  var gbLabelStyles = window.getComputedStyle(gbLabel);
-  suggestDiv.style.marginLeft = parseInt(gbLabelStyles.marginLeft) + parseInt(gbLabelStyles.borderLeftWidth) - 1 + 'px';
-  labels.forEach(each => {
-    const div = document.createElement('div');
-    div.appendChild(document.createTextNode(each));
-    div.onmouseover = evt => onSuggestMouseOver(evt.target);
-    div.onclick = evt => fillFolderBySuggest(evt.target);
-    suggestDiv.appendChild(div);
-  });
-}
-
-function addGoogleBookmark() {
-  var port = chrome.extension.connect();
-  port.onMessage.addListener(function (response) {
-    if (response == MESSAGES.RESP_TREE_IS_READY) {
-      unSelect();
-      clearBookmarksMenu();
-      initBookmarksMenu();
-    } else {
-      // todo some error
-      unSelect();
-    }
-  });
-  port.postMessage({
-    msg: MESSAGES.REQ_ADD_GOOGLE_BOOKMARK,
-    title: $('gbTitle').value,
-    url: $('gbURL').value,
-    label: $('gbLabel').value
-  });
-}
-
-function removeGoogleBookmark(id) {
-  const port = chrome.extension.connect();
-  port.postMessage({
-    msg: MESSAGES.REQ_REMOVE_GOOGLE_BOOKMARK,
-    id: id,
-  });
-}
-
-function reloadGBookmarks() {
-  clearBookmarksMenu();
-  var loading = $('loading');
-  if (loading.hasAttribute('data-i18n')) {
-    i18nUtils.init(loading);
-  }
-  loading.style.position = 'fixed';
-  E.show(loading);
-  var body = document.body;
-  var loadingWidth = loading.clientWidth,
-    bodyWidth = body.clientWidth;
-  if (bodyWidth <= loadingWidth + 10) {
-    loading.style.left = '0px';
-    body.style.width = loadingWidth + 10 + 'px';
-  } else {
-    loading.style.left = bodyWidth / 2 - loadingWidth / 2 + 'px';
-  }
-  var port = chrome.extension.connect();
-  port.onMessage.addListener(function (response) {
-    if (response == MESSAGES.RESP_TREE_IS_READY) {
-      E.hide(loading);
-      initBookmarksMenu();
-    } else {
-      loading.classList.add('error');
-      loading.innerHTML = chrome.i18n.getMessage('failedRetrieveGBookmakrs');
-    }
-  });
-  port.postMessage(MESSAGES.REQ_FORCE_LOAD_BOOKMARKS);
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -760,12 +491,6 @@ document.addEventListener('DOMContentLoaded', function () {
     .on('mouseup', processMenu)
     .on('mousedown', returnFalse);
   $('bookmarksMenu').on('mousedown', returnFalse);
-  all('#gwindow #btnCancel').on('click', unSelect);
-  all('#gwindow #btnAdd').on('click', addGoogleBookmark);
-  all('#gwindow #gbTitle, #gwindow #gbURL').on('input', isGBookmarkDataReady);
-  all('#gwindow #gbLabel')
-    .on('input', suggestLabel)
-    .on('keydown', selectSuggestion);
 
   const style = document.documentElement.style;
   ['bodyClr', 'fntClr', 'bmBgClr', 'disabledItemFntClr', 'activeBmFntClr', 'activeBmBgClrFrom', 'activeBmBgClrTo'].forEach(each => {
@@ -818,51 +543,20 @@ document.addEventListener('DOMContentLoaded', function () {
   };
 });
 
-function clearBookmarksMenu() {
-  const bookmarksMenu = $('bookmarksMenu');
-  while (bookmarksMenu.hasChildNodes()) {
-    bookmarksMenu.removeChild(bookmarksMenu.lastChild);
-  }
-}
-
 function loadBookmarks() {
-  if (config.useGoogleBookmarks) {
-    var loading = $('loading');
-    var port = chrome.extension.connect();
-    port.onMessage.addListener(function (response) {
-      if (response == MESSAGES.RESP_TREE_IS_READY) {
-        E.hide(loading);
-        initBookmarksMenu();
-      } else if (response == MESSAGES.RESP_NEED_TO_LOAD) {
-        i18nUtils.init(loading);
-        E.show(loading);
-        port.postMessage(MESSAGES.REQ_LOAD_BOOKMARKS);
-      } else {
-        loading.classList.add('error');
-        loading.innerHTML = chrome.i18n.getMessage('failedRetrieveGBookmakrs');
-      }
-    });
-    port.postMessage(MESSAGES.REQ_GET_TREE_STATUS);
-  } else {
-    chrome.bookmarks.getTree(initBookmarksMenu);
-  }
+  chrome.bookmarks.getTree(initBookmarksMenu);
 }
 
 function initBookmarksMenu(nodes) {
-  const onlyVisibleBookmarks = each => !Settings.isBookmarkHidden(each.title, config.useGoogleBookmarks);
+  const onlyVisibleBookmarks = each => !Settings.isBookmarkHidden(each.title);
   /** @type FolderContent */
   const rootFolder = $('bookmarksMenu');
   rootFolder.isRoot = true;
-  if (config.useGoogleBookmarks) {
-    const tree = chrome.extension.getBackgroundPage().GBookmarksTree;
-    rootFolder.fillFolderContent(tree.children.filter(onlyVisibleBookmarks));
-  } else {
-    const tree = nodes[0].children;
-    rootFolder.fillFolderContent(tree[0].children.filter(onlyVisibleBookmarks));
-    rootFolder.addSeparator();
-    rootFolder.fillFolderContent(tree[1].children.filter(onlyVisibleBookmarks));
-    rootFolder.childBookmarks = [tree[0].children, tree[1].children];
-  }
+  const tree = nodes[0].children;
+  rootFolder.fillFolderContent(tree[0].children.filter(onlyVisibleBookmarks));
+  rootFolder.addSeparator();
+  rootFolder.fillFolderContent(tree[1].children.filter(onlyVisibleBookmarks));
+  rootFolder.childBookmarks = [tree[0].children, tree[1].children];
 
   if (!rootFolder.noIconCSSAdded) {
     const favIcon = rootFolder.querySelector('li img');

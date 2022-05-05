@@ -460,11 +460,9 @@ describe('popup.html', () => {
           '.enabled.forBookmark[data-action="openInNewWindow"]',
           '.enabled.forBookmark[data-action="openInIncognitoWindow"]',
           '.separator',
-          '.enabled.forChromeBookmarks[data-action="reorder"]',
+          '.enabled[data-action="reorder"]',
           '.enabled[data-action="remove"]',
-          '.enabled.forChromeBookmarks[data-action="openBookmarkManager"]',
-          '.separator',
-          '.enabled.forChromeBookmarks[data-action="useGoogleBookmarks"]'
+          '.enabled[data-action="openBookmarkManager"]'
         ];
         const visibleItems = $('#contextMenu > :visible');
         expect(visibleItems).toHaveLength(expectedItems.length);
@@ -490,11 +488,9 @@ describe('popup.html', () => {
           '.enabled.forBookmark[data-action="openInNewWindow"]',
           '.enabled.forBookmark[data-action="openInIncognitoWindow"]',
           '.separator',
-          ':not(.enabled).forChromeBookmarks[data-action="reorder"]',
+          ':not(.enabled)[data-action="reorder"]',
           '.enabled[data-action="remove"]',
-          '.enabled.forChromeBookmarks[data-action="openBookmarkManager"]',
-          '.separator',
-          '.enabled.forChromeBookmarks[data-action="useGoogleBookmarks"]'
+          '.enabled[data-action="openBookmarkManager"]'
         ];
         const visibleItems = $('#contextMenu > :visible');
         expect(visibleItems).toHaveLength(expectedItems.length);
@@ -520,11 +516,9 @@ describe('popup.html', () => {
           '.enabled.forBookmark[data-action="openInNewWindow"]',
           '.enabled.forBookmark[data-action="openInIncognitoWindow"]',
           '.separator',
-          ':not(.enabled).forChromeBookmarks[data-action="reorder"]',
+          ':not(.enabled)[data-action="reorder"]',
           '.enabled[data-action="remove"]',
-          '.enabled.forChromeBookmarks[data-action="openBookmarkManager"]',
-          '.separator',
-          '.enabled.forChromeBookmarks[data-action="useGoogleBookmarks"]'
+          '.enabled[data-action="openBookmarkManager"]'
         ];
         const visibleItems = $('#contextMenu > :visible');
         expect(visibleItems).toHaveLength(expectedItems.length);
@@ -548,11 +542,9 @@ describe('popup.html', () => {
           '.enabled.forFolder[data-action="openAllInNewWindow"]',
           '.enabled.forFolder[data-action="openAllInIncognitoWindow"]',
           '.separator',
-          '.enabled.forChromeBookmarks[data-action="reorder"]',
+          '.enabled[data-action="reorder"]',
           ':not(.enabled)[data-action="remove"]',
-          '.enabled.forChromeBookmarks[data-action="openBookmarkManager"]',
-          '.separator',
-          '.enabled.forChromeBookmarks[data-action="useGoogleBookmarks"]'
+          '.enabled[data-action="openBookmarkManager"]'
         ];
         const visibleItems = $('#contextMenu > :visible');
         expect(visibleItems).toHaveLength(expectedItems.length);
@@ -578,11 +570,9 @@ describe('popup.html', () => {
           '.enabled.forFolder[data-action="openAllInNewWindow"]',
           '.enabled.forFolder[data-action="openAllInIncognitoWindow"]',
           '.separator',
-          ':not(.enabled).forChromeBookmarks[data-action="reorder"]',
+          ':not(.enabled)[data-action="reorder"]',
           ':not(.enabled)[data-action="remove"]',
-          '.enabled.forChromeBookmarks[data-action="openBookmarkManager"]',
-          '.separator',
-          '.enabled.forChromeBookmarks[data-action="useGoogleBookmarks"]'
+          '.enabled[data-action="openBookmarkManager"]'
         ];
         const visibleItems = $('#contextMenu > :visible');
         expect(visibleItems).toHaveLength(expectedItems.length);
@@ -608,11 +598,9 @@ describe('popup.html', () => {
           ':not(.enabled).forFolder[data-action="openAllInNewWindow"]',
           ':not(.enabled).forFolder[data-action="openAllInIncognitoWindow"]',
           '.separator',
-          ':not(.enabled).forChromeBookmarks[data-action="reorder"]',
+          ':not(.enabled)[data-action="reorder"]',
           '.enabled[data-action="remove"]',
-          '.enabled.forChromeBookmarks[data-action="openBookmarkManager"]',
-          '.separator',
-          '.enabled.forChromeBookmarks[data-action="useGoogleBookmarks"]'
+          '.enabled[data-action="openBookmarkManager"]'
         ];
         const visibleItems = $('#contextMenu > :visible');
         expect(visibleItems).toHaveLength(expectedItems.length);
@@ -638,11 +626,9 @@ describe('popup.html', () => {
           ':not(.enabled).forFolder[data-action="openAllInNewWindow"]',
           ':not(.enabled).forFolder[data-action="openAllInIncognitoWindow"]',
           '.separator',
-          ':not(.enabled).forChromeBookmarks[data-action="reorder"]',
+          ':not(.enabled)[data-action="reorder"]',
           '.enabled[data-action="remove"]',
-          '.enabled.forChromeBookmarks[data-action="openBookmarkManager"]',
-          '.separator',
-          '.enabled.forChromeBookmarks[data-action="useGoogleBookmarks"]'
+          '.enabled[data-action="openBookmarkManager"]'
         ];
         const visibleItems = $('#contextMenu > :visible');
         expect(visibleItems).toHaveLength(expectedItems.length);
@@ -666,11 +652,9 @@ describe('popup.html', () => {
           ':not(.enabled).forFolder[data-action="openAllInNewWindow"]',
           ':not(.enabled).forFolder[data-action="openAllInIncognitoWindow"]',
           '.separator',
-          '.enabled.forChromeBookmarks[data-action="reorder"]',
+          '.enabled[data-action="reorder"]',
           '.enabled[data-action="remove"]',
-          '.enabled.forChromeBookmarks[data-action="openBookmarkManager"]',
-          '.separator',
-          '.enabled.forChromeBookmarks[data-action="useGoogleBookmarks"]'
+          '.enabled[data-action="openBookmarkManager"]'
         ];
         const visibleItems = $('#contextMenu > :visible');
         expect(visibleItems).toHaveLength(expectedItems.length);
@@ -822,7 +806,7 @@ describe('popup.html', () => {
         const thirdInOthers = bookmark(6, 'opq');
         const fourthInOthers = bookmark(7, 'abcdefg');
         [secondFolder, first, thirdFolderInOthers, fourthInOthers].forEach(each => {
-          Settings.setBookmarkHidden(each.title, false, true);
+          Settings.setBookmarkHidden(each.title, true);
         });
         givenBookmarks(
           [firstFolder, first, second, secondFolder, thirdFolder, third],
@@ -864,7 +848,7 @@ describe('popup.html', () => {
         const secondFolderInOthers = givenFolder(111, 'bcde');
         const thirdFolderInOthers = givenFolder(112, 'opqrst');
         [firstFolder, secondFolder, thirdFolder].forEach(each => {
-          Settings.setBookmarkHidden(each.title, false, true);
+          Settings.setBookmarkHidden(each.title, true);
         });
         givenBookmarks([firstFolder, secondFolder, thirdFolder], [firstFolderInOthers, thirdFolderInOthers, secondFolderInOthers]);
         chrome.bookmarks.move = jest.fn();
@@ -1087,6 +1071,6 @@ describe('popup.html', () => {
   }
 
   function hideBookmarks(...bookmarks: BookmarkTreeNode[]) {
-    bookmarks.forEach(each => Settings.setBookmarkHidden(each.title, false, true));
+    bookmarks.forEach(each => Settings.setBookmarkHidden(each.title, true));
   }
 });

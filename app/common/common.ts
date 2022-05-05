@@ -46,30 +46,6 @@ export const i18nUtils = {
     }
 };
 
-export const MESSAGES = {
-    REQ_LOAD_BOOKMARKS: 1,
-    REQ_FORCE_LOAD_BOOKMARKS: 2,
-    REQ_GET_TREE_STATUS: 3,
-    REQ_ADD_GOOGLE_BOOKMARK: 4,
-    REQ_REMOVE_GOOGLE_BOOKMARK: 5,
-    RESP_TREE_IS_READY: 200,
-    RESP_NEED_TO_LOAD: 201,
-    RESP_FAILED: 400
-};
-
-export function changeBookmarkMode(useGoogleBookmarks: boolean): void {
-    var title, badge;
-    if (useGoogleBookmarks) {
-        title = 'extTitleGoogle';
-        badge = 'G';
-    } else {
-        title = 'extTitle';
-        badge = '';
-    }
-    chrome.browserAction.setTitle({ title: chrome.i18n.getMessage(title) });
-    chrome.browserAction.setBadgeText({ text: badge });
-}
-
 export function isBookmarklet(url: string): boolean {
     return url.startsWith('javascript:');
 }

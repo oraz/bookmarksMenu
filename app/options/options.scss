@@ -2,7 +2,7 @@ body {
   font-family: 'DejaVu Sans', Arial, Verdana, Geneva, Tahoma, sans-serif;
 }
 
-h2 > img {
+h2>img {
   margin-right: 0.4em;
   vertical-align: bottom;
 }
@@ -11,13 +11,13 @@ div.tabs {
   display: table;
   margin-right: 5em;
 
-  > #tabs {
+  >#tabs {
     padding-left: 0;
     list-style: none;
     position: relative;
     z-index: 1;
 
-    > li {
+    >li {
       float: left;
       font-size: 14px;
       border-width: 1px;
@@ -64,8 +64,7 @@ div.tabs {
     z-index: 0;
     margin-right: -1px;
 
-    div.bookmark,
-    div.gbookmark {
+    div.bookmark {
       max-width: 40em;
       padding-top: 1px;
       padding-bottom: 1px;
@@ -97,6 +96,7 @@ div.tabs {
     }
 
     input {
+
       &[type='color'],
       &[type='text'],
       &[type='number'] {
@@ -111,19 +111,6 @@ div.tabs {
         color: red;
         border: 1px solid red;
       }
-    }
-
-    #loading,
-    #loadingError {
-      display: none;
-      width: 100%;
-      margin: 8ex 0;
-      font-size: 20px;
-      text-align: center;
-    }
-
-    #loadingError {
-      color: red;
     }
 
     table {
