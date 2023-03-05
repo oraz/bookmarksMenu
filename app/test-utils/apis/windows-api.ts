@@ -1,7 +1,6 @@
-/// <reference path="../../common/chrome-api.d.ts"/>
 
-export class WindowsApiImpl implements WindowsApi {
-  create(createData?: WindowsCreateWindowData) {
+export class WindowsApiImpl {
+  create(createData?: chrome.windows.CreateData) {
     throw Error('Not implemented!');
   }
 }

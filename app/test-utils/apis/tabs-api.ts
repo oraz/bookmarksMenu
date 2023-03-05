@@ -2,21 +2,13 @@
  * @see https://developer.chrome.com/extensions/tabs#toc
  * @see https://developer.chrome.com/extensions/tabs#method-executeScript
  */
-/// <reference path="../../common/chrome-api.d.ts"/>
 
-export class TabsApiImpl implements TabsApi {
-  update(
-    tabsIdOrUpdateProperties: number | TabsUpdateData,
-    updateProperties?: TabsUpdateData
-  ): void {
+export class TabsApiImpl {
+  update(tabsIdOrUpdateProperties: number | chrome.tabs.UpdateProperties, updateProperties?: chrome.tabs.UpdateProperties): void {
     throw Error('Not implemented!');
   }
 
-  create(createProperties: TabsCreateProperties): void {
-    throw Error('Not implemented!');
-  }
-
-  executeScript(tabIdOrExecuteProps: number | TabsExecuteScriptData, details?: TabsExecuteScriptData): void {
+  create(createProperties: chrome.tabs.CreateProperties): void {
     throw Error('Not implemented!');
   }
 }
