@@ -1,5 +1,5 @@
 Changelog 2023.03.05
-- Fixed https://github.com/oraz/bookmarksMenu/issues/37: migrate to Manifest V3.
+- Fixed https://github.com/oraz/bookmarksMenu/issues/43: migrate to Manifest V3.
 - Bookmarklets are not supported anymore because of Manifest V3
 
 Changelog 2022.05.05
