@@ -1,10 +1,10 @@
 {
-  "background": {
-    "page": "app/background/background.html"
-  },
-  "browser_action": {
-    "default_icon": "icons/icon-24.png",
+  "action": {
     "default_popup": "app/popup/popup.html"
+  },
+  "background": {
+    "service_worker": "app/background/background.js",
+    "type": "module"
   },
   "default_locale": "en",
   "description": "__MSG_extDescription__",
@@ -14,15 +14,15 @@
     "48": "icons/icon-48.png",
     "128": "icons/icon-128.png"
   },
-  "manifest_version": 2,
-  "minimum_chrome_version": "64",
+  "manifest_version": 3,
+  "minimum_chrome_version": "110",
   "name": "Bookmarks Menu",
   "options_page": "app/options/options.html",
   "permissions": [
-    "activeTab",
     "bookmarks",
-    "chrome://favicon/",
-    "fontSettings"
+    "favicon",
+    "fontSettings",
+    "storage"
   ],
-  "version": "2022.05.05"
+  "version": "2023.03.05"
 }

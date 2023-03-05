@@ -107,11 +107,11 @@ class Bookmark extends HTMLLIElement {
   open() {
     const url = this.url;
     if (isBookmarklet(url)) {
-      chrome.tabs.executeScript({ code: decodeURI(url.substr(11)) });
+      alert('Bookmarklets are not supported since v2023.03.05 because of Manifest V3. For more details see https://developer.chrome.com/docs/extensions/mv3/mv3-migration/#executing-arbitrary-strings');
     } else {
       chrome.tabs.update({ url: url });
+      closePopup();
     }
-    closePopup();
   }
 
   openInNewTab(switchToNewTab) {

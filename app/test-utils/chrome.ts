@@ -3,6 +3,7 @@ import { BookmarksApiImpl } from './apis/bookmarks-api';
 import { I18NApiImpl } from './apis/i18n-api';
 import { WindowsApiImpl } from './apis/windows-api';
 import { BrowserActionApiImpl } from './apis/browser-action-api';
+import { RuntimeApiImpl } from './apis/runtime-api';
 
 /// <reference path="../common/chrome-api.d.ts"/>
 
@@ -12,6 +13,7 @@ export class Chrome implements ChromeInterface {
   bookmarks: BookmarksApiImpl;
   windows: WindowsApiImpl;
   browserAction: BrowserActionApiImpl;
+  runtime: RuntimeApiImpl;
 
   constructor() {
     this.reset();
@@ -22,5 +24,6 @@ export class Chrome implements ChromeInterface {
     this.bookmarks = new BookmarksApiImpl();
     this.windows = new WindowsApiImpl();
     this.browserAction = new BrowserActionApiImpl();
+    this.runtime = new RuntimeApiImpl();
   }
 }

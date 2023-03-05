@@ -1,3 +1,4 @@
+import { Settings } from './settings.js';
 
 const isWindows = navigator.platform && navigator.platform.startsWith('Win');
 
@@ -50,10 +51,20 @@ export function isBookmarklet(url: string): boolean {
     return url.startsWith('javascript:');
 }
 
+const faviconSize = Settings.getFavIconWidth();
+
+function createFaviconUrl(url: string): string {
+    // @see https://developer.chrome.com/docs/extensions/mv3/favicon/
+    const faviconUrl = new URL(chrome.runtime.getURL('/_favicon/'));
+    faviconUrl.searchParams.set('pageUrl', url);
+    faviconUrl.searchParams.set('size', faviconSize);
+    return faviconUrl.toString();
+}
+
 export function getFavicon(url: string): string {
     return url == undefined
         ? '../../icons/' + (isWindows ? 'folder-win.png' : 'folder.png')
         : isBookmarklet(url)
             ? '../../icons/js.png'
-            : 'chrome://favicon/' + url;
+            : createFaviconUrl(url);
 }
