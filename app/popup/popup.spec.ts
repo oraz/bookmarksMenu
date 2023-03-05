@@ -288,15 +288,13 @@ describe('popup.html', () => {
       it('open bookmark: js', () => {
         const first = bookmark(1, 'alert', 'javascript:alert("Hello")');
         givenBookmarks([], [first, bookmark()]);
-        chrome.tabs.executeScript = jest.fn();
+        window.alert = jest.fn();
         window.close = jest.fn();
 
         clickOn(first, { button: leftButton });
 
-        expect(chrome.tabs.executeScript).toHaveBeenCalledWith({
-          code: 'alert("Hello")'
-        });
-        expect(window.close).toHaveBeenCalled();
+        expect(window.alert).toHaveBeenCalledWith('Bookmarklets are not supported since v2023.03.05 because of Manifest V3. For more details see https://developer.chrome.com/docs/extensions/mv3/mv3-migration/#executing-arbitrary-strings');
+        expect(window.close).toHaveBeenCalledTimes(0);
       });
 
       it('open bookmark with ctrlKey', () => {

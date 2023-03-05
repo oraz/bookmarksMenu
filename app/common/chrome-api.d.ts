@@ -4,7 +4,8 @@ interface ChromeInterface {
     readonly tabs: TabsApi;
     readonly bookmarks: BookmarksApi;
     readonly windows: WindowsApi;
-    readonly browserAction: BrowserActionApi;
+    readonly action: BrowserActionApi;
+    readonly runtime: RuntimeApi;
 }
 
 declare const chrome: ChromeInterface;
@@ -100,4 +101,8 @@ interface BrowserActionApi {
     setBadgeText(data: { text: string }): void
 
     setBadgeBackgroundColor(details: { color: ColorArray }): void
+}
+
+interface RuntimeApi {
+    getURL(url: string): string;
 }
