@@ -2,7 +2,6 @@ import { readFileSync } from 'fs';
 import { resolve } from 'path';
 import $ from 'jquery';
 import '../test-utils/expect-jquery';
-import { simulateCustomeElements } from '../test-utils/simulate-custom-elements';
 import { randomAlphanumeric } from '../test-utils/random-utils';
 import { Chrome } from '../test-utils/chrome';
 import { Settings } from '../common/settings';
@@ -26,7 +25,6 @@ describe('popup.html', () => {
   const html = `<style>${css}</style>` + readFileSync(resolve(__dirname, 'popup.html'), 'utf-8').replace(/(<!DOCTYPE.*$|<\/?html>)$/gm, '<!-- $1 -->');
 
   beforeAll(() => {
-    simulateCustomeElements();
     import('./popup');
   });
 
