@@ -8,12 +8,7 @@ import { Chrome } from '../test-utils/chrome';
 import { Settings } from '../common/settings';
 
 const chrome = new Chrome();
-declare global {
-  interface Window {
-    chrome: Chrome
-  }
-}
-window.chrome = chrome
+window.chrome = chrome;
 
 describe('popup.html', () => {
   enum ContextMenuItem {
@@ -378,7 +373,7 @@ describe('popup.html', () => {
 
       it.each([['click open all in tabs', clickOpenAll], ['click open all (click on folder)', clickOn]])(
         '%s:%p',
-        (testName, clickAction: (folder: BookmarkTreeNode, eventInit: MouseEventInit) => void) => {
+        (testName, clickAction: (folder: chrome.bookmarks.BookmarkTreeNode, eventInit: MouseEventInit) => void) => {
           const first = bookmark();
           const second = bookmark();
           const third = bookmark();
@@ -501,7 +496,7 @@ describe('popup.html', () => {
       it.each([
         ['toolbar', bookmark(), true], //
         ['other', bookmark(), false]
-      ])('show for the only bookmark in %s', (testName, bookmark: BookmarkTreeNode, inToolbar: boolean) => {
+      ])('show for the only bookmark in %s', (testName, bookmark: chrome.bookmarks.BookmarkTreeNode, inToolbar: boolean) => {
         givenBookmarks(inToolbar ? [bookmark] : [], inToolbar ? [] : [bookmark]);
 
         mouseOver(bookmark);
@@ -611,7 +606,7 @@ describe('popup.html', () => {
       it.each([
         ['toolbar', givenFolder(100), true], //
         ['other', givenFolder(100), false]
-      ])('show for the only folder in %s', (testName, folder: BookmarkTreeNode, inToolbar: boolean) => {
+      ])('show for the only folder in %s', (testName, folder: chrome.bookmarks.BookmarkTreeNode, inToolbar: boolean) => {
         givenBookmarks(inToolbar ? [folder] : [], inToolbar ? [] : [folder]);
 
         mouseOver(folder);
@@ -977,12 +972,12 @@ describe('popup.html', () => {
     mouseOverAndClickOn(el);
   }
 
-  function mouseOverAndClickOn(bookmark: BookmarkTreeNode | JQuery<HTMLElement>, eventInit: MouseEventInit = {}) {
+  function mouseOverAndClickOn(bookmark: chrome.bookmarks.BookmarkTreeNode | JQuery<HTMLElement>, eventInit: MouseEventInit = {}) {
     mouseOver(bookmark);
     clickOn(bookmark, eventInit);
   }
 
-  function clickOn(bookmark: BookmarkTreeNode | JQuery<HTMLElement>, eventInit: MouseEventInit = {}) {
+  function clickOn(bookmark: chrome.bookmarks.BookmarkTreeNode | JQuery<HTMLElement>, eventInit: MouseEventInit = {}) {
     const evt = new MouseEvent('mouseup', {
       button: 0,
       cancelable: true,
@@ -1000,7 +995,7 @@ describe('popup.html', () => {
     return !!obj.jquery;
   }
 
-  function clickOpenAll(folder: BookmarkTreeNode, eventInit: MouseEventInit = {}) {
+  function clickOpenAll(folder: chrome.bookmarks.BookmarkTreeNode, eventInit: MouseEventInit = {}) {
     const evt = new MouseEvent('mouseup', {
       button: 0,
       cancelable: true,
@@ -1013,7 +1008,7 @@ describe('popup.html', () => {
       .dispatchEvent(evt);
   }
 
-  function mouseOver(item: BookmarkTreeNode | JQuery<HTMLElement>, eventInit: MouseEventInit = {}) {
+  function mouseOver(item: chrome.bookmarks.BookmarkTreeNode | JQuery<HTMLElement>, eventInit: MouseEventInit = {}) {
     const evt = new MouseEvent('mouseover', {
       cancelable: true,
       bubbles: true,
@@ -1026,7 +1021,7 @@ describe('popup.html', () => {
     }
   }
 
-  function bookmark(id = bookmark.nextId++, title = randomAlphanumeric(), url = `http://${randomAlphanumeric()}`): BookmarkTreeNode {
+  function bookmark(id = bookmark.nextId++, title = randomAlphanumeric(), url = `http://${randomAlphanumeric()}`): chrome.bookmarks.BookmarkTreeNode {
     return {
       id: '' + id,
       title,
@@ -1035,7 +1030,7 @@ describe('popup.html', () => {
   }
   bookmark.nextId = 1;
 
-  function givenFolder(folderId: number, title: string = randomAlphanumeric(), ...children: BookmarkTreeNode[]): BookmarkTreeNode {
+  function givenFolder(folderId: number, title: string = randomAlphanumeric(), ...children: chrome.bookmarks.BookmarkTreeNode[]): chrome.bookmarks.BookmarkTreeNode {
     const id = '' + folderId;
     children.forEach(each => (each.parentId = id));
     return {
@@ -1045,7 +1040,7 @@ describe('popup.html', () => {
     };
   }
 
-  function givenBookmarks(quick: BookmarkTreeNode[], other: BookmarkTreeNode[] = []) {
+  function givenBookmarks(quick: chrome.bookmarks.BookmarkTreeNode[], other: chrome.bookmarks.BookmarkTreeNode[] = []) {
     quick.forEach(each => (each.parentId = 'quick'));
     other.forEach(each => (each.parentId = 'other'));
     chrome.bookmarks.givenBookmarks([
@@ -1068,7 +1063,7 @@ describe('popup.html', () => {
     ]);
   }
 
-  function hideBookmarks(...bookmarks: BookmarkTreeNode[]) {
+  function hideBookmarks(...bookmarks: chrome.bookmarks.BookmarkTreeNode[]) {
     bookmarks.forEach(each => Settings.setBookmarkHidden(each.title, true));
   }
 });
