@@ -4,5 +4,6 @@
 app/test-utils
 bookmarksmenu.zip
 bookmarksmenu-*.tgz
+jest.config.json
 TODO
 tsconfig.json
