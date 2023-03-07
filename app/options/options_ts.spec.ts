@@ -1,4 +1,3 @@
-import { each } from 'jquery';
 import { getCurrency } from './options_ts';
 
 describe('getCurrency', () => {
