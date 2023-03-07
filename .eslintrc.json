@@ -1,7 +1,7 @@
 {
   "env": {
     "browser": true,
-    "es6": true
+    "es2022": true
   },
   "extends": [
     "eslint:recommended",
@@ -12,14 +12,28 @@
   },
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "ecmaVersion": 2018,
+    "ecmaVersion": "2023",
     "sourceType": "module"
   },
-  "plugins": ["@typescript-eslint"],
+  "plugins": [
+    "@typescript-eslint"
+  ],
   "rules": {
-    "indent": ["off", 2],
-    "linebreak-style": ["off", "windows"],
-    "quotes": ["error", "single"],
-    "semi": ["error", "always"]
+    "indent": [
+      "off",
+      2
+    ],
+    "linebreak-style": [
+      "off",
+      "windows"
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "semi": [
+      "error",
+      "always"
+    ]
   }
 }
