@@ -8,7 +8,9 @@ export const $ = document.getElementById.bind(document),
 
 declare global {
     interface NodeList {
+        // eslint-disable-next-line no-unused-vars
         on<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): NodeList;
+        // eslint-disable-next-line no-unused-vars
         on(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): NodeList;
     }
 

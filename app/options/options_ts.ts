@@ -1,21 +1,23 @@
 
 export function getCurrency(chromeLang: string, acceptLanguages: string[]): string {
-    const currencies = new Map<string, (locale: string) => boolean>();
+    type RegExpProvider = () => RegExp;
+    const currencies = new Map<string, RegExpProvider>();
 
-    currencies.set('AUD', (locale: string) => /[-_]AU$/i.test(locale));
-    currencies.set('CAD', locale => /[-_]CA$/i.test(locale));
-    currencies.set('CHF', locale => /[-_]CH$/i.test(locale));
-    currencies.set('EUR', locale => /^(et|de|fi|fr|el|it|lv|lt|mt|nl|pt|sk|sl|es)$|^..[-_](AT|BE|CY|EE|FI|FR|DE|GR|IE|IT|LV|LT|LU|MT|NL|PT|SK|SL|ES)$/i.test(locale));
-    currencies.set('GBP', locale => /[-_]GB$/i.test(locale));
-    currencies.set('JPY', locale => /^ja$|^..[-_]JP$/i.test(locale));
-    currencies.set('RUB', locale => /^ru$|^..[-_]RU$/i.test(locale));
+    currencies.set('AUD', () => /[-_]AU$/i);
+    currencies.set('CAD', () => /[-_]CA$/i);
+    currencies.set('CHF', () => /[-_]CH$/i);
+    currencies.set('EUR', () => /^(et|de|fi|fr|el|it|lv|lt|mt|nl|pt|sk|sl|es)$|^..[-_](AT|BE|CY|EE|FI|FR|DE|GR|IE|IT|LV|LT|LU|MT|NL|PT|SK|SL|ES)$/i);
+    currencies.set('GBP', () => /[-_]GB$/i);
+    currencies.set('JPY', () => /^ja$|^..[-_]JP$/i);
+    currencies.set('RUB', () => /^ru$|^..[-_]RU$/i);
 
-    for (var [currency, check] of currencies) {
-        if (check(chromeLang)) {
+    for (const [currency, regExpProvider] of currencies) {
+        const regex = regExpProvider();
+        if (regex.test(chromeLang)) {
             return currency;
         }
-        for (var lang of acceptLanguages) {
-            if (check(lang)) {
+        for (const lang of acceptLanguages) {
+            if (regex.test(lang)) {
                 return currency;
             }
         }
