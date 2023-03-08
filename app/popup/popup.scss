@@ -1,165 +1,165 @@
 :root {
-  --bodyClr: #fff;
-  --fav-icon-width: 16px;
-  --scrollbar-width: 7px;
-  --fntClr: #000;
-  --font: 13px Verdana;
-  --bmBgClr: #fff;
-  --disabledItemFntClr: #bebebe;
-  --bookmark-max-width: 30em;
-  --activeBmFntClr: #fff;
-  --activeBmBgClrFrom: #86abd9;
-  --activeBmBgClrTo: #1f5eab;
-  --padding-for-noicon: 3px;
+    --bodyClr: #fff;
+    --fav-icon-width: 16px;
+    --scrollbar-width: 7px;
+    --fntClr: #000;
+    --font: 13px Verdana;
+    --bmBgClr: #fff;
+    --disabledItemFntClr: #bebebe;
+    --bookmark-max-width: 30em;
+    --activeBmFntClr: #fff;
+    --activeBmBgClrFrom: #86abd9;
+    --activeBmBgClrTo: #1f5eab;
+    --padding-for-noicon: 3px;
 }
 
 body {
-  margin: 0;
-  overflow-x: hidden;
-  overflow-y: scroll;
-  background-color: var(--bodyClr);
-  color: var(--fntClr);
-  font: var(--font);
+    margin: 0;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    background-color: var(--bodyClr);
+    color: var(--fntClr);
+    font: var(--font);
 }
 
 ul {
-  border: 1px solid #ccc;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  background-color: var(--bmBgClr);
+    border: 1px solid #ccc;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    background-color: var(--bmBgClr);
 
-  &#bookmarksMenu {
-    float: right;
+    &#bookmarksMenu {
+        float: right;
 
-    >.separator:first-child,
-    >.separator:last-child {
-      display: none;
+        >.separator:first-child,
+        >.separator:last-child {
+            display: none;
+        }
+
+        .bookmark,
+        .folder>span,
+        .openAllInTabs,
+        .empty {
+            max-width: var(--bookmark-max-width);
+        }
     }
 
-    .bookmark,
-    .folder>span,
-    .openAllInTabs,
-    .empty {
-      max-width: var(--bookmark-max-width);
+    li {
+        position: relative;
+
+        &.bookmark,
+        &.folder>span,
+        &.contextMenuItem,
+        &.openAllInTabs {
+            display: block;
+            cursor: default;
+            padding: 3px 1em 3px 3px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        &.separator {
+            background-color: #ccc;
+            height: 1px;
+            margin: 1px 3px;
+        }
+
+        ul {
+            display: none;
+            position: absolute;
+            top: -1px;
+            right: 100%;
+
+            .separator,
+            .openAllInTabs {
+                display: none;
+            }
+
+            .bookmark~.bookmark~.separator,
+            .bookmark~.bookmark~.openAllInTabs {
+                display: block;
+            }
+
+            .bookmark~.empty,
+            .folder~.empty {
+                display: none;
+            }
+
+            .empty {
+                padding: 3px 0.6em;
+                color: var(--disabledItemFntClr);
+            }
+        }
+
+        &.hover>ul {
+            display: block;
+        }
+
+        &.noicon {
+            padding-left: var(--padding-for-noicon);
+        }
+
+        img {
+            margin-right: 0.3em;
+            vertical-align: bottom;
+            width: var(--fav-icon-width);
+            height: var(--fav-icon-width);
+        }
+
+        &.bookmark:hover,
+        &.bookmark.hover,
+        &.folder:hover>span,
+        &.folder.hover>span,
+        &.openAllInTabs:hover,
+        &.contextMenuItem.enabled:hover {
+            color: var(--activeBmFntClr);
+            background: linear-gradient(var(--activeBmBgClrFrom), var(--activeBmBgClrTo));
+        }
     }
-  }
-
-  li {
-    position: relative;
-
-    &.bookmark,
-    &.folder>span,
-    &.contextMenuItem,
-    &.openAllInTabs {
-      display: block;
-      cursor: default;
-      padding: 3px 1em 3px 3px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    &.separator {
-      background-color: #ccc;
-      height: 1px;
-      margin: 1px 3px;
-    }
-
-    ul {
-      display: none;
-      position: absolute;
-      top: -1px;
-      right: 100%;
-
-      .separator,
-      .openAllInTabs {
-        display: none;
-      }
-
-      .bookmark~.bookmark~.separator,
-      .bookmark~.bookmark~.openAllInTabs {
-        display: block;
-      }
-
-      .bookmark~.empty,
-      .folder~.empty {
-        display: none;
-      }
-
-      .empty {
-        padding: 3px 0.6em;
-        color: var(--disabledItemFntClr);
-      }
-    }
-
-    &.hover>ul {
-      display: block;
-    }
-
-    &.noicon {
-      padding-left: var(--padding-for-noicon);
-    }
-
-    img {
-      margin-right: 0.3em;
-      vertical-align: bottom;
-      width: var(--fav-icon-width);
-      height: var(--fav-icon-width);
-    }
-
-    &.bookmark:hover,
-    &.bookmark.hover,
-    &.folder:hover>span,
-    &.folder.hover>span,
-    &.openAllInTabs:hover,
-    &.contextMenuItem.enabled:hover {
-      color: var(--activeBmFntClr);
-      background: linear-gradient(var(--activeBmBgClrFrom), var(--activeBmBgClrTo));
-    }
-  }
 }
 
 #contextMenu {
-  display: none;
-  border-width: 1px 2px 2px 1px;
-  border-style: outset;
-  border-color: #6f5e5e;
-  position: absolute;
-  z-index: 2;
-
-  &[for='bookmark']>.forFolder,
-  &[for='folder']>.forBookmark {
     display: none;
-  }
+    border-width: 1px 2px 2px 1px;
+    border-style: outset;
+    border-color: #6f5e5e;
+    position: absolute;
+    z-index: 2;
 
-  li:not(.enabled) {
-    img {
-      opacity: 0.5;
+    &[for='bookmark']>.forFolder,
+    &[for='folder']>.forBookmark {
+        display: none;
     }
 
-    color: var(--disabledItemFntClr);
-  }
+    li:not(.enabled) {
+        img {
+            opacity: 0.5;
+        }
+
+        color: var(--disabledItemFntClr);
+    }
 }
 
 
 #transparentLayer {
-  display: none;
-  background-color: rgba(255, 255, 255, 0.5);
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 1;
+    display: none;
+    background-color: rgba(255, 255, 255, 0.5);
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
 }
 
 ::-webkit-scrollbar {
-  background-color: #e2dbdb;
-  border: 1px solid #ccc;
-  height: 0;
-  width: var(--scrollbar-width);
+    background-color: #e2dbdb;
+    border: 1px solid #ccc;
+    height: 0;
+    width: var(--scrollbar-width);
 
-  &-thumb:vertical {
-    background: linear-gradient(90deg, #ccc, gray);
-  }
+    &-thumb:vertical {
+        background: linear-gradient(90deg, #ccc, gray);
+    }
 }

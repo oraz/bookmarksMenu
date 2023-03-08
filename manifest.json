@@ -1,28 +1,28 @@
 {
-  "action": {
-    "default_popup": "app/popup/popup.html"
-  },
-  "background": {
-    "service_worker": "app/background/background.js",
-    "type": "module"
-  },
-  "default_locale": "en",
-  "description": "__MSG_extDescription__",
-  "icons": {
-    "16": "icons/icon-16.png",
-    "32": "icons/icon-32.png",
-    "48": "icons/icon-48.png",
-    "128": "icons/icon-128.png"
-  },
-  "manifest_version": 3,
-  "minimum_chrome_version": "110",
-  "name": "Bookmarks Menu",
-  "options_page": "app/options/options.html",
-  "permissions": [
-    "bookmarks",
-    "favicon",
-    "fontSettings",
-    "storage"
-  ],
-  "version": "2023.03.05"
+    "action": {
+        "default_popup": "app/popup/popup.html"
+    },
+    "background": {
+        "service_worker": "app/background/background.js",
+        "type": "module"
+    },
+    "default_locale": "en",
+    "description": "__MSG_extDescription__",
+    "icons": {
+        "16": "icons/icon-16.png",
+        "32": "icons/icon-32.png",
+        "48": "icons/icon-48.png",
+        "128": "icons/icon-128.png"
+    },
+    "manifest_version": 3,
+    "minimum_chrome_version": "110",
+    "name": "Bookmarks Menu",
+    "options_page": "app/options/options.html",
+    "permissions": [
+        "bookmarks",
+        "favicon",
+        "fontSettings",
+        "storage"
+    ],
+    "version": "2023.03.05"
 }

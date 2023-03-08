@@ -3,7 +3,7 @@
  */
 
 export class I18NApiImpl {
-  getMessage(messageName: string, substitutions?: any): string {
-    return messageName;
-  }
+    getMessage(messageName: string, substitutions?: any): string {
+        return messageName;
+    }
 }

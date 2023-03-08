@@ -2,4 +2,3 @@ app/common/settings.js
 app/common/common.js
 *.spec.ts
 app/test-utils
-chrome-api.d.ts
