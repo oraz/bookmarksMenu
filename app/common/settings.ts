@@ -56,7 +56,7 @@ export const Settings = {
             case 'disabledItemFntClr':
                 return '#BEBEBE';
             default:
-                throw Error('Unsupoorted color: ' + name);
+                throw Error('Unsupported color: ' + name);
         }
     },
 
