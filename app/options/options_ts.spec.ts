@@ -68,11 +68,11 @@ describe('getCurrency', () => {
         ['en-US', ['en'], 'USD'],
         ['xx', ['xx'], 'USD'],
         ['xx', ['xx-xx'], 'USD'],
-        ['', [], 'USD'],
+        ['', [], 'USD']
 
-    ])("[%s, %s, %s]", (lang, acceptLanguages, expectedCurrency) => {
-        const currency = getCurrency(lang, acceptLanguages)
+    ])('[%s, %s, %s]', (lang, acceptLanguages, expectedCurrency) => {
+        const currency = getCurrency(lang, acceptLanguages);
 
-        expect(currency).toEqual(expectedCurrency)
+        expect(currency).toEqual(expectedCurrency);
     });
-})
+});

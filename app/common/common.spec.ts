@@ -1,5 +1,5 @@
 import { E, i18nUtils } from './common';
-import { randomAlphanumeric } from '../test-utils/random-utils'
+import { randomAlphanumeric } from '../test-utils/random-utils';
 import { resetChrome } from '../test-utils/chrome-mock';
 
 describe('common.js', () => {
@@ -32,7 +32,7 @@ describe('common.js', () => {
             i18nUtils.init(element);
 
             expect(element.childNodes.length).toBe(1);
-            expect(element.childNodes[0].nodeName).toBe("#text");
+            expect(element.childNodes[0].nodeName).toBe('#text');
             expect(element.textContent).toBe(msg);
             expect(element.childElementCount).toBe(0);
         });

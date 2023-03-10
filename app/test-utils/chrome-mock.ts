@@ -19,11 +19,14 @@ export function initChrome(): void {
     resetChrome();
 }
 
-let saveBookmarksGetTreeCallback: ((nodes: chrome.bookmarks.BookmarkTreeNode[]) => void) | null
+// eslint-disable-next-line no-unused-vars
+type BookmarksGetTreeCallback = ((_nodes: chrome.bookmarks.BookmarkTreeNode[]) => void) | null;
+
+let savedBookmarksGetTreeCallback: BookmarksGetTreeCallback;
 
 export function givenChromeBookmarks(bookmarks: chrome.bookmarks.BookmarkTreeNode[]) {
-    expect(saveBookmarksGetTreeCallback).not.toBeNull();
-    saveBookmarksGetTreeCallback!!(bookmarks);
+    expect(savedBookmarksGetTreeCallback).not.toBeNull();
+    savedBookmarksGetTreeCallback!!(bookmarks);
 }
 
 export function resetChrome(): void {
@@ -31,23 +34,22 @@ export function resetChrome(): void {
         initChrome();
     }
 
-    saveBookmarksGetTreeCallback = null;
+    savedBookmarksGetTreeCallback = null;
 
     Object.keys(chrome).forEach(each => {
         const chromeApi = chrome[each];
         Object.keys(chromeApi).forEach(key => delete chromeApi[key]);
     });
 
-    chrome.bookmarks.getTree = function (callback?: (nodes: chrome.bookmarks.BookmarkTreeNode[]) => void): Promise<chrome.bookmarks.BookmarkTreeNode[]> {
+    chrome.bookmarks.getTree = function (callback?: BookmarksGetTreeCallback): Promise<chrome.bookmarks.BookmarkTreeNode[]> {
         expect(callback).not.toBeNull();
-        saveBookmarksGetTreeCallback = callback!!
+        savedBookmarksGetTreeCallback = callback!!;
 
-        return new Promise<chrome.bookmarks.BookmarkTreeNode[]>((resolve, reject) => {
-            resolve([]);
-        });
-    }
+        return Promise.resolve([]);
+    };
 
     chrome.i18n.getMessage = (msg: string) => msg;
 
+    // eslint-disable-next-line no-unused-vars
     chrome.runtime.getURL = (_url: string) => 'file://../../icons/folder-win.png';
 }

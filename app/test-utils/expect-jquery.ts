@@ -26,6 +26,7 @@ expect.extend({
     }
 });
 
+/* eslint-disable no-unused-vars */
 declare global {
     namespace jest {
         interface Matchers<R> {
@@ -33,3 +34,4 @@ declare global {
         }
     }
 }
+/* eslint-enable */
