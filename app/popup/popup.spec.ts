@@ -3,11 +3,8 @@ import { resolve } from 'path';
 import $ from 'jquery';
 import '../test-utils/expect-jquery';
 import { randomAlphanumeric } from '../test-utils/random-utils';
-import { Chrome } from '../test-utils/chrome';
 import { Settings } from '../common/settings';
-
-const chrome = new Chrome();
-window.chrome = chrome;
+import { givenChromeBookmarks, initChrome, resetChrome } from '../test-utils/chrome-mock';
 
 describe('popup.html', () => {
     enum ContextMenuItem {
@@ -25,12 +22,14 @@ describe('popup.html', () => {
     const html = `<style>${css}</style>` + readFileSync(resolve(__dirname, 'popup.html'), 'utf-8').replace(/(<!DOCTYPE.*$|<\/?html>)$/gm, '<!-- $1 -->');
 
     beforeAll(() => {
+        initChrome();
         import('./popup');
     });
 
     let bookmarksMenu: JQuery<HTMLElement>;
     const nativeWindowClose = window.close;
     beforeEach(() => {
+        resetChrome();
         document.documentElement.innerHTML = html;
         document.dispatchEvent(new Event('DOMContentLoaded'));
         bookmarksMenu = $('#bookmarksMenu');
@@ -42,7 +41,6 @@ describe('popup.html', () => {
 
     afterEach(() => {
         $(document.documentElement).empty();
-        chrome.reset();
         window.close = nativeWindowClose;
         localStorage.clear();
     });
@@ -1041,7 +1039,7 @@ describe('popup.html', () => {
     function givenBookmarks(quick: chrome.bookmarks.BookmarkTreeNode[], other: chrome.bookmarks.BookmarkTreeNode[] = []) {
         quick.forEach(each => (each.parentId = 'quick'));
         other.forEach(each => (each.parentId = 'other'));
-        chrome.bookmarks.givenBookmarks([
+        givenChromeBookmarks([
             {
                 id: 'root',
                 title: 'root',
