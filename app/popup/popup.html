@@ -2,32 +2,44 @@
 <html>
 
 <head>
-  <meta charset="UTF-8" />
-  <link rel="stylesheet" href="popup.css" />
-  <script src="popup.js" type="module"></script>
+	<meta charset="UTF-8" />
+	<link rel="stylesheet" href="popup.css" />
+	<script src="popup.js" type="module"></script>
 </head>
 
 <body>
-  <div id="transparentLayer"></div>
-  <ul id="contextMenu">
-    <li data-action="openInNewTab" class="enabled forBookmark contextMenuItem" data-i18n="openInNewTab"><img
-        src="../../icons/tab-new.png" /></li>
-    <li data-action="openInNewWindow" class="enabled forBookmark contextMenuItem" data-i18n="openInNewWindow"><img
-        src="../../icons/window-new.png" /></li>
-    <li data-action="openInIncognitoWindow" class="enabled forBookmark contextMenuItem"
-      data-i18n="openInIncognitoWindow"><img src="../../icons/window-incognito.png" /></li>
-    <li data-action="openAllInTabs" class="forFolder noicon contextMenuItem" data-i18n="openAllBookmarks" class=""></li>
-    <li data-action="openAllInNewWindow" class="forFolder noicon contextMenuItem"
-      data-i18n="openAllBookmarksInNewWindow" class=""></li>
-    <li data-action="openAllInIncognitoWindow" class="forFolder contextMenuItem"
-      data-i18n="openAllBookmarksInIncognitoWindow"><img src="../../icons/window-incognito.png" /></li>
-    <li class="separator"></li>
-    <li data-action="reorder" class="contextMenuItem" data-i18n="reorder"><img src="../../icons/reorder.png" /></li>
-    <li data-action="remove" data-i18n="remove" class="contextMenuItem"><img src="../../icons/icon_delete.png" /></li>
-    <li data-action="openBookmarkManager" class="enabled contextMenuItem" data-i18n="openBookmarkManager"><img
-        src="../../icons/bookmark_manager.png" /></li>
-  </ul>
-  <ul id="bookmarksMenu" is="ext-folder-content"></ul>
+	<div id="transparentLayer"></div>
+	<ul id="contextMenu">
+		<li data-action="openInNewTab" class="enabled forBookmark contextMenuItem" data-i18n="openInNewTab">
+			<img src="../../icons/tab-new.png" />
+		</li>
+		<li data-action="openInNewWindow" class="enabled forBookmark contextMenuItem" data-i18n="openInNewWindow">
+			<img src="../../icons/window-new.png" />
+		</li>
+		<li data-action="openInIncognitoWindow" class="enabled forBookmark contextMenuItem"
+			data-i18n="openInIncognitoWindow">
+			<img src="../../icons/window-incognito.png" />
+		</li>
+		<li data-action="openAllInTabs" class="forFolder noicon contextMenuItem" data-i18n="openAllBookmarks" class="">
+		</li>
+		<li data-action="openAllInNewWindow" class="forFolder noicon contextMenuItem"
+			data-i18n="openAllBookmarksInNewWindow" class=""></li>
+		<li data-action="openAllInIncognitoWindow" class="forFolder contextMenuItem"
+			data-i18n="openAllBookmarksInIncognitoWindow">
+			<img src="../../icons/window-incognito.png" />
+		</li>
+		<li class="separator"></li>
+		<li data-action="reorder" class="contextMenuItem" data-i18n="reorder">
+			<img src="../../icons/reorder.png" />
+		</li>
+		<li data-action="remove" data-i18n="remove" class="contextMenuItem">
+			<img src="../../icons/icon_delete.png" />
+		</li>
+		<li data-action="openBookmarkManager" class="enabled contextMenuItem" data-i18n="openBookmarkManager">
+			<img src="../../icons/bookmark_manager.png" />
+		</li>
+	</ul>
+	<ul id="bookmarksMenu" is="ext-folder-content"></ul>
 </body>
 
 </html>
