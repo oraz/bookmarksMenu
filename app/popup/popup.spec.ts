@@ -7,6 +7,7 @@ import { Settings } from '../common/settings';
 import { givenChromeBookmarks, initChrome, resetChrome } from '../test-utils/chrome-mock';
 
 describe('popup.html', () => {
+    /* eslint-disable no-unused-vars */
     enum ContextMenuItem {
         Reorder = 'reorder',
         OpenInNewTab = 'openInNewTab',
@@ -17,6 +18,7 @@ describe('popup.html', () => {
         OpenAllInIncognitoWindow = 'openAllInIncognitoWindow',
         Remove = 'remove'
     }
+    /* eslint-enable */
 
     const css = readFileSync(resolve(__dirname, 'popup.css'), 'utf-8');
     const html = `<style>${css}</style>` + readFileSync(resolve(__dirname, 'popup.html'), 'utf-8').replace(/(<!DOCTYPE.*$|<\/?html>)$/gm, '<!-- $1 -->');
@@ -348,54 +350,57 @@ describe('popup.html', () => {
         });
 
         describe('click on bookmark (middle button)', () => {
-            it.each([[false, false, false], [false, true, true], [true, false, true], [true, true, true]])(
-                'settingSwitchToNewTab = %p, shiftKey: %p => expectedNewTabActive: %p',
-                (settingSwitchToNewTab, shiftKey, expectedNewTabActive) => {
-                    localStorage.switchToNewTab = settingSwitchToNewTab;
-                    const first = bookmark();
-                    givenBookmarks([bookmark(), first, bookmark()]);
-                    chrome.tabs.create = jest.fn();
-                    window.close = jest.fn();
+            it.each([
+                [false, false, false],
+                [false, true, true],
+                [true, false, true],
+                [true, true, true]
+            ])('settingSwitchToNewTab = %p, shiftKey: %p => expectedNewTabActive: %p', (settingSwitchToNewTab, shiftKey, expectedNewTabActive) => {
+                localStorage.switchToNewTab = settingSwitchToNewTab;
+                const first = bookmark();
+                givenBookmarks([bookmark(), first, bookmark()]);
+                chrome.tabs.create = jest.fn();
+                window.close = jest.fn();
 
-                    clickOn(first, { button: middleButton, shiftKey });
+                clickOn(first, { button: middleButton, shiftKey });
 
-                    expect(chrome.tabs.create).toBeCalledWith({
-                        url: first.url,
-                        active: expectedNewTabActive
-                    });
-                    expect(window.close).toBeCalled();
-                }
-            );
+                expect(chrome.tabs.create).toBeCalledWith({
+                    url: first.url,
+                    active: expectedNewTabActive
+                });
+                expect(window.close).toBeCalled();
+            });
 
-            it.each([['click open all in tabs', clickOpenAll], ['click open all (click on folder)', clickOn]])(
-                '%s:%p',
-                (testName, clickAction: (folder: chrome.bookmarks.BookmarkTreeNode, eventInit: MouseEventInit) => void) => {
-                    const first = bookmark();
-                    const second = bookmark();
-                    const third = bookmark();
-                    const folder = givenFolder(100, 'folder', first, second, third);
-                    givenBookmarks([folder, bookmark()], [bookmark(), bookmark()]);
-                    window.close = jest.fn();
-                    chrome.tabs.create = jest.fn();
+            it.each([
+                ['click open all in tabs', clickOpenAll],
+                ['click open all (click on folder)', clickOn]
+            ])('%s:%p', (_testName, clickAction: (folder: chrome.bookmarks.BookmarkTreeNode, eventInit: MouseEventInit) => void) => { // eslint-disable-line no-unused-vars
+                const first = bookmark();
+                const second = bookmark();
+                const third = bookmark();
+                const folder = givenFolder(100, 'folder', first, second, third);
+                givenBookmarks([folder, bookmark()], [bookmark(), bookmark()]);
+                window.close = jest.fn();
+                chrome.tabs.create = jest.fn();
 
-                    mouseOver(folder);
-                    clickAction(folder, { button: middleButton });
+                mouseOver(folder);
+                clickAction(folder, { button: middleButton });
 
-                    expect(chrome.tabs.create).toBeCalledTimes(3);
-                    expect(chrome.tabs.create).toHaveBeenNthCalledWith(1, {
-                        url: first.url,
-                        selected: true
-                    });
-                    expect(chrome.tabs.create).toHaveBeenNthCalledWith(2, {
-                        url: second.url,
-                        selected: false
-                    });
-                    expect(chrome.tabs.create).toHaveBeenNthCalledWith(3, {
-                        url: third.url,
-                        selected: false
-                    });
-                    expect(window.close).toBeCalled();
-                }
+                expect(chrome.tabs.create).toBeCalledTimes(3);
+                expect(chrome.tabs.create).toHaveBeenNthCalledWith(1, {
+                    url: first.url,
+                    selected: true
+                });
+                expect(chrome.tabs.create).toHaveBeenNthCalledWith(2, {
+                    url: second.url,
+                    selected: false
+                });
+                expect(chrome.tabs.create).toHaveBeenNthCalledWith(3, {
+                    url: third.url,
+                    selected: false
+                });
+                expect(window.close).toBeCalled();
+            }
             );
         });
 
@@ -426,11 +431,11 @@ describe('popup.html', () => {
     });
 
     describe('Context Menu', () => {
-        it('all children must be .separtor or .contextMenuItem', () => {
+        it('all children must be .separator or .contextMenuItem', () => {
             const contextMenu = $('#contextMenu');
             contextMenu.children().each((_, el) => {
                 const each = $(el);
-                expect(each.is('.separator:not(.contextMenuItem)') || each.is('.contextMenuItem:not(.separator)')).toBeTruthy()
+                expect(each.is('.separator:not(.contextMenuItem)') || each.is('.contextMenuItem:not(.separator)')).toBeTruthy();
             });
         });
 
@@ -941,26 +946,26 @@ describe('popup.html', () => {
 
         describe('remove', () => {
             it('remove bookmark', () => {
-                const first = bookmark(1, "first");
-                const second = bookmark(2, "second");
+                const first = bookmark(1, 'first');
+                const second = bookmark(2, 'second');
                 const third = bookmark(3, 'third');
 
-                chrome.bookmarks.remove = jest.fn()
+                chrome.bookmarks.remove = jest.fn();
 
                 givenBookmarks([first, second, third]);
 
-                mouseOverAndClickOn(second, { button: 2 })
-                chooseContextMenuItem(ContextMenuItem.Remove)
+                mouseOverAndClickOn(second, { button: 2 });
+                chooseContextMenuItem(ContextMenuItem.Remove);
 
-                expect(chrome.bookmarks.remove).toBeCalledWith(second.id)
+                expect(chrome.bookmarks.remove).toBeCalledWith(second.id);
                 const folderContent = $('#bookmarksMenu');
                 expect(folderContent).is(':visible');
                 expect(folderContent.children()).toHaveLength(3);
                 expect(folderContent.children(':nth(0)')).is('#1.bookmark:contains("first"):visible');
                 expect(folderContent.children(':nth(1)')).is('#3.bookmark:contains("third"):visible');
                 expect(folderContent.children(':nth(2)')).is('.separator:hidden');
-            })
-        })
+            });
+        });
     });
 
     function chooseContextMenuItem(item: ContextMenuItem) {

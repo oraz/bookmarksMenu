@@ -1,5 +1,5 @@
 
-import { resetChrome } from "./chrome-mock";
+import { resetChrome } from './chrome-mock';
 
 describe('chrome-mocks', () => {
 

@@ -1,4 +1,3 @@
-app/common/settings.js
 app/common/common.js
-*.spec.ts
-app/test-utils
+app/common/settings.js
+app/options/options_ts.js
