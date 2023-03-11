@@ -12,7 +12,7 @@ export const Settings = {
 
     getMaxWidth: () => setting('maxWidth', '30'),
 
-    getMaxWidthMesure: () => setting('maxWidthMesure', 'em'),
+    getMaxWidthMeasure: () => setting('maxWidthMesure', 'em'),
 
     isBookmarkHidden: (title: string) => isTrue('bookmark_' + title),
 

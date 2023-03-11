@@ -40,34 +40,38 @@ it('isBookmarkHidden(something, chrome bookmark)', () => {
     expect(Settings.isBookmarkHidden('some bookmark')).toBeTruthy();
 });
 
-it.each([
-    ['bodyClr', '#FFFFFF'],
-    ['bmBgClr', '#FFFFFF'],
-    ['activeBmFntClr', '#FFFFFF'],
-    ['fntClr', '#000000'],
-    ['activeBmBgClrFrom', '#86ABD9'],
-    ['activeBmBgClrTo', '#1F5EAB'],
-    ['disabledItemFntClr', '#BEBEBE']
-])('getColor() (default) %p => %p', (name, expectatedColor) => {
+it.each(
+    [
+        ['bodyClr', '#FFFFFF'],
+        ['bmBgClr', '#FFFFFF'],
+        ['activeBmFntClr', '#FFFFFF'],
+        ['fntClr', '#000000'],
+        ['activeBmBgClrFrom', '#86ABD9'],
+        ['activeBmBgClrTo', '#1F5EAB'],
+        ['disabledItemFntClr', '#BEBEBE']
+    ]
+)('getColor() (default) %p => %p', (name, expectedColor) => {
     const color = Settings.getColor(name);
 
-    expect(color).toBe(expectatedColor);
+    expect(color).toBe(expectedColor);
 });
 
-it.each([
-    ['bodyClr', '#123456'],
-    ['bmBgClr', '#654321'],
-    ['activeBmFntClr', '#111111'],
-    ['fntClr', '#333333'],
-    ['activeBmBgClrFrom', '#098765'],
-    ['activeBmBgClrTo', '#234567'],
-    ['disabledItemFntClr', '#aaaabb']
-])('getColor() with setUp %p => %p', (name, expectatedColor) => {
-    localStorage[name] = expectatedColor;
+it.each(
+    [
+        ['bodyClr', '#123456'],
+        ['bmBgClr', '#654321'],
+        ['activeBmFntClr', '#111111'],
+        ['fntClr', '#333333'],
+        ['activeBmBgClrFrom', '#098765'],
+        ['activeBmBgClrTo', '#234567'],
+        ['disabledItemFntClr', '#aaaabb']
+    ]
+)('getColor() with setUp %p => %p', (name, expectedColor) => {
+    localStorage[name] = expectedColor;
 
     const color = Settings.getColor(name);
 
-    expect(color).toBe(expectatedColor);
+    expect(color).toBe(expectedColor);
 });
 
 it('getColor() with backward compatibility', () => {

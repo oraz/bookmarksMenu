@@ -23,7 +23,7 @@ function setFontFamily() {
     localStorage.setItem('fontFamily', this.value);
 }
 
-function setMenuMaxWidthMesure() {
+function setMenuMaxWidthMeasure() {
     localStorage.setItem('maxWidthMesure', this.value);
 }
 
@@ -102,7 +102,7 @@ function initWindowSettingsTab() {
     $('fontSize').value = Settings.getFontSize();
     $('favIconWidth').value = Settings.getFavIconWidth();
     $('maxWidth').value = Settings.getMaxWidth();
-    $('maxWidthMesure').selectByValue(Settings.getMaxWidthMesure());
+    $('maxWidthMeasure').selectByValue(Settings.getMaxWidthMeasure());
     $('scrollBarWidth').value = Settings.getScrollBarWidth();
     $('showTooltip').checked = Settings.isShowTooltip();
     $('showURL').checked = Settings.isShowURL();
@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     $('resetWindowSettings').on('click', resetWindowSettings);
     $('fontFamily').on('change', setFontFamily);
-    $('maxWidthMesure').on('change', setMenuMaxWidthMesure);
+    $('maxWidthMeasure').on('change', setMenuMaxWidthMeasure);
 
     i18nUtils.initAll();
     showTab.apply(one('li.fgTab'));

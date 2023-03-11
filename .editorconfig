@@ -13,6 +13,10 @@ indent_size = 4
 [*.json]
 indent_size = 4
 
+[_locales/*/*.json]
+indent_size = 4
+indent_style = tab
+
 [*.scss]
 indent_size = 4
 

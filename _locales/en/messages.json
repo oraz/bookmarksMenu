@@ -1,106 +1,253 @@
 {
-  "manifest_json": { "message": "___ JUST COMMENT ___" },
-  "extDescription": { "message": "Shows bookmarks menu." },
-  "extTitle": { "message": "Bookmarks" },
-  "extTitleGoogle": { "message": "Google Bookmarks" },
-
-  "Bookmarks_Menu": { "message": "___ JUST COMMENT ___" },
-  "empty": { "message": "empty" },
-  "openAllInTabs": { "message": "Open All in Tabs" },
-  "loadingIndicator": { "message": "Loading..." },
-  "failedRetrieveGBookmakrs": {
-    "message": "Failed to retrieve Google Bookmarks.<br/>Please login to <a target=\"blank\" href=\"https://www.google.com/bookmarks/\">https://www.google.com/bookmarks/</a> at first."
-  },
-
-  "Context_menu": { "message": "___ JUST COMMENT ___" },
-  "openInNewTab": { "message": "Open in New Tab" },
-  "openInNewWindow": { "message": "Open in New Window" },
-  "openInIncognitoWindow": { "message": "Open in Incognito Window" },
-  "openAllBookmarks": { "message": "Open All Bookmarks" },
-  "openAllBookmarksInNewWindow": { "message": "Open All Bookmarks in New Window" },
-  "openAllBookmarksInIncognitoWindow": { "message": "Open All Bookmarks in Incognito Window" },
-  "reorder": { "message": "Reorder by Title" },
-  "reloadGBookmarks": { "message": "Reload Google Bookmarks" },
-  "addBookmark": { "message": "Bookmark This Page" },
-  "remove": { "message": "Delete" },
-  "openBookmarkManager": { "message": "Bookmark Manager" },
-
-  "Add_Google_bookmark_dialog": { "message": "___ JUST COMMENT ___" },
-  "lblTitle": { "message": "Title:" },
-  "lblURL": { "message": "URL:" },
-  "lblLabel": { "message": "Label:" },
-  "btnAdd": { "message": "Ok" },
-  "btnCancel": { "message": "Cancel" },
-
-  "Options_page": { "message": "___ JUST COMMENT ___" },
-  "mainHeader": { "message": "'Bookmarks Menu' settings" },
-  "changelog": { "message": "View changelog" },
-  "version": {
-    "message": "Version $VERSION$",
-    "placeholders": {
-      "VERSION": {
-        "content": "$1"
-      }
-    }
-  },
-  "donateQuestion": { "message": "Do you like Bookmarks Menu?" },
-  "donateWith": { "message": "Donate with" },
-
-  "tabs_names": { "message": "___ JUST COMMENT ___" },
-  "tabMouse": { "message": "Mouse" },
-  "tabBookmarks": { "message": "Bookmarks" },
-  "tabWindow": { "message": "UI Settings" },
-
-  "Mouse_tab": { "message": "___ JUST COMMENT ___" },
-  "tmMouseConfig": { "message": "Mouse configuration" },
-  "tmLeftBtn": { "message": "Left button" },
-  "tmMiddleBtn": { "message": "Middle button" },
-  "tmRightBtn": { "message": "Right button" },
-  "tmOpenInCurTab": { "message": "Open in current tab" },
-  "tmOpenInNewTab": { "message": "Open in new tab" },
-  "tmShowContextMenu": { "message": "Show context menu" },
-  "tmSwitchToNewTab": { "message": "When I open a bookmark in new tab, switch to it immediately" },
-
-  "Bookmarks_tab": { "message": "___ JUST COMMENT ___" },
-  "tbUseChrome": { "message": "Use Chrome bookmarks" },
-  "tbUseGoogle": { "message": "Use Google bookmarks" },
-  "tbLabelSeparator": { "message": "Label separator:" },
-  "tbSelectBookmarks": { "message": "Select bookmarks you wish to display" },
-  "tbSelectAllBookmarks": { "message": "Select/Deselect all bookmarks" },
-
-  "UI_settings_tab": { "message": "___ JUST COMMENT ___" },
-  "twMesurePX": { "message": "px" },
-
-  "twMenuConfig": { "message": "Bookmarks menu configuration" },
-  "twFont": { "message": "Font:" },
-  "twFontSize": { "message": "Font size:" },
-  "twFaviconSize": { "message": "Favicon width and height:" },
-  "twMaxBookmarkWidth": { "message": "Max width for bookmark:" },
-  "twMaxBookmarkWidthEM": { "message": "'m' symbols" },
-  "twMaxBookmarkWidthPX": { "message": "pixels" },
-  "twMaxBookmarkWidthIN": { "message": "inches" },
-  "twMaxBookmarkWidthCM": { "message": "centimeters" },
-  "twMaxBookmarkWidthMM": { "message": "millimeters" },
-  "twScrollBarWidth": { "message": "Scrollbar width:" },
-  "twShowTooltip": { "message": "Show tooltip for long bookmark names" },
-  "twShowURL": { "message": "Show tooltip with bookmark location" },
-
-  "twContextMenu": { "message": "Context menu settings" },
-  "twHideCMOpenIncognito": { "message": "Hide menu item 'Open in Incognito Window'" },
-  "twHideCMModeSwitcher": { "message": "Hide menu item 'Use Chrome/Google bookmarks'" },
-
-  "twColorScheme": { "message": "Color scheme" },
-  "twBodyColor": { "message": "Window background color:" },
-  "twFontColor": { "message": "Font color:" },
-  "twBmBgColor": { "message": "Bookmark background color:" },
-  "twDisabledItemFntClr": { "message": "Font color of disabled menu item:" },
-  "twActiveBmFntClr": { "message": "Font color of highlighted bookmark:" },
-  "twActiveBmBgClr": { "message": "Background color of highlighted bookmark:" },
-  "twActiveBmBgClrFrom": { "message": "gradient from:" },
-  "twActiveBmBgClrTo": { "message": "gradient to:" },
-
-  "twRestoreDflt": { "message": "Restore default settings" },
-
-  "donateHeader": { "message": "I'm glad that you use this extension.<br/>If you like it very much, you can sponsor me.<br/>Thank you!" },
-  "btnDonate": { "message": "Send via PayPal" }
+	"manifest_json": {
+		"message": "___ JUST COMMENT ___"
+	},
+	"extDescription": {
+		"message": "Shows bookmarks menu."
+	},
+	"extTitle": {
+		"message": "Bookmarks"
+	},
+	"extTitleGoogle": {
+		"message": "Google Bookmarks"
+	},
+	"Bookmarks_Menu": {
+		"message": "___ JUST COMMENT ___"
+	},
+	"empty": {
+		"message": "empty"
+	},
+	"openAllInTabs": {
+		"message": "Open All in Tabs"
+	},
+	"loadingIndicator": {
+		"message": "Loading..."
+	},
+	"failedRetrieveGBookmakrs": {
+		"message": "Failed to retrieve Google Bookmarks.<br/>Please login to <a target=\"blank\" href=\"https://www.google.com/bookmarks/\">https://www.google.com/bookmarks/</a> at first."
+	},
+	"Context_menu": {
+		"message": "___ JUST COMMENT ___"
+	},
+	"openInNewTab": {
+		"message": "Open in New Tab"
+	},
+	"openInNewWindow": {
+		"message": "Open in New Window"
+	},
+	"openInIncognitoWindow": {
+		"message": "Open in Incognito Window"
+	},
+	"openAllBookmarks": {
+		"message": "Open All Bookmarks"
+	},
+	"openAllBookmarksInNewWindow": {
+		"message": "Open All Bookmarks in New Window"
+	},
+	"openAllBookmarksInIncognitoWindow": {
+		"message": "Open All Bookmarks in Incognito Window"
+	},
+	"reorder": {
+		"message": "Reorder by Title"
+	},
+	"reloadGBookmarks": {
+		"message": "Reload Google Bookmarks"
+	},
+	"addBookmark": {
+		"message": "Bookmark This Page"
+	},
+	"remove": {
+		"message": "Delete"
+	},
+	"openBookmarkManager": {
+		"message": "Bookmark Manager"
+	},
+	"Add_Google_bookmark_dialog": {
+		"message": "___ JUST COMMENT ___"
+	},
+	"lblTitle": {
+		"message": "Title:"
+	},
+	"lblURL": {
+		"message": "URL:"
+	},
+	"lblLabel": {
+		"message": "Label:"
+	},
+	"btnAdd": {
+		"message": "Ok"
+	},
+	"btnCancel": {
+		"message": "Cancel"
+	},
+	"Options_page": {
+		"message": "___ JUST COMMENT ___"
+	},
+	"mainHeader": {
+		"message": "'Bookmarks Menu' settings"
+	},
+	"changelog": {
+		"message": "View changelog"
+	},
+	"version": {
+		"message": "Version $VERSION$",
+		"placeholders": {
+			"VERSION": {
+				"content": "$1"
+			}
+		}
+	},
+	"donateQuestion": {
+		"message": "Do you like Bookmarks Menu?"
+	},
+	"donateWith": {
+		"message": "Donate with"
+	},
+	"tabs_names": {
+		"message": "___ JUST COMMENT ___"
+	},
+	"tabMouse": {
+		"message": "Mouse"
+	},
+	"tabBookmarks": {
+		"message": "Bookmarks"
+	},
+	"tabWindow": {
+		"message": "UI Settings"
+	},
+	"Mouse_tab": {
+		"message": "___ JUST COMMENT ___"
+	},
+	"tmMouseConfig": {
+		"message": "Mouse configuration"
+	},
+	"tmLeftBtn": {
+		"message": "Left button"
+	},
+	"tmMiddleBtn": {
+		"message": "Middle button"
+	},
+	"tmRightBtn": {
+		"message": "Right button"
+	},
+	"tmOpenInCurTab": {
+		"message": "Open in current tab"
+	},
+	"tmOpenInNewTab": {
+		"message": "Open in new tab"
+	},
+	"tmShowContextMenu": {
+		"message": "Show context menu"
+	},
+	"tmSwitchToNewTab": {
+		"message": "When I open a bookmark in new tab, switch to it immediately"
+	},
+	"Bookmarks_tab": {
+		"message": "___ JUST COMMENT ___"
+	},
+	"tbUseChrome": {
+		"message": "Use Chrome bookmarks"
+	},
+	"tbUseGoogle": {
+		"message": "Use Google bookmarks"
+	},
+	"tbLabelSeparator": {
+		"message": "Label separator:"
+	},
+	"tbSelectBookmarks": {
+		"message": "Select bookmarks you wish to display"
+	},
+	"tbSelectAllBookmarks": {
+		"message": "Select/Deselect all bookmarks"
+	},
+	"UI_settings_tab": {
+		"message": "___ JUST COMMENT ___"
+	},
+	"twMeasurePX": {
+		"message": "px"
+	},
+	"twMenuConfig": {
+		"message": "Bookmarks menu configuration"
+	},
+	"twFont": {
+		"message": "Font:"
+	},
+	"twFontSize": {
+		"message": "Font size:"
+	},
+	"twFaviconSize": {
+		"message": "Favicon width and height:"
+	},
+	"twMaxBookmarkWidth": {
+		"message": "Max width for bookmark:"
+	},
+	"twMaxBookmarkWidthEM": {
+		"message": "'m' symbols"
+	},
+	"twMaxBookmarkWidthPX": {
+		"message": "pixels"
+	},
+	"twMaxBookmarkWidthIN": {
+		"message": "inches"
+	},
+	"twMaxBookmarkWidthCM": {
+		"message": "centimeters"
+	},
+	"twMaxBookmarkWidthMM": {
+		"message": "millimeters"
+	},
+	"twScrollBarWidth": {
+		"message": "Scrollbar width:"
+	},
+	"twShowTooltip": {
+		"message": "Show tooltip for long bookmark names"
+	},
+	"twShowURL": {
+		"message": "Show tooltip with bookmark location"
+	},
+	"twContextMenu": {
+		"message": "Context menu settings"
+	},
+	"twHideCMOpenIncognito": {
+		"message": "Hide menu item 'Open in Incognito Window'"
+	},
+	"twHideCMModeSwitcher": {
+		"message": "Hide menu item 'Use Chrome/Google bookmarks'"
+	},
+	"twColorScheme": {
+		"message": "Color scheme"
+	},
+	"twBodyColor": {
+		"message": "Window background color:"
+	},
+	"twFontColor": {
+		"message": "Font color:"
+	},
+	"twBmBgColor": {
+		"message": "Bookmark background color:"
+	},
+	"twDisabledItemFntClr": {
+		"message": "Font color of disabled menu item:"
+	},
+	"twActiveBmFntClr": {
+		"message": "Font color of highlighted bookmark:"
+	},
+	"twActiveBmBgClr": {
+		"message": "Background color of highlighted bookmark:"
+	},
+	"twActiveBmBgClrFrom": {
+		"message": "gradient from:"
+	},
+	"twActiveBmBgClrTo": {
+		"message": "gradient to:"
+	},
+	"twRestoreDefault": {
+		"message": "Restore default settings"
+	},
+	"donateHeader": {
+		"message": "I'm glad that you use this extension.<br/>If you like it very much, you can sponsor me.<br/>Thank you!"
+	},
+	"btnDonate": {
+		"message": "Send via PayPal"
+	}
 }
