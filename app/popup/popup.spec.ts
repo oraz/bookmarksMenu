@@ -461,7 +461,7 @@ describe('popup.html', () => {
                 const visibleItems = $('#contextMenu > :visible');
                 expect(visibleItems).toHaveLength(expectedItems.length);
                 expectedItems.forEach((expectedItem, idx) => {
-                    const item = $(visibleItems.get(idx));
+                    const item = $(visibleItems[idx]);
                     expect(item).is(expectedItem);
                 });
             });
@@ -489,7 +489,7 @@ describe('popup.html', () => {
                 const visibleItems = $('#contextMenu > :visible');
                 expect(visibleItems).toHaveLength(expectedItems.length);
                 expectedItems.forEach((expectedItem, idx) => {
-                    const item = $(visibleItems.get(idx));
+                    const item = $(visibleItems[idx]);
                     expect(item).is(expectedItem);
                 });
             });
@@ -517,7 +517,7 @@ describe('popup.html', () => {
                 const visibleItems = $('#contextMenu > :visible');
                 expect(visibleItems).toHaveLength(expectedItems.length);
                 expectedItems.forEach((expectedItem, idx) => {
-                    const item = $(visibleItems.get(idx));
+                    const item = $(visibleItems[idx]);
                     expect(item).is(expectedItem);
                 });
             });
@@ -543,7 +543,7 @@ describe('popup.html', () => {
                 const visibleItems = $('#contextMenu > :visible');
                 expect(visibleItems).toHaveLength(expectedItems.length);
                 expectedItems.forEach((expectedItem, idx) => {
-                    const item = $(visibleItems.get(idx));
+                    const item = $(visibleItems[idx]);
                     expect(item).is(expectedItem);
                 });
             });
@@ -571,7 +571,7 @@ describe('popup.html', () => {
                 const visibleItems = $('#contextMenu > :visible');
                 expect(visibleItems).toHaveLength(expectedItems.length);
                 expectedItems.forEach((expectedItem, idx) => {
-                    const item = $(visibleItems.get(idx));
+                    const item = $(visibleItems[idx]);
                     expect(item).is(expectedItem);
                 });
             });
@@ -599,7 +599,7 @@ describe('popup.html', () => {
                 const visibleItems = $('#contextMenu > :visible');
                 expect(visibleItems).toHaveLength(expectedItems.length);
                 expectedItems.forEach((expectedItem, idx) => {
-                    const item = $(visibleItems.get(idx));
+                    const item = $(visibleItems[idx]);
                     expect(item).is(expectedItem);
                 });
             });
@@ -627,7 +627,7 @@ describe('popup.html', () => {
                 const visibleItems = $('#contextMenu > :visible');
                 expect(visibleItems).toHaveLength(expectedItems.length);
                 expectedItems.forEach((expectedItem, idx) => {
-                    const item = $(visibleItems.get(idx));
+                    const item = $(visibleItems[idx]);
                     expect(item).is(expectedItem);
                 });
             });
@@ -653,7 +653,7 @@ describe('popup.html', () => {
                 const visibleItems = $('#contextMenu > :visible');
                 expect(visibleItems).toHaveLength(expectedItems.length);
                 expectedItems.forEach((expectedItem, idx) => {
-                    const item = $(visibleItems.get(idx));
+                    const item = $(visibleItems[idx]);
                     expect(item).is(expectedItem);
                 });
             });
@@ -662,7 +662,7 @@ describe('popup.html', () => {
         describe('reorder', () => {
             it('sort bookmarks only', () => {
                 const first = bookmark(1, 'abc');
-                const second = bookmark(4, 'defg');
+                const second = bookmark(4, 'de');
                 const third = bookmark(3, 'hij');
                 const fourth = bookmark(2, 'xyz');
                 const folder = givenFolder(10, 'folder', third, first, fourth, second);
@@ -685,7 +685,7 @@ describe('popup.html', () => {
                 expect(folderContent).is(':visible');
                 expect(folderContent.children()).toHaveLength(7);
                 expect(folderContent.children(':nth(0)')).is('#1.bookmark:contains("abc"):visible');
-                expect(folderContent.children(':nth(1)')).is('#4.bookmark:contains("defg"):visible');
+                expect(folderContent.children(':nth(1)')).is('#4.bookmark:contains("de"):visible');
                 expect(folderContent.children(':nth(2)')).is('#3.bookmark:contains("hij"):visible');
                 expect(folderContent.children(':nth(3)')).is('#2.bookmark:contains("xyz"):visible');
                 expect(folderContent.children(':nth(4)')).is('.separator:visible');
@@ -695,7 +695,7 @@ describe('popup.html', () => {
 
             it('sort bookmarks and folders', () => {
                 const first = bookmark(1, 'abc');
-                const second = bookmark(4, 'defg');
+                const second = bookmark(4, 'de');
                 const third = bookmark(3, 'hij');
                 const fourth = bookmark(2, 'xyz');
                 const firstFolder = givenFolder(101, 'first');
@@ -726,7 +726,7 @@ describe('popup.html', () => {
                 expect(folderContent.children(':nth(1)')).is('#102.folder:contains("second"):visible');
                 expect(folderContent.children(':nth(2)')).is('#100.folder:contains("xyz"):visible');
                 expect(folderContent.children(':nth(3)')).is('#1.bookmark:contains("abc"):visible');
-                expect(folderContent.children(':nth(4)')).is('#4.bookmark:contains("defg"):visible');
+                expect(folderContent.children(':nth(4)')).is('#4.bookmark:contains("de"):visible');
                 expect(folderContent.children(':nth(5)')).is('#3.bookmark:contains("hij"):visible');
                 expect(folderContent.children(':nth(6)')).is('#2.bookmark:contains("xyz"):visible');
                 expect(folderContent.children(':nth(7)')).is('.separator:visible');
@@ -903,7 +903,7 @@ describe('popup.html', () => {
             });
         });
 
-        describe('open all bookmakrs', () => {
+        describe('open all bookmarks', () => {
             it('in tabs', () => {
                 const first = bookmark();
                 const second = bookmark();
@@ -986,9 +986,9 @@ describe('popup.html', () => {
             ...eventInit
         });
         if (isJQueryObject(bookmark)) {
-            bookmark.get(0).dispatchEvent(evt);
+            bookmark[0].dispatchEvent(evt);
         } else {
-            document.getElementById(bookmark.id).dispatchEvent(evt);
+            document.getElementById(bookmark.id)!!.dispatchEvent(evt);
         }
     }
 
@@ -1004,8 +1004,8 @@ describe('popup.html', () => {
             ...eventInit
         });
         document
-            .getElementById(folder.id)
-            .querySelector('ul > li.openAllInTabs')
+            .getElementById(folder.id)!!
+            .querySelector('ul > li.openAllInTabs')!!
             .dispatchEvent(evt);
     }
 
@@ -1016,9 +1016,9 @@ describe('popup.html', () => {
             ...eventInit
         });
         if (isJQueryObject(item)) {
-            item.get(0).dispatchEvent(evt);
+            item[0].dispatchEvent(evt);
         } else {
-            document.getElementById(item.id).dispatchEvent(evt);
+            document.getElementById(item.id)!!.dispatchEvent(evt);
         }
     }
 
