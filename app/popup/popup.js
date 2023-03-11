@@ -499,7 +499,7 @@ document.addEventListener('DOMContentLoaded', function () {
     style.setProperty('--fav-icon-width', Settings.getFavIconWidth() + 'px');
     style.setProperty('--scrollbar-width', Settings.getScrollBarWidth() + 'px');
     style.setProperty('--font', `${Settings.getFontSize()}px "${Settings.getFontFamily()}"`);
-    style.setProperty('--bookmark-max-width', Settings.getMaxWidth() + Settings.getMaxWidthMesure());
+    style.setProperty('--bookmark-max-width', Settings.getMaxWidth() + Settings.getMaxWidthMeasure());
 
     loadBookmarks();
 
