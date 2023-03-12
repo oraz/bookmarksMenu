@@ -735,19 +735,19 @@ describe('popup.html', () => {
             });
 
             it('in root folder', () => {
-                const firstFolder = givenFolder(100, 'xyz');
-                const secondFolder = givenFolder(101, 'abc');
-                const thirdFolder = givenFolder(102, 'efg');
-                const first = bookmark(1, 'xyz');
-                const second = bookmark(2, 'abc');
-                const third = bookmark(3, 'efg');
-                const firstFolderInOthers = givenFolder(110, 'stuv');
-                const secondFolderInOthers = givenFolder(111, 'bcde');
-                const thirdFolderInOthers = givenFolder(112, 'opq');
-                const firstInOthers = bookmark(4, 'stuv');
-                const secondInOthers = bookmark(5, 'bcde');
-                const thirdInOthers = bookmark(6, 'opq');
-                const fourthInOthers = bookmark(7, 'abc');
+                const firstFolder = givenFolder(100, '6th');
+                const secondFolder = givenFolder(101, '1st');
+                const thirdFolder = givenFolder(102, '3rd');
+                const first = bookmark(1, '6th');
+                const second = bookmark(2, '1st');
+                const third = bookmark(3, '3rd');
+                const firstFolderInOthers = givenFolder(110, '5th');
+                const secondFolderInOthers = givenFolder(111, '2nd');
+                const thirdFolderInOthers = givenFolder(112, '4th');
+                const firstInOthers = bookmark(4, '5th');
+                const secondInOthers = bookmark(5, '2nd');
+                const thirdInOthers = bookmark(6, '4th');
+                const fourthInOthers = bookmark(7, '1st');
                 givenBookmarks(
                     [firstFolder, first, second, secondFolder, thirdFolder, third],
                     [firstInOthers, fourthInOthers, firstFolderInOthers, thirdFolderInOthers, secondInOthers, thirdInOthers, secondFolderInOthers]
@@ -769,36 +769,36 @@ describe('popup.html', () => {
                 expect(folderContent).toHaveLength(1);
                 expect(folderContent).is(':visible');
                 expect(folderContent.children()).toHaveLength(14);
-                expect(folderContent.children(':nth(0)')).is('#101.folder:contains("abc"):visible');
-                expect(folderContent.children(':nth(1)')).is('#102.folder:contains("efg"):visible');
-                expect(folderContent.children(':nth(2)')).is('#100.folder:contains("xyz"):visible');
-                expect(folderContent.children(':nth(3)')).is('#2.bookmark:contains("abc"):visible');
-                expect(folderContent.children(':nth(4)')).is('#3.bookmark:contains("efg"):visible');
-                expect(folderContent.children(':nth(5)')).is('#1.bookmark:contains("xyz"):visible');
+                expect(folderContent.children(':nth(0)')).is('#101.folder:contains("1st"):visible');
+                expect(folderContent.children(':nth(1)')).is('#102.folder:contains("3rd"):visible');
+                expect(folderContent.children(':nth(2)')).is('#100.folder:contains("6th"):visible');
+                expect(folderContent.children(':nth(3)')).is('#2.bookmark:contains("1st"):visible');
+                expect(folderContent.children(':nth(4)')).is('#3.bookmark:contains("3rd"):visible');
+                expect(folderContent.children(':nth(5)')).is('#1.bookmark:contains("6th"):visible');
                 expect(folderContent.children(':nth(6)')).is('.separator:visible');
-                expect(folderContent.children(':nth(7)')).is('#111.folder:contains("bcde"):visible');
-                expect(folderContent.children(':nth(8)')).is('#112.folder:contains("opq"):visible');
-                expect(folderContent.children(':nth(9)')).is('#110.folder:contains("stuv"):visible');
-                expect(folderContent.children(':nth(10)')).is('#7.bookmark:contains("abc"):visible');
-                expect(folderContent.children(':nth(11)')).is('#5.bookmark:contains("bcde"):visible');
-                expect(folderContent.children(':nth(12)')).is('#6.bookmark:contains("opq"):visible');
-                expect(folderContent.children(':nth(13)')).is('#4.bookmark:contains("stuv"):visible');
+                expect(folderContent.children(':nth(7)')).is('#111.folder:contains("2nd"):visible');
+                expect(folderContent.children(':nth(8)')).is('#112.folder:contains("4th"):visible');
+                expect(folderContent.children(':nth(9)')).is('#110.folder:contains("5th"):visible');
+                expect(folderContent.children(':nth(10)')).is('#7.bookmark:contains("1st"):visible');
+                expect(folderContent.children(':nth(11)')).is('#5.bookmark:contains("2nd"):visible');
+                expect(folderContent.children(':nth(12)')).is('#6.bookmark:contains("4th"):visible');
+                expect(folderContent.children(':nth(13)')).is('#4.bookmark:contains("5th"):visible');
             });
 
             it('in root folder with hidden bookmarks or folders', () => {
-                const firstFolder = givenFolder(100, 'xyz');
-                const secondFolder = givenFolder(101, 'abcd');
-                const thirdFolder = givenFolder(102, 'efg');
-                const first = bookmark(1, 'xyz12');
-                const second = bookmark(2, 'abc');
-                const third = bookmark(3, 'efg');
-                const firstFolderInOthers = givenFolder(110, 'stuv');
-                const secondFolderInOthers = givenFolder(111, 'bcde');
-                const thirdFolderInOthers = givenFolder(112, 'opqrst');
-                const firstInOthers = bookmark(4, 'stuv');
-                const secondInOthers = bookmark(5, 'bcde');
-                const thirdInOthers = bookmark(6, 'opq');
-                const fourthInOthers = bookmark(7, 'abcdefg');
+                const firstFolder = givenFolder(100, '6th');
+                const secondFolder = givenFolder(101, '1st hidden');
+                const thirdFolder = givenFolder(102, '3rd');
+                const first = bookmark(1, '6th hidden');
+                const second = bookmark(2, '1st');
+                const third = bookmark(3, '3rd');
+                const firstFolderInOthers = givenFolder(110, '5th');
+                const secondFolderInOthers = givenFolder(111, '2nd');
+                const thirdFolderInOthers = givenFolder(112, '4th hidden');
+                const firstInOthers = bookmark(4, '5th');
+                const secondInOthers = bookmark(5, '2nd');
+                const thirdInOthers = bookmark(6, '4th');
+                const fourthInOthers = bookmark(7, '1st hidden');
                 [secondFolder, first, thirdFolderInOthers, fourthInOthers].forEach(each => {
                     Settings.setBookmarkHidden(each.title, true);
                 });
@@ -815,16 +815,16 @@ describe('popup.html', () => {
                 expect(folderContent).toHaveLength(1);
                 expect(folderContent).is(':visible');
                 expect(folderContent.children()).toHaveLength(10);
-                expect(folderContent.children(':nth(0)')).is('#102.folder:contains("efg"):visible');
-                expect(folderContent.children(':nth(1)')).is('#100.folder:contains("xyz"):visible');
-                expect(folderContent.children(':nth(2)')).is('#2.bookmark:contains("abc"):visible');
-                expect(folderContent.children(':nth(3)')).is('#3.bookmark:contains("efg"):visible');
+                expect(folderContent.children(':nth(0)')).is('#102.folder:contains("3rd"):visible');
+                expect(folderContent.children(':nth(1)')).is('#100.folder:contains("6th"):visible');
+                expect(folderContent.children(':nth(2)')).is('#2.bookmark:contains("1st"):visible');
+                expect(folderContent.children(':nth(3)')).is('#3.bookmark:contains("3rd"):visible');
                 expect(folderContent.children(':nth(4)')).is('.separator:visible');
-                expect(folderContent.children(':nth(5)')).is('#111.folder:contains("bcde"):visible');
-                expect(folderContent.children(':nth(6)')).is('#110.folder:contains("stuv"):visible');
-                expect(folderContent.children(':nth(7)')).is('#5.bookmark:contains("bcde"):visible');
-                expect(folderContent.children(':nth(8)')).is('#6.bookmark:contains("opq"):visible');
-                expect(folderContent.children(':nth(9)')).is('#4.bookmark:contains("stuv"):visible');
+                expect(folderContent.children(':nth(5)')).is('#111.folder:contains("2nd"):visible');
+                expect(folderContent.children(':nth(6)')).is('#110.folder:contains("5th"):visible');
+                expect(folderContent.children(':nth(7)')).is('#5.bookmark:contains("2nd"):visible');
+                expect(folderContent.children(':nth(8)')).is('#6.bookmark:contains("4th"):visible');
+                expect(folderContent.children(':nth(9)')).is('#4.bookmark:contains("5th"):visible');
                 const expectedIdOrder = [101, 102, 100, 2, 3, 1, 111, 112, 110, 7, 5, 6, 4];
                 expect(chrome.bookmarks.move).toBeCalledTimes(expectedIdOrder.length);
                 expectedIdOrder.forEach((id, index) => {
@@ -835,12 +835,12 @@ describe('popup.html', () => {
             });
 
             it('in root folder when all items in toolbar are hidden', () => {
-                const firstFolder = givenFolder(100, 'xyz');
-                const secondFolder = givenFolder(101, 'abcd');
-                const thirdFolder = givenFolder(102, 'efg');
-                const firstFolderInOthers = givenFolder(110, 'stuv');
-                const secondFolderInOthers = givenFolder(111, 'bcde');
-                const thirdFolderInOthers = givenFolder(112, 'opqrst');
+                const firstFolder = givenFolder(100, '6th hidden');
+                const secondFolder = givenFolder(101, '1st hidden');
+                const thirdFolder = givenFolder(102, '3rd hidden');
+                const firstFolderInOthers = givenFolder(110, '5th');
+                const secondFolderInOthers = givenFolder(111, '2nd');
+                const thirdFolderInOthers = givenFolder(112, '4th');
                 [firstFolder, secondFolder, thirdFolder].forEach(each => {
                     Settings.setBookmarkHidden(each.title, true);
                 });
@@ -855,9 +855,9 @@ describe('popup.html', () => {
                 expect(folderContent).is(':visible');
                 expect(folderContent.children()).toHaveLength(4);
                 expect(folderContent.children(':nth(0)')).is('.separator:hidden');
-                expect(folderContent.children(':nth(1)')).is('#111.folder:contains("bcde"):visible');
-                expect(folderContent.children(':nth(2)')).is('#112.folder:contains("opqrst"):visible');
-                expect(folderContent.children(':nth(3)')).is('#110.folder:contains("stuv"):visible');
+                expect(folderContent.children(':nth(1)')).is('#111.folder:contains("2nd"):visible');
+                expect(folderContent.children(':nth(2)')).is('#112.folder:contains("4th"):visible');
+                expect(folderContent.children(':nth(3)')).is('#110.folder:contains("5th"):visible');
                 const expectedIdOrder = [101, 102, 100, 111, 112, 110];
                 expect(chrome.bookmarks.move).toBeCalledTimes(expectedIdOrder.length);
                 expectedIdOrder.forEach((id, index) => {
