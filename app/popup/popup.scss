@@ -10,7 +10,6 @@
     --activeBmFntClr: #fff;
     --activeBmBgClrFrom: #86abd9;
     --activeBmBgClrTo: #1f5eab;
-    --padding-for-noicon: 3px;
 }
 
 body {
@@ -95,10 +94,6 @@ ul {
 
         &.hover>ul {
             display: block;
-        }
-
-        &.noicon {
-            padding-left: var(--padding-for-noicon);
         }
 
         img {
