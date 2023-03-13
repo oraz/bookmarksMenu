@@ -263,7 +263,10 @@ class OpenAllItem extends HTMLLIElement {
 
     _init(/** @type FolderContent */ containingFolderContent) {
         this.containingFolderContent = containingFolderContent;
-        this.classList.add('openAllInTabs', 'noicon');
+        this.classList.add('openAllInTabs');
+        const icon = document.createElement('img');
+        icon.src = '../../icons/transparent.svg';
+        this.appendChild(icon);
         this.appendChild(document.createTextNode(chrome.i18n.getMessage('openAllInTabs')));
         this.onmouseup = this._onClick;
         this.onmouseover = this._onMouseOver;
@@ -557,14 +560,6 @@ function initBookmarksMenu(nodes) {
     rootFolder.addSeparator();
     rootFolder.fillFolderContent(tree[1].children.filter(onlyVisibleBookmarks));
     rootFolder.childBookmarks = [tree[0].children, tree[1].children];
-
-    if (!rootFolder.noIconCSSAdded) {
-        const favIcon = rootFolder.querySelector('li img');
-        const iconMarginRight = window.getComputedStyle(favIcon).marginRight; // contains '3px'
-        const textPaddingLeft = favIcon.offsetLeft + favIcon.scrollWidth + parseInt(iconMarginRight);
-        document.documentElement.style.setProperty('--padding-for-noicon', textPaddingLeft + 'px');
-        rootFolder.noIconCSSAdded = true;
-    }
 }
 
 function closePopup() {
