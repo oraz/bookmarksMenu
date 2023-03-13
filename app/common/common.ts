@@ -38,9 +38,13 @@ export class E {
 
 export const i18nUtils = {
     init(el: HTMLElement): void {
-        el.appendChild(
-            document.createTextNode(chrome.i18n.getMessage(el.dataset.i18n as string))
-        );
+        el.childNodes.forEach(each => {
+            if (each.nodeType === Node.TEXT_NODE && each.nodeValue?.trim() === '') {
+                each.nodeValue = '';
+            }
+        });
+        const translation = chrome.i18n.getMessage(el.dataset.i18n as string);
+        el.appendChild(document.createTextNode(translation));
         el.removeAttribute('data-i18n');
     },
 
