@@ -24,7 +24,7 @@ function setFontFamily() {
 }
 
 function setMenuMaxWidthMeasure() {
-    localStorage.setItem('maxWidthMesure', this.value);
+    Settings.setMaxWidthMeasure(this.value);
 }
 
 function setColor() {
@@ -79,11 +79,11 @@ function showTab() {
 }
 
 function resetWindowSettings() {
+    Settings.resetOptions();
     localStorage.removeItem('fontFamily');
     localStorage.removeItem('fontSize');
     localStorage.removeItem('favIconWidth');
     localStorage.removeItem('maxWidth');
-    localStorage.removeItem('maxWidthMesure');
     localStorage.removeItem('scrollBarWidth');
     localStorage.removeItem('showTooltip');
     localStorage.removeItem('showURL');
