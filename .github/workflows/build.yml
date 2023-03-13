@@ -1,12 +1,20 @@
+# by changes
+# 1. go to https://github.com/oraz/bookmarksMenu/settings/branches
+# 2. edit 'Branch protection rules' for master
+# 3. update list of checks that are required. See 'Status checks that are required'
+
 name: build
-on: [push]
+on: push
 jobs:
   build:
+    strategy:
+      matrix:
+        node_version: [16.13.0, 18.14.2]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: '14'
+          node-version: ${{matrix.node_version}}
       - run: npm install
       - run: npm test
