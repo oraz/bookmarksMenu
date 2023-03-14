@@ -1,6 +1,8 @@
-import { Settings } from './settings';
+import { Settings, _fixSpellInMaxWidthMeasure } from './settings';
+import { randomAlphanumeric } from '../test-utils/random-utils';
 
 beforeEach(() => {
+    Settings.resetOptions();
     localStorage.clear();
 });
 
@@ -84,4 +86,16 @@ it('getColor() with wrong color name', () => {
     expect(() => Settings.getColor('not existed')).toThrowError(
         'Unsupported color: not existed'
     );
+});
+
+it('check _fixSpellInMaxWidthMeasure', () => {
+    expect(Settings.getMaxWidthMeasure()).toBe('em');
+
+    const measure = randomAlphanumeric();
+    localStorage['maxWidthMesure'] = measure;
+
+    _fixSpellInMaxWidthMeasure();
+
+    expect(Settings.getMaxWidthMeasure()).toBe(measure);
+    expect(localStorage['maxWidthMesure']).toBeUndefined();
 });
