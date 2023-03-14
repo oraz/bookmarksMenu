@@ -3,16 +3,49 @@ function setting(name: string, defaultValue: string): string {
     return localStorage.getItem(name) || defaultValue;
 }
 
+function setSetting(name: string, value: string) {
+    localStorage.setItem(name, value);
+}
+
+function clearSetting(name: string) {
+    localStorage.removeItem(name);
+}
+
 function isTrue(name: string, defaultValue: string = 'false'): boolean {
     return setting(name, defaultValue) == 'true';
 }
+
+/* eslint-disable no-unused-vars */
+enum Setting {
+    MaxWidthMeasure = 'maxWidthMeasure'
+}
+/* eslint-enable */
+
+/** @VisibleForTesting */
+export function _fixSpellInMaxWidthMeasure() {
+    // it fixes spell error in setting name. Added on 13.03.2023, should be removed after next release
+    const maxWidthMeasureOld = 'maxWidthMesure';
+    const value = setting(maxWidthMeasureOld, 'NOT_SET');
+    if (value !== 'NOT_SET') {
+        clearSetting(maxWidthMeasureOld);
+        setSetting(Setting.MaxWidthMeasure, value);
+    }
+}
+
+_fixSpellInMaxWidthMeasure();
 
 export const Settings = {
     getButtonAction: (btn: string) => setting(btn, btn),
 
     getMaxWidth: () => setting('maxWidth', '30'),
 
-    getMaxWidthMeasure: () => setting('maxWidthMesure', 'em'),
+    getMaxWidthMeasure: () => setting(Setting.MaxWidthMeasure, 'em'),
+
+    setMaxWidthMeasure: (value: string) => setSetting(Setting.MaxWidthMeasure, value),
+
+    resetOptions: () => {
+        clearSetting(Setting.MaxWidthMeasure);
+    },
 
     isBookmarkHidden: (title: string) => isTrue('bookmark_' + title),
 
