@@ -1,4 +1,3 @@
-'use strict';
 
 (function () {
     const version = chrome.runtime.getManifest().version;
