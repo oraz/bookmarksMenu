@@ -1,3 +1,4 @@
+app/background/background.js
 app/common/common.js
 app/common/settings.js
 app/options/options_ts.js
