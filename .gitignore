@@ -12,6 +12,7 @@ bookmarksmenu.zip
 bookmarksmenu-*.tgz
 **/*.css
 .eslintcache
+app/background/background.js
 app/common/settings.js
 app/common/common.js
 app/options/options_ts.js
