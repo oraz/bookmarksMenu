@@ -31,6 +31,7 @@
   },*/
   "eslint.lintTask.options": "--ext .js, .ts",
   "cSpell.words": [
+    "tsbuildinfo",
     "Verdana"
   ]
 }
