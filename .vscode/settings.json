@@ -31,7 +31,11 @@
   },*/
   "eslint.lintTask.options": "--ext .js, .ts",
   "cSpell.words": [
+    "bookmarksmenu",
+    "Orazmagomedov",
+    "pretsc",
     "tsbuildinfo",
+    "tscw",
     "Verdana"
   ]
 }
