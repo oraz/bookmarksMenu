@@ -1,6 +1,5 @@
 .*
 *.ts
-*.scss
 app/test-utils
 bookmarksmenu.zip
 bookmarksmenu-*.tgz

@@ -12,6 +12,7 @@ pnpm-lock.yaml
 bookmarksmenu.zip
 bookmarksmenu-*.tgz
 **/*.css
+**/*.css.map
 .eslintcache
 app/background/background.js
 app/common/settings.js
