@@ -109,22 +109,26 @@ class Bookmark extends HTMLLIElement {
         if (isBookmarklet(url)) {
             alert('Bookmarklets are not supported since v2023.03.05 because of Manifest V3. For more details see https://developer.chrome.com/docs/extensions/mv3/mv3-migration/#executing-arbitrary-strings');
         } else {
-            chrome.tabs.update({ url: url });
-            closePopup();
+            chrome.tabs.update({ url: url }).then(closePopup);
         }
     }
 
     openInNewTab(switchToNewTab) {
-        chrome.tabs.create({
-            url: this.url,
-            active: switchToNewTab || Settings.isSwitchToNewTab()
-        });
-        closePopup();
+        chrome.tabs
+            .create({
+                url: this.url,
+                active: switchToNewTab || Settings.isSwitchToNewTab()
+            })
+            .then(closePopup);
     }
 
     openInNewWindow(incognito = false) {
-        chrome.windows.create({ url: this.url, incognito: incognito });
-        closePopup();
+        chrome.windows
+            .create({
+                url: this.url,
+                incognito: incognito
+            })
+            .then(closePopup);
     }
 
     openInIncognitoWindow() {
@@ -320,7 +324,7 @@ class FolderContent extends HTMLUListElement {
             if (idx === 0 && firstInCurrentTab) {
                 chrome.tabs.update({ url: each.url });
             } else {
-                chrome.tabs.create({ url: each.url, selected: idx === 0 });
+                chrome.tabs.create({ url: each.url, active: idx === 0 });
             }
         });
         closePopup();
@@ -328,8 +332,12 @@ class FolderContent extends HTMLUListElement {
 
     openAllInNewWindow(incognito = false) {
         const urls = this.childBookmarks.filter(each => each.url !== undefined).map(each => each.url);
-        chrome.windows.create({ url: urls, incognito: incognito });
-        closePopup();
+        chrome.windows
+            .create({
+                url: urls,
+                incognito: incognito
+            })
+            .then(closePopup);
     }
 
     openAllInIncognitoWindow() {
@@ -391,14 +399,17 @@ class FolderContent extends HTMLUListElement {
 
     remove(/** @type Bookmark */bookmark) {
         unSelect();
-        chrome.bookmarks.remove(bookmark.id);
-        this._removeFromUI(bookmark);
-        if (!this.isRoot) {
-            /**@type Bookmark */
-            const parentFolder = this.parentElement;
-            parentFolder.unHighlight();
-            parentFolder.displayFolderContent();
-        }
+        chrome.bookmarks
+            .remove(bookmark.id)
+            .then(() => {
+                this._removeFromUI(bookmark);
+                if (!this.isRoot) {
+                    /**@type Bookmark */
+                    const parentFolder = this.parentElement;
+                    parentFolder.unHighlight();
+                    parentFolder.displayFolderContent();
+                }
+            });
     }
 
     _removeFromUI(/** @type Bookmark */bookmark) {
@@ -463,17 +474,16 @@ function processMenu(ev) {
                     folderContent.remove(bookmark);
                     break;
                 }
-                case 'openBookmarkManager':
-                    chrome.tabs.query({ currentWindow: true, url: 'chrome://bookmarks/*' }, function (tabs) {
-                        const folderId = bookmark.isFolder ? bookmark.id : bookmark.parentFolderId,
-                            bookmarkManagerUrl = 'chrome://bookmarks/?id=' + folderId;
-                        if (tabs.length === 0) {
-                            chrome.tabs.create({ url: bookmarkManagerUrl, selected: true }, closePopup);
-                        } else {
-                            chrome.tabs.update(tabs[0].id, { url: bookmarkManagerUrl, active: true }, closePopup);
-                        }
-                    });
+                case 'openBookmarkManager': {
+                    const folderId = bookmark.isFolder ? bookmark.id : bookmark.parentFolderId;
+                    chrome.tabs
+                        .create({
+                            url: `chrome://bookmarks/?id=${folderId}`,
+                            active: true
+                        })
+                        .then(closePopup);
                     break;
+                }
                 default:
                     throw Error(action + ' is not yet implemented');
             }
@@ -547,19 +557,17 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function loadBookmarks() {
-    chrome.bookmarks.getTree(initBookmarksMenu);
-}
-
-function initBookmarksMenu(nodes) {
-    const onlyVisibleBookmarks = each => !Settings.isBookmarkHidden(each.title);
-    /** @type FolderContent */
-    const rootFolder = $('bookmarksMenu');
-    rootFolder.isRoot = true;
-    const tree = nodes[0].children;
-    rootFolder.fillFolderContent(tree[0].children.filter(onlyVisibleBookmarks));
-    rootFolder.addSeparator();
-    rootFolder.fillFolderContent(tree[1].children.filter(onlyVisibleBookmarks));
-    rootFolder.childBookmarks = [tree[0].children, tree[1].children];
+    chrome.bookmarks.getTree().then(nodes => {
+        const onlyVisibleBookmarks = each => !Settings.isBookmarkHidden(each.title);
+        /** @type FolderContent */
+        const rootFolder = $('bookmarksMenu');
+        rootFolder.isRoot = true;
+        const tree = nodes[0].children;
+        rootFolder.fillFolderContent(tree[0].children.filter(onlyVisibleBookmarks));
+        rootFolder.addSeparator();
+        rootFolder.fillFolderContent(tree[1].children.filter(onlyVisibleBookmarks));
+        rootFolder.childBookmarks = [tree[0].children, tree[1].children];
+    });
 }
 
 function closePopup() {

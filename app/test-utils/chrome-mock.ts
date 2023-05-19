@@ -1,4 +1,8 @@
 
+import JestMockPromise from 'jest-mock-promise';
+
+type BookmarkTreeNode = chrome.bookmarks.BookmarkTreeNode;
+
 // see https://developer.chrome.com/docs/extensions/reference/
 export function initChrome(): void {
     Object.defineProperty(global, 'chrome', {
@@ -20,13 +24,14 @@ export function initChrome(): void {
 }
 
 // eslint-disable-next-line no-unused-vars
-type BookmarksGetTreeCallback = ((_nodes: chrome.bookmarks.BookmarkTreeNode[]) => void) | null;
+type BookmarksGetTreeCallback = JestMockPromise<BookmarkTreeNode[]> | null;
 
 let savedBookmarksGetTreeCallback: BookmarksGetTreeCallback;
 
-export function givenChromeBookmarks(bookmarks: chrome.bookmarks.BookmarkTreeNode[]) {
+
+export function givenChromeBookmarks(bookmarks: BookmarkTreeNode[]) {
     expect(savedBookmarksGetTreeCallback).not.toBeNull();
-    savedBookmarksGetTreeCallback!!(bookmarks);
+    savedBookmarksGetTreeCallback!!.resolve(bookmarks);
 }
 
 export function resetChrome(): void {
@@ -41,15 +46,19 @@ export function resetChrome(): void {
         Object.keys(chromeApi).forEach(key => delete chromeApi[key]);
     });
 
-    chrome.bookmarks.getTree = function (callback?: BookmarksGetTreeCallback): Promise<chrome.bookmarks.BookmarkTreeNode[]> {
-        expect(callback).not.toBeNull();
-        savedBookmarksGetTreeCallback = callback!!;
 
-        return Promise.resolve([]);
+    chrome.bookmarks.getTree = function (): Promise<BookmarkTreeNode[]> {
+        savedBookmarksGetTreeCallback = new JestMockPromise<BookmarkTreeNode[]>();
+        return savedBookmarksGetTreeCallback as unknown as Promise<BookmarkTreeNode[]>;
     };
+    chrome.bookmarks.remove = jest.fn(() => new JestMockPromise(resolve => resolve()));
 
     chrome.i18n.getMessage = (msg: string) => msg;
 
-    // eslint-disable-next-line no-unused-vars
-    chrome.runtime.getURL = (_url: string) => 'file://../../icons/folder-win.png';
+    chrome.runtime.getURL = () => 'file://../../icons/folder-win.png';
+
+    chrome.tabs.create = jest.fn(() => new JestMockPromise(resolve => resolve()));
+    chrome.tabs.update = jest.fn(() => new JestMockPromise(resolve => resolve()));
+
+    chrome.windows.create = jest.fn(() => new JestMockPromise(resolve => resolve()));
 }
