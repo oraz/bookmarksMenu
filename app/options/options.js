@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
     i18nUtils.initAll();
     showTab.apply(one('li.fgTab'));
 
-    chrome.bookmarks.getTree(nodes => {
+    chrome.bookmarks.getTree().then(nodes => {
         const chromeBookmarksSettings = $('chromeBookmarksSettings');
         nodes[0].children.slice(0, 2).forEach(child => {
             child.children.forEach(bookmark => addBookmark(chromeBookmarksSettings, bookmark));
@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
         $('switchToNewTab').checked = true;
     }
 
-    chrome.fontSettings.getFontList(function (fonts) {
+    chrome.fontSettings.getFontList().then(fonts => {
         const fontList = $('fontFamily').options,
             defaultFont = Settings.getFontFamily();
         fonts.forEach(each => {
@@ -154,7 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    chrome.i18n.getAcceptLanguages(acceptLanguages => {
+    chrome.i18n.getAcceptLanguages().then(acceptLanguages => {
         const chromeLang = chrome.i18n.getUILanguage().toLowerCase();
 
         $('currency_code').value = getCurrency(chromeLang, acceptLanguages);

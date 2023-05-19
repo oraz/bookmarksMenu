@@ -269,7 +269,6 @@ describe('popup.html', () => {
             it('open bookmark', () => {
                 const first = bookmark();
                 givenBookmarks([], [first, bookmark()]);
-                chrome.tabs.update = jest.fn();
                 window.close = jest.fn();
 
                 clickOn(first, { button: leftButton });
@@ -294,7 +293,6 @@ describe('popup.html', () => {
                 const first = bookmark();
                 const second = bookmark();
                 givenBookmarks([], [first, second]);
-                chrome.tabs.create = jest.fn();
                 window.close = jest.fn();
 
                 clickOn(second, { button: leftButton, ctrlKey: true });
@@ -310,7 +308,6 @@ describe('popup.html', () => {
                 const first = bookmark();
                 const second = bookmark();
                 givenBookmarks([], [first, second]);
-                chrome.windows.create = jest.fn();
                 window.close = jest.fn();
 
                 clickOn(second, { button: leftButton, shiftKey: true });
@@ -329,22 +326,14 @@ describe('popup.html', () => {
                 const folder = givenFolder(100, 'folder', first, second, third);
                 givenBookmarks([folder, bookmark()], [bookmark(), bookmark()]);
                 window.close = jest.fn();
-                chrome.tabs.update = jest.fn();
-                chrome.tabs.create = jest.fn();
 
                 mouseOver(folder);
                 clickOpenAll(folder, { button: leftButton });
 
                 expect(chrome.tabs.update).toBeCalledWith({ url: first.url });
                 expect(chrome.tabs.create).toBeCalledTimes(2);
-                expect(chrome.tabs.create).toHaveBeenNthCalledWith(1, {
-                    url: second.url,
-                    selected: false
-                });
-                expect(chrome.tabs.create).toHaveBeenNthCalledWith(2, {
-                    url: third.url,
-                    selected: false
-                });
+                expect(chrome.tabs.create).toHaveBeenNthCalledWith(1, { url: second.url, active: false });
+                expect(chrome.tabs.create).toHaveBeenNthCalledWith(2, { url: third.url, active: false });
                 expect(window.close).toBeCalled();
             });
         });
@@ -359,7 +348,6 @@ describe('popup.html', () => {
                 localStorage.switchToNewTab = settingSwitchToNewTab;
                 const first = bookmark();
                 givenBookmarks([bookmark(), first, bookmark()]);
-                chrome.tabs.create = jest.fn();
                 window.close = jest.fn();
 
                 clickOn(first, { button: middleButton, shiftKey });
@@ -381,24 +369,14 @@ describe('popup.html', () => {
                 const folder = givenFolder(100, 'folder', first, second, third);
                 givenBookmarks([folder, bookmark()], [bookmark(), bookmark()]);
                 window.close = jest.fn();
-                chrome.tabs.create = jest.fn();
 
                 mouseOver(folder);
                 clickAction(folder, { button: middleButton });
 
                 expect(chrome.tabs.create).toBeCalledTimes(3);
-                expect(chrome.tabs.create).toHaveBeenNthCalledWith(1, {
-                    url: first.url,
-                    selected: true
-                });
-                expect(chrome.tabs.create).toHaveBeenNthCalledWith(2, {
-                    url: second.url,
-                    selected: false
-                });
-                expect(chrome.tabs.create).toHaveBeenNthCalledWith(3, {
-                    url: third.url,
-                    selected: false
-                });
+                expect(chrome.tabs.create).toHaveBeenNthCalledWith(1, { url: first.url, active: true });
+                expect(chrome.tabs.create).toHaveBeenNthCalledWith(2, { url: second.url, active: false });
+                expect(chrome.tabs.create).toHaveBeenNthCalledWith(3, { url: third.url, active: false });
                 expect(window.close).toBeCalled();
             }
             );
@@ -875,7 +853,6 @@ describe('popup.html', () => {
                 const first = bookmark();
                 givenBookmarks([bookmark(), first, bookmark()]);
                 window.close = jest.fn();
-                chrome.tabs.create = jest.fn();
 
                 mouseOverAndClickOn(first, { button: 2 });
                 chooseContextMenuItem(ContextMenuItem.OpenInNewTab);
@@ -892,7 +869,6 @@ describe('popup.html', () => {
                 const first = bookmark();
                 givenBookmarks([bookmark(), first, bookmark()]);
                 window.close = jest.fn();
-                chrome.windows.create = jest.fn();
 
                 mouseOverAndClickOn(first, { button: 2 });
                 chooseContextMenuItem(contextMenuItem);
@@ -910,16 +886,15 @@ describe('popup.html', () => {
                 const third = bookmark();
                 const folder = givenFolder(100, 'some folder', first, second, third, givenFolder(101, 'sub folder', bookmark(), bookmark()));
                 givenBookmarks([folder, givenFolder(102, 'yet another folder', bookmark(), bookmark())]);
-                chrome.tabs.create = jest.fn();
                 window.close = jest.fn();
 
                 mouseOverAndClickOn(folder, { button: 2 });
                 chooseContextMenuItem(ContextMenuItem.OpenAllInTabs);
 
                 expect(chrome.tabs.create).toBeCalledTimes(3);
-                expect(chrome.tabs.create).toHaveBeenNthCalledWith(1, { url: first.url, selected: true });
-                expect(chrome.tabs.create).toHaveBeenNthCalledWith(2, { url: second.url, selected: false });
-                expect(chrome.tabs.create).toHaveBeenNthCalledWith(3, { url: third.url, selected: false });
+                expect(chrome.tabs.create).toHaveBeenNthCalledWith(1, { url: first.url, active: true });
+                expect(chrome.tabs.create).toHaveBeenNthCalledWith(2, { url: second.url, active: false });
+                expect(chrome.tabs.create).toHaveBeenNthCalledWith(3, { url: third.url, active: false });
                 expect(window.close).toHaveBeenCalled();
             });
 
@@ -932,7 +907,6 @@ describe('popup.html', () => {
                 const third = bookmark();
                 const folder = givenFolder(100, 'some folder', first, second, third, givenFolder(101, 'sub folder', bookmark(), bookmark()));
                 givenBookmarks([folder, givenFolder(102, 'yet another folder', bookmark(), bookmark())]);
-                chrome.windows.create = jest.fn();
                 window.close = jest.fn();
 
                 mouseOverAndClickOn(folder, { button: 2 });
@@ -949,8 +923,6 @@ describe('popup.html', () => {
                 const first = bookmark(1, 'first');
                 const second = bookmark(2, 'second');
                 const third = bookmark(3, 'third');
-
-                chrome.bookmarks.remove = jest.fn();
 
                 givenBookmarks([first, second, third]);
 
