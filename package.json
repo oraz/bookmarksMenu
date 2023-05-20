@@ -1,6 +1,6 @@
 {
     "name": "bookmarksmenu",
-    "version": "1.0.0",
+    "version": "2023.05.20",
     "description": "Chrome extension which shows bookmarks menu. Works with Chrome and Google bookmarks.",
     "scripts": {
         "css": "echo SCSS... && sass --update --style=compressed app:app",
