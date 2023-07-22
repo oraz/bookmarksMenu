@@ -24,5 +24,6 @@
         "fontSettings",
         "storage"
     ],
-    "version": "2023.05.20"
+    "update_url": "https://oraz.github.io/bookmarksMenu/updates/updates.xml",
+    "version": "2023.07.22"
 }
