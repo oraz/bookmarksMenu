@@ -15,7 +15,7 @@
         "128": "icons/icon-128.png"
     },
     "manifest_version": 3,
-    "minimum_chrome_version": "110",
+    "minimum_chrome_version": "1",
     "name": "Bookmarks Menu",
     "options_page": "app/options/options.html",
     "permissions": [
