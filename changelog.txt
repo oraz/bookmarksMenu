@@ -1,3 +1,6 @@
+Changelog 2025.04.12
+- Updated dev libs
+
 Changelog 2023.05.20
 - Fixed alignment for "Open All" item
 - Fixed alignment for context menu items without icon
