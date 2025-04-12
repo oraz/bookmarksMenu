@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- see https://developer.chrome.com/docs/extensions/mv3/linux_hosting/#update_url -->
-
-<gupdate xmlns="http://www.google.com/update2/response" protocol="2.0">
-  <app appid="fafnmkmehljigbogicoigkgldkfbddim">
-    <updatecheck codebase="https://oraz.github.io/bookmarksMenu/updates/bookmarksMenu.crx" version="2023.07.22" />
-  </app>
-</gupdate>
