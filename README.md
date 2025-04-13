@@ -1,13 +1,17 @@
-Chrome extension which shows bookmarks menu.
+# Google Chrome extension Bookmarks Menu
 
-Usage:
-1. To open bookmark in current tab click by left mouse button.
-2. To open bookmark in new tab: click by middle mouse button or click by left mouse button with Ctrl key pressed.
-3. To open bookmark in new tab and switch to it click by middle mouse button with Shift key pressed.
-4. To open bookmark in new window click by left mouse button with Shift key pressed.
-5. To open all bookmarks in folder click by middle button on folder.
-6. To display context menu click by right mouse button.
+## Default mouse configuration
 
-On options panel you can hide some bookmarks or folders. It might be useful if you use bookmark synchronization between different computers.
+- left-click to open bookmark in current tab
+- middle-click or Ctrl+letf-click to open bookmark in new tab
+- Shift+middle-click to open bookmark in new tab and switch to it
+- Shift+left-click to open bookmark in new window
+- middle-click on folder to open all bookmarks from the folder
+- right-click to open context menu
 
-If your monitor is too small, you can change popup window size and font size on options panel.
+On options panel you can choose which folder or bookmarks to show.
+
+## Screenshots
+![first screenshot](screenshots/bookmarks-menu.png)
+<br/><br/>
+![second screenshot](screenshots/bookmarks-menu-with-context-menu.png)
