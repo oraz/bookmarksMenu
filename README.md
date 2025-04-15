@@ -9,7 +9,9 @@
 - middle-click on folder to open all bookmarks from the folder
 - right-click to open context menu
 
-On options panel you can choose which folder or bookmarks to show.
+On the options page you can choose which folder or bookmarks to show.
+
+Go to [Chrome Web Store](https://chromewebstore.google.com/detail/bookmarks-menu/bjbofdpkcfmhnppokcmjcoecfjahildn) to install the extension
 
 ## Screenshots
 ![first screenshot](screenshots/bookmarks-menu.png)
